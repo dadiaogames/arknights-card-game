@@ -1,0 +1,40 @@
+.card {
+  border: solid 3px;
+  height: 90%;
+  width: 23%;
+  margin: 1%;
+
+  position: relative;
+
+  flex-shrink: 0;
+}
+
+.card-row {
+  display: flex;
+  overflow-x: scroll;
+
+  border: solid 2px black;
+  margin: 2%;
+  width: 95%;
+  height: 20%;
+}
+
+.cost {
+  top: 2%;
+  left: 2%;
+  height: 25%;
+  width: 25%;
+  text-align: center;
+}
+
+.illust {
+  width: 95%;
+  height: 95%;
+  overflow: hidden;
+}
+
+img.illust {
+  width: 350%;
+  height: auto;
+  margin-left: -120%;
+}

@@ -1,0 +1,15 @@
+.board {
+  height: 600px;
+  width: 370px;
+  border: 2px solid;
+  margin: 2%;
+}
+
+@media screen and (max-width:1000px) {
+  .board {
+    height: 600px;
+    width: 90%;
+    margin: 5%;
+    border: 2px solid;
+  }
+}
