@@ -1,8 +1,8 @@
 .card {
-  border: solid 3px;
   height: 90%;
   width: 23%;
   margin: 1%;
+  margin-right: 3%;
 
   position: relative;
 
@@ -19,6 +19,12 @@
   height: 20%;
 }
 
+.data {
+  position: absolute;
+  background-color: white;
+  border: 1px solid;
+}
+
 .cost {
   top: 2%;
   left: 2%;
@@ -27,9 +33,43 @@
   text-align: center;
 }
 
-.illust {
-  width: 95%;
-  height: 95%;
+.atk {
+  top: 78%;
+  left: 8%;
+  height: 25%;
+  width: 25%;
+  text-align: center;
+}
+
+.hp {
+  top: 78%;
+  left: 76%;
+  height: 25%;
+  width: 25%;
+  text-align: center;
+}
+
+.requirements {
+  top: 2%;
+  left: 2%;
+  height: 80%;
+  width: 40%;
+  text-align: center;
+}
+
+.score {
+  top: 2%;
+  left: 72%;
+  height: 35%;
+  width: 35%;
+  text-align: center;
+  font-size: 135%;
+}
+
+.illust, .e_illust, .o_illust {
+  width: 90%;
+  height: 90%;
+  margin: 10%;
   overflow: hidden;
 }
 
@@ -37,4 +77,18 @@ img.illust {
   width: 350%;
   height: auto;
   margin-left: -120%;
+  border: 0px;
+}
+
+img.e_illust {
+  width: 100%;
+  height: auto;
+  margin-left: 0%;
+  border: 0px;
+}
+
+img.o_illust {
+  width: 140%;
+  height: auto;
+  border: 0px;
 }

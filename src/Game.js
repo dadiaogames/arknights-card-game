@@ -139,6 +139,7 @@ function finishOrder(G, ctx, idx) {
 
   if (payMaterials(G, ctx, order.requirements)) {
     G.materials[order.reward] += 1;
+    G.score += order.score;
     G.finished.push(G.orders.splice(idx, 1)[0]);
   }
 }
@@ -155,10 +156,16 @@ function drawEnemy(G, ctx) {
   if (G.edeck.length > 0) {
     let enemy = move(G, ctx, "edeck", "efield");
     enemy.exhausted = true;
+    enemy.dmg = 0;
   }
 }
 
 function fight(G, ctx, idx1, idx2) {
+  if (idx1 < 0 || idx1 >= G.field.length || idx2 < 0 || idx2 >= G.efield.length) {
+    console.log("invalid move");
+    return;
+  }
+
   let card = G.field[idx1];
   let enemy = G.efield[idx2];
 
@@ -197,9 +204,9 @@ export const AC = {
     G.hand = [];
     G.field = [];
 
-    G.deck = CARDS.map(x=>x);
-    G.edeck = ENEMIES.map(x=>x);
-    G.odeck = ORDERS.map(x=>x);
+    G.deck = ctx.random.Shuffle(CARDS.map(x=>x));
+    G.edeck = ctx.random.Shuffle(ENEMIES.map(x=>x));
+    G.odeck = ctx.random.Shuffle(ORDERS.map(x=>x));
     //TODO: deck is set instead of defined
     // G.deck = [];
     // for (let c of CARDS) {
@@ -224,7 +231,7 @@ export const AC = {
     G.goal = 10;
     G.max_danger = 8;
 
-    G.messages = [];
+    G.messages = ["欢迎来到明日方舟: 采掘行动"];
 
     //SetUp
     for (let i=0; i<4; i++){
@@ -261,7 +268,7 @@ export const AC = {
       console.log("On turn begin");
       refresh(G, ctx);
       draw(G, ctx);
-      G.cost += 3;
+      G.costs += 3;
     },
   },
 
