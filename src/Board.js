@@ -297,13 +297,17 @@ export class Board extends React.Component {
   enemy_move(i) {
     if (i < this.props.G.efield.length) {
       this.setState({stage: "enemy"});
+      let sleep_time = 350;
       if (i < 0) {
         this.props.moves.drawEnemy(); // start from -2 to draw 2 enemies
       }
       else {
+        if (this.props.G.efield[i].exhausted) {
+          sleep_time = 50;
+        }
         this.props.moves.enemyMove(i);
       }
-      sleep(350).then(() => {this.enemy_move(i+1);});
+      sleep(sleep_time).then(() => {this.enemy_move(i+1);});
     }
     else{
       this.props.events.endTurn();
