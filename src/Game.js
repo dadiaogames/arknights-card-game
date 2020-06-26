@@ -1,6 +1,8 @@
+import { React } from 'react';
 import { CARDS } from "./cards";
 import { ENEMIES } from "./enemies";
-import { ORDERS } from "./orders";
+import { ORDERS, material_icons } from "./orders";
+import { arr2obj } from "./utils";
 
 function move(G, ctx, d1, d2, idx) {
   let cd_idx = idx || 0;
@@ -16,16 +18,22 @@ function payCost(G, ctx, cost) {
   }
 
   else{
+    logMsg(G, ctx, "费用不足");
     return false;
   }
 }
 
 function gainMaterials(G, ctx, count) {
   let cnt = count || 1;
+  let gained = [];
 
   for (let i=0; i<cnt; i++) {
-    G.materials[ctx.random.Die(3)-1] += 1; //TODO: add this to log
+    let material = ctx.random.Die(3)-1;
+    G.materials[material] += 1; //TODO: add this to log
+    gained.push(material);
   }
+
+  G.gained = gained;
 }
 
 function payMaterials(G, ctx, requirements) {
@@ -37,6 +45,7 @@ function payMaterials(G, ctx, requirements) {
   }
 
   if (G.materials[3] < delta) {
+    logMsg(G, ctx, "材料不足");
     return false;
   }
 
@@ -49,6 +58,8 @@ function payMaterials(G, ctx, requirements) {
         G.materials[i] = 0;
       }
     }
+
+    G.gained = [];
 
     return true;
   }
@@ -85,14 +96,16 @@ function deal_damage(G, ctx, deck, idx, dmg) {
   //cards with no damage may not have the damage attr
   card.dmg = card.dmg || 0;
   card.dmg += dmg;
+  logMsg(G, ctx, `${card.name} 受到${dmg}点伤害`);
 
   if (card.dmg >= card.hp) {
     let discard = (deck == "field") ? "discard" : "ediscard";
     move(G, ctx, deck, discard, idx);
+    logMsg(G, ctx, `${card.name} 被摧毁`);
   }
 }
 
-function add_tags(G, ctx, tags) {
+function addTags(G, ctx, tags) {
   for (let t of tags) {
     t.effect(G, ctx);
   }
@@ -110,9 +123,13 @@ function play(G, ctx, idx) {
   if (payCost(G, ctx, card.cost)) {
     move(G, ctx, "hand", "field", idx);
     card.dmg = 0;
-    card.exhausted = false;
+    card.exhausted = G.exhausted_enter;
+    logMsg(G, ctx, `部署 ${card.name}`);
     //TODO: if this is a spell instead of creature
     //TODO: onPlay
+    if (card.onPlay) {
+      card.onPlay(G, ctx, card);
+    }
   }
 }
 
@@ -121,6 +138,7 @@ function mine(G, ctx, idx) {
 
   if (use(G, ctx, card)) {
     gainMaterials(G, ctx, card.mine);
+    logMsg(G, ctx, `使用 ${card.name} 采掘`);
   }
 }
 
@@ -141,6 +159,7 @@ function finishOrder(G, ctx, idx) {
     G.materials[order.reward] += 1;
     G.score += order.score;
     G.finished.push(G.orders.splice(idx, 1)[0]);
+    logMsg(G, ctx, "完成订单");
   }
 }
 
@@ -157,6 +176,10 @@ function drawEnemy(G, ctx) {
     let enemy = move(G, ctx, "edeck", "efield");
     enemy.exhausted = true;
     enemy.dmg = 0;
+    logMsg(G, ctx, `${enemy.name} 入场`);
+    if (enemy.onPlay) {
+      enemy.onPlay(G, ctx, enemy);
+    }
   }
 }
 
@@ -170,6 +193,7 @@ function fight(G, ctx, idx1, idx2) {
   let enemy = G.efield[idx2];
 
   if (use(G, ctx, card)) {
+    logMsg(G, ctx, `使用 ${card.name} 战斗`);
     deal_damage(G, ctx, "efield", idx2, card.atk);
   }
 }
@@ -183,10 +207,12 @@ function enemyMove(G, ctx, idx) {
 
     if (blocker) {
       deal_damage(G, ctx, "field", blocker_idx, enemy.atk);
+      logMsg(G, ctx, `${enemy.name} 对 ${blocker.name} 发起了进攻`);
     }
 
     else {
       G.danger += 1;
+      logMsg(G, ctx, `${enemy.name} 发起了动乱`);
     }
   }
 }
@@ -197,6 +223,52 @@ function refresh(G, ctx) {
   }
 }
 
+function onScenarioBegin(G, ctx) {
+  //SetUp
+  for (let i=0; i<4; i++){
+    draw(G, ctx);
+  }
+
+  for (let i=0; i<2; i++){
+    drawEnemy(G, ctx);
+  }
+
+  for (let i=0; i<3; i++){
+    drawOrder(G, ctx);
+  }
+  console.log("Setup finished");
+  G.playing = true;
+  ctx.events.endTurn();
+}
+
+function setDeck(G, ctx, deck_data) {
+  let card_dict = arr2obj(CARDS);
+  let deck = [];
+
+  let cards = deck_data.split("\n");
+  for (let card of cards) {
+    let card_data = card.split(" ");
+    if (card_data.length >= 2) {
+      let amount = parseInt(card_data[0]) || 0; // If it's NaN, then assign it 0
+      let target_card = card_dict[card_data[1]];
+      if (target_card) {
+        for (let i=0; i<amount; i++) {
+            deck.push(Object.assign({}, target_card));
+        }
+      }
+    }
+  }
+  G.deck = ctx.random.Shuffle(deck);
+}
+
+function logMsg(G, ctx, msg) {
+  G.messages.unshift(msg);
+}
+
+function changeMsg(G, ctx, msg) {
+  G.messages[0] = msg;
+}
+
 export const AC = {
   setup(ctx) {
     const G = {};
@@ -204,18 +276,11 @@ export const AC = {
     G.hand = [];
     G.field = [];
 
-    G.deck = ctx.random.Shuffle(CARDS.map(x=>x));
-    G.edeck = ctx.random.Shuffle(ENEMIES.map(x=>x));
-    G.odeck = ctx.random.Shuffle(ORDERS.map(x=>x));
-    //TODO: deck is set instead of defined
-    // G.deck = [];
-    // for (let c of CARDS) {
-    //   G.deck.push(Object.assign({}, c));
-    // }
-    // No need to do this in first stage
-    // On second stage, a function would turn the unique card list to an object, then copy based on the pool config
-
-
+    G.deck = [];
+    let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
+    G.edeck = ctx.random.Shuffle(get_enemies().concat(get_enemies()));
+    G.odeck = ctx.random.Shuffle(ORDERS.map(x=>Object.assign({},x)));
+    
     G.efield = [];
     G.discard = [];
     G.ediscard = [];
@@ -231,26 +296,20 @@ export const AC = {
     G.goal = 10;
     G.max_danger = 8;
 
+    G.exhausted_enter = false;
+
     G.messages = ["欢迎来到明日方舟: 采掘行动"];
 
-    //SetUp
-    for (let i=0; i<4; i++){
-      draw(G, ctx);
-    }
-    
-    for (let i=0; i<2; i++){
-      drawEnemy(G, ctx);
-    }
-
-    for (let i=0; i<3; i++){
-      drawOrder(G, ctx);
-    }
-    console.log("Setup finished");
+    G.playing = false;
+    G.gained = [];
 
     return G;
   },
 
   moves: {
+    setDeck,
+    addTags,
+    onScenarioBegin,
     draw,
     play,
     mine,
@@ -261,16 +320,76 @@ export const AC = {
     drawEnemy,
     fight,
     enemyMove,
+    logMsg,
+    changeMsg,
   },
 
   turn: {
     onBegin(G, ctx) {
-      console.log("On turn begin");
-      refresh(G, ctx);
-      draw(G, ctx);
-      G.costs += 3;
+        if (G.playing) {
+          console.log("On turn begin");
+          logMsg(G, ctx, "回合开始");
+          refresh(G, ctx);
+          draw(G, ctx);
+          drawOrder(G, ctx);
+          G.costs += 3;
+      }
     },
   },
+
+  endIf(G, ctx) {
+    if (G.playing) {
+      if (G.deck.length == 0) {
+        return {
+          win: false,
+          reason: "牌库被抽光",
+        };
+      }
+      else if (G.edeck.length == 0) {
+        return {
+          win: false,
+          reason: "敌人牌库被抽光",
+        }
+      }
+      else if (G.danger >= G.max_danger) {
+        return {
+          win: false,
+          reason: "动乱指数过高",
+        }
+      }
+      else if (G.score >= G.goal) {
+        return {
+          win: true,
+        }
+      }
+    }
+  }
+  
+
+  // TODO: know how to set available moves to all moves, then add this phase feature
+  // phases: {
+  //   // TODO: set available moves on phases
+  //   preScenario: {
+  //     start: true,
+  //     next: "scenario",
+  //     onEnd(G, ctx) {
+  //       console.log("Scenario setup finished, enter the game");
+  //     }
+  //   },
+
+  //   scenario: {
+  //     turn: {
+  //       onBegin(G, ctx) {
+  //         console.log("On turn begin");
+  //         refresh(G, ctx);
+  //         draw(G, ctx);
+  //         G.costs += 3;
+  //       },
+
+  //     },
+
+  //   }
+  // },
 
 };
 

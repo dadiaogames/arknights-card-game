@@ -1,9 +1,14 @@
 import React from 'react';
-import { Card, CardRow } from './Card';
-import { Controller } from './Controller';
+import { Card, CardRow, CardDetailed } from './Card';
+import { Controller, EnterGame } from './Controller';
 import { Panel } from './Panel';
+import { TagSelection, TagList, RiskLevel } from './TagSelection';
+import { DeckConstruction } from './DeckConstruction';
 import { map_object, sleep } from './utils';
+import { CARDS, default_deck } from './cards';
+import { order_illust, material_icons } from './orders';
 import { ICONS } from './icons';
+import { TAGS } from './tags';
 
 import './Board.css';
 
@@ -12,24 +17,12 @@ export class Board extends React.Component {
   constructor(props){
     super(props);
 
-    this.state = {
-      hand_selected: -1,
-      field_selected: -1,
-      efield_selected: -1,
-      order_selected: -1,
-      finished_selected: -1,
-
-      branch: {},
-      show_field: false,
-
-      stage: "player",
-    };
-
     this.handle_hand_clicked = this.handle_hand_clicked.bind(this);
     this.handle_field_clicked = this.handle_field_clicked.bind(this);
     this.handle_efield_clicked = this.handle_efield_clicked.bind(this);
     this.handle_order_clicked = this.handle_order_clicked.bind(this);
     this.handle_finished_clicked = this.handle_finished_clicked.bind(this);
+    this.handle_deck_change = this.handle_deck_change.bind(this);
 
     this.enemy_move = this.enemy_move.bind(this);
 
@@ -44,8 +37,13 @@ export class Board extends React.Component {
     this.process_finished_data = this.process_finished_data.bind(this);
     this.process_finished_state = this.process_finished_state.bind(this);
 
+    this.process_card_details = this.process_card_details.bind(this);
+    this.process_enemy_details = this.process_enemy_details.bind(this);
+    this.process_order_details = this.process_order_details.bind(this);
+
     this.wrap_controller_action = this.wrap_controller_action.bind(this);
     this.set_branch = this.set_branch.bind(this);
+    this.check_card = this.check_card.bind(this);
 
     this.play_card = this.play_card.bind(this);
     this.use_mine = this.use_mine.bind(this);
@@ -53,26 +51,87 @@ export class Board extends React.Component {
     this.finish_order = this.finish_order.bind(this);
     this.use_order = this.use_order.bind(this);
 
-    this.branches = {
+    this.render_game_board = this.render_game_board.bind(this);
+    this.render_tag_board = this.render_tag_board.bind(this);
+    this.render_deck_board = this.render_deck_board.bind(this);
+    this.render_card_board = this.render_card_board.bind(this);
+
+    this.change_board = this.change_board.bind(this);
+    this.choose_tag = this.choose_tag.bind(this);
+    this.get_risk_level = this.get_risk_level.bind(this);
+    this.enter_game = this.enter_game.bind(this);
+
+    this.state = {
+      hand_selected: -1,
+      field_selected: -1,
+      efield_selected: -1,
+      order_selected: -1,
+      finished_selected: -1,
+
+      branch: {},
+      show_field: true,
+      show_tag_selection: false,
+
+      stage: "player",
+
+      board: this.render_tag_board, //function or string here?
+
+      tags: TAGS,
+      risk_level: 0, // this is changed on game begin
+      deck_data: default_deck,
+
+      checking: {},
+
+      scenario_finished: false,
+    };
+
+    this.branches = { // TODO: set all "check" aside to the right, this is not done using Controller, first set the width of controller, then add a new button on render_board
       hand: {
         部署: this.play_card,
+        查看: this.check_card,
       },
       field: {
         采掘: this.use_mine,
         战斗: this.use_fight,
+        查看: this.check_card,
       },
       efield: {
         战斗: this.use_fight,
+        查看: this.check_card,
       },
-      order: {
+      orders: {
         完成: this.finish_order,
+        查看: this.check_card,
       },
       finished: {
         行动: this.use_order,
+        查看: this.check_card,
       },
     };
+
+    this.log_select = () => ((this.props.G.messages[0].includes("选定")? this.props.moves.changeMsg : this.props.moves.logMsg));
+  }
+
+  choose_tag(idx) {
+    return () => {
+      let new_tags = this.state.tags;
+      new_tags[idx].selected = !new_tags[idx].selected;
+      this.setState({tags: new_tags});
+    };
+  }
+
+  get_risk_level() {
+    let selected_tags = this.state.tags.filter(t => t.selected);
+    let reducer = (acc, val) => (acc + val.level);
+    let risk_level = selected_tags.reduce(reducer, 0);
+    return risk_level;
   }
   
+  check_card() {
+    this.change_board("card");
+    return this.state.branch;
+  }
+
   play_card() {
     this.props.moves.play(this.state.hand_selected);
     this.setState({hand_selected: -1});
@@ -122,12 +181,16 @@ export class Board extends React.Component {
   }
   
   process_field_data(card) {
-    return {
+    let data = {
       illust: card.illust,
       atk: card.atk,
       hp: (card.hp - card.dmg),
-      cost: card.cost,
+      mine: (<span>{ICONS.mine}{card.mine}</span>),
     };
+    if (card.block > 0) {
+      data.block = (<span>{ICONS.block}{card.block}</span>);
+    }
+    return data;
   }
 
   process_field_state(card) {
@@ -166,9 +229,10 @@ export class Board extends React.Component {
       }
     }
     return {
-      o_illust: "https://ak.hypergryph.com/assets/index/images/ak/common/story/item_mortal_city.png",
+      o_illust: order_illust,
       requirements: requirements,
       score: card.score,
+      reward: material_icons[card.reward],
     };
   }
 
@@ -183,6 +247,7 @@ export class Board extends React.Component {
   process_finished_data(card) {
     return {
       o_illust: "https://ak.hypergryph.com/assets/index/images/ak/common/story/item_mortal_city.png",
+      order_effect: card.desc,
     };
   }
 
@@ -191,7 +256,42 @@ export class Board extends React.Component {
       selected: (this.state.finished_selected == this.props.G.finished.indexOf(card)),
       exhausted: card.exhausted, 
     }
+  }
 
+  process_card_details(card) {
+    return {
+      illust_detailed: card.illust,
+      cost_detailed: card.cost,
+      desc: (
+        <span>
+          {card.atk}/{card.hp} &nbsp;
+          {ICONS.mine}{card.mine} &nbsp;
+          {(card.block>0)? (<span>{ICONS.block}{card.block}</span>) : ""}
+          <br/>
+          {card.desc||""}
+        </span>
+      ), // TODO: figure out why only string formatting does not work, I think it maybe because of JSX only accept string in html way instead of js way
+    }
+  }
+
+  process_enemy_details(card) {
+    return {
+      eo_illust_detailed: card.illust,
+      desc: (
+        <span>
+          {card.atk}/{card.hp}
+          <br/>
+          {card.desc||""}
+        </span>
+      ),
+    }
+  }
+
+  process_order_details(card) {
+    return {
+      eo_illust_detailed: order_illust,
+      desc: card.desc,
+    };
   }
 
   enemy_move(i) {
@@ -203,7 +303,7 @@ export class Board extends React.Component {
       else {
         this.props.moves.enemyMove(i);
       }
-      sleep(400).then(() => {this.enemy_move(i+1);});
+      sleep(350).then(() => {this.enemy_move(i+1);});
     }
     else{
       this.props.events.endTurn();
@@ -212,38 +312,70 @@ export class Board extends React.Component {
   }
 
   handle_hand_clicked(idx) {
+    let card = this.props.G.hand[idx];
     return () => {
-      this.setState({hand_selected: idx});
+      this.setState({
+        hand_selected: idx,
+        checking: this.process_card_details(card),
+      });
       this.set_branch("hand");
+      this.log_select()("选定 "+card.name);
     };
   }
 
   handle_field_clicked(idx) {
+    let card = this.props.G.field[idx];
     return () => {
-      this.setState({field_selected: idx});
+      this.setState({
+        field_selected: idx,
+        checking: this.process_card_details(card),
+      });
       this.set_branch("field");
+      this.log_select()("选定 "+card.name);
+      //TODO: add "action" and "reinfoce" in current branch at here
     };
   }
 
   handle_efield_clicked(idx) {
+    let card = this.props.G.efield[idx];
     return () => {
-      this.setState({efield_selected: idx});
+      this.setState({
+        efield_selected: idx,
+        checking: this.process_enemy_details(card),
+      });
       this.set_branch("efield");
+      this.log_select()("选定 "+card.name);
     };
   }
 
   handle_order_clicked(idx) {
+    let card = this.props.G.orders[idx];
     return () => {
-      this.setState({order_selected: idx});
-      this.set_branch("order");
+      this.setState({
+        order_selected: idx,
+        checking: this.process_order_details(card),
+      });
+      this.set_branch("orders");
+      this.log_select()("选定订单");
     };
   }
 
   handle_finished_clicked(idx) {
+    let card = this.props.G.finished[idx];
     return () => {
-      this.setState({finished_selected: idx});
+      this.setState({
+        finished_selected: idx,
+        checking: this.process_order_details(card),
+      });
       this.set_branch("finished");
+      this.log_select()("选定订单");
     };
+  }
+
+  handle_deck_change(event) {
+    this.setState(
+      {deck_data: event.target.value}
+    );
   }
 
   wrap_controller_action(action) {
@@ -262,32 +394,106 @@ export class Board extends React.Component {
 
   }
 
-  render() {
-    //EH: map object in state changing and store the mapped object in state
+  change_board(new_board) {
+    const boards = {
+      "game": this.render_game_board,
+      "tag": this.render_tag_board,
+      "deck": this.render_deck_board,
+      "card": this.render_card_board,
+    };
+    this.setState({board: boards[new_board]});
+  }
 
-    //SR: player panel
+  enter_game() {
+    this.props.moves.setDeck(this.state.deck_data);
+    this.props.moves.addTags(this.state.tags.filter(t => t.selected));
+    this.props.moves.onScenarioBegin();
+    this.change_board("game");
+  }
+
+  end_game() {
+    this.props.reset();
+    this.setState({scenario_finished: false});
+    this.change_board("tag");
+  }
+
+  componentDidUpdate() {
+    let result = this.props.ctx.gameover;
+    if (result && !this.state.scenario_finished) {
+      this.setState({scenario_finished: true});
+
+      if (result.win) {
+        let risk_level = this.get_risk_level();
+        let grade = "D";
+        // TODO: reconstruct this using "range" function
+        if (risk_level >= 0 && risk_level < 2) {
+          grade = "C";
+        }
+        else if (risk_level >= 2 && risk_level < 4) {
+          grade = "B";
+        }
+        else if (risk_level >= 4 && risk_level < 6) {
+          grade = "A";
+        }
+        else if (risk_level >= 6 && risk_level < 8) {
+          grade = "S";
+        }
+        else if (risk_level >= 8 && risk_level < 10) {
+          grade = "SS";
+        }
+        else {
+          grade = "SSS";
+        }
+        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}`);
+      }
+
+      else {
+        alert(`任务失败\n原因: ${result.reason}`);
+
+      }
+
+    }
+  }
+
+  render_game_board() {
+    // EH: map object in state changing and store the mapped object in state
+
+    // SR: player panel
+    // TODO: reconstruct this, this is stateful, and html elements should go to stateless
+    let material_display = (idx) => (
+      <span style={{color:(this.props.G.gained.includes(idx))?"blue":"black"}}>
+        {material_icons[idx]}:{this.props.G.materials[idx]}&nbsp;&nbsp;&nbsp; 
+      </span>
+    );
+
     let player_panel = (<div>
       <p style={{marginTop:"2%"}}>
-        {ICONS.alcohol}: {this.props.G.materials[0]}&nbsp;&nbsp;&nbsp;
-        {ICONS.rma}: {this.props.G.materials[1]}&nbsp;&nbsp;&nbsp;
-        {ICONS.rock}: {this.props.G.materials[2]}&nbsp;&nbsp;&nbsp;
-        {ICONS.d32}: {this.props.G.materials[3]}&nbsp;&nbsp;&nbsp;
+        {[0,1,2,3].map(material_display)}
         费用: {this.props.G.costs}  
         <br/>
         <button 
-          style={{fontSize:"105%", marginRight:"2%"}}
+          className="player-panel-button"
           onClick={() => {this.setState({show_field: !this.state.show_field})}}
         >
           {(this.state.show_field)? "查看订单" : "查看战场"}
         </button>
         <button 
+          className="player-panel-button"
           style={{
-            fontSize: "105%", 
-            display:(this.state.stage=="enemy")?"none":""
+            display: (this.state.stage=="enemy")? "none" : ""
           }} 
           onClick={()=>{this.enemy_move(-2);}}
         >
           结束回合
+        </button>
+        <button 
+          className="player-panel-button"
+          style={{
+            display: (this.props.ctx.gameover)? "" : "none"
+          }} 
+          onClick={()=>{this.end_game();}}
+        >
+          结束游戏
         </button>
       </p>
     </div>);
@@ -357,5 +563,75 @@ export class Board extends React.Component {
 
       </div>
     );
+  }
+
+  render_card_board() {
+    return (
+      <div className="board" align="center">
+        <CardDetailed 
+          card={this.state.checking} 
+          handleClick={()=>this.change_board("game")} 
+        />
+      </div>
+    );
+
+  }
+
+  render_tag_board() {
+    let risk_level = this.get_risk_level();
+
+    return (
+      <div className="board" >
+        <TagSelection 
+          tags = {this.state.tags}
+          handleClick = {this.choose_tag}
+        />
+        <TagList 
+          selected_tags = {this.state.tags.filter(t => t.selected)}
+        />
+        <RiskLevel 
+          risk_level = {risk_level}
+        />
+        <br/>
+        <div 
+          style={{
+            color: "red", 
+            marginLeft: "2%",
+            marginTop: "-3%",
+            display:(risk_level>=5)? "" : "none"
+          }}
+        >
+          当前合约难度极大，请谨慎行动
+        </div>
+        
+        <EnterGame 
+          switchScene = {() => {this.change_board("deck")}}
+          switchText = "查看卡组"
+          enterGame = {() => {this.enter_game()}}
+        />
+
+        
+      </div>
+    );
+  }
+
+  render_deck_board() {
+    return (
+      <div className="board" >
+        <DeckConstruction
+          value = {this.state.deck_data}
+          handleChange = {this.handle_deck_change}
+        />
+        <EnterGame 
+          switchScene = {() => {this.change_board("tag")}}
+          switchText = "查看词条"
+          enterGame = {() => {this.enter_game()}}
+        />
+      </div>
+    );
+  }
+
+  render() {
+    return this.state.board(); 
   }
 }

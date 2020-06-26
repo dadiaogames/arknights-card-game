@@ -13,3 +13,8 @@
     border: 2px solid;
   }
 }
+
+.player-panel-button {
+  font-size: 105%;
+  margin-right: 2%;
+}

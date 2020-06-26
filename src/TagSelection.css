@@ -1,0 +1,43 @@
+.tag-selection {
+  overflow-y: scroll;
+  height: 40%;
+  width: 75%;
+  margin: 2%;
+  border: 2px solid;
+}
+
+.tag {
+  width: 20%;
+  height: 120%;
+}
+/* TODO: restyle this without using table */
+
+img.tag {
+  width: 100%;
+  height: auto;
+  border: 3px solid;
+  background-color: #313131;
+}
+
+.tag-list {
+  display: inline-block;
+  height: 30%;
+  width: 60%;
+  border: 2px solid;
+  margin: 2%;
+  font-size: 80%;
+  overflow-y: scroll;
+}
+
+.risk-level {
+  display: inline-block;
+  margin: 2%;
+  height: 30%;
+  width: 30%;
+  vertical-align: top;
+}
+/* TODO: restyle risk level to make it upper, margintop doesn't work */
+
+.risk-level-value {
+  font-size: 500%;
+}

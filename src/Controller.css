@@ -1,0 +1,19 @@
+.controller {
+  height: 7%;
+  margin: 2%;
+}
+
+.controller-button {
+  /* button.controller doesn't work, I need to figure out why */
+  margin: 1%;
+  font-size: 110%;
+}
+
+.enter-game {
+
+}
+
+button.enter-game {
+  margin-left: 5%;
+  font-size: 110%;
+}

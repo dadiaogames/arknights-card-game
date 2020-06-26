@@ -5,7 +5,7 @@ import { Board } from './Board';
 const App = Client({ 
   game: AC, 
   board: Board,
-  // debug: false,
+  debug: false,
 });
 
 export default App;

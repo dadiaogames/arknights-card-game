@@ -54,8 +54,7 @@ export const Card = (props) => {
 };
 
 export const Data = (props) => {
-  let img_variants = ["illust", "e_illust", "o_illust"]; // EH: reconstruct this
-  let is_img = img_variants.includes(props.variant);
+  let is_img = props.variant.includes("illust");
   let img_tag = (
     <img
         className = {props.variant}
@@ -85,4 +84,20 @@ export const CardRow = (props) => {
       ))}
     </div>
   );
+}
+
+export const CardDetailed = (props) => {
+  return (
+    <div className="card-board" align="center">
+      <div className="card-detailed">
+      {Object.keys(props.card).map((variant) => (
+        <Data
+          variant = {variant}
+          value = {props.card[variant]}
+        />
+      ))}
+      </div>
+      <button className="card-detailed-button" onClick={props.handleClick}>完成查看</button>
+    </div>
+  )
 }

@@ -10,6 +10,17 @@ export var CARDS = [
   },
 
   {
+    name: "阿米娅",
+    cost: 3,
+    atk: 4,
+    hp: 2,
+    mine: 2,
+    block: 0,
+    illust: "http://ak.mooncell.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E9%98%BF%E7%B1%B3%E5%A8%85_1.png",
+    desc: "采掘: 获得1分",
+  },
+
+  {
     name: "玫兰莎",
     cost: 2,
     atk: 2,
@@ -70,3 +81,5 @@ export var CARDS = [
   },
 
 ];
+
+export const default_deck = "2 克洛丝\n2 玫兰莎\n2 米格鲁\n2 史都华德\n2 12F\n2 巡林者\n2 黑角\n";
