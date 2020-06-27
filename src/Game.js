@@ -90,7 +90,7 @@ function get_blocker(G, ctx, idx) {
   return false;
 }
 
-function deal_damage(G, ctx, deck, idx, dmg) {
+export function deal_damage(G, ctx, deck, idx, dmg) {
   let card = G[deck][idx];
 
   //cards with no damage may not have the damage attr
@@ -139,6 +139,9 @@ function mine(G, ctx, idx) {
   if (use(G, ctx, card)) {
     gainMaterials(G, ctx, card.mine);
     logMsg(G, ctx, `使用 ${card.name} 采掘`);
+    if (card.onMine) {
+      card.onMine(G, ctx, card);
+    }
   }
 }
 

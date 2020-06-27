@@ -73,20 +73,24 @@
 }
 
 .reward {
-  top: 75%;
+  top: 40%;
   left: 67%;
   height: 25%;
   width: 40%;
   text-align: center;
 }
 
-.order_effect {
+.order_effect, .finished_effect {
   top: 2%;
   left: 2%;
   height: 25%;
   width: 110%;
   text-align: center;
   font-size: 75%;
+}
+
+.order_effect {
+  top: 105%;
 }
 
 .desc {
@@ -98,7 +102,7 @@
 }
 
 .requirements {
-  top: 2%;
+  top: -2%;
   left: 2%;
   height: 80%;
   width: 40%;
@@ -139,10 +143,17 @@ img.e_illust, img.eo_illust_detailed {
   border: 0px;
 }
 
-img.o_illust {
+/* img.o_illust {
   width: 140%;
   height: auto;
   border: 0px;
+}  */
+
+img.o_illust {
+  width: 300%;
+  height: auto;
+  margin-left: -45%;
+  margin-top: -20%;
 }
 
 img.illust_detailed {

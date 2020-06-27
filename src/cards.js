@@ -1,3 +1,5 @@
+import { deal_damage } from './Game';
+
 export var CARDS = [
   {
     name: "克洛丝",
@@ -18,6 +20,26 @@ export var CARDS = [
     block: 0,
     illust: "http://ak.mooncell.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E9%98%BF%E7%B1%B3%E5%A8%85_1.png",
     desc: "采掘: 获得1分",
+    onMine(G, ctx) {
+      G.score += 1;
+    }
+  },
+
+  {
+    name: "杰西卡",
+    cost: 3,
+    atk: 5,
+    hp: 2,
+    mine: 1,
+    block: 0,
+    illust: "http://ak.mooncell.wiki/images/9/96/%E7%AB%8B%E7%BB%98_%E6%9D%B0%E8%A5%BF%E5%8D%A1_1.png",
+    desc: "采掘: 造成3点伤害",
+    onMine(G, ctx) {
+      if (G.efield.length > 0){
+        let idx = ctx.random.Die(G.efield.length) - 1
+        deal_damage(G, ctx, "efield", idx, 3);
+      }
+    }
   },
 
   {
@@ -82,4 +104,4 @@ export var CARDS = [
 
 ];
 
-export const default_deck = "2 克洛丝\n2 玫兰莎\n2 米格鲁\n2 史都华德\n2 12F\n2 巡林者\n2 黑角\n";
+export const default_deck = "2 克洛丝\n2 玫兰莎\n2 米格鲁\n2 史都华德\n2 12F\n2 巡林者\n2 黑角\n2 阿米娅\n2 杰西卡\n";

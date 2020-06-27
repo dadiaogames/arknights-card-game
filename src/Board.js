@@ -229,10 +229,11 @@ export class Board extends React.Component {
       }
     }
     return {
-      o_illust: order_illust,
+      o_illust: "https://ak.hypergryph.com/upload/images/20190228/32ddf0470a305376204d1312ca4720f9.jpg",
       requirements: requirements,
       score: card.score,
       reward: material_icons[card.reward],
+      order_effect: card.desc,
     };
   }
 
@@ -246,8 +247,8 @@ export class Board extends React.Component {
 
   process_finished_data(card) {
     return {
-      o_illust: "https://ak.hypergryph.com/assets/index/images/ak/common/story/item_mortal_city.png",
-      order_effect: card.desc,
+      o_illust: order_illust,
+      finished_effect: card.desc,
     };
   }
 
