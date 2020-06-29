@@ -278,7 +278,7 @@ export var CARDS = [
     desc:"部署：场上所有干员获得+1/+1", 
     illust:"http://ak.mooncell.wiki/images/2/25/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E5%AE%BE_1.png",
     onPlay(G, ctx) {
-      for (let card of G.hand) {
+      for (let card of G.field) {
         card.atk += 1;
         card.hp += 1;
       }
@@ -381,7 +381,7 @@ export var CARDS = [
     mine:1, 
     block:0, 
     desc:"行动：使一名干员获得+4生命值", 
-    illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
+    illust:"http://ak.mooncell.wiki/images/b/b9/%E7%AB%8B%E7%BB%98_%E8%8A%99%E8%93%89_1.png",
     action(G, ctx) {
       cure(G, ctx, 4);
     }
@@ -395,7 +395,7 @@ export var CARDS = [
     mine:3, 
     block:0, 
     desc:"行动：使一名干员获得+6生命值", 
-    illust:"http://ak.mooncell.wiki/images/e/e9/%E7%AB%8B%E7%BB%98_%E9%97%AA%E7%81%B5_1.png",
+    illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
     action(G, ctx) {
       cure(G, ctx, 6);
     }

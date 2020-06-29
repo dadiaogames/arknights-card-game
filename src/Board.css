@@ -3,6 +3,7 @@
   width: 370px;
   border: 2px solid;
   margin: 2%;
+  overflow: scroll;
 }
 
 @media screen and (max-width:1000px) {

@@ -86,17 +86,21 @@ export const CardRow = (props) => {
   );
 }
 
-export const CardDetailed = (props) => {
-  return (
-    <div className="card-board" align="center">
-      <div className="card-detailed">
+export const SCard = (props) =>  (
+  <div className="card-detailed">
       {Object.keys(props.card).map((variant) => (
         <Data
           variant = {variant}
           value = {props.card[variant]}
         />
       ))}
-      </div>
+  </div>
+);
+
+export const CardDetailed = (props) => {
+  return (
+    <div className="card-board" align="center">
+      <SCard card={props.card} />
       <button className="card-detailed-button" onClick={props.handleClick}>完成查看</button>
     </div>
   )

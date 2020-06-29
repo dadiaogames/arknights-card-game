@@ -4,12 +4,14 @@ import { Controller, EnterGame } from './Controller';
 import { Panel } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
 import { DeckConstruction } from './DeckConstruction';
+import { TitleScreen } from './TitleScreen';
 import { get_deck_name, generate_deck } from './DeckGenerator';
 import { map_object, sleep } from './utils';
 import { CARDS, default_deck } from './cards';
 import { order_illust, material_icons } from './orders';
 import { ICONS } from './icons';
 import { TAGS } from './tags';
+import { RULES } from './rules';
 
 import './Board.css';
 
@@ -53,6 +55,8 @@ export class Board extends React.Component {
     this.finish_order = this.finish_order.bind(this);
     this.use_order = this.use_order.bind(this);
 
+    this.render_title_board = this.render_title_board.bind(this);
+    this.render_rules_board = this.render_rules_board.bind(this);
     this.render_game_board = this.render_game_board.bind(this);
     this.render_tag_board = this.render_tag_board.bind(this);
     this.render_deck_board = this.render_deck_board.bind(this);
@@ -76,7 +80,7 @@ export class Board extends React.Component {
 
       stage: "player",
 
-      board: this.render_tag_board, //function or string here?
+      board: this.render_title_board, //function or string here?
 
       tags: TAGS,
       risk_level: 0, // this is changed on game begin
@@ -340,7 +344,7 @@ export class Board extends React.Component {
       });
       this.log_select()("选定 "+card.name);
 
-      let new_branch = this.branches.field;
+      let new_branch = Object.assign({}, this.branches.field);
       console.log(Object.keys(new_branch));
       // Add action
       if (this.props.G.field[idx].action) {
@@ -413,6 +417,8 @@ export class Board extends React.Component {
 
   change_board(new_board) {
     const boards = {
+      "title": this.render_title_board,
+      "rules": this.render_rules_board,
       "game": this.render_game_board,
       "tag": this.render_tag_board,
       "deck": this.render_deck_board,
@@ -470,6 +476,35 @@ export class Board extends React.Component {
       }
 
     }
+  }
+
+  render_title_board() {
+    return <div className="board">
+      <TitleScreen enterGame={()=>this.change_board("tag")} checkRule={()=>this.change_board("rules")} />
+    </div>;
+  }
+
+  render_rules_board() {
+    return <div className="board">
+      <div style={{
+        height: "80%", 
+        width: "94%", 
+        margin:"3%", 
+        overflow:"scroll",
+        }}>
+        {/* this part, css in js, or css in file? 
+        In my view, after this part is moved to a new file, change it to css in file
+        */}
+      {RULES}
+      </div>
+      <button 
+        onClick={()=>this.change_board("title")}
+        style = {{
+          margin: "3%",
+          fontSize: "105%",
+        }}
+      >返回</button>
+    </div>;
   }
 
   render_game_board() {
@@ -624,8 +659,7 @@ export class Board extends React.Component {
         
         <EnterGame 
           switchScene = {() => {this.change_board("deck")}}
-          switchText = "查看卡组"
-          enterGame = {() => {this.enter_game()}}
+          action = "查看卡组"
         />
 
         
@@ -643,9 +677,8 @@ export class Board extends React.Component {
           />
 
         <EnterGame 
-          switchScene = {() => {this.change_board("tag")}}
-          switchText = "查看词条"
-          enterGame = {() => {this.enter_game()}}
+          switchScene = {() => {this.enter_game()}}
+          action = "进入游戏"
         />
       </div>
     );

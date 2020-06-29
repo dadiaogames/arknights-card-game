@@ -22,13 +22,7 @@ export const EnterGame = (props) => {
         className = "enter-game"
         onClick = {props.switchScene}
       >
-        {props.switchText}
-      </button>
-      <button
-        className = "enter-game"
-        onClick = {props.enterGame}
-      >
-        进入游戏
+        {props.action}
       </button>
     </div>
   );
