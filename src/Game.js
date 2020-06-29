@@ -4,14 +4,14 @@ import { ENEMIES } from "./enemies";
 import { ORDERS, material_icons } from "./orders";
 import { arr2obj } from "./utils";
 
-function move(G, ctx, d1, d2, idx) {
+export function move(G, ctx, d1, d2, idx) {
   let cd_idx = idx || 0;
   let card = G[d1].splice(cd_idx, 1)[0];
   G[d2].push(card);
   return card;
 }
 
-function payCost(G, ctx, cost) {
+export function payCost(G, ctx, cost) {
   if (G.costs >= cost) {
     G.costs -= cost
     return true;
@@ -23,7 +23,7 @@ function payCost(G, ctx, cost) {
   }
 }
 
-function gainMaterials(G, ctx, count) {
+export function gainMaterials(G, ctx, count) {
   let cnt = count || 1;
   let gained = [];
 
@@ -36,7 +36,7 @@ function gainMaterials(G, ctx, count) {
   G.gained = gained;
 }
 
-function payMaterials(G, ctx, requirements) {
+export function payMaterials(G, ctx, requirements) {
   let delta = 0;
   for (let i=0; i<4; i++) {
     if (G.materials[i] < requirements[i]) {
@@ -102,18 +102,28 @@ export function deal_damage(G, ctx, deck, idx, dmg) {
     let discard = (deck == "field") ? "discard" : "ediscard";
     move(G, ctx, deck, discard, idx);
     logMsg(G, ctx, `${card.name} 被摧毁`);
+    if (card.onOut) {
+      card.onOut(G, ctx, card);
+    }
   }
 }
 
-function addTags(G, ctx, tags) {
+export function deal_random_damage(G, ctx, amount) {
+  if (G.efield.length > 0){
+    let idx = ctx.random.Die(G.efield.length) - 1
+    deal_damage(G, ctx, "efield", idx, amount);
+  }
+}
+
+export function addTags(G, ctx, tags) {
   for (let t of tags) {
     t.effect(G, ctx);
   }
 }
 
-function draw(G, ctx) {
+export function draw(G, ctx) {
   if (G.deck.length > 0) {
-    move(G, ctx, "deck", "hand");
+    G.hand.unshift(G.deck.pop());
   } //TODO: else, lose the game
 }
 
@@ -198,7 +208,40 @@ function fight(G, ctx, idx1, idx2) {
   if (use(G, ctx, card)) {
     logMsg(G, ctx, `使用 ${card.name} 战斗`);
     deal_damage(G, ctx, "efield", idx2, card.atk);
+    if (card.onFight) {
+      card.onFight(G, ctx, card, enemy);
+    }
   }
+}
+
+function act(G, ctx, idx) {
+  let card = G.field[idx];
+
+  if (use(G, ctx, card)) {
+    card.action(G, ctx, card);
+    logMsg(G, ctx, `使用 ${card.name} 行动`);
+  }
+}
+
+export function exhaust_random_enemy(G, ctx) {
+  let unexhausted = G.efield.filter(x => (!x.exhausted));
+  if (unexhausted.length > 0) {
+    ctx.random.Shuffle(unexhausted)[0].exhausted = true;
+  }
+}
+
+export function ready_random_card(G, ctx) {
+  let exhausted_cards = G.field.filter(x => x.exhausted);
+  if (exhausted_cards.length > 0) {
+    ctx.random.Shuffle(exhausted_cards)[0].exhausted = false;
+  }
+
+}
+
+export function cure(G, ctx, amount) {
+  // EH: find a "sorted" function instead of this way
+  let ranked_field_by_dmg = G.field.map(x=>x).sort(x => -x.dmg);
+  ranked_field_by_dmg[0].hp += amount;
 }
 
 function enemyMove(G, ctx, idx) {
@@ -272,8 +315,7 @@ function changeMsg(G, ctx, msg) {
   G.messages[0] = msg;
 }
 
-export const AC = {
-  setup(ctx) {
+export function setup(ctx) {
     const G = {};
 
     G.hand = [];
@@ -307,7 +349,10 @@ export const AC = {
     G.gained = [];
 
     return G;
-  },
+  }
+
+export const AC = {
+  setup: setup,
 
   moves: {
     setDeck,
@@ -316,6 +361,7 @@ export const AC = {
     draw,
     play,
     mine,
+    act,
     setValue,
     drawOrder,
     finishOrder,
@@ -395,5 +441,3 @@ export const AC = {
   // },
 
 };
-
-export { gainMaterials, payMaterials };

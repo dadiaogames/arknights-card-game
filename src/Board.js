@@ -4,6 +4,7 @@ import { Controller, EnterGame } from './Controller';
 import { Panel } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
 import { DeckConstruction } from './DeckConstruction';
+import { get_deck_name, generate_deck } from './DeckGenerator';
 import { map_object, sleep } from './utils';
 import { CARDS, default_deck } from './cards';
 import { order_illust, material_icons } from './orders';
@@ -48,6 +49,7 @@ export class Board extends React.Component {
     this.play_card = this.play_card.bind(this);
     this.use_mine = this.use_mine.bind(this);
     this.use_fight = this.use_fight.bind(this);
+    this.use_act = this.use_act.bind(this);
     this.finish_order = this.finish_order.bind(this);
     this.use_order = this.use_order.bind(this);
 
@@ -78,7 +80,7 @@ export class Board extends React.Component {
 
       tags: TAGS,
       risk_level: 0, // this is changed on game begin
-      deck_data: default_deck,
+      deck_name: get_deck_name(),
 
       checking: {},
 
@@ -88,24 +90,19 @@ export class Board extends React.Component {
     this.branches = { // TODO: set all "check" aside to the right, this is not done using Controller, first set the width of controller, then add a new button on render_board
       hand: {
         部署: this.play_card,
-        查看: this.check_card,
       },
       field: {
         采掘: this.use_mine,
         战斗: this.use_fight,
-        查看: this.check_card,
       },
       efield: {
         战斗: this.use_fight,
-        查看: this.check_card,
       },
       orders: {
         完成: this.finish_order,
-        查看: this.check_card,
       },
       finished: {
         行动: this.use_order,
-        查看: this.check_card,
       },
     };
 
@@ -150,6 +147,12 @@ export class Board extends React.Component {
       field_selected: -1,
       efield_selected: -1,
     });
+    return {};
+  }
+
+  use_act() {
+    this.props.moves.act(this.state.field_selected);
+    this.setState({field_selected: -1});
     return {};
   }
 
@@ -335,9 +338,18 @@ export class Board extends React.Component {
         field_selected: idx,
         checking: this.process_card_details(card),
       });
-      this.set_branch("field");
       this.log_select()("选定 "+card.name);
-      //TODO: add "action" and "reinfoce" in current branch at here
+
+      let new_branch = this.branches.field;
+      console.log(Object.keys(new_branch));
+      // Add action
+      if (this.props.G.field[idx].action) {
+        new_branch["行动"] = this.use_act;
+      }
+      console.log(Object.keys(new_branch));
+      // TODO: add reinforce
+
+      this.setState({branch: map_object(this.wrap_controller_action, new_branch)});
     };
   }
 
@@ -379,7 +391,7 @@ export class Board extends React.Component {
 
   handle_deck_change(event) {
     this.setState(
-      {deck_data: event.target.value}
+      {deck_name: event.target.value}
     );
   }
 
@@ -410,7 +422,7 @@ export class Board extends React.Component {
   }
 
   enter_game() {
-    this.props.moves.setDeck(this.state.deck_data);
+    this.props.moves.setDeck(generate_deck(this.state.deck_name));
     this.props.moves.addTags(this.state.tags.filter(t => t.selected));
     this.props.moves.onScenarioBegin();
     this.change_board("game");
@@ -559,6 +571,7 @@ export class Board extends React.Component {
         {(this.state.show_field)? field_cardrow : finished_cardrow}
         <Controller 
           actions = {this.state.branch}
+          checkCard = {(Object.keys(this.state.branch).length!=0)?this.wrap_controller_action(this.check_card):undefined}
         />
         {(this.state.show_field)? hand_cardrow : orders_cardrow}
         <Panel 
@@ -624,9 +637,11 @@ export class Board extends React.Component {
     return (
       <div className="board" >
         <DeckConstruction
-          value = {this.state.deck_data}
+          value = {this.state.deck_name}
           handleChange = {this.handle_deck_change}
-        />
+          changeName = {() => this.setState({deck_name:get_deck_name()})}    
+          />
+
         <EnterGame 
           switchScene = {() => {this.change_board("tag")}}
           switchText = "查看词条"

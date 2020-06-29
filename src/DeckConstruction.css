@@ -1,5 +1,12 @@
 .deck-construction {
-  height: 70%;
+  height: 50%;
   width: 80%;
   margin: 5%;
+  margin-top: 40%;
+}
+
+.input-deck-name {
+  height: 10%;
+  width: 80%;
+  font-size: 110%;
 }

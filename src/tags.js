@@ -17,21 +17,21 @@ const tag_list = [
   },
   {
     src: "http://ak.mooncell.wiki/images/5/5a/Enemy_atk_1.png",
-    desc: "所有敌人获得+2攻击力",
+    desc: "所有敌人获得+1攻击力",
     level: 1,
     effect(G, ctx) {
       for (let enemy of G.edeck) {
-        enemy.atk += 2;
+        enemy.atk += 1;
       }
     }
   },
   {
     src: "http://ak.mooncell.wiki/images/4/4e/Enemy_hp_1.png",
-    desc: "所有敌人获得+2生命值",
+    desc: "所有敌人获得+1生命值",
     level: 1,
     effect(G, ctx) {
       for (let enemy of G.edeck) {
-        enemy.hp += 2;
+        enemy.hp += 1;
       }
     }
   },

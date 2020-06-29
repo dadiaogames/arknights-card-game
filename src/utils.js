@@ -21,3 +21,35 @@ export function arr2obj(arr) {
 
   return new_obj;
 }
+
+export class PRNG {
+  constructor(seed) {
+    this.seed = seed;
+
+    this.val = 0.0;
+    if (typeof seed == "string"){
+      for (let i=0; i<seed.length; i++) {
+        this.val += seed.charCodeAt(i);
+      }
+    }
+    else {
+      this.val = seed;
+    }
+  }
+
+  random() {
+    let x = Math.sin(this.val++) * 10000;
+    let result = x - Math.floor(x);
+    this.val += 2; //To ensure this is stable
+    return result;
+  }
+
+  randRange(x) {
+    return Math.floor(x * this.random());
+  }
+
+  choice(arr) {
+    let len = arr.length;
+    return arr[this.randRange(len)];
+  }
+}
