@@ -326,8 +326,7 @@ export function str2deck(deck_data) {
 }
 
 function setDeck(G, ctx, deck_data) {
-  let deck = str2deck(deck_data);
-  G.deck = ctx.random.Shuffle(deck);
+  G.deck = ctx.random.Shuffle(str2deck(deck_data));
 }
 
 function logMsg(G, ctx, msg) {
@@ -441,7 +440,9 @@ export const AC = {
         }
       }
     }
-  }
+  },
+
+  seed: undefined,
   
 
   // TODO: know how to set available moves to all moves, then add this phase feature

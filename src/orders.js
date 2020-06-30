@@ -121,8 +121,8 @@ export const ORDERS = [
     requirements: [3,0,0,0],
     score: 2,
     reward: 2,
-    desc: (<span>收入: {material_icons[1]}</span>),
-    onTurnBegin(G, ctx) {
+    desc: (<span>获得: {material_icons[1]}</span>),
+    effect(G, ctx) {
       G.materials[1] += 1;
     },
   },
@@ -131,8 +131,8 @@ export const ORDERS = [
     requirements: [0,3,0,0],
     score: 2,
     reward: 0,
-    desc: (<span>收入: {material_icons[2]}</span>),
-    onTurnBegin(G, ctx) {
+    desc: (<span>获得: {material_icons[2]}</span>),
+    effect(G, ctx) {
       G.materials[2] += 1;
     },
   },
@@ -141,8 +141,8 @@ export const ORDERS = [
     requirements: [0,0,3,0],
     score: 2,
     reward: 1,
-    desc: (<span>收入: {material_icons[0]}</span>),
-    onTurnBegin(G, ctx) {
+    desc: (<span>获得: {material_icons[0]}</span>),
+    effect(G, ctx) {
       G.materials[0] += 1;
     },
   },
