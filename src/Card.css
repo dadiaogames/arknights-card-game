@@ -82,9 +82,9 @@
 
 .order_effect, .finished_effect {
   top: 2%;
-  left: 2%;
+  left: 6%;
   height: 25%;
-  width: 110%;
+  width: 100%;
   text-align: center;
   font-size: 75%;
 }
@@ -93,12 +93,17 @@
   top: 105%;
 }
 
+.finished_effect {
+  top: 5%;
+}
+
 .desc {
   top: 61%;
   left: 5%;
   height: 30%;
   width: 90%;
   text-align: center;
+  font-size: 85%;
 }
 
 .requirements {
@@ -164,21 +169,40 @@ img.illust_detailed {
 }
 
 .card-board {
-  height: 75%;
-  width: 80%;
+  height: 55%;
+  width: 95%;
   margin-top: 10%;
 }
 
 .card-detailed {
-  height: 80%;
-  width: 80%;
+  height: 95%;
+  width: 60%;
   border: 2px solid;
   margin: 2%;
 
   position: relative;
+  flex-shrink: 0;
+}
+
+.card-detailed-row {
+  display: flex;
+  overflow-x: scroll;
+  /* TODO: align items to center when there's only one card, items-align does not work, this is essential for combining SCardRow and CardDetailed */
+
+  border: solid 2px black;
+  margin: 2%;
+  width: 95%;
+  height: 60%;
+  margin-top: 25%;
 }
 
 .card-detailed-button {
   font-size: 105%;
   margin-top: 5%;
+}
+
+.type-filter {
+  font-size: 110%;
+  height: 3%;
+  overflow-x: scroll;
 }

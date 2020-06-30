@@ -230,8 +230,8 @@ export function exhaust_random_enemy(G, ctx) {
   }
 }
 
-export function ready_random_card(G, ctx) {
-  let exhausted_cards = G.field.filter(x => x.exhausted);
+export function ready_random_card(G, ctx, self) {
+  let exhausted_cards = G.field.filter(x => (x.exhausted && (x.name != self.name)));
   if (exhausted_cards.length > 0) {
     ctx.random.Shuffle(exhausted_cards)[0].exhausted = false;
   }
@@ -241,7 +241,12 @@ export function ready_random_card(G, ctx) {
 export function cure(G, ctx, amount) {
   // EH: find a "sorted" function instead of this way
   let ranked_field_by_dmg = G.field.map(x=>x).sort(x => -x.dmg);
-  ranked_field_by_dmg[0].hp += amount;
+  let card = ranked_field_by_dmg[0];
+  card.dmg -= amount;
+  if (card.dmg < 0) {
+    card.hp -= card.dmg;
+    card.dmg = 0;
+  }
 }
 
 function enemyMove(G, ctx, idx) {
@@ -287,7 +292,7 @@ function onScenarioBegin(G, ctx) {
   ctx.events.endTurn();
 }
 
-function setDeck(G, ctx, deck_data) {
+export function str2deck(deck_data) {
   let card_dict = arr2obj(CARDS);
   let deck = [];
 
@@ -304,6 +309,12 @@ function setDeck(G, ctx, deck_data) {
       }
     }
   }
+
+  return deck;
+}
+
+function setDeck(G, ctx, deck_data) {
+  let deck = str2deck(deck_data);
   G.deck = ctx.random.Shuffle(deck);
 }
 

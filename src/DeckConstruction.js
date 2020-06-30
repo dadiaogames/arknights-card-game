@@ -15,12 +15,15 @@ export const DeckConstruction = (props) => {
       </form>
       <button
           onClick={props.changeName} 
-          style={{
-            fontSize: "105%",
-            marginTop: "5%",
-          }}
+          className="deck-construction-button"
         >
           换个随机名字
+        </button>
+        <button
+          onClick={props.checkDeck} 
+          className="deck-construction-button"
+        >
+          查看卡组
         </button>
       <br/>
       <p>给卡组取个好听的名字，然后系统会根据名字，生成一套卡组。</p>

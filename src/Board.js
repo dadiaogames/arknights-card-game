@@ -1,11 +1,12 @@
 import React from 'react';
-import { Card, CardRow, CardDetailed } from './Card';
+import { Card, CardRow, CardDetailed, SCardRow, TypeFilter } from './Card';
 import { Controller, EnterGame } from './Controller';
 import { Panel } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
 import { DeckConstruction } from './DeckConstruction';
 import { TitleScreen } from './TitleScreen';
 import { get_deck_name, generate_deck } from './DeckGenerator';
+import { str2deck } from './Game';
 import { map_object, sleep } from './utils';
 import { CARDS, default_deck } from './cards';
 import { order_illust, material_icons } from './orders';
@@ -61,11 +62,14 @@ export class Board extends React.Component {
     this.render_tag_board = this.render_tag_board.bind(this);
     this.render_deck_board = this.render_deck_board.bind(this);
     this.render_card_board = this.render_card_board.bind(this);
+    this.render_preview_board = this.render_preview_board.bind(this);
 
     this.change_board = this.change_board.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
     this.get_risk_level = this.get_risk_level.bind(this);
     this.enter_game = this.enter_game.bind(this);
+    this.check_deck = this.check_deck.bind(this);
+    this.back = this.back.bind(this);
 
     this.state = {
       hand_selected: -1,
@@ -80,11 +84,14 @@ export class Board extends React.Component {
 
       stage: "player",
 
-      board: this.render_title_board, //function or string here?
+      // board: this.render_title_board, 
+      board: this.render_deck_board,
+      last_board: this.render_title_board,
 
       tags: TAGS,
       risk_level: 0, // this is changed on game begin
       deck_name: get_deck_name(),
+      preview_deck: CARDS,
 
       checking: {},
 
@@ -272,9 +279,11 @@ export class Board extends React.Component {
       cost_detailed: card.cost,
       desc: (
         <span>
-          {card.atk}/{card.hp} &nbsp;
-          {ICONS.mine}{card.mine} &nbsp;
-          {(card.block>0)? (<span>{ICONS.block}{card.block}</span>) : ""}
+          <span style={{fontSize:"120%"}}>
+            {card.atk}/{card.hp} &nbsp;
+            {ICONS.mine}{card.mine} &nbsp;
+            {(card.block>0)? (<span>{ICONS.block}{card.block}</span>) : ""}
+          </span>
           <br/>
           {card.desc||""}
         </span>
@@ -423,8 +432,18 @@ export class Board extends React.Component {
       "tag": this.render_tag_board,
       "deck": this.render_deck_board,
       "card": this.render_card_board,
+      "preview": this.render_preview_board,
     };
+    this.setState({last_board: this.state.board})
     this.setState({board: boards[new_board]});
+  }
+
+  check_deck() {
+    this.change_board("preview");
+  }
+
+  back() {
+    this.setState({board: this.state.last_board});
   }
 
   enter_game() {
@@ -455,19 +474,19 @@ export class Board extends React.Component {
         else if (risk_level >= 2 && risk_level < 4) {
           grade = "B";
         }
-        else if (risk_level >= 4 && risk_level < 6) {
+        else if (risk_level >= 4 && risk_level < 8) {
           grade = "A";
         }
-        else if (risk_level >= 6 && risk_level < 8) {
+        else if (risk_level >= 8 && risk_level < 12) {
           grade = "S";
         }
-        else if (risk_level >= 8 && risk_level < 10) {
+        else if (risk_level >= 12 && risk_level < 16) {
           grade = "SS";
         }
         else {
           grade = "SSS";
         }
-        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}`);
+        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_name}`);
       }
 
       else {
@@ -480,7 +499,7 @@ export class Board extends React.Component {
 
   render_title_board() {
     return <div className="board">
-      <TitleScreen enterGame={()=>this.change_board("tag")} checkRule={()=>this.change_board("rules")} />
+      <TitleScreen enterGame={()=>this.change_board("tag")} checkRule={()=>this.change_board("rules")} checkDeck={this.check_deck} />
     </div>;
   }
 
@@ -505,6 +524,17 @@ export class Board extends React.Component {
         }}
       >返回</button>
     </div>;
+  }
+
+  render_preview_board() {
+    return <div className="board" >
+      <SCardRow 
+        cards = {this.state.preview_deck.map(this.process_card_details)}
+      />
+      <button className="player-panel-button" onClick={this.back}>
+        返回
+      </button>
+    </div>
   }
 
   render_game_board() {
@@ -581,6 +611,8 @@ export class Board extends React.Component {
         cards = {this.props.G.orders.map(this.process_order_data)}
         states = {this.props.G.orders.map(this.process_order_state)}
         handleClick = {this.handle_order_clicked}
+        additionalStyle = {{height: "28%"}}
+        cardStyle = {{height: "70%", marginRight:"5%"}}
       />
     );
 
@@ -589,6 +621,7 @@ export class Board extends React.Component {
         cards = {this.props.G.finished.map(this.process_finished_data)}
         states = {this.props.G.finished.map(this.process_finished_state)}
         handleClick = {this.handle_finished_clicked}
+        additionalStyle = {{height: "25%", marginTop:"16%"}}
       />
     );
 
@@ -602,6 +635,7 @@ export class Board extends React.Component {
           cards = {this.props.G.efield.map(this.process_efield_data)}
           states = {this.props.G.efield.map(this.process_efield_state)}
           handleClick = {this.handle_efield_clicked}
+          additionalStyle = {{display: this.state.show_field?"":"none"}}
         />
         {(this.state.show_field)? field_cardrow : finished_cardrow}
         <Controller 
@@ -674,6 +708,10 @@ export class Board extends React.Component {
           value = {this.state.deck_name}
           handleChange = {this.handle_deck_change}
           changeName = {() => this.setState({deck_name:get_deck_name()})}    
+          checkDeck = {() => {
+            this.setState({preview_deck: str2deck(generate_deck(this.state.deck_name))});
+            this.check_deck();
+          }}
           />
 
         <EnterGame 

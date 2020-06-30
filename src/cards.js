@@ -46,7 +46,7 @@ export var CARDS = [
   {
     name: "玫兰莎",
     cost: 2,
-    atk: 2,
+    atk: 3,
     hp: 3,
     mine: 1,
     block: 1,
@@ -57,7 +57,7 @@ export var CARDS = [
     name: "米格鲁",
     cost: 2,
     atk: 0,
-    hp: 5,
+    hp: 6,
     mine: 1,
     block: 2,
     illust: "http://ak.mooncell.wiki/images/4/44/%E7%AB%8B%E7%BB%98_%E7%B1%B3%E6%A0%BC%E9%B2%81_1.png",
@@ -105,7 +105,7 @@ export var CARDS = [
 
   {
     name: "芬",
-    cost: 3,
+    cost: 2,
     atk: 1,
     hp: 2,
     mine: 1,
@@ -207,15 +207,17 @@ export var CARDS = [
   
   {
     name:"红豆", 
-    cost:4, 
+    cost:2, 
     atk:3, 
-    hp:1, 
-    mine:2, 
+    hp:2, 
+    mine:1, 
     block:1, 
-    desc:"亡语：获得3点费用", 
+    desc:"亡语：将手牌中的1名干员部署到场上", 
     illust:"http://ak.mooncell.wiki/images/7/70/%E7%AB%8B%E7%BB%98_%E7%BA%A2%E8%B1%86_1.png",
     onOut(G, ctx) {
-      G.costs += 3;
+      if (G.hand.length > 0) {
+        move(G, ctx, "hand", "field");
+      }
     }
   },
   
@@ -234,22 +236,39 @@ export var CARDS = [
       }
     }
   },
+
+  {
+    name:"天火", 
+    cost:5, 
+    atk:3, 
+    hp:2, 
+    mine:1, 
+    block:0, 
+    desc:"部署：场上所有其他干员获得<+2>", 
+    illust:"http://ak.mooncell.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E5%A4%A9%E7%81%AB_1.png",
+    onPlay(G, ctx, self) {
+      for (let card of G.field) {
+        if (card.name != self.name) {
+          card.mine += 2;
+        }
+      }
+    }
+  },
   
   {
     name:"能天使", 
     cost:3, 
-    atk:5, 
+    atk:3, 
     hp:2, 
     mine:1, 
-    block:0, 
-    desc:"攻击被横置的敌人时，伤害+3", 
+    block:1, 
+    desc:"攻击被横置的敌人时，获得+4/+4和<+3>", 
     illust:"http://ak.mooncell.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
     onFight(G, ctx, self, enemy) {
       if (enemy.exhausted) {
-        let idx = G.efield.indexOf(enemy);
-        if (idx > 0) {
-          deal_damage(G, ctx, "efield", idx, 3);
-        }
+        self.atk += 4;
+        self.hp += 4;
+        self.mine += 3;
       }
     }
   },
@@ -271,16 +290,17 @@ export var CARDS = [
   {
     name:"杜宾", 
     cost:4, 
-    atk:3, 
-    hp:3, 
+    atk:2, 
+    hp:2, 
     mine:1, 
-    block:1, 
-    desc:"部署：场上所有干员获得+1/+1", 
+    block:2, 
+    desc:"部署：场上每有1个干员，就获得+1/+1和<+1>", 
     illust:"http://ak.mooncell.wiki/images/2/25/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E5%AE%BE_1.png",
-    onPlay(G, ctx) {
+    onPlay(G, ctx, self) {
       for (let card of G.field) {
-        card.atk += 1;
-        card.hp += 1;
+        self.atk += 1;
+        self.hp += 1;
+        self.mine += 1;
       }
     }
   },
@@ -292,11 +312,11 @@ export var CARDS = [
     hp:4, 
     mine:2, 
     block:1, 
-    desc:"部署：对两名敌人造成3点伤害", 
+    desc:"部署：对两名敌人造成4点伤害", 
     illust:"http://ak.mooncell.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E9%99%88_1.png",
     onPlay(G, ctx) {
-      deal_random_damage(G, ctx, 3);
-      deal_random_damage(G, ctx, 3);
+      deal_random_damage(G, ctx, 4);
+      deal_random_damage(G, ctx, 4);
     }
   },
   
@@ -365,11 +385,11 @@ export var CARDS = [
     block:2, 
     desc:"采掘/战斗：重置1个干员", 
     illust:"http://ak.mooncell.wiki/images/3/39/%E7%AB%8B%E7%BB%98_%E9%9B%B7%E8%9B%87_1.png",
-    onMine(G, ctx) {
-      ready_random_card(G, ctx);
+    onMine(G, ctx, self) {
+      ready_random_card(G, ctx, self);
     },
-    onFight(G, ctx) {
-      ready_random_card(G, ctx);
+    onFight(G, ctx, self) {
+      ready_random_card(G, ctx, self);
     }
   },
   

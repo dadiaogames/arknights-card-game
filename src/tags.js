@@ -38,7 +38,7 @@ const tag_list = [
   {
     src: "http://ak.mooncell.wiki/images/f/f7/Enemy_movespeed_1.png",
     desc: "干员以横置状态入场",
-    level: 2,
+    level: 3,
     effect(G, ctx){
       G.exhausted_enter = true;
     }

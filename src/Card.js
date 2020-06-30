@@ -1,4 +1,6 @@
 import React from 'react';
+import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 import './Card.css';
 
 export const Card = (props) => {
@@ -40,6 +42,7 @@ export const Card = (props) => {
     <div
       className="card"
       onClick = {props.handleClick}
+      style = {props.cardStyle}
     >
       {Object.keys(props.data).map((variant) => (
         <Data
@@ -70,22 +73,25 @@ export const Data = (props) => {
       {(is_img) ? img_tag : props.value}
     </div>
   );
-}
+};
 
 export const CardRow = (props) => {
+  // EH: is card state really required? can it combine to data? okay, the problem is, all data are shown, and states are style changers
   return (
-    <div className="card-row">
+    <div className="card-row" style={props.additionalStyle} >
       {props.cards.map((card, idx) => (
         <Card
           data={card}
           cardState = {props.states[idx]}
           handleClick={(props.handleClick)? (props.handleClick(idx)) : null} 
+          cardStyle = {props.cardStyle}
         />
       ))}
     </div>
   );
 }
 
+// EH: "data" or "card", need to be the same for both card and SCard
 export const SCard = (props) =>  (
   <div className="card-detailed">
       {Object.keys(props.card).map((variant) => (
@@ -97,6 +103,39 @@ export const SCard = (props) =>  (
   </div>
 );
 
+export const SCardRow = (props) => {
+  // EH: is card state really required? can it combine to data? okay, the problem is, all data are shown, and states are style changers
+  return (
+    <div className="card-detailed-row" >
+      {props.cards.map((card, idx) => (
+        <SCard
+          card={card}
+        />
+      ))}
+    </div>
+  );
+};
+
+export const TypeFilter = (props) => (
+  <div className="type-filter">
+  <Tabs>
+    <TabList>
+      <Tab>Title 1</Tab>
+      <Tab>Title 2</Tab>
+      <Tab>Title 2</Tab>
+      <Tab>Title 2</Tab>
+      <Tab>Title 2</Tab>
+      <Tab>Title 2</Tab>
+      <Tab>Title 2</Tab>
+      <Tab>Title 2</Tab>
+      <Tab>Title 2</Tab>
+    </TabList>
+
+  </Tabs>
+  </div>
+);
+
+// TODO: Combine this with SCardRow
 export const CardDetailed = (props) => {
   return (
     <div className="card-board" align="center">
@@ -104,4 +143,4 @@ export const CardDetailed = (props) => {
       <button className="card-detailed-button" onClick={props.handleClick}>完成查看</button>
     </div>
   )
-}
+};
