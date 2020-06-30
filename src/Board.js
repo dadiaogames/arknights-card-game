@@ -313,7 +313,6 @@ export class Board extends React.Component {
 
   enemy_move(i) {
     if (i < this.props.G.efield.length) {
-      this.setState({stage: "enemy"});
       let sleep_time = 350;
       if (i < 0) {
         this.props.moves.drawEnemy(); // start from -2 to draw 2 enemies
@@ -328,7 +327,6 @@ export class Board extends React.Component {
     }
     else{
       this.props.events.endTurn();
-      this.setState({stage:"player"});
     }
   }
 
@@ -561,9 +559,12 @@ export class Board extends React.Component {
         <button 
           className="player-panel-button"
           style={{
-            display: (this.state.stage=="enemy")? "none" : ""
+            display: (this.props.G.stage=="enemy")? "none" : ""
           }} 
-          onClick={()=>{this.enemy_move(-2);}}
+          onClick={()=>{
+            this.props.moves.enemyInit();
+            this.enemy_move(-2);
+          }}
         >
           结束回合
         </button>

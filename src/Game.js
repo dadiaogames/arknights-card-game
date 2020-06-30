@@ -76,8 +76,8 @@ function use(G, ctx, card) {
   }
 }
 
-function get_blocker(G, ctx, idx) {
-  //Return who blocks this enemy
+function get_blocker(G, ctx, enemy) {
+  let idx = G.efield.indexOf(enemy);
   let blocked_enemies = 0;
 
   for (let c of G.field) {
@@ -90,6 +90,16 @@ function get_blocker(G, ctx, idx) {
   return false;
 }
 
+function out(G, ctx, deck, idx) {
+  let card = G[deck][idx];
+  let discard = (deck == "field") ? "discard" : "ediscard";
+  move(G, ctx, deck, discard, idx);
+  logMsg(G, ctx, `${card.name} 被摧毁`);
+  if (card.onOut) {
+    card.onOut(G, ctx, card);
+  }
+}
+
 export function deal_damage(G, ctx, deck, idx, dmg) {
   let card = G[deck][idx];
 
@@ -98,13 +108,8 @@ export function deal_damage(G, ctx, deck, idx, dmg) {
   card.dmg += dmg;
   logMsg(G, ctx, `${card.name} 受到${dmg}点伤害`);
 
-  if (card.dmg >= card.hp) {
-    let discard = (deck == "field") ? "discard" : "ediscard";
-    move(G, ctx, deck, discard, idx);
-    logMsg(G, ctx, `${card.name} 被摧毁`);
-    if (card.onOut) {
-      card.onOut(G, ctx, card);
-    }
+  if (card.dmg >= card.hp && G.stage != "enemy") {
+    out(G, ctx, deck, idx);
   }
 }
 
@@ -189,7 +194,7 @@ function useOrder(G, ctx, idx) {
   }
 }
 
-function drawEnemy(G, ctx) {
+export function drawEnemy(G, ctx) {
   if (G.edeck.length > 0) {
     let enemy = move(G, ctx, "edeck", "efield");
     enemy.exhausted = true;
@@ -198,6 +203,31 @@ function drawEnemy(G, ctx) {
     if (enemy.onPlay) {
       enemy.onPlay(G, ctx, enemy);
     }
+    if (enemy.is_elite) {
+      switchEnemy(G, ctx);
+    }
+  }
+}
+
+export function switchEnemy(G, ctx) {
+  let len = G.efield.length;
+  let enemy = G.efield[len-1];
+  let switcher = G.efield[len-2];
+
+  let surge = false;
+  if (len == 1) {
+    surge = true;
+  }
+  else if (switcher.is_elite) {
+    surge = true;
+  }
+
+  if (surge) {
+    G.efield.pop();
+    drawEnemy(G, ctx);
+  }
+  else {
+    G.efield.splice(len-2, 1);
   }
 }
 
@@ -261,28 +291,50 @@ export function get_rhine_order(G, ctx) {
   sort_finished(G);
 }
 
+function enemyInit(G, ctx) {
+  G.stage = "enemy";
+}
+
 function enemyMove(G, ctx, idx) {
   let enemy = G.efield[idx];
 
   if (use(G, ctx, enemy)) {
-    let blocker = get_blocker(G, ctx, idx);
-    let blocker_idx = G.field.indexOf(blocker);
-
-    if (blocker) {
-      deal_damage(G, ctx, "field", blocker_idx, enemy.atk);
-      logMsg(G, ctx, `${enemy.name} 对 ${blocker.name} 发起了进攻`);
+    if (enemy.action) {
+      enemy.action(G, ctx, enemy);
     }
 
     else {
-      G.danger += 1;
-      logMsg(G, ctx, `${enemy.name} 发起了动乱`);
+      let blocker = get_blocker(G, ctx, enemy);
+      let blocker_idx = G.field.indexOf(blocker);
+
+      if (blocker_idx != -1) {
+        deal_damage(G, ctx, "field", blocker_idx, enemy.atk);
+        logMsg(G, ctx, `${enemy.name} 对 ${blocker.name} 发起了进攻`);
+      }
+
+      else {
+        G.danger += 1;
+        logMsg(G, ctx, `${enemy.name} 发起了动乱`);
+        if (enemy.onUnrest) {
+          enemy.onUnrest(G, ctx, enemy);
+        }
+      }
+    }
+  }
+}
+
+function onEnemyStageEnd(G, ctx) {
+  for (let i=G.field.length-1; i>=0; i--) {
+    let card = G.field[i];
+    if (card.hp - card.dmg <= 0) {
+      out(G, ctx, "field", i);
     }
   }
 }
 
 function refresh(G, ctx) {
   for (let card of [].concat(G.field, G.efield, G.finished)) {
-      card.exhausted = false;
+    card.exhausted = false;
   }
 }
 
@@ -369,6 +421,7 @@ export function setup(ctx) {
 
     G.playing = false;
     G.gained = [];
+    G.stage = "player";
 
     console.log(ctx.random);
 
@@ -392,6 +445,7 @@ export const AC = {
     useOrder,
     drawEnemy,
     fight,
+    enemyInit,
     enemyMove,
     logMsg,
     changeMsg,
@@ -402,6 +456,7 @@ export const AC = {
       if (G.playing) {
         console.log("On turn begin");
         logMsg(G, ctx, "回合开始");
+        G.stage = "player";
         refresh(G, ctx);
         draw(G, ctx);
         drawOrder(G, ctx);
@@ -419,6 +474,10 @@ export const AC = {
           }
         }
       }
+    },
+
+    onEnd(G, ctx) {
+      onEnemyStageEnd(G, ctx);
     },
   },
 

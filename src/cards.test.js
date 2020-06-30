@@ -11,7 +11,7 @@ it('cards run normally', () => {
   };
   let G = setup(ctx);
 
-  for (let card of G.field) {
+  for (let card of [].concat(CARDS, ENEMIES)) {
     G.deck = CARDS.map(x => x);
     G.hand = CARDS.map(x => x);
     G.field = CARDS.map(x => x);
@@ -30,6 +30,12 @@ it('cards run normally', () => {
     }
     if (card.onOut) {
       card.onOut(G, ctx, card);
+    }
+    if (card.action) {
+      card.action(G, ctx, card);
+    }
+    if (card.onUnrest) {
+      card.onUnrest(G, ctx, card);
     }
   }
 

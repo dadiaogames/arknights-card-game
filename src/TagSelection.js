@@ -10,17 +10,17 @@ export const TagSelection = (props) => {
     for (let tag of row_tags) {
       row.push(
         <td 
-          className="tag" 
-          
           onClick={props.handleClick(props.tags.indexOf(tag))}
         >
+          <div className="tag">
           <img 
-            className="tag" 
+            className="tag-img" 
             src={tag.src}
             style={{
             borderColor: (tag.selected)? "red":"black"
           }} 
           ></img>
+          </div>
         </td>
       );
     }
@@ -45,7 +45,7 @@ export const TagList = (props) => {
           marginTop: "1%",
         }}
       >
-        {props.selected_tags.map((tag) => (<li className="tag-desc">{tag.desc}</li>))}
+        {props.selected_tags.map((tag) => (<li className="tag-desc" style={{color:(tag.level==3)?"red":"black"}}>{tag.desc}</li>))}
       </ul>
     </div>
   );

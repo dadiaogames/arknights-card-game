@@ -57,15 +57,6 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/9/95/Char_debuff_1.png",
-    desc: "回合开始时，所有干员受到1点伤害",
-    level: 3,
-    effect(G, ctx){
-      G.fog = true;
-    }
-  },
-
-  {
     src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
     desc: "胜利所需分数+5",
     level: 3,
@@ -82,6 +73,15 @@ const tag_list = [
       for (let order of G.odeck) {
         order.score -= 1;
       }
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/9/95/Char_debuff_1.png",
+    desc: "回合开始时，所有干员受到1点伤害",
+    level: 3,
+    effect(G, ctx){
+      G.fog = true;
     }
   },
 ];
