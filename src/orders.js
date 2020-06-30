@@ -4,6 +4,8 @@ import { ICONS } from './icons';
 
 export const order_illust = "https://ak.hypergryph.com/assets/index/images/ak/common/story/item_mortal_city.png";
 
+export const rhine_illust = "http://ak.mooncell.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E5%A1%9E%E9%9B%B7%E5%A8%85_1.png";
+
 export const material_icons = [ICONS.alcohol, ICONS.rma, ICONS.rock, ICONS.d32];
 
 export const ORDERS = [

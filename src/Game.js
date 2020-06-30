@@ -251,6 +251,7 @@ export function cure(G, ctx, amount) {
 
 export function get_rhine_order(G, ctx) {
   let order = Object.assign({}, ctx.random.Shuffle(G.odeck)[0]);
+  order.rhine = true;
   G.finished.unshift(order);
 }
 

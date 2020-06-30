@@ -9,7 +9,7 @@ import { get_deck_name, generate_deck } from './DeckGenerator';
 import { str2deck } from './Game';
 import { map_object, sleep } from './utils';
 import { CARDS, default_deck } from './cards';
-import { order_illust, material_icons } from './orders';
+import { order_illust, rhine_illust, material_icons } from './orders';
 import { ICONS } from './icons';
 import { TAGS } from './tags';
 import { RULES } from './rules';
@@ -261,7 +261,7 @@ export class Board extends React.Component {
 
   process_finished_data(card) {
     return {
-      o_illust: order_illust,
+      o_illust: card.rhine? rhine_illust : order_illust,
       finished_effect: card.desc,
     };
   }
