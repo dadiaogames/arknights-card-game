@@ -85,7 +85,7 @@ export class Board extends React.Component {
       stage: "player",
 
       board: this.render_title_board, 
-      // board: this.render_deck_board,
+      // board: this.render_game_board,
       last_board: this.render_title_board,
 
       tags: TAGS,
@@ -585,9 +585,21 @@ export class Board extends React.Component {
       <p style={{marginTop: "0%"}}>
         动乱:{this.props.G.danger}/{this.props.G.max_danger} &nbsp;&nbsp;&nbsp;
         分数:{this.props.G.score}/{this.props.G.goal}<br/>
+        <button 
+          onClick={()=>this.change_board("tag")}
+          style = {{
+            position: "absolute",
+            fontSize: "120%",
+            top: "2%",
+            left: "88%",
+          }}
+        >
+        ⟳
+        </button>
+
         <span onClick={()=>{alert(this.props.G.messages.slice(0,20).join("\n"));}}>{this.props.G.messages[0]}</span>
       </p>
-    </div>);
+          </div>);
 
     let field_cardrow = (
       <CardRow 
