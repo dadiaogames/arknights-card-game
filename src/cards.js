@@ -207,7 +207,7 @@ export var CARDS = [
   
   {
     name:"红豆", 
-    cost:2, 
+    cost:4, 
     atk:3, 
     hp:2, 
     mine:1, 
@@ -216,7 +216,8 @@ export var CARDS = [
     illust:"http://ak.mooncell.wiki/images/7/70/%E7%AB%8B%E7%BB%98_%E7%BA%A2%E8%B1%86_1.png",
     onOut(G, ctx) {
       if (G.hand.length > 0) {
-        move(G, ctx, "hand", "field");
+        let card = move(G, ctx, "hand", "field");
+        card.dmg = 0;
       }
     }
   },

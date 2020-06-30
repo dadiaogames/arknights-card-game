@@ -154,6 +154,13 @@ img.e_illust, img.eo_illust_detailed {
   border: 0px;
 }  */
 
+img.rhine_illust {
+  width: 100%;
+  height: auto;
+  margin-left: 0%;
+  margin-top: 30%;
+}
+
 img.o_illust {
   width: 300%;
   height: auto;

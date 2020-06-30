@@ -89,7 +89,7 @@ const rhine = `赫默 2 3
 桃金娘 1 2
 讯使 0 2
 炎熔 0 2
-蛇屠箱 0 2`
+蛇屠箱 0 2`;
 
 const eyja = `艾雅法拉 1 2
 阿米娅 1 3
@@ -112,7 +112,7 @@ const angelina = `安洁莉娜 1 2
 赫默 1 2
 星极 1 2`;
 
-let strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina];
+const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina];
 
 
 function get_random_card(rng) {
@@ -161,6 +161,15 @@ function deck2str(deck) {
   return cards.map(c => `${output[c]} ${c}`).join("\n");
 }
 
+function remove_redundant(deck) {
+  for (let card of deck) {
+    if (card[0] > 3) {
+      card[0] = 3;
+    }
+  }
+  return deck;
+}
+
 export function generate_deck(deck_name) {
   let deck = [];
   let rng = new PRNG(deck_name);
@@ -171,6 +180,7 @@ export function generate_deck(deck_name) {
     deck.push(get_single_card(rng, strategy[0], parseInt(strategy[1]), parseInt(strategy[2])));
   }
 
+  deck = remove_redundant(deck);
   deck = arr2deck(deck);
 
   if (deck.length < 30) {

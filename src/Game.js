@@ -165,6 +165,10 @@ function drawOrder(G, ctx) {
   }
 }
 
+function sort_finished(G) {
+  G.finished.sort(x=>ORDERS.map(o=>o.effect).indexOf(x.effect));
+}
+
 function finishOrder(G, ctx, idx) {
   let order = G.orders[idx];
 
@@ -173,6 +177,7 @@ function finishOrder(G, ctx, idx) {
     G.score += order.score;
     G.finished.push(G.orders.splice(idx, 1)[0]);
     logMsg(G, ctx, "完成订单");
+    sort_finished(G);
   }
 }
 
@@ -253,6 +258,7 @@ export function get_rhine_order(G, ctx) {
   let order = Object.assign({}, ctx.random.Shuffle(G.odeck)[0]);
   order.rhine = true;
   G.finished.unshift(order);
+  sort_finished(G);
 }
 
 function enemyMove(G, ctx, idx) {
@@ -392,13 +398,19 @@ export const AC = {
 
   turn: {
     onBegin(G, ctx) {
-        if (G.playing) {
-          console.log("On turn begin");
-          logMsg(G, ctx, "回合开始");
-          refresh(G, ctx);
-          draw(G, ctx);
-          drawOrder(G, ctx);
-          G.costs += 3;
+      if (G.playing) {
+        console.log("On turn begin");
+        logMsg(G, ctx, "回合开始");
+        refresh(G, ctx);
+        draw(G, ctx);
+        drawOrder(G, ctx);
+        G.costs += 3;
+
+        for (let card of G.field.concat(G.efield.concat(G.finished))) {
+          if (card.onTurnBegin) {
+            card.onTurnBegin(G, ctx, card);
+          }
+        }
       }
     },
   },
