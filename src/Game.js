@@ -370,6 +370,8 @@ export function setup(ctx) {
     G.playing = false;
     G.gained = [];
 
+    console.log(ctx.random);
+
     return G;
   }
 
@@ -408,6 +410,12 @@ export const AC = {
         for (let card of G.field.concat(G.efield.concat(G.finished))) {
           if (card.onTurnBegin) {
             card.onTurnBegin(G, ctx, card);
+          }
+        }
+
+        if (G.fog) {
+          for (let i=G.field.length-1;i>=0;i--) {
+            deal_damage(G, ctx, "field", i, 1);
           }
         }
       }

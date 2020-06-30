@@ -34,6 +34,7 @@ export var ENEMIES = [
     atk: 2,
     hp: 4,
     illust: "http://ak.mooncell.wiki/images/3/34/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A3%AB%E5%85%B5.png",
+    desc: "什么？这是个术师？",
   },
   {
     name: "空降兵",
@@ -46,7 +47,7 @@ export var ENEMIES = [
     atk: 4,
     hp: 4,
     illust: "http://ak.mooncell.wiki/images/3/34/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A3%AB%E5%85%B5.png",
-    desc: "动乱: 额外增加2点动乱值",
+    desc: "咕噜灵波~",
   },
 
 ];

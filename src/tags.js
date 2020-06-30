@@ -44,6 +44,46 @@ const tag_list = [
     }
   },
 
+  {
+    src: "http://ak.mooncell.wiki/images/0/03/Enemy_atk_2.png",
+    desc: "所有敌人获得+2/+2",
+    level: 3,
+    effect(G, ctx){
+      for (let enemy of G.edeck) {
+        enemy.atk += 2;
+        enemy.hp += 2;
+      }
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/9/95/Char_debuff_1.png",
+    desc: "回合开始时，所有干员受到1点伤害",
+    level: 3,
+    effect(G, ctx){
+      G.fog = true;
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
+    desc: "胜利所需分数+5",
+    level: 3,
+    effect(G, ctx){
+      G.goal += 5;
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
+    desc: "所有订单的分数-1",
+    level: 3,
+    effect(G, ctx){
+      for (let order of G.odeck) {
+        order.score -= 1;
+      }
+    }
+  },
 ];
 
 function process_tags(tag_list) {
