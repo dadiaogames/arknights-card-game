@@ -35,3 +35,23 @@ it('cards run normally', () => {
 
 }
 );
+
+it('Angelina', () => {
+  let ctx = {
+    random: {
+      Shuffle: arr => arr,
+      Die: n => n-1,
+    },
+  };
+  let G = setup(ctx);
+  
+  let angelina = CARDS.filter(x => x.name=="安洁莉娜")[0];
+  let fen = CARDS.filter(x => x.name=="芬")[0];
+
+  G.hand = [angelina, fen];
+  G.deck = [fen, fen, fen, fen, fen, fen, fen];
+
+  angelina.onPlay(G, ctx, angelina);
+  console.log(G.deck.length);
+
+});

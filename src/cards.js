@@ -564,7 +564,7 @@ export var CARDS = [
     desc:"部署：触发手牌中所有干员的“部署:”效果",
     illust:"http://ak.mooncell.wiki/images/f/fe/%E7%AB%8B%E7%BB%98_%E5%AE%89%E6%B4%81%E8%8E%89%E5%A8%9C_1.png",
     onPlay(G, ctx, self) {
-      for (let card of G.hand) {
+      for (let card of G.hand.map(x=>x)) { //Copy the list to prevent infinite loop
         if (card.onPlay && (card.name != self.name)) {
           card.onPlay(G, ctx, self);
         }
