@@ -586,7 +586,7 @@ export class Board extends React.Component {
         动乱:{this.props.G.danger}/{this.props.G.max_danger} &nbsp;&nbsp;&nbsp;
         分数:{this.props.G.score}/{this.props.G.goal}<br/>
         <button 
-          onClick={()=>this.change_board("tag")}
+          onClick={()=>this.end_game()}
           style = {{
             position: "absolute",
             fontSize: "120%",
