@@ -84,8 +84,8 @@ export class Board extends React.Component {
 
       stage: "player",
 
-      // board: this.render_title_board, 
-      board: this.render_deck_board,
+      board: this.render_title_board, 
+      // board: this.render_deck_board,
       last_board: this.render_title_board,
 
       tags: TAGS,
@@ -518,11 +518,10 @@ export class Board extends React.Component {
       </div>
       <button 
         onClick={()=>this.change_board("title")}
-        style = {{
-          margin: "3%",
-          fontSize: "105%",
-        }}
-      >返回</button>
+        className="preview-button"
+      >
+        返回
+      </button>
     </div>;
   }
 
@@ -531,7 +530,7 @@ export class Board extends React.Component {
       <SCardRow 
         cards = {this.state.preview_deck.map(this.process_card_details)}
       />
-      <button className="player-panel-button" onClick={this.back}>
+      <button className="preview-button" onClick={this.back}>
         返回
       </button>
     </div>
