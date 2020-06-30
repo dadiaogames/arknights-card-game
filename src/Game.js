@@ -249,6 +249,11 @@ export function cure(G, ctx, amount) {
   }
 }
 
+export function get_rhine_order(G, ctx) {
+  let order = Object.assign({}, ctx.random.Shuffle(G.odeck)[0]);
+  G.finished.unshift(order);
+}
+
 function enemyMove(G, ctx, idx) {
   let enemy = G.efield[idx];
 

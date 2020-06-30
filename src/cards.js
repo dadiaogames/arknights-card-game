@@ -1,7 +1,7 @@
 import { 
   deal_damage, draw, deal_random_damage, gainMaterials,
   move, exhaust_random_enemy, ready_random_card, cure, 
-  payCost, 
+  payCost, get_rhine_order,
 } from './Game';
 
 export var CARDS = [
@@ -312,11 +312,11 @@ export var CARDS = [
     hp:4, 
     mine:2, 
     block:1, 
-    desc:"部署：对两名敌人造成4点伤害", 
+    desc:"部署：对两名敌人造成3点伤害", 
     illust:"http://ak.mooncell.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E9%99%88_1.png",
     onPlay(G, ctx) {
-      deal_random_damage(G, ctx, 4);
-      deal_random_damage(G, ctx, 4);
+      deal_random_damage(G, ctx, 3);
+      deal_random_damage(G, ctx, 3);
     }
   },
   
@@ -451,7 +451,141 @@ export var CARDS = [
       }
     }
   },
+
+  {
+    name:"赫默",
+    cost:3,
+    atk:0,
+    hp:2,
+    mine:1,
+    block:0,
+    desc:"部署：获得2个“莱茵生命订单”\n行动：使一名干员+3生命值",
+    illust:"http://ak.mooncell.wiki/images/7/7f/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E9%BB%98_1.png",
+    onPlay(G, ctx) {
+      get_rhine_order(G, ctx);
+      get_rhine_order(G, ctx);
+    },
+    action(G, ctx) {
+      cure(G, ctx, 3);
+    }
+  },
   
+  {
+    name:"白面鸮",
+    cost:4,
+    atk:0,
+    hp:3,
+    mine:3,
+    block:0,
+    desc:"行动：获得1个“莱茵生命订单”，重置1个干员",
+    illust:"http://ak.mooncell.wiki/images/a/ac/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9D%A2%E9%B8%AE_1.png",
+    action(G, ctx, self) {
+      get_rhine_order(G, ctx);
+      ready_random_card(G, ctx, self);
+    }
+  },
+
+  {
+    name:"伊芙利特",
+    cost:4,
+    atk:4,
+    hp:3,
+    mine:4,
+    block:0,
+    desc:"行动：重置所有已完成的订单",
+    illust:"http://ak.mooncell.wiki/images/5/53/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E8%8A%99%E5%88%A9%E7%89%B9_1.png",
+    action(G, ctx) {
+      for (let order of G.finished) {
+        order.exhausted = false;
+      }
+    }
+  },
+  
+  {
+    name:"远山",
+    cost:3,
+    atk:4,
+    hp:2,
+    mine:2,
+    block:0,
+    desc:"采掘：重置1个已完成的订单",
+    illust:"http://ak.mooncell.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
+    onMine(G, ctx) {
+      for (let order of ctx.random.Shuffle(G.finished)) {
+        if (order.exhausted) {
+          order.exhausted = false;
+        }
+      }
+    }
+  },
+  
+  {
+    name:"塞雷娅",
+    cost:6,
+    atk:2,
+    hp:4,
+    mine:2,
+    block:3,
+    desc:"部署：每有1个已完成的订单，就获得+1/+2",
+    illust:"http://ak.mooncell.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E5%A1%9E%E9%9B%B7%E5%A8%85_1.png",
+    onPlay(G, ctx, self) {
+      let num_finished = G.finished.length;
+      self.atk += num_finished;
+      self.hp += 2 * num_finished;
+    }
+  },
+  
+  {
+    name:"艾雅法拉",
+    cost:6,
+    atk:6,
+    hp:4,
+    mine:4,
+    block:0,
+    desc:"采掘：触发场上所有干员的“采掘:”效果",
+    illust:"http://ak.mooncell.wiki/images/c/c0/%E7%AB%8B%E7%BB%98_%E8%89%BE%E9%9B%85%E6%B3%95%E6%8B%89_1.png",
+    onMine(G, ctx, self) {
+      for (let card of G.field) {
+        if (card.onMine && (card.name != self.name)) {
+          card.onMine(G, ctx, self);
+        }
+      }
+    }
+  },
+  
+  {
+    name:"安洁莉娜",
+    cost:6,
+    atk:4,
+    hp:4,
+    mine:3,
+    block:0,
+    desc:"部署：触发手牌中所有干员的“部署:”效果",
+    illust:"http://ak.mooncell.wiki/images/f/fe/%E7%AB%8B%E7%BB%98_%E5%AE%89%E6%B4%81%E8%8E%89%E5%A8%9C_1.png",
+    onPlay(G, ctx, self) {
+      for (let card of G.hand) {
+        if (card.onPlay && (card.name != self.name)) {
+          card.onPlay(G, ctx, self);
+        }
+      }
+    }
+  },
+  
+  {
+    name:"莫斯提马",
+    cost:3,
+    atk:4,
+    hp:2,
+    mine:2,
+    block:0,
+    desc:"采掘：每有1个横置的敌人，就额外获得1个随机材料",
+    illust:"http://ak.mooncell.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
+    onMine(G, ctx) {
+      let num_exhausted = G.efield.filter(x=>x.exhausted).length;
+      gainMaterials(G, ctx, num_exhausted);
+    }
+  },
+
 
 ];
 

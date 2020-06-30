@@ -10,12 +10,12 @@ it('cards run normally', () => {
     },
   };
   let G = setup(ctx);
-  G.deck = CARDS.map(x => x);
-  G.hand = CARDS.map(x => x);
-  G.field = CARDS.map(x => x);
-  G.efield = ENEMIES.map(x => x);
 
   for (let card of G.field) {
+    G.deck = CARDS.map(x => x);
+    G.hand = CARDS.map(x => x);
+    G.field = CARDS.map(x => x);
+    G.efield = ENEMIES.map(x => x);
     if (card.onPlay) {
       card.onPlay(G, ctx, card);
     }
