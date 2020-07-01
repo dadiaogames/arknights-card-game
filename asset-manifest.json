@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/arknights-card-game/static/css/main.e13feb30.chunk.css",
-    "main.js": "/arknights-card-game/static/js/main.ada44f56.chunk.js",
-    "main.js.map": "/arknights-card-game/static/js/main.ada44f56.chunk.js.map",
+    "main.css": "/arknights-card-game/static/css/main.da50dfce.chunk.css",
+    "main.js": "/arknights-card-game/static/js/main.9f90bbb9.chunk.js",
+    "main.js.map": "/arknights-card-game/static/js/main.9f90bbb9.chunk.js.map",
     "runtime-main.js": "/arknights-card-game/static/js/runtime-main.af872496.js",
     "runtime-main.js.map": "/arknights-card-game/static/js/runtime-main.af872496.js.map",
     "static/css/2.5c17b9f1.chunk.css": "/arknights-card-game/static/css/2.5c17b9f1.chunk.css",
-    "static/js/2.2febaafe.chunk.js": "/arknights-card-game/static/js/2.2febaafe.chunk.js",
-    "static/js/2.2febaafe.chunk.js.map": "/arknights-card-game/static/js/2.2febaafe.chunk.js.map",
+    "static/js/2.632845e9.chunk.js": "/arknights-card-game/static/js/2.632845e9.chunk.js",
+    "static/js/2.632845e9.chunk.js.map": "/arknights-card-game/static/js/2.632845e9.chunk.js.map",
     "index.html": "/arknights-card-game/index.html",
-    "precache-manifest.52db7811658aecb1a6dcc67b1fae07d6.js": "/arknights-card-game/precache-manifest.52db7811658aecb1a6dcc67b1fae07d6.js",
+    "precache-manifest.90d6e49136dcdcdf64f78284cff637e5.js": "/arknights-card-game/precache-manifest.90d6e49136dcdcdf64f78284cff637e5.js",
     "service-worker.js": "/arknights-card-game/service-worker.js",
     "static/css/2.5c17b9f1.chunk.css.map": "/arknights-card-game/static/css/2.5c17b9f1.chunk.css.map",
-    "static/css/main.e13feb30.chunk.css.map": "/arknights-card-game/static/css/main.e13feb30.chunk.css.map",
-    "static/js/2.2febaafe.chunk.js.LICENSE.txt": "/arknights-card-game/static/js/2.2febaafe.chunk.js.LICENSE.txt"
+    "static/css/main.da50dfce.chunk.css.map": "/arknights-card-game/static/css/main.da50dfce.chunk.css.map",
+    "static/js/2.632845e9.chunk.js.LICENSE.txt": "/arknights-card-game/static/js/2.632845e9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.af872496.js",
     "static/css/2.5c17b9f1.chunk.css",
-    "static/js/2.2febaafe.chunk.js",
-    "static/css/main.e13feb30.chunk.css",
-    "static/js/main.ada44f56.chunk.js"
+    "static/js/2.632845e9.chunk.js",
+    "static/css/main.da50dfce.chunk.css",
+    "static/js/main.9f90bbb9.chunk.js"
   ]
 }
