@@ -339,25 +339,22 @@ export var CARDS = [
   
   {
     name:"能天使", 
-    cost:3, 
+    cost:4, 
     atk:4, 
     hp:3, 
-    mine:1, 
-    block:1, 
-    desc:"攻击被横置的敌人时，获得+3/+3和<+1>", 
+    mine:2, 
+    block:0, 
+    desc:"攻击被横置的敌人时，对所有敌人造成2点伤害", 
     illust:"http://ak.mooncell.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
     onFight(G, ctx, self, enemy) {
       if (enemy.exhausted) {
-        self.atk += 3;
-        self.hp += 3;
-        self.mine += 1;
+        for (let i=G.efield.length-1; i>=0; i--) {
+          deal_damage(G, ctx, "efield", i, 2+self.power);
+        }
       }
     },
     reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.block += 1;
-    },
-    reinforce_desc: "阻挡数+1",
+    reinforce_desc: "再造成1点",
   },
   
   {

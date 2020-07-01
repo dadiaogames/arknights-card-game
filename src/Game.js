@@ -506,7 +506,7 @@ export const AC = {
         }
 
         if (G.fog) {
-          for (let i=G.field.length-1;i>=0;i--) {
+          for (let i=G.field.length-1; i>=0; i--) {
             deal_damage(G, ctx, "field", i, 1);
           }
         }
