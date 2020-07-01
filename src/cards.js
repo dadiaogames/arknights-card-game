@@ -1,8 +1,10 @@
+import React from 'react';
 import { 
   deal_damage, draw, deal_random_damage, gainMaterials,
   move, exhaust_random_enemy, ready_random_card, cure, 
-  payCost, get_rhine_order, init_card_state
+  payCost, get_rhine_order, init_card_state, payMaterials
 } from './Game';
+import { material_icons } from './orders';
 
 export var CARDS = [
   {
@@ -440,7 +442,7 @@ export var CARDS = [
     hp:4, 
     mine:3, 
     block:1, 
-    desc:"部署：获得2个D32钢", 
+    desc: <span>部署：获得2个{material_icons[3]}</span>, 
     illust:"http://ak.mooncell.wiki/images/b/bb/%E7%AB%8B%E7%BB%98_%E6%98%9F%E6%9E%81_1.png",
     onPlay(G, ctx, self) {
       G.materials[3] += 2;
@@ -449,7 +451,7 @@ export var CARDS = [
     onReinforce(G, ctx, self) {
       G.materials[3] += 1;
     },
-    reinforce_desc: "获得1个D32钢",
+    reinforce_desc: <span>获得1个{material_icons[3]}</span>,
   },
   
   {
@@ -757,6 +759,88 @@ export var CARDS = [
     reinforce: 2,
     reinforce_desc: "获得”采掘:横置1个敌人“",
   },
+
+  {
+    name:"银灰",
+    cost:6,
+    atk:5,
+    hp:6,
+    mine:2,
+    block:1,
+    desc: <span>采掘/战斗：消耗1个{material_icons[3]}，并重置自己</span>,
+    illust:"http://ak.mooncell.wiki/images/0/03/%E7%AB%8B%E7%BB%98_%E9%93%B6%E7%81%B0_1.png",
+    onMine(G, ctx, self) {
+      if (payMaterials(G, ctx, [0,0,0,1])) {
+        self.exhausted = false;
+      }
+    },
+    onFight(G, ctx, self) {
+      self.onMine(G, ctx, self);
+    },
+    reinforce: 2,
+    reinforce_desc: "+3/+1 <+1>",
+    onReinforce(G, ctx, self) {
+      self.atk += 3;
+      self.hp += 1;
+      self.mine += 1;
+    }
+  },
+  {
+    name:"崖心",
+    cost:3,
+    atk:3,
+    hp:4,
+    mine:1,
+    block:1,
+    desc:<span>行动：消耗1个{material_icons[3]}，获得3分</span>,
+    illust:"http://ak.mooncell.wiki/images/a/a7/%E7%AB%8B%E7%BB%98_%E5%B4%96%E5%BF%83_1.png",
+    action(G, ctx, self) {
+      if (payMaterials(G, ctx, [0,0,0,1])) {
+        G.score += 3 + self.power;
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "再获得1分",
+  },
+  {
+    name:"初雪",
+    cost:3,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:0,
+    desc:<span>行动：获得1个{material_icons[3]}，然后每有1组{material_icons.slice(0,3)}，就再获得1个{material_icons[3]}</span>,
+    illust:"http://ak.mooncell.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%88%9D%E9%9B%AA_1.png",
+    action(G, ctx, self) {
+      G.materials[3] += 1 + Math.min(G.materials.slice(0,3));
+    },
+    reinforce: 1,
+    reinforce_desc: "获得2点费用",
+    onReinforce(G, ctx, self) {
+      G.costs += 2;
+    },
+  },
+  {
+    name:"角峰",
+    cost:4,
+    atk:2,
+    hp:5,
+    mine:1,
+    block:2,
+    desc:<span>部署：每有1个{material_icons[3]}，就获得+1/+1</span>,
+    illust:"http://ak.mooncell.wiki/images/6/6c/%E7%AB%8B%E7%BB%98_%E8%A7%92%E5%B3%B0_1.png",
+    onPlay(G, ctx, self) {
+      self.atk += G.materials[3];
+      self.hp += G.materials[3];
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 1;
+      self.hp += 3;
+    },
+    reinforce_desc: "+1/+3",
+  },
+
 
 
 ];

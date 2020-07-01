@@ -1,11 +1,14 @@
 .controller {
-  height: 7%;
+  /* display: flex; */
   margin: 2%;
+  width: 95%;
+  height: 7%;
   overflow: scroll;
 }
 
 .controller-button {
   /* button.controller doesn't work, I need to figure out why */
+  /* flex-shrink: 0; */
   margin: 1%;
   font-size: 110%;
 }

@@ -483,6 +483,7 @@ export class Board extends React.Component {
     this.props.moves.setDeck(deck);
     this.props.moves.addTags(this.state.tags.filter(t => t.selected));
     this.props.moves.onScenarioBegin();
+    this.setState({hand_choices: [false, false, false, false, false]});
     this.change_board("mulligan");
   }
 

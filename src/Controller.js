@@ -18,7 +18,7 @@ export const Controller = (props) => {
           <button onClick={props.actions[action]} className="controller-button" >{process_action(action)}</button>
         )
       )}
-        <button className="controller-button" onClick={props.checkCard} style={{float:"right", display:props.checkCard?"":"none"}}>查看</button>
+      <button className="controller-button" onClick={props.checkCard} style={{float:"right", display:props.checkCard?"":"none"}}>查看</button>
     </div>
   );
 };
