@@ -549,7 +549,7 @@ export var CARDS = [
   
   {
     name:"空", 
-    cost:3, 
+    cost:4, 
     atk:0, 
     hp:3, 
     mine:2, 

@@ -183,10 +183,10 @@ img.illust_detailed {
   border: 0px;
 }
 
-.card-board {
+.check-card {
   height: 55%;
   width: 95%;
-  margin-top: 10%;
+  margin-top: 20%;
 }
 
 .card-detailed {
@@ -202,6 +202,7 @@ img.illust_detailed {
 .card-detailed-row {
   display: flex;
   overflow-x: scroll;
+  position: relative;
   /* TODO: align items to center when there's only one card, items-align does not work, this is essential for combining SCardRow and CardDetailed */
 
   border: solid 2px black;

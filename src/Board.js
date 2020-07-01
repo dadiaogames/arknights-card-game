@@ -1,9 +1,10 @@
 import React from 'react';
-import { Card, CardRow, CardDetailed, SCardRow, TypeFilter } from './Card';
+import { Tabs, TabList, Tab } from 'react-tabs';
+import { Card, CardRow, CheckCard, SCardRow, TypeFilter } from './Card';
 import { Controller, EnterGame } from './Controller';
 import { Panel } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
-import { DeckConstruction } from './DeckConstruction';
+import { DeckConstruction, DeckGeneration } from './DeckConstruction';
 import { TitleScreen } from './TitleScreen';
 import { get_deck_name, generate_deck } from './DeckGenerator';
 import { str2deck } from './Game';
@@ -15,9 +16,9 @@ import { TAGS } from './tags';
 import { RULES } from './rules';
 
 import './Board.css';
+import 'react-tabs/style/react-tabs.css';
 
 var _ = require("lodash");
-
 
 export class Board extends React.Component {
 
@@ -29,6 +30,7 @@ export class Board extends React.Component {
     this.handle_efield_clicked = this.handle_efield_clicked.bind(this);
     this.handle_order_clicked = this.handle_order_clicked.bind(this);
     this.handle_finished_clicked = this.handle_finished_clicked.bind(this);
+    this.handle_mulligan_clicked = this.handle_mulligan_clicked.bind(this);
     this.handle_deck_change = this.handle_deck_change.bind(this);
 
     this.enemy_move = this.enemy_move.bind(this);
@@ -67,6 +69,7 @@ export class Board extends React.Component {
     this.render_deck_board = this.render_deck_board.bind(this);
     this.render_card_board = this.render_card_board.bind(this);
     this.render_preview_board = this.render_preview_board.bind(this);
+    this.render_mulligan_board = this.render_mulligan_board.bind(this);
 
     this.change_board = this.change_board.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
@@ -81,6 +84,7 @@ export class Board extends React.Component {
       efield_selected: -1,
       order_selected: -1,
       finished_selected: -1,
+      hand_choices: [false, false, false, false, false],
 
       branch: {},
       show_field: true,
@@ -89,12 +93,15 @@ export class Board extends React.Component {
       stage: "player",
 
       board: this.render_title_board, 
-      // board: this.render_game_board,
+      // board: this.render_mulligan_board,
       last_board: this.render_title_board,
 
       tags: TAGS,
       risk_level: 0, // this is changed on game begin
+
+      deck_mode: "random",
       deck_name: get_deck_name(),
+      deck_data: "5 黑角\n5 巡林者\n5 12F",
       preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),
 
       checking: {},
@@ -417,9 +424,18 @@ export class Board extends React.Component {
     };
   }
 
+  handle_mulligan_clicked(idx) {
+    return () => {
+      let choices = this.state.hand_choices;
+      choices[idx] = !choices[idx];
+      this.setState({hand_choices: choices});
+    }
+  }
+
   handle_deck_change(event) {
+    let attr = (this.state.deck_mode == "random")? "deck_name" : "deck_data"
     this.setState(
-      {deck_name: event.target.value}
+      {deck_data: event.target.value}
     );
   }
 
@@ -448,6 +464,7 @@ export class Board extends React.Component {
       "deck": this.render_deck_board,
       "card": this.render_card_board,
       "preview": this.render_preview_board,
+      "mulligan": this.render_mulligan_board,
     };
     this.setState({last_board: this.state.board})
     this.setState({board: boards[new_board]});
@@ -462,10 +479,11 @@ export class Board extends React.Component {
   }
 
   enter_game() {
-    this.props.moves.setDeck(generate_deck(this.state.deck_name));
+    let deck = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
+    this.props.moves.setDeck(deck);
     this.props.moves.addTags(this.state.tags.filter(t => t.selected));
     this.props.moves.onScenarioBegin();
-    this.change_board("game");
+    this.change_board("mulligan");
   }
 
   end_game() {
@@ -541,14 +559,36 @@ export class Board extends React.Component {
   }
 
   render_preview_board() {
-    return <div className="board" >
+    return (<div className="board" >
       <SCardRow 
         cards = {this.state.preview_deck.map(this.process_card_details)}
       />
       <button className="preview-button" onClick={this.back}>
         返回
       </button>
-    </div>
+    </div>);
+  }
+
+  render_mulligan_board() {
+    // TODO: reconstruct the mulligan part
+    return (<div className="board" style={{position:"relative"}} >
+      <span style={{position:"absolute", top:"10%", left:"3%"}}>请选择要重调的手牌</span>
+      <SCardRow 
+        cards = {this.props.G.hand.map(this.process_card_details)}
+        handleClick = {this.handle_mulligan_clicked}
+        additionalStyles = {this.state.hand_choices.map(x => ({border: x?"3px solid blue":"2px solid"}))}
+      />
+      <button 
+        className="preview-button" 
+        onClick={() => {
+          this.props.moves.mulligan(this.state.hand_choices);
+          this.change_board("game");
+        }}
+      >
+        完成重调
+      </button>
+    </div>);
+
   }
 
   render_game_board() {
@@ -684,7 +724,7 @@ export class Board extends React.Component {
   render_card_board() {
     return (
       <div className="board" align="center">
-        <CardDetailed 
+        <CheckCard 
           card={this.state.checking} 
           handleClick={()=>this.change_board("game")} 
         />
@@ -724,24 +764,45 @@ export class Board extends React.Component {
           switchScene = {() => {this.change_board("deck")}}
           action = "查看卡组"
         />
-
         
       </div>
     );
   }
 
   render_deck_board() {
+    let deck_generation = (<DeckGeneration
+      value = {this.state.deck_name}
+      handleChange = {this.handle_deck_change}
+      changeName = {() => this.setState({deck_name:get_deck_name()})}    
+      checkDeck = {() => {
+        this.setState({preview_deck: str2deck(generate_deck(this.state.deck_name))});
+        this.check_deck();
+      }}
+      />);
+
+    let deck_construction = (<DeckConstruction 
+      value = {this.state.deck_data}
+      handleChange = {this.handle_deck_change}
+      checkDeck = {() => {
+        this.setState({preview_deck: str2deck(this.state.deck_data)});
+        this.check_deck();
+      }}
+    />)
+
     return (
       <div className="board" >
-        <DeckConstruction
-          value = {this.state.deck_name}
-          handleChange = {this.handle_deck_change}
-          changeName = {() => this.setState({deck_name:get_deck_name()})}    
-          checkDeck = {() => {
-            this.setState({preview_deck: str2deck(generate_deck(this.state.deck_name))});
-            this.check_deck();
-          }}
-          />
+        <Tabs 
+          onSelect={(idx)=>this.setState({deck_mode:["random", "custom"][idx]})}
+          selectedIndex={["random", "custom"].indexOf(this.state.deck_mode)}
+          style={{margin: "2%", height: "8%",}}
+        >
+          <TabList>
+            <Tab>随机卡组</Tab>
+            <Tab>自组卡组</Tab>
+          </TabList>
+        </Tabs>
+
+        {(this.state.deck_mode == "random")? deck_generation : deck_construction}
 
         <EnterGame 
           switchScene = {() => {this.enter_game()}}

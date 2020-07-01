@@ -93,7 +93,7 @@ export const CardRow = (props) => {
 
 // EH: "data" or "card", need to be the same for both card and SCard
 export const SCard = (props) =>  (
-  <div className="card-detailed">
+  <div className="card-detailed" style={props.additionalStyle} onClick={props.handleClick} >
       {Object.keys(props.card).map((variant) => (
         <Data
           variant = {variant}
@@ -105,11 +105,14 @@ export const SCard = (props) =>  (
 
 export const SCardRow = (props) => {
   // EH: is card state really required? can it combine to data? okay, the problem is, all data are shown, and states are style changers
+  // TODO: props.what?props.what:undefined, reconstruct this
   return (
     <div className="card-detailed-row" >
       {props.cards.map((card, idx) => (
         <SCard
-          card={card}
+          card = {card}
+          handleClick = {props.handleClick?props.handleClick(idx):undefined}
+          additionalStyle = {props.additionalStyles?props.additionalStyles[idx]:undefined}
         />
       ))}
     </div>
@@ -136,9 +139,9 @@ export const TypeFilter = (props) => (
 );
 
 // TODO: Combine this with SCardRow
-export const CardDetailed = (props) => {
+export const CheckCard = (props) => {
   return (
-    <div className="card-board" align="center">
+    <div className="check-card" align="center">
       <SCard card={props.card} />
       <button className="card-detailed-button" onClick={props.handleClick}>完成查看</button>
     </div>

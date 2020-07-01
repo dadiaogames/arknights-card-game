@@ -139,6 +139,18 @@ export function draw(G, ctx) {
   } //TODO: else, lose the game
 }
 
+export function mulligan(G, ctx, choices) {
+  let discarded = G.hand.filter((x, idx) => choices[idx]);
+  G.hand = G.hand.filter((x, idx) => !choices[idx]);
+  if (G.hand.length < 5) {
+    let num_draw = 5 - G.hand.length; // What a tricky feature of js
+    for (let i = 0; i < num_draw; i++) {
+      draw(G, ctx);
+    }
+    G.deck = ctx.random.Shuffle([...G.deck, ...discarded]);
+  }
+}
+
 function play(G, ctx, idx) {
   let card = G.hand[idx]; //No need to verify at this stage
 
@@ -458,6 +470,7 @@ export const AC = {
     setDeck,
     addTags,
     onScenarioBegin,
+    mulligan,
     draw,
     play,
     mine,

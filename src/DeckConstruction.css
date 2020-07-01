@@ -1,8 +1,20 @@
 .deck-construction {
+  height: 70%;
+  width: 80%;
+  margin: 5%;
+  margin-top: 5%;
+  overflow: scroll;
+}
+
+.deck-generation {
   height: 50%;
   width: 80%;
   margin: 5%;
-  margin-top: 40%;
+  margin-top: 30%;
+}
+
+.deck-construction-textarea {
+
 }
 
 .input-deck-name {
