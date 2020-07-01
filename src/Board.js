@@ -520,7 +520,7 @@ export class Board extends React.Component {
         else {
           grade = "SSS";
         }
-        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_name}`);
+        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:"自组卡组"}`);
       }
 
       else {
