@@ -812,7 +812,7 @@ export var CARDS = [
     desc:<span>行动：获得1个{material_icons[3]}，然后每有1组{material_icons.slice(0,3)}，就再获得1个{material_icons[3]}</span>,
     illust:"http://ak.mooncell.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%88%9D%E9%9B%AA_1.png",
     action(G, ctx, self) {
-      G.materials[3] += 1 + Math.min(G.materials.slice(0,3));
+      G.materials[3] += 1 + G.materials.slice(0,3).sort()[0];
     },
     reinforce: 1,
     reinforce_desc: "获得2点费用",
