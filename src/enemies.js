@@ -87,11 +87,11 @@ export var ENEMIES = [
     atk: 1,
     hp: 3,
     illust: "http://ak.mooncell.wiki/images/6/68/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%AB%98%E8%83%BD%E6%BA%90%E7%9F%B3%E8%99%AB.png",
-    desc: "亡语：对一个随机干员造成{攻击力+3}点伤害",
+    desc: "亡语：对一个随机干员造成{攻击力+2}点伤害",
     onOut(G, ctx, self) {
       if (G.field.length > 0) {
         let idx = ctx.random.Die(G.field.length) - 1;
-        deal_damage(G, ctx, "field", idx, self.atk+3);
+        deal_damage(G, ctx, "field", idx, self.atk+2);
       }
     }
     

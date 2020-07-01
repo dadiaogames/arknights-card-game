@@ -16,6 +16,9 @@ import { RULES } from './rules';
 
 import './Board.css';
 
+var _ = require("lodash");
+
+
 export class Board extends React.Component {
 
   constructor(props){
@@ -53,6 +56,7 @@ export class Board extends React.Component {
     this.use_mine = this.use_mine.bind(this);
     this.use_fight = this.use_fight.bind(this);
     this.use_act = this.use_act.bind(this);
+    this.reinforce_card = this.reinforce_card.bind(this);
     this.finish_order = this.finish_order.bind(this);
     this.use_order = this.use_order.bind(this);
 
@@ -91,7 +95,7 @@ export class Board extends React.Component {
       tags: TAGS,
       risk_level: 0, // this is changed on game begin
       deck_name: get_deck_name(),
-      preview_deck: CARDS,
+      preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),
 
       checking: {},
 
@@ -167,6 +171,12 @@ export class Board extends React.Component {
     return {};
   }
 
+  reinforce_card() {
+    this.props.moves.reinforce(this.state.field_selected);
+    this.setState({field_selected: -1});
+    return {};
+  }
+
   finish_order() {
     this.props.moves.finishOrder(this.state.order_selected);
     this.setState({order_selected: -1});
@@ -203,6 +213,9 @@ export class Board extends React.Component {
     };
     if (card.block > 0) {
       data.block = (<span>{ICONS.block}{card.block}</span>);
+    }
+    if (card.power > 0) {
+      data.power = `↑${card.power}`;
     }
     return data;
   }
@@ -286,6 +299,10 @@ export class Board extends React.Component {
           </span>
           <br/>
           {card.desc||""}
+          <br/>
+          ({_.times(card.reinforce, ()=>material_icons[card.material])}: {card.reinforce_desc||""})
+          <br />
+          <i>{card.quote||""}</i>
         </span>
       ), // TODO: figure out why only string formatting does not work, I think it maybe because of JSX only accept string in html way instead of js way
     }
@@ -352,13 +369,13 @@ export class Board extends React.Component {
       this.log_select()("选定 "+card.name);
 
       let new_branch = Object.assign({}, this.branches.field);
-      console.log(Object.keys(new_branch));
       // Add action
       if (this.props.G.field[idx].action) {
         new_branch["行动"] = this.use_act;
       }
       console.log(Object.keys(new_branch));
-      // TODO: add reinforce
+      // Add reinforce
+      new_branch["强化"+card.material] = this.reinforce_card;
 
       this.setState({branch: map_object(this.wrap_controller_action, new_branch)});
     };

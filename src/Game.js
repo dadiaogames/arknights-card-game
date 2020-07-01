@@ -126,6 +126,13 @@ export function addTags(G, ctx, tags) {
   }
 }
 
+export function init_card_state(G, ctx, card) {
+  card.dmg = 0;
+  card.power = 0;
+  card.exhausted = G.exhausted_enter;
+  return card;
+}
+
 export function draw(G, ctx) {
   if (G.deck.length > 0) {
     G.hand.unshift(G.deck.pop());
@@ -137,8 +144,7 @@ function play(G, ctx, idx) {
 
   if (payCost(G, ctx, card.cost)) {
     move(G, ctx, "hand", "field", idx);
-    card.dmg = 0;
-    card.exhausted = G.exhausted_enter;
+    init_card_state(G, ctx, card);
     logMsg(G, ctx, `部署 ${card.name}`);
     //TODO: if this is a spell instead of creature
     //TODO: onPlay
@@ -258,6 +264,19 @@ function act(G, ctx, idx) {
   }
 }
 
+function reinforce(G, ctx, idx) {
+  let card = G.field[idx];
+  let requirements = [0,0,0,0];
+  requirements[card.material] = card.reinforce;
+
+  if (payMaterials(G, ctx, requirements)) {
+    card.power += 1;
+    if (card.onReinforce) {
+      card.onReinforce(G, ctx, card);
+    }
+  }
+}
+
 export function exhaust_random_enemy(G, ctx) {
   let unexhausted = G.efield.filter(x => (!x.exhausted));
   if (unexhausted.length > 0) {
@@ -266,7 +285,7 @@ export function exhaust_random_enemy(G, ctx) {
 }
 
 export function ready_random_card(G, ctx, self) {
-  let exhausted_cards = G.field.filter(x => (x.exhausted && (x.name != self.name)));
+  let exhausted_cards = G.field.filter(x => (x.exhausted && (![self.name, "雷蛇", "白面鸮"].includes(x.name))));
   if (exhausted_cards.length > 0) {
     ctx.random.Shuffle(exhausted_cards)[0].exhausted = false;
   }
@@ -361,13 +380,17 @@ export function str2deck(deck_data) {
   let deck = [];
 
   let cards = deck_data.split("\n");
-  for (let card of cards) {
+  for (let i=0; i<cards.length; i++) {
+    let card = cards[i];
     let card_data = card.split(" ");
     if (card_data.length >= 2) {
       let amount = parseInt(card_data[0]) || 0; // If it's NaN, then assign it 0
       let target_card = card_dict[card_data[1]];
+
       if (target_card) {
-        for (let i=0; i<amount; i++) {
+        //init card state here
+        target_card.material = i % 3;
+        for (let j=0; j<amount; j++) {
             deck.push(Object.assign({}, target_card));
         }
       }
@@ -439,6 +462,7 @@ export const AC = {
     play,
     mine,
     act,
+    reinforce,
     setValue,
     drawOrder,
     finishOrder,

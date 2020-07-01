@@ -1,6 +1,7 @@
 .controller {
   height: 7%;
   margin: 2%;
+  overflow: scroll;
 }
 
 .controller-button {

@@ -1,13 +1,21 @@
 import React from 'react';
 import './Controller.css';
+import { material_icons } from './orders';
 
-//TODO: reconstruct the controller
+function process_action(action) {
+  if (action.includes("强化")) {
+    return (<span>强化{material_icons[parseInt(action[2])]}</span>);
+  }
+
+  return action;
+}
+
 export const Controller = (props) => {
   return (
     <div className="controller" >
       {Object.keys(props.actions).map(
         (action) => (
-          <button onClick={props.actions[action]} className="controller-button" >{action}</button>
+          <button onClick={props.actions[action]} className="controller-button" >{process_action(action)}</button>
         )
       )}
         <button className="controller-button" onClick={props.checkCard} style={{float:"right", display:props.checkCard?"":"none"}}>查看</button>

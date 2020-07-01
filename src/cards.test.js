@@ -1,4 +1,4 @@
-import { setup } from './Game';
+import { setup, init_card_state } from './Game';
 import { CARDS } from './cards';
 import { ENEMIES } from './enemies';
 
@@ -14,7 +14,7 @@ it('cards run normally', () => {
   for (let card of [].concat(CARDS, ENEMIES)) {
     G.deck = CARDS.map(x => x);
     G.hand = CARDS.map(x => x);
-    G.field = CARDS.map(x => x);
+    G.field = CARDS.map(x => init_card_state(G, ctx, x));
     G.efield = ENEMIES.map(x => x);
     if (card.onPlay) {
       card.onPlay(G, ctx, card);
@@ -36,6 +36,9 @@ it('cards run normally', () => {
     }
     if (card.onUnrest) {
       card.onUnrest(G, ctx, card);
+    }
+    if (card.onReinforce) {
+      card.onReinforce(G, ctx, card);
     }
   }
 
