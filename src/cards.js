@@ -894,11 +894,11 @@ export var CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "行动：强化1张手牌",
+    desc: "行动：强化2张手牌",
     illust:"http://ak.mooncell.wiki/images/1/19/%E7%AB%8B%E7%BB%98_%E7%9C%9F%E7%90%86_1.png",
     reinforce: 1,
     action(G, ctx, self) {
-      for (let i=0; i<self.power+1; i++){
+      for (let i=0; i<self.power+2; i++){
         reinforce_hand(G, ctx);
       }
     },
