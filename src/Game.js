@@ -265,7 +265,7 @@ export function switchEnemy(G, ctx) {
 }
 
 export function enemy2hand(G, ctx) {
-  let enemy = Object.assign({}, G.edeck[0]);
+  let enemy = Object.assign({}, ctx.random.Shuffle(G.edeck)[0]);
   enemy = {
     ...enemy,
     cost: 1,
