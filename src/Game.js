@@ -24,10 +24,9 @@ export function payCost(G, ctx, cost) {
 }
 
 export function gainMaterials(G, ctx, count) {
-  let cnt = count || 1;
   let gained = [];
 
-  for (let i=0; i<cnt; i++) {
+  for (let i=0; i<count; i++) {
     let material = ctx.random.Die(3)-1;
     G.materials[material] += 1; //TODO: add this to log
     gained.push(material);

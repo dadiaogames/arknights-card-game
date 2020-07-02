@@ -52,7 +52,7 @@ const solve = `空 0 2
 香草 2 3
 陈 1 3
 炎熔 2 3
-芬 0 2
+芬 1 3
 推进之王 1 2
 阿消 0 2
 白面鸮 0 2
@@ -77,7 +77,8 @@ const penguin =  `德克萨斯 2 3
 天火 0 2
 伊桑 0 2
 拉普兰德 1 2
-极境 1 2`;
+极境 1 2
+芬 1 2`;
 
 const highcost = `风笛 3 4
 红豆 0 2
@@ -115,7 +116,8 @@ const rhine = `赫默 2 3
 伊桑 0 1
 史都华德 0 2
 拉普兰德 0 2
-极境 1 2`;
+极境 1 2
+芬 1 2`;
 
 const eyja = `艾雅法拉 1 2
 阿米娅 2 3
@@ -127,7 +129,7 @@ const eyja = `艾雅法拉 1 2
 可颂 0 1
 蓝毒 0 2
 陈 0 2
-芬 0 2
+芬 1 2
 梓兰 0 1
 凛冬 1 3
 真理 1 2
@@ -161,7 +163,7 @@ const karlan = `银灰 1 3
 杰西卡 0 2
 讯使 2 3
 桃金娘 1 2
-芬 0 2
+芬 1 2
 梓兰 1 2
 凛冬 0 2
 伊桑 0 2
@@ -190,6 +192,7 @@ const ursus = `凛冬 2 3
 调香师 0 1
 梅尔 0 2
 猎蜂 0 1
+芬 1 2
 极境 1 2`;
 
 const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus];
