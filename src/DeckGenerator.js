@@ -143,7 +143,7 @@ const karlan = `银灰 1 3
 const ursus = `凛冬 2 3
 真理 3 4
 古米 1 3
-早露 1 3
+早露 2 3
 阿米娅 0 2
 杰西卡 0 2
 蓝毒 0 2
@@ -158,7 +158,7 @@ const ursus = `凛冬 2 3
 白面鸮 0 2
 银灰 0 2`;
 
-const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan];
+const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus];
 
 
 function get_random_card(rng) {
