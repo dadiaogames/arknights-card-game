@@ -233,11 +233,11 @@ export function drawEnemy(G, ctx) {
     enemy.dmg = 0;
     enemy.enraged = enemy.enraged || false;
     logMsg(G, ctx, `${enemy.name} 入场`);
-    if (enemy.onPlay) {
-      enemy.onPlay(G, ctx, enemy);
-    }
     if (enemy.is_elite) {
       switchEnemy(G, ctx);
+    }
+    if (enemy.onPlay) {
+      enemy.onPlay(G, ctx, enemy);
     }
   }
 }
@@ -341,12 +341,24 @@ export function ready_random_card(G, ctx, self) {
 
 export function cure(G, ctx, amount) {
   // EH: find a "sorted" function instead of this way
-  let ranked_field_by_dmg = G.field.map(x=>x).sort(x => -x.dmg);
+  let ranked_field_by_dmg = G.field.filter(x=>(x.block>0)).sort((x,y) => {
+    if (x.dmg > y.dmg) {
+      return -1;
+    }
+    else if (x.dmg < y.dmg) {
+      return 1;
+    }
+    else {
+      return x.hp-y.hp;
+    }
+  });
   let card = ranked_field_by_dmg[0];
-  card.dmg -= amount;
-  if (card.dmg < 0) {
-    card.hp -= card.dmg;
-    card.dmg = 0;
+  if (card) {
+    card.dmg -= amount;
+    if (card.dmg < 0) {
+      card.hp -= card.dmg;
+      card.dmg = 0;
+    }
   }
 }
 
