@@ -96,5 +96,14 @@ export var ENEMIES = [
     }
     
   },
+  
+  {
+    name: "双持剑士",
+    atk: 3,
+    hp: 2,
+    illust: "http://ak.mooncell.wiki/images/d/d8/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%8F%8C%E6%8C%81%E5%89%91%E5%A3%AB%E7%BB%84%E9%95%BF.png",
+    desc: "无法被横置",
+    unyielding: true,
+  }
 
 ];

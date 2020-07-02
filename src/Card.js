@@ -9,6 +9,7 @@ export const Card = (props) => {
     e_illust: {},
     o_illust: {},
     hp: {},
+    atk: {},
   };
 
   if (props.cardState.exhausted) {
@@ -36,7 +37,10 @@ export const Card = (props) => {
   if (props.cardState.damaged) { 
     additional_styles.hp.color = "red";
     //EH: only font change color and border does not change, are there parameters like that? I've searched through the parameters and did not find such one.
-  }
+  };
+  if (props.cardState.enraged) {
+    additional_styles.atk.color = "purple";
+  };
 
   return (
     <div

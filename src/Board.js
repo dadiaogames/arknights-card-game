@@ -61,6 +61,7 @@ export class Board extends React.Component {
     this.reinforce_card = this.reinforce_card.bind(this);
     this.finish_order = this.finish_order.bind(this);
     this.use_order = this.use_order.bind(this);
+    this.harvest_orders = this.harvest_orders.bind(this);
 
     this.render_title_board = this.render_title_board.bind(this);
     this.render_rules_board = this.render_rules_board.bind(this);
@@ -125,6 +126,7 @@ export class Board extends React.Component {
       },
       finished: {
         行动: this.use_order,
+        一键收货: this.harvest_orders,
       },
     };
 
@@ -195,14 +197,24 @@ export class Board extends React.Component {
     this.setState({finished_selected: -1});
     return {};
   }
+
+  harvest_orders() {
+    this.props.moves.harvest();
+    this.setState({finished_selected: -1});
+    return {};
+  }
   
   process_hand_data(card) {
-    return {
+    let data = {
       illust: card.illust,
       atk: card.atk,
       hp: card.hp,
       cost: card.cost,
     };
+    if (card.power > 0) {
+      data.power = "↑"+card.power;
+    }
+    return data;
   }
 
   process_hand_state(card) {
@@ -249,6 +261,7 @@ export class Board extends React.Component {
       selected: (this.state.efield_selected == this.props.G.efield.indexOf(card)),
       exhausted: card.exhausted, 
       damaged: (card.dmg > 0),
+      enraged: card.enraged,
     }
   }
 

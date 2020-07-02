@@ -35,6 +35,31 @@ const tag_list = [
       }
     }
   },
+
+  {
+    src: "http://ak.mooncell.wiki/images/6/6d/Enemy_eagent_1.png",
+    desc: "敌人无法被横置",
+    level: 2,
+    effect(G, ctx){
+      for (let enemy of G.edeck) {
+        enemy.unyielding = true;
+      }
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/3/3f/Char_blockminus_2.png",
+    desc: "所有干员阻挡数-1",
+    level: 2,
+    effect(G, ctx){
+      for (let card of G.deck) {
+        if (card.block > 0) {
+          card.block -= 1;
+        }
+      }
+    }
+  },
+
   {
     src: "http://ak.mooncell.wiki/images/f/f7/Enemy_movespeed_1.png",
     desc: "干员以横置状态入场",
@@ -57,15 +82,6 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
-    desc: "胜利所需分数+5",
-    level: 3,
-    effect(G, ctx){
-      G.goal += 5;
-    }
-  },
-
-  {
     src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
     desc: "所有订单的分数-1",
     level: 3,
@@ -73,6 +89,15 @@ const tag_list = [
       for (let order of G.odeck) {
         order.score -= 1;
       }
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
+    desc: "胜利所需分数+5",
+    level: 3,
+    effect(G, ctx){
+      G.goal += 5;
     }
   },
 

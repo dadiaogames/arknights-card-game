@@ -128,7 +128,7 @@ export function addTags(G, ctx, tags) {
 
 export function init_card_state(G, ctx, card) {
   card.dmg = 0;
-  card.power = 0;
+  card.power = card.power || 0;
   card.exhausted = G.exhausted_enter;
   return card;
 }
@@ -185,11 +185,16 @@ function setValue(G, ctx, attr, val) {
 function drawOrder(G, ctx) {
   if (G.odeck.length > 0) {
     move(G, ctx, "odeck", "orders");
+    sort_orders(G);
   }
 }
 
+function sort_orders(G) {
+  G.orders = G.orders.sort((x,y)=>(x.requirements.indexOf(3)-y.requirements.indexOf(3)));
+}
+
 function sort_finished(G) {
-  G.finished.sort(x=>ORDERS.map(o=>o.effect).indexOf(x.effect));
+  G.finished = G.finished.sort((x,y)=>(x.order_id-y.order_id));
 }
 
 function finishOrder(G, ctx, idx) {
@@ -212,11 +217,21 @@ function useOrder(G, ctx, idx) {
   }
 }
 
+function harvest(G, ctx) {
+  let harvest_orders = G.finished.filter(x => x.harvest);
+  for (let order of harvest_orders) {
+    if (use(G, ctx, order)) {
+      order.effect(G, ctx);
+    }
+  }
+}
+
 export function drawEnemy(G, ctx) {
   if (G.edeck.length > 0) {
     let enemy = move(G, ctx, "edeck", "efield");
     enemy.exhausted = true;
     enemy.dmg = 0;
+    enemy.enraged = false;
     logMsg(G, ctx, `${enemy.name} 入场`);
     if (enemy.onPlay) {
       enemy.onPlay(G, ctx, enemy);
@@ -276,21 +291,34 @@ function act(G, ctx, idx) {
   }
 }
 
-function reinforce(G, ctx, idx) {
+export function reinforce_card(G, ctx, card) {
+  card.power = card.power || 0;
+  card.power += 1;
+  if (card.onReinforce) {
+    card.onReinforce(G, ctx, card);
+  }
+}
+
+export function reinforce(G, ctx, idx) {
   let card = G.field[idx];
   let requirements = [0,0,0,0];
   requirements[card.material] = card.reinforce;
 
   if (payMaterials(G, ctx, requirements)) {
-    card.power += 1;
-    if (card.onReinforce) {
-      card.onReinforce(G, ctx, card);
-    }
+    reinforce_card(G, ctx, card);
+  }
+}
+
+export function reinforce_hand(G, ctx) {
+  let card = ctx.random.Shuffle(G.hand)[0];
+
+  if (card) {
+    reinforce_card(G, ctx, card);
   }
 }
 
 export function exhaust_random_enemy(G, ctx) {
-  let unexhausted = G.efield.filter(x => (!x.exhausted));
+  let unexhausted = G.efield.filter(x => (!(x.exhausted||x.unyielding)));
   if (unexhausted.length > 0) {
     ctx.random.Shuffle(unexhausted)[0].exhausted = true;
   }
@@ -332,6 +360,10 @@ function enemyMove(G, ctx, idx) {
   if (use(G, ctx, enemy)) {
     if (enemy.action) {
       enemy.action(G, ctx, enemy);
+    }
+
+    else if (enemy.enraged) {
+      deal_damage(G, ctx, "field", ctx.random.Die(G.field.length)-1, enemy.atk);
     }
 
     else {
@@ -379,7 +411,7 @@ function onScenarioBegin(G, ctx) {
     drawEnemy(G, ctx);
   }
 
-  for (let i=0; i<3; i++){
+  for (let i=0; i<4; i++){
     drawOrder(G, ctx);
   }
   console.log("Setup finished");
@@ -433,7 +465,7 @@ export function setup(ctx) {
     G.deck = [];
     let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
     G.edeck = ctx.random.Shuffle(get_enemies().concat(get_enemies()));
-    G.odeck = ctx.random.Shuffle(ORDERS.map(x=>Object.assign({},x)));
+    G.odeck = ctx.random.Shuffle(ORDERS.map((x,idx)=>({...x, order_id:idx})));
     
     G.efield = [];
     G.discard = [];
@@ -480,6 +512,7 @@ export const AC = {
     drawOrder,
     finishOrder,
     useOrder,
+    harvest,
     drawEnemy,
     fight,
     enemyInit,
@@ -509,6 +542,9 @@ export const AC = {
           for (let i=G.field.length-1; i>=0; i--) {
             deal_damage(G, ctx, "field", i, 1);
           }
+        }
+        if (G.danger < 0) {
+          G.danger = 0;
         }
       }
     },

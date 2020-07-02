@@ -13,6 +13,42 @@ export const ORDERS = [
     requirements: [3,0,0,0],
     score: 2,
     reward: 1,
+    desc: (<span>{material_icons[2]} → 2分</span>),
+    effect(G, ctx) {
+      if (payMaterials(G, ctx, [0,0,1,0])) {
+        G.score += 2;
+      }
+    },
+  },
+  {
+    requirements: [0,3,0,0],
+    score: 2,
+    reward: 2,
+    desc: (<span>{material_icons[0]} → 2分</span>),
+    effect(G, ctx) {
+      if (payMaterials(G, ctx, [1,0,0,0])) {
+        G.score += 2;
+      }
+    },
+
+  },
+  {
+    requirements: [0,0,3,0],
+    score: 2,
+    reward: 0,
+    desc: (<span>{material_icons[1]} → 2分</span>),
+    effect(G, ctx) {
+      if (payMaterials(G, ctx, [0,1,0,0])) {
+        G.score += 2;
+      }
+    },
+  },
+  
+
+  {
+    requirements: [3,0,0,0],
+    score: 2,
+    reward: 1,
     desc: (<span>{material_icons[2]} → ? + ?</span>),
     effect(G, ctx) {
       if (payMaterials(G, ctx, [0,0,1,0])) {
@@ -82,46 +118,12 @@ export const ORDERS = [
     },
   },
 
-  {
-    requirements: [3,0,0,0],
-    score: 2,
-    reward: 1,
-    desc: (<span>{material_icons[2]} → 2分</span>),
-    effect(G, ctx) {
-      if (payMaterials(G, ctx, [0,0,1,0])) {
-        G.score += 2;
-      }
-    },
-  },
-  {
-    requirements: [0,3,0,0],
-    score: 2,
-    reward: 2,
-    desc: (<span>{material_icons[0]} → 2分</span>),
-    effect(G, ctx) {
-      if (payMaterials(G, ctx, [1,0,0,0])) {
-        G.score += 2;
-      }
-    },
-
-  },
-  {
-    requirements: [0,0,3,0],
-    score: 2,
-    reward: 0,
-    desc: (<span>{material_icons[1]} → 2分</span>),
-    effect(G, ctx) {
-      if (payMaterials(G, ctx, [0,1,0,0])) {
-        G.score += 2;
-      }
-    },
-  },
-  
-  {
+    {
     requirements: [3,0,0,0],
     score: 2,
     reward: 2,
     desc: (<span>获得: {material_icons[1]}</span>),
+    harvest: true,
     effect(G, ctx) {
       G.materials[1] += 1;
     },
@@ -132,6 +134,7 @@ export const ORDERS = [
     score: 2,
     reward: 0,
     desc: (<span>获得: {material_icons[2]}</span>),
+    harvest: true,
     effect(G, ctx) {
       G.materials[2] += 1;
     },
@@ -142,6 +145,7 @@ export const ORDERS = [
     score: 2,
     reward: 1,
     desc: (<span>获得: {material_icons[0]}</span>),
+    harvest: true,
     effect(G, ctx) {
       G.materials[0] += 1;
     },

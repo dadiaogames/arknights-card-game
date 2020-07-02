@@ -2,7 +2,8 @@ import React from 'react';
 import { 
   deal_damage, draw, deal_random_damage, gainMaterials,
   move, exhaust_random_enemy, ready_random_card, cure, 
-  payCost, get_rhine_order, init_card_state, payMaterials
+  payCost, get_rhine_order, init_card_state, payMaterials,
+  reinforce_hand, reinforce_card
 } from './Game';
 import { material_icons } from './orders';
 
@@ -91,7 +92,7 @@ export var CARDS = [
     cost: 2,
     atk: 2,
     hp: 2,
-    mine: 2,
+    mine: 3,
     block: 0,
     illust: "http://ak.mooncell.wiki/images/4/44/%E7%AB%8B%E7%BB%98_%E5%8F%B2%E9%83%BD%E5%8D%8E%E5%BE%B7_1.png",
     reinforce: 1,
@@ -295,7 +296,7 @@ export var CARDS = [
   
   {
     name:"推进之王", 
-    cost:5, 
+    cost:4, 
     atk:3, 
     hp:3, 
     mine:1, 
@@ -311,7 +312,7 @@ export var CARDS = [
     onReinforce(G, ctx, self) {
       self.onPlay(G, ctx);
     },
-    reinforce_desc: "再触发一次”部署:“效果",
+    reinforce_desc: "触发一次”部署:“效果",
   },
 
   {
@@ -354,7 +355,7 @@ export var CARDS = [
       }
     },
     reinforce: 1,
-    reinforce_desc: "再造成1点",
+    reinforce_desc: "伤害+1",
   },
   
   {
@@ -403,17 +404,17 @@ export var CARDS = [
     hp:4, 
     mine:2, 
     block:1, 
-    desc:"部署：对两名敌人造成3点伤害", 
+    desc:"部署：对两名敌人造成4点伤害", 
     illust:"http://ak.mooncell.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E9%99%88_1.png",
     onPlay(G, ctx, self) {
-      deal_random_damage(G, ctx, 3);
-      deal_random_damage(G, ctx, 3);
+      deal_random_damage(G, ctx, 4);
+      deal_random_damage(G, ctx, 4);
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
       self.onPlay(G, ctx);
     },
-    reinforce_desc: "再触发一次”部署:“效果",
+    reinforce_desc: "触发一次”部署:“效果",
   },
   
   {
@@ -537,13 +538,10 @@ export var CARDS = [
     desc:"行动：使一名干员获得+6生命值", 
     illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
     action(G, ctx, self) {
-      cure(G, ctx, 6);
+      cure(G, ctx, 6 + 5 * self.power);
     },
     reinforce: 2,
-    onReinforce(G, ctx, self) {
-      self.mine += 3;
-    },
-    reinforce_desc: "<+3>",
+    reinforce_desc: "再获得+5生命值",
   },
   
   {
@@ -563,7 +561,7 @@ export var CARDS = [
       }
     },
     reinforce: 2,
-    reinforce_desc: "再横置1个(限强化1次)",
+    reinforce_desc: "再横置1个，限强化1次",
   },
   
   {
@@ -590,7 +588,7 @@ export var CARDS = [
     atk:2,
     hp:2,
     mine:1,
-    block:0,
+    block:1,
     desc:"部署：获得2个“莱茵生命订单”",
     illust:"http://ak.mooncell.wiki/images/7/7f/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E9%BB%98_1.png",
     onPlay(G, ctx, self) {
@@ -611,7 +609,7 @@ export var CARDS = [
     hp:3,
     mine:3,
     block:0,
-    desc:"行动：获得1个“莱茵生命订单”，重置1个干员",
+    desc:"行动：重置1个干员，获得1个“莱茵生命订单”",
     illust:"http://ak.mooncell.wiki/images/a/ac/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9D%A2%E9%B8%AE_1.png",
     action(G, ctx, self) {
       get_rhine_order(G, ctx);
@@ -621,7 +619,7 @@ export var CARDS = [
       }
     },
     reinforce: 2,
-    reinforce_desc: "再重置1个(限强化1次)",
+    reinforce_desc: "再重置1个干员，限强化1次",
   },
 
   {
@@ -664,10 +662,10 @@ export var CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 1;
+      self.atk += 4;
+      self.hp += 2;
     },
-    reinforce_desc: "+3/+1",
+    reinforce_desc: "+4/+2",
   },
   
   {
@@ -711,7 +709,10 @@ export var CARDS = [
       }
     },
     reinforce: 2,
-    reinforce_desc: "再触发1次(限强化1次)",
+    onReinforce(G, ctx, self) {
+      self.onMine(G, ctx, self);
+    },
+    reinforce_desc: "触发一次自己的“采掘:”效果",
   },
   
   {
@@ -747,14 +748,14 @@ export var CARDS = [
     desc:"采掘：每有1个横置的敌人，就额外获得1个随机材料",
     illust:"http://ak.mooncell.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
     onMine(G, ctx, self) {
-      for (let i=0; i<self.power; i++) {
+      if (self.power > 0) {
         exhaust_random_enemy(G, ctx);
       }
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
       gainMaterials(G, ctx, num_exhausted);
     },
     reinforce: 2,
-    reinforce_desc: "获得”采掘:横置1个敌人“",
+    reinforce_desc: "获得”采掘:横置1个敌人“，限强化1次",
   },
 
   {
@@ -838,7 +839,117 @@ export var CARDS = [
     reinforce_desc: "+1/+3",
   },
 
+  {
+    name:"梓兰",
+    cost:3,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: "部署/采掘/战斗：化解1点动乱值",
+    illust:"http://ak.mooncell.wiki/images/b/bb/%E7%AB%8B%E7%BB%98_%E6%A2%93%E5%85%B0_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      G.danger -= 1;
+    },
+    onFight(G, ctx, self) {
+      G.danger -= 1;
+    },
+    onPlay(G, ctx, self) {
+      G.danger -= 1;
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 3;
+      self.hp += 1;
+    },
+    reinforce_desc: "+3/+1",
+  },
 
+  {
+    name:"凛冬",
+    cost:3,
+    atk:2,
+    hp:3,
+    mine:1,
+    block:1,
+    desc: "采掘/战斗：强化1张手牌",
+    illust:"http://ak.mooncell.wiki/images/6/6e/%E7%AB%8B%E7%BB%98_%E5%87%9B%E5%86%AC_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      reinforce_hand(G, ctx);
+    },
+    onFight(G, ctx, self) {
+      reinforce_hand(G, ctx);
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 3;
+      self.hp += 3;
+    },
+    reinforce_desc: "+3/+3",
+  },
+  {
+    name:"真理",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:1,
+    block:0,
+    desc: "行动：强化1张手牌",
+    illust:"http://ak.mooncell.wiki/images/1/19/%E7%AB%8B%E7%BB%98_%E7%9C%9F%E7%90%86_1.png",
+    reinforce: 1,
+    action(G, ctx, self) {
+      for (let i=0; i<self.power+1; i++){
+        reinforce_hand(G, ctx);
+      }
+    },
+    reinforce_desc: "再强化1张",
+  },
+  {
+    name:"古米",
+    cost:4,
+    atk:3,
+    hp:5,
+    mine:1,
+    block:2,
+    desc: "部署：在手牌中每得到过1次强化，就强化场上的1名干员",
+    illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      let power = self.power || 0;
+      for (let i=0; i<power; i++) {
+        let card = ctx.random.Shuffle(G.field)[0];
+        if (card){
+          reinforce_card(G, ctx, card);
+        }
+      }
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 1;
+      self.hp += 2;
+    },
+    reinforce_desc: "+1/+2",
+  },
+  {
+    name:"早露",
+    cost:4,
+    atk:6,
+    hp:3,
+    mine:2,
+    block:0,
+    desc: "部署：在手牌中每得到过1次强化，就对一名敌人造成3点伤害",
+    illust:"http://ak.mooncell.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%97%A9%E9%9C%B2_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      let power = self.power || 0;
+      for (let i=0; i<power; i++) {
+        deal_random_damage(G, ctx, 3);
+      }
+    },
+    onReinforce(G, ctx, self) {
+      deal_random_damage(G, ctx, 3);
+    },
+    reinforce_desc: "对一名敌人造成3点伤害",
+  },
 
 ];
 
