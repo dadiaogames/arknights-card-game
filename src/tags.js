@@ -35,14 +35,16 @@ const tag_list = [
       }
     }
   },
-
   {
-    src: "http://ak.mooncell.wiki/images/6/6d/Enemy_eagent_1.png",
-    desc: "敌人无法被横置",
-    level: 2,
-    effect(G, ctx){
-      for (let enemy of G.edeck) {
-        enemy.unyielding = true;
+    src: "http://ak.mooncell.wiki/images/5/5a/Char_atk_2.png",
+    desc: "所有干员获得-1攻击力",
+    level: 1,
+    effect(G, ctx) {
+      for (let card of G.deck) {
+        card.atk -= 1;
+        if (card.atk < 0) {
+          card.atk = 0;
+        }
       }
     }
   },
@@ -61,14 +63,48 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/f/f7/Enemy_movespeed_1.png",
-    desc: "干员以横置状态入场",
-    level: 3,
-    effect(G, ctx){
-      G.exhausted_enter = true;
+    src: "http://ak.mooncell.wiki/images/7/71/Level_predefines_1.png",
+    desc: "所有干员获得-1采掘力",
+    level: 2,
+    effect(G, ctx) {
+      for (let card of G.deck) {
+        card.mine -= 1;
+      }
     }
   },
 
+  {
+    src: "http://ak.mooncell.wiki/images/6/6d/Enemy_eagent_1.png",
+    desc: "敌人无法被横置",
+    level: 2,
+    effect(G, ctx){
+      for (let enemy of G.edeck) {
+        enemy.unyielding = true;
+      }
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/c/c7/Global_costrecovery_1.png",
+    desc: "强化干员需要消耗1点费用",
+    level: 2,
+    effect(G, ctx) {
+      G.harder_reinforce = true;
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
+    desc: "所有订单的分数-1",
+    level: 3,
+    effect(G, ctx) {
+      for (let order of G.odeck) {
+        order.score -= 1;
+      }
+    }
+  },
+
+  
   {
     src: "http://ak.mooncell.wiki/images/0/03/Enemy_atk_2.png",
     desc: "所有敌人获得+2/+2",
@@ -77,17 +113,6 @@ const tag_list = [
       for (let enemy of G.edeck) {
         enemy.atk += 2;
         enemy.hp += 2;
-      }
-    }
-  },
-
-  {
-    src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
-    desc: "所有订单的分数-1",
-    level: 3,
-    effect(G, ctx){
-      for (let order of G.odeck) {
-        order.score -= 1;
       }
     }
   },
@@ -109,6 +134,18 @@ const tag_list = [
       G.fog = true;
     }
   },
+
+  {
+    src: "http://ak.mooncell.wiki/images/c/c1/Char_cdtime_2.png",
+    desc: "干员以横置状态入场",
+    level: 5,
+    effect(G, ctx){
+      G.exhausted_enter = true;
+    }
+  },
+
+
+  
 ];
 
 function process_tags(tag_list) {

@@ -231,7 +231,7 @@ export function drawEnemy(G, ctx) {
     let enemy = move(G, ctx, "edeck", "efield");
     enemy.exhausted = true;
     enemy.dmg = 0;
-    enemy.enraged = false;
+    enemy.enraged = enemy.enraged || false;
     logMsg(G, ctx, `${enemy.name} 入场`);
     if (enemy.onPlay) {
       enemy.onPlay(G, ctx, enemy);
@@ -304,6 +304,13 @@ export function reinforce(G, ctx, idx) {
   let requirements = [0,0,0,0];
   requirements[card.material] = card.reinforce;
 
+  if (G.harder_reinforce) {
+    let paid = payCost(G, ctx, 1);
+    if (!paid) {
+      return;
+    }
+  }
+
   if (payMaterials(G, ctx, requirements)) {
     reinforce_card(G, ctx, card);
   }
@@ -364,6 +371,9 @@ function enemyMove(G, ctx, idx) {
 
     else if (enemy.enraged) {
       deal_damage(G, ctx, "field", ctx.random.Die(G.field.length)-1, enemy.atk);
+      if (enemy.onFight) {
+        enemy.onFight(G, ctx, enemy);
+      }
     }
 
     else {

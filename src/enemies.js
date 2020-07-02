@@ -104,6 +104,36 @@ export var ENEMIES = [
     illust: "http://ak.mooncell.wiki/images/d/d8/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%8F%8C%E6%8C%81%E5%89%91%E5%A3%AB%E7%BB%84%E9%95%BF.png",
     desc: "无法被横置",
     unyielding: true,
-  }
+  },
+
+  {
+    name: "寻仇者",
+    atk: 3,
+    hp: 4,
+    illust: "http://ak.mooncell.wiki/images/d/d0/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%AF%BB%E4%BB%87%E8%80%85.png",
+    desc: "愤怒",
+    enraged: true,
+  },
+
+  {
+      name: "复仇者",
+      atk: 6,
+      hp: 6,
+      illust: "http://ak.mooncell.wiki/images/1/14/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A4%8D%E4%BB%87%E8%80%85.png",
+      desc: "替换，愤怒，入场/战斗：激怒一个敌人",
+      is_elite: true,
+      enraged: true,
+      onPlay(G, ctx) {
+        let enemy = ctx.random.Shuffle(G.efield.filter(e=>(!e.enraged)))[0];
+
+        if (enemy) {
+          enemy.enraged = true;
+        }
+      },
+      onFight(G, ctx, self) {
+        self.onPlay(G, ctx);
+      },
+    
+  },
 
 ];

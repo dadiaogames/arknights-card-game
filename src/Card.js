@@ -39,7 +39,7 @@ export const Card = (props) => {
     //EH: only font change color and border does not change, are there parameters like that? I've searched through the parameters and did not find such one.
   };
   if (props.cardState.enraged) {
-    additional_styles.atk.color = "purple";
+    additional_styles.atk.color = "orange";
   };
 
   return (

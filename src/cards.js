@@ -519,13 +519,13 @@ export var CARDS = [
     hp:2, 
     mine:1, 
     block:0, 
-    desc:"行动：使一名干员获得+4生命值", 
+    desc:"行动：使一名干员获得+5生命值", 
     illust:"http://ak.mooncell.wiki/images/b/b9/%E7%AB%8B%E7%BB%98_%E8%8A%99%E8%93%89_1.png",
     action(G, ctx, self) {
-      cure(G, ctx, 4 + 2 * self.power);
+      cure(G, ctx, 5 + 3 * self.power);
     },
     reinforce: 1,
-    reinforce_desc: "再获得+2生命值",
+    reinforce_desc: "再获得+3生命值",
   },
   
   {
@@ -535,13 +535,13 @@ export var CARDS = [
     hp:3, 
     mine:3, 
     block:0, 
-    desc:"行动：使一名干员获得+6生命值", 
+    desc:"行动：使一名干员获得+9生命值", 
     illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
     action(G, ctx, self) {
-      cure(G, ctx, 6 + 5 * self.power);
+      cure(G, ctx, 9 + 6 * self.power);
     },
     reinforce: 2,
-    reinforce_desc: "再获得+5生命值",
+    reinforce_desc: "再获得+6生命值",
   },
   
   {
@@ -970,6 +970,116 @@ export var CARDS = [
       G.danger += 1;
     },
     reinforce_desc: "动乱值+1",
+  },
+
+  {
+    name:"调香师",
+    cost:3,
+    atk:0,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: "行动：使一名地面干员获得+4生命值，重复2次",
+    illust:"http://ak.mooncell.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
+    reinforce: 1,
+    action(G, ctx, self) {
+      let warriors = G.field.filter(x => (x.block > 0));
+
+      if (warriors.length > 0){
+        for (let i=0; i<2; i++) {
+          let warrior = ctx.random.Shuffle(warriors)[0];
+          warrior.hp += 4 + self.power;
+        }
+      }
+    },
+    reinforce_desc: "生命值加成+1",
+  },
+
+  {
+    name:"梅尔",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:1,
+    block:0,
+    desc: "部署：使2个订单的能力改为”→造成5点伤害“",
+    illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
+    reinforce: 1,
+
+    onPlay(G, ctx) {
+      let orders = ctx.random.Shuffle(G.finished);
+      if (orders.length > 2) {
+        orders = orders.slice(0,2);
+      }
+      for (let order of orders) {
+        let material = ctx.random.Die(3) - 1;
+        let requirements = [0,0,0,0];
+        requirements[material] = 1;
+        order.desc = <span>{material_icons[material]}→5伤害</span>;
+        order.effect = (G,ctx) => {
+          if (payMaterials(G, ctx, requirements)) {
+            deal_random_damage(G, ctx, 5);
+          }
+        };
+      }
+    },
+    
+    onReinforce(G, ctx) {
+      deal_random_damage(G, ctx, 3);
+    },
+    reinforce_desc: "造成3点伤害",
+  },
+
+  {
+    name:"猎蜂",
+    cost:1,
+    atk:1,
+    hp:1,
+    mine:1,
+    block:1,
+    desc: "战斗：激怒目标",
+    illust:"http://ak.mooncell.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E7%8C%8E%E8%9C%82_1.png",
+    reinforce: 1,
+
+    onFight(G, ctx, self, enemy) {
+      enemy.enraged = true;
+    },
+
+    onReinforce(G, ctx, self) {
+      self.atk += 3;
+      self.hp += 3;
+    },
+    reinforce_desc: "+3/+3",
+  },
+
+  {
+    name:"拉普兰德",
+    cost:4,
+    atk:1,
+    hp:5,
+    mine:1,
+    block:1,
+    desc: "战斗：将目标变成1/1并失去所有能力",
+    illust:"http://ak.mooncell.wiki/images/7/75/%E7%AB%8B%E7%BB%98_%E6%8B%89%E6%99%AE%E5%85%B0%E5%BE%B7_1.png",
+    reinforce: 1,
+
+    onFight(G, ctx, self, enemy) {
+      let blank_enemy = {
+        name: "源石虫",
+        atk: 1,
+        hp: 1,
+        illust: "http://ak.mooncell.wiki/images/3/3e/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%BA%90%E7%9F%B3%E8%99%AB.png",
+        dmg: 0,
+        exhausted: false,
+      };
+      let idx = G.efield.indexOf(enemy);
+      G.efield[idx] = blank_enemy;
+    },
+
+    onReinforce(G, ctx, self) {
+      self.hp += 4;
+    },
+    reinforce_desc: "+0/+4",
   },
 
 ];

@@ -51,7 +51,7 @@ export const ORDERS = [
     reward: 1,
     desc: (<span>{material_icons[2]} → ? + ?</span>),
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [0,0,1,0])) {
+      if (payMaterials(G, ctx, [0,0,1,0])) { // TODO: reconstruct this, "if pay materials" should not be at here
         gainMaterials(G, ctx, 2);
       }
     },
