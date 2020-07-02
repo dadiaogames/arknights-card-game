@@ -1054,7 +1054,7 @@ export var CARDS = [
 
   {
     name:"拉普兰德",
-    cost:4,
+    cost:5,
     atk:1,
     hp:5,
     mine:1,
