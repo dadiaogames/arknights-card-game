@@ -935,10 +935,10 @@ export var CARDS = [
       }
     },
     onReinforce(G, ctx, self) {
-      self.atk += 1;
+      self.atk += 2;
       self.hp += 2;
     },
-    reinforce_desc: "+1/+2",
+    reinforce_desc: "+2/+2",
   },
   {
     name:"早露",
@@ -1099,7 +1099,7 @@ export var CARDS = [
     atk:2,
     hp:2,
     mine:1,
-    block:0,
+    block:1,
     desc: "部署：获得8点费用",
     illust:"http://ak.mooncell.wiki/images/5/5a/%E7%AB%8B%E7%BB%98_%E6%9E%81%E5%A2%83_1.png",
     reinforce: 1,

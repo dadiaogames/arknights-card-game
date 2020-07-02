@@ -50,7 +50,7 @@ export var ENEMIES = [
     atk: 2,
     hp: 4,
     illust: "http://ak.mooncell.wiki/images/0/02/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%9C%AF%E5%B8%88.png",
-    desc: "行动: 对最后部署的高台位造成等同于自己攻击力的伤害",
+    desc: "行动: 对最后部署的无阻挡能力单位，造成等同于自己攻击力的伤害",
     action(G, ctx, self) {
       let high = G.field.filter(x => (x.block == 0));
       if (high.length > 0) {
