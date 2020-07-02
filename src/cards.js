@@ -951,6 +951,27 @@ export var CARDS = [
     reinforce_desc: "对一名敌人造成3点伤害",
   },
 
+  {
+    name:"伊桑",
+    cost:3,
+    atk:1,
+    hp:1,
+    mine:1,
+    block:0,
+    desc: "部署：变成场上一名干员的复制",
+    illust:"http://ak.mooncell.wiki/images/e/e0/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E6%A1%91_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      if (G.field.length > 0){
+        G.field[G.field.length-1] = Object.assign({}, ctx.random.Shuffle(G.field.slice(0,G.field.length-1))[0]);
+      }
+    },
+    onReinforce(G, ctx, self) {
+      G.danger += 1;
+    },
+    reinforce_desc: "动乱值+1",
+  },
+
 ];
 
 export const default_deck = CARDS.map(x => `1 ${x.name}`).join("\n");

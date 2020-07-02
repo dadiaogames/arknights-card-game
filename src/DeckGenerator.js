@@ -54,7 +54,8 @@ const solve = `空 0 2
 阿消 0 2
 白面鸮 0 2
 梓兰 0 2
-真理 0 2`;
+真理 0 2
+伊桑 0 2`;
 
 const penguin =  `德克萨斯 2 3
 空 2 3
@@ -66,7 +67,8 @@ const penguin =  `德克萨斯 2 3
 桃金娘 1 3
 阿消 1 3
 白面鸮 0 2
-天火 0 2`;
+天火 0 2
+伊桑 0 2`;
 
 const highcost = `风笛 3 4
 红豆 0 2
@@ -84,7 +86,8 @@ const highcost = `风笛 3 4
 星极 0 2
 银灰 0 2
 白面鸮 0 2
-梓兰 1 2`;
+梓兰 1 2
+伊桑 1 3`;
 
 const rhine = `赫默 2 3
 白面鸮 2 3
@@ -96,7 +99,8 @@ const rhine = `赫默 2 3
 讯使 2 3
 炎熔 2 3
 蛇屠箱 0 2
-梓兰 1 2`;
+梓兰 1 2
+伊桑 0 1`;
 
 const eyja = `艾雅法拉 1 2
 阿米娅 2 3
@@ -110,7 +114,8 @@ const eyja = `艾雅法拉 1 2
 陈 0 2
 芬 0 2
 梓兰 1 2
-凛冬 1 2`;
+凛冬 1 2
+伊桑 0 1`;
 
 const angelina = `安洁莉娜 1 2
 芬 2 3
@@ -122,7 +127,8 @@ const angelina = `安洁莉娜 1 2
 天火 1 2
 陈 1 2
 赫默 1 2
-星极 1 2`;
+星极 1 2
+伊桑 0 2`;
 
 const karlan = `银灰 1 3
 崖心 1 3
@@ -138,7 +144,8 @@ const karlan = `银灰 1 3
 桃金娘 1 2
 芬 0 2
 梓兰 1 2
-凛冬 0 2`;
+凛冬 0 2
+伊桑 0 2`;
 
 const ursus = `凛冬 2 3
 真理 3 4
@@ -156,7 +163,8 @@ const ursus = `凛冬 2 3
 芙兰卡 0 2
 雷蛇 0 2
 白面鸮 0 2
-银灰 0 2`;
+银灰 0 2
+伊桑 0 2`;
 
 const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus];
 
