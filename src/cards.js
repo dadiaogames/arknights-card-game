@@ -911,7 +911,7 @@ export var CARDS = [
     hp:5,
     mine:1,
     block:2,
-    desc: "部署：在手牌中每得到过1次强化，就强化场上的1名干员",
+    desc: "部署：在手牌中每被强化过1次，就强化场上的1名干员",
     illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -936,7 +936,7 @@ export var CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc: "部署：在手牌中每得到过1次强化，就对一名敌人造成3点伤害",
+    desc: "部署：在手牌中每被强化过1次，就对一名敌人造成3点伤害",
     illust:"http://ak.mooncell.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%97%A9%E9%9C%B2_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
