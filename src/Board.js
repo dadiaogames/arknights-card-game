@@ -801,6 +801,11 @@ export class Board extends React.Component {
         this.setState({preview_deck: str2deck(this.state.deck_data)});
         this.check_deck();
       }}
+      checkCards = {() => {
+        this.setState({
+          preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),});
+        this.check_deck();
+      }}
     />)
 
     return (

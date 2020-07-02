@@ -21,6 +21,12 @@ export const DeckConstruction = (props) => {
       >
         查看卡组
       </button>
+      <button
+        onClick={props.checkCards} 
+        className="deck-construction-button"
+      >
+        干员图鉴
+      </button>
       <br/>
       <br/>
       <span>提示：系统不会帮你保存卡组，记得自行保存！</span>
@@ -52,6 +58,7 @@ export const DeckGeneration = (props) => {
         >
           查看卡组
         </button>
+        
       <br/>
       <p>给卡组取个好听的名字，然后系统会根据名字，生成一套卡组。</p>
     </div>
