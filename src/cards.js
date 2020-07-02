@@ -222,10 +222,10 @@ export var CARDS = [
     name:"讯使", 
     cost:3, 
     atk:2, 
-    hp:4, 
+    hp:3, 
     mine:1, 
     block:1, 
-    desc:"采掘：获得2点费用", 
+    desc:"采掘：获得3点费用", 
     illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E8%AE%AF%E4%BD%BF_1.png",
     onMine(G, ctx, self) {
       G.costs += 2 + 2 * self.power;
@@ -699,11 +699,13 @@ export var CARDS = [
     desc:"采掘：触发场上所有干员的“采掘:”效果",
     illust:"http://ak.mooncell.wiki/images/c/c0/%E7%AB%8B%E7%BB%98_%E8%89%BE%E9%9B%85%E6%B3%95%E6%8B%89_1.png",
     onMine(G, ctx, self) {
-      for (let card of G.field) {
-        if (card.onMine && (card.name != self.name)) {
-          card.onMine(G, ctx, self);
-          if (self.power > 0) {
+      if (~G.field.indexOf(self)) {
+        for (let card of G.field) {
+          if (card.onMine && (card.name != self.name)) {
             card.onMine(G, ctx, self);
+            if (self.power > 0) {
+              card.onMine(G, ctx, self);
+            }
           }
         }
       }
@@ -1080,6 +1082,44 @@ export var CARDS = [
       self.hp += 4;
     },
     reinforce_desc: "+0/+4",
+  },
+
+  {
+    name:"极境",
+    cost:5,
+    atk:2,
+    hp:2,
+    mine:1,
+    block:1,
+    desc: "部署：获得8点费用",
+    illust:"http://ak.mooncell.wiki/images/5/5a/%E7%AB%8B%E7%BB%98_%E6%9E%81%E5%A2%83_1.png",
+    reinforce: 1,
+
+    onPlay(G, ctx) {
+      G.costs += 8;
+    },
+    
+    onReinforce(G, ctx, self) {
+      G.costs += 3;
+    },
+    reinforce_desc: "获得3点费用",
+  },
+
+  {
+    name:"夜刀",
+    cost:12,
+    atk:15,
+    hp:15,
+    mine:8,
+    block:5,
+    illust:"http://ak.mooncell.wiki/images/a/ad/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E5%88%80_1.png",
+    reinforce: 1,
+    
+    onReinforce(G, ctx, self) {
+      G.atk += 5;
+      G.hp += 5;
+    },
+    reinforce_desc: "+5/+5",
   },
 
 ];
