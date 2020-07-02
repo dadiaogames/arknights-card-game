@@ -225,10 +225,10 @@ export var CARDS = [
     hp:3, 
     mine:1, 
     block:1, 
-    desc:"采掘：获得3点费用", 
+    desc:"采掘：获得4点费用", 
     illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E8%AE%AF%E4%BD%BF_1.png",
     onMine(G, ctx, self) {
-      G.costs += 2 + 2 * self.power;
+      G.costs += 4 + 2 * self.power;
     },
     reinforce: 1,
     reinforce_desc: "再获得2点费用",
