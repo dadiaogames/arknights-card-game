@@ -264,6 +264,24 @@ export function switchEnemy(G, ctx) {
   }
 }
 
+export function enemy2hand(G, ctx) {
+  let enemy = Object.assign({}, G.edeck[0]);
+  enemy = {
+    ...enemy,
+    cost: 1,
+    mine: 5,
+    block: 3,
+    reinforce: 1,
+    reinforce_desc: "+4/+4",
+    material: ctx.random.Die(3)-1,
+    onReinforce: (G, ctx, self) => {
+      self.atk += 4;
+      self.hp += 4;
+    },
+  };
+  G.hand.unshift(enemy);
+}
+
 function fight(G, ctx, idx1, idx2) {
   if (idx1 < 0 || idx1 >= G.field.length || idx2 < 0 || idx2 >= G.efield.length) {
     console.log("invalid move");
@@ -379,12 +397,16 @@ function enemyMove(G, ctx, idx) {
   if (use(G, ctx, enemy)) {
     if (enemy.action) {
       enemy.action(G, ctx, enemy);
+      logMsg(G, ctx, `${enemy.name} 使用其行动能力`);
     }
 
     else if (enemy.enraged) {
-      deal_damage(G, ctx, "field", ctx.random.Die(G.field.length)-1, enemy.atk);
-      if (enemy.onFight) {
-        enemy.onFight(G, ctx, enemy);
+      if (G.field.length > 0) {
+        deal_damage(G, ctx, "field", ctx.random.Die(G.field.length)-1, enemy.atk);
+        if (enemy.onFight) {
+          enemy.onFight(G, ctx, enemy);
+        }
+        logMsg(G, ctx, `暴怒的 ${enemy.name} 发起了进攻`);
       }
     }
 

@@ -3,7 +3,7 @@ import {
   deal_damage, draw, deal_random_damage, gainMaterials,
   move, exhaust_random_enemy, ready_random_card, cure, 
   payCost, get_rhine_order, init_card_state, payMaterials,
-  reinforce_hand, reinforce_card
+  reinforce_hand, reinforce_card, enemy2hand
 } from './Game';
 import { material_icons } from './orders';
 
@@ -962,14 +962,14 @@ export var CARDS = [
     illust:"http://ak.mooncell.wiki/images/e/e0/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E6%A1%91_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      if (G.field.length > 0){
+      if (G.field.length > 1){
         G.field[G.field.length-1] = Object.assign({}, ctx.random.Shuffle(G.field.slice(0,G.field.length-1))[0]);
       }
     },
     onReinforce(G, ctx, self) {
-      G.danger += 1;
+      enemy2hand(G, ctx);
     },
-    reinforce_desc: "动乱值+1",
+    reinforce_desc: "将一张敌人牌加入手牌",
   },
 
   {
