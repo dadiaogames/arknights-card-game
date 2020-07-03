@@ -1169,6 +1169,34 @@ export var CARDS = [
     },
     reinforce_desc: "+2/+2",
   },
+  {
+    name:"杜林",
+    cost:5,
+    atk:4,
+    hp:7,
+    mine:2,
+    block:2,
+    illust: "http://ak.mooncell.wiki/images/f/f7/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E6%9E%97_1.png",
+    reinforce: 1,
+    desc: "亡语: 如果\"巡林者\"也在弃牌堆，则从牌库中部署\"夜刀\"",
+
+    onOut(G, ctx, self) {
+      let target = G.discard.find(x => x.name=="巡林者");
+      if (target) {
+        let dragon = G.deck.find(x => x.name=="夜刀");
+        if (dragon) {
+          G.field.push(init_card_state(G, ctx, Object.assign({}, dragon)));
+        }
+      }
+
+    },
+    
+    onReinforce(G, ctx, self) {
+      G.atk += 1;
+      G.hp += 3;
+    },
+    reinforce_desc: "+1/+3",
+  },
 
 ];
 
