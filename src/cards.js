@@ -3,7 +3,7 @@ import {
   deal_damage, draw, deal_random_damage, gainMaterials,
   move, exhaust_random_enemy, ready_random_card, cure, 
   payCost, get_rhine_order, init_card_state, payMaterials,
-  reinforce_hand, reinforce_card, enemy2card
+  reinforce_hand, reinforce_card, enemy2card, logMsg,
 } from './Game';
 import { material_icons } from './orders';
 
@@ -1241,6 +1241,45 @@ export var CARDS = [
       }
     },
     reinforce_desc: "再强化1次",
+  },
+
+  {
+    name:"斯卡蒂",
+    cost:3,
+    atk:4,
+    hp:4,
+    mine:2,
+    block:1,
+    illust: "http://ak.mooncell.wiki/images/4/45/%E7%AB%8B%E7%BB%98_%E6%96%AF%E5%8D%A1%E8%92%82_1.png",
+    reinforce: 1,
+    desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
+    onPlay(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onPlay))[0];
+      card.onPlay(G, ctx, self);
+      logMsg(G, ctx, `触发 ${card.name} 的部署效果`);
+    },
+    onMine(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onMine))[0];
+      card.onMine(G, ctx, self);
+      logMsg(G, ctx, `触发 ${card.name} 的采掘效果`);
+    },
+    onFight(G, ctx, self, enemy) {
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onFight))[0];
+      card.onFight(G, ctx, self, enemy);
+      logMsg(G, ctx, `触发 ${card.name} 的战斗效果`);
+    },
+    action(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.action))[0];
+      card.action(G, ctx, self);
+      logMsg(G, ctx, `触发 ${card.name} 的行动效果`);
+    },
+    onReinforce(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce))[0];
+      card.onReinforce(G, ctx, self);
+      logMsg(G, ctx, `触发 ${card.name} 的强化效果`);
+    },
+    
+    reinforce_desc: "触发1个随机干员的强化效果",
   },
 
 ];

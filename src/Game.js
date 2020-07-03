@@ -271,7 +271,7 @@ export function enemy2card(G, ctx) {
     was_enemy: true,
     cost: 1,
     mine: 5,
-    block: 3,
+    block: 2,
     reinforce: 1,
     reinforce_desc: "+4/+4",
     material: ctx.random.Die(3)-1,
@@ -305,8 +305,8 @@ function act(G, ctx, idx) {
   let card = G.field[idx];
 
   if (use(G, ctx, card)) {
-    card.action(G, ctx, card);
     logMsg(G, ctx, `使用 ${card.name} 行动`);
+    card.action(G, ctx, card);
   }
 }
 
@@ -422,6 +422,9 @@ export function enemyMove(G, ctx, idx) {
       if (blocker_idx != -1) {
         deal_damage(G, ctx, "field", blocker_idx, enemy.atk);
         logMsg(G, ctx, `${enemy.name} 对 ${blocker.name} 发起了进攻`);
+        if (enemy.onFight) {
+          enemy.onFight(G, ctx, enemy, blocker);
+        }
       }
 
       else {
@@ -517,7 +520,7 @@ export function init_decks(deck_data, seed) {
   return {deck, edeck, odeck};
 }
 
-function logMsg(G, ctx, msg) {
+export function logMsg(G, ctx, msg) {
   G.messages.unshift(msg);
 }
 
