@@ -212,7 +212,7 @@ export function get_deck_name() {
 
 export function get_seed_name() {
   let rng = new PRNG(Math.random());
-  return rng.choice(SEEDS) + rng.randRange(10);
+  return rng.choice(SEEDS) + String.fromCharCode(97+rng.randRange(26));
 }
 
 export function get_single_card(rng, name, count1, count2) {
