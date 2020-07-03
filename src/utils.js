@@ -52,4 +52,19 @@ export class PRNG {
     let len = arr.length;
     return arr[this.randRange(len)];
   }
+
+  shuffle(deck) {
+    let clone = deck.slice(0);
+    let srcIndex = deck.length;
+    let dstIndex = 0;
+    let shuffled = new Array(srcIndex);
+
+    while (srcIndex) {
+      let randIndex = (srcIndex * this.random()) | 0;
+      shuffled[dstIndex++] = clone[randIndex];
+      clone[randIndex] = clone[--srcIndex];
+    }
+
+    return shuffled;
+  }
 }

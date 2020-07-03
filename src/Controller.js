@@ -32,6 +32,13 @@ export const EnterGame = (props) => {
       >
         {props.action}
       </button>
+      <button
+        className = "enter-game"
+        onClick = {props.advancedSettings}
+        style = {{display:props.action=="进入游戏"?"":"none"}}
+      >
+        高级设置
+      </button>
     </div>
   );
 };

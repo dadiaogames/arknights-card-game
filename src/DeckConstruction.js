@@ -75,3 +75,23 @@ export const DeckGeneration = (props) => {
     </div>
   );
 };
+
+export const Settings = (props) => (
+  <div className="deck-generation">
+    <form>
+        地图种子:&nbsp;
+        <input 
+          type = "text"
+          value = {props.value} 
+          onChange = {props.handleChange} 
+          className = "input-deck-name"
+        />
+      </form>
+      <button
+          onClick={props.back} 
+          className="deck-construction-button"
+        >
+          确认
+        </button>
+  </div>
+)

@@ -4,6 +4,8 @@ var _ = require("lodash");
 
 const PREFIXES = "欧皇 非酋 只肝不氪 只氪不肝 肝帝 碎石猛肝 一发入魂 搓玉者 线索7传递者 借点龙门币 调箱师 不要恐慌 大哥抽芙蓉 热泵通道 高级资深干员 非洲战神 黄票之源 注意力涣散 弑君者迫害者 空降兵拯救者 工口发生 工具人 摔炮 中门对狙 富婆 老婆 猛男 打得不错 神抽狗 金色普通 龙门粗口 Kokodayo 拳皇".split(" ");
 
+const SEEDS = "龙门外环 龙门市区 荒芜广场 无人危楼 59区废墟 破碎大道 荒漠 新街 中转站 霜冻废墟 黄铁峡谷 军械库东".split(" ");
+
 // const dubin_defend = `杜宾 0 3
 // 推进之王 0 3
 // 天火 0 1
@@ -206,6 +208,11 @@ function get_random_card(rng) {
 export function get_deck_name() {
   let rng = new PRNG(Math.random());
   return '"' + rng.choice(PREFIXES) + '"' + get_random_card(rng);
+}
+
+export function get_seed_name() {
+  let rng = new PRNG(Math.random());
+  return rng.choice(SEEDS) + rng.randRange(10);
 }
 
 export function get_single_card(rng, name, count1, count2) {

@@ -2,7 +2,7 @@ import { React } from 'react';
 import { CARDS } from "./cards";
 import { ENEMIES } from "./enemies";
 import { ORDERS, material_icons } from "./orders";
-import { arr2obj } from "./utils";
+import { arr2obj, PRNG } from "./utils";
 
 export function move(G, ctx, d1, d2, idx) {
   let cd_idx = idx || 0;
@@ -491,8 +491,28 @@ export function str2deck(deck_data) {
   return deck;
 }
 
-function setDeck(G, ctx, deck_data) {
-  G.deck = ctx.random.Shuffle(str2deck(deck_data));
+// function setDeck(G, ctx, deck_data) {
+//   G.deck = ctx.random.Shuffle(str2deck(deck_data));
+// }
+
+function setDecks(G, ctx, decks) {
+  Object.assign(G, decks);
+}
+
+export function init_decks(deck_data, seed) {
+  let deck = str2deck(deck_data);
+  let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
+  let edeck = get_enemies().concat(get_enemies());
+  let odeck = ORDERS.map((x,idx)=>({...x, order_id:idx}));
+
+  let rng = new PRNG(seed);
+  deck = rng.shuffle(deck);
+  edeck = rng.shuffle(edeck);
+  odeck = rng.shuffle(odeck);
+
+  edeck = edeck.slice(0, 20);
+
+  return {deck, edeck, odeck};
 }
 
 function logMsg(G, ctx, msg) {
@@ -510,9 +530,11 @@ export function setup(ctx) {
     G.field = [];
 
     G.deck = [];
-    let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
-    G.edeck = ctx.random.Shuffle(get_enemies().concat(get_enemies())).slice(0,20);
-    G.odeck = ctx.random.Shuffle(ORDERS.map((x,idx)=>({...x, order_id:idx})));
+    // let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
+    // G.edeck = ctx.random.Shuffle(get_enemies().concat(get_enemies())).slice(0,20);
+    // G.odeck = ctx.random.Shuffle(ORDERS.map((x,idx)=>({...x, order_id:idx})));
+    G.edeck = [];
+    G.odeck = [];
     
     G.efield = [];
     G.discard = [];
@@ -546,7 +568,7 @@ export const AC = {
   setup: setup,
 
   moves: {
-    setDeck,
+    setDecks,
     addTags,
     onScenarioBegin,
     mulligan,

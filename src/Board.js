@@ -4,10 +4,10 @@ import { Card, CardRow, CheckCard, SCardRow, TypeFilter } from './Card';
 import { Controller, EnterGame } from './Controller';
 import { Panel } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
-import { DeckConstruction, DeckGeneration } from './DeckConstruction';
+import { DeckConstruction, DeckGeneration, Settings } from './DeckConstruction';
 import { TitleScreen } from './TitleScreen';
-import { get_deck_name, generate_deck, is_standard } from './DeckGenerator';
-import { str2deck } from './Game';
+import { get_deck_name, get_seed_name, generate_deck, is_standard } from './DeckGenerator';
+import { str2deck, init_decks } from './Game';
 import { map_object, sleep } from './utils';
 import { CARDS, default_deck } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
@@ -71,6 +71,7 @@ export class Board extends React.Component {
     this.render_card_board = this.render_card_board.bind(this);
     this.render_preview_board = this.render_preview_board.bind(this);
     this.render_mulligan_board = this.render_mulligan_board.bind(this);
+    this.render_setting_board = this.render_setting_board.bind(this);
 
     this.change_board = this.change_board.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
@@ -104,6 +105,8 @@ export class Board extends React.Component {
       deck_name: get_deck_name(),
       deck_data: CARDS.slice(0,10).map(x=>`3 ${x.name}`).join("\n"),
       preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),
+
+      seed: get_seed_name(),
 
       checking: {},
 
@@ -446,10 +449,11 @@ export class Board extends React.Component {
   }
 
   handle_deck_change(event) {
-    let attr = (this.state.deck_mode == "random")? "deck_name" : "deck_data"
-    this.setState(
-      {deck_data: event.target.value}
-    );
+    let attr = (this.state.deck_mode == "random")? "deck_name" : "deck_data";
+    let changer = {};
+    // TODO: reconstruct this
+    changer[attr] = event.target.value;
+    this.setState(changer);
   }
 
   wrap_controller_action(action) {
@@ -478,6 +482,7 @@ export class Board extends React.Component {
       "card": this.render_card_board,
       "preview": this.render_preview_board,
       "mulligan": this.render_mulligan_board,
+      "settings": this.render_setting_board,
     };
     this.setState({last_board: this.state.board})
     this.setState({board: boards[new_board]});
@@ -492,8 +497,8 @@ export class Board extends React.Component {
   }
 
   enter_game() {
-    let deck = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
-    this.props.moves.setDeck(deck);
+    let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
+    this.props.moves.setDecks(init_decks(deck_data, this.state.seed));
     this.props.moves.addTags(this.state.tags.filter(t => t.selected));
     this.props.moves.onScenarioBegin();
     this.setState({hand_choices: [false, false, false, false, false]});
@@ -502,7 +507,10 @@ export class Board extends React.Component {
 
   end_game() {
     this.props.reset();
-    this.setState({scenario_finished: false});
+    this.setState({
+      scenario_finished: false,
+      seed: get_seed_name(),
+    });
     this.change_board("tag");
   }
 
@@ -533,12 +541,11 @@ export class Board extends React.Component {
         else {
           grade = "SSS";
         }
-        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}`);
+        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n地图种子: ${this.state.seed}`);
       }
 
       else {
-        alert(`任务失败\n原因: ${result.reason}`);
-
+        alert(`任务失败\n原因: ${result.reason}\n地图种子: ${this.state.seed}`);
       }
 
     }
@@ -826,9 +833,20 @@ export class Board extends React.Component {
         <EnterGame 
           switchScene = {() => {this.enter_game()}}
           action = "进入游戏"
+          advancedSettings = {() => {this.change_board("settings")}}
         />
       </div>
     );
+  }
+
+  render_setting_board() {
+    return (<div className="board">
+      <Settings 
+        back = {() => this.back()}
+        handleChange = {(event) => {this.setState({seed: event.target.value})}}
+        value = {this.state.seed}
+      />
+    </div>);
   }
 
   render() {
