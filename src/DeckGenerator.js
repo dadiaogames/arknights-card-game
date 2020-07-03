@@ -37,7 +37,8 @@ const dubin_score = `杜宾 2 3
 真理 0 2
 调香师 0 1
 极境 0 1
-狮蝎 0 1`;
+狮蝎 0 1
+斯卡蒂 1 2`;
 
 const solve = `天火 1 2
 克洛丝 2 3
@@ -55,7 +56,8 @@ const solve = `天火 1 2
 拉普兰德 1 2
 极境 1 2
 狮蝎 0 1
-年 0 1`;
+年 0 1
+斯卡蒂 0 1`;
 
 const penguin =  `德克萨斯 3 4
 空 2 3
@@ -108,7 +110,8 @@ const rhine = `赫默 1 3
 伊桑 0 1
 芬 1 2
 年 0 1
-狮蝎 0 1`;
+狮蝎 0 1
+斯卡蒂 0 1`;
 
 const eyja = `艾雅法拉 1 2
 阿米娅 2 3
@@ -125,7 +128,8 @@ const eyja = `艾雅法拉 1 2
 克洛丝 0 2
 芬 1 2
 真理 0 2
-伊桑 0 1`;
+伊桑 0 1
+斯卡蒂 1 2`;
 
 const angelina = `安洁莉娜 1 2
 芬 2 3
@@ -142,7 +146,8 @@ const angelina = `安洁莉娜 1 2
 芙蓉 0 2
 伊桑 0 1
 极境 2 3
-狮蝎 1 2`;
+狮蝎 1 2
+斯卡蒂 1 2`;
 
 const karlan = `银灰 1 3
 崖心 1 3
@@ -180,7 +185,8 @@ const ursus = `凛冬 2 3
 梅尔 0 2
 猎蜂 0 1
 年 0 1
-狮蝎 0 1`;
+狮蝎 0 1
+斯卡蒂 1 2`;
 
 const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus];
 
