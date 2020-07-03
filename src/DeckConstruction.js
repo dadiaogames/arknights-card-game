@@ -77,7 +77,7 @@ export const DeckGeneration = (props) => {
 };
 
 export const Settings = (props) => (
-  <div className="deck-generation">
+  <div className="deck-generation" style={{marginTop:"45%"}}>
     <form>
         地图种子:&nbsp;
         <input 
@@ -88,10 +88,11 @@ export const Settings = (props) => (
         />
       </form>
       <button
-          onClick={props.back} 
-          className="deck-construction-button"
-        >
-          确认
-        </button>
+        onClick={props.back} 
+        className="deck-construction-button"
+        style={{padding:"3%"}}
+      >
+        确认
+      </button>
   </div>
 )
