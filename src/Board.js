@@ -545,11 +545,13 @@ export class Board extends React.Component {
         else {
           grade = "SSS";
         }
-        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n地图种子: ${this.state.seed}`);
+        let finish = this.props.G.rhodes_training_mode?"任务失败":"任务完成";
+        alert(`${finish}\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n地图种子: ${this.state.seed}`);
       }
 
       else {
-        alert(`任务失败\n原因: ${result.reason}\n地图种子: ${this.state.seed}`);
+        let failed = this.props.G.rhodes_training_mode?"任务完成":"任务失败";
+        alert(`${failed}\n原因: ${result.reason}\n地图种子: ${this.state.seed}`);
       }
 
     }
