@@ -1210,6 +1210,10 @@ export var CARDS = [
         let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(card.cost+1+self.power))))[0];
         if (new_card) {
           G.field.splice(i, 1, init_card_state(G, ctx, {...new_card}));
+          for (let j=0; j<card.power; j++) {
+            reinforce_card(G, ctx, G.field[i]);
+          }
+          G.field[i].exhausted = card.exhausted;
         }
       }
     },
