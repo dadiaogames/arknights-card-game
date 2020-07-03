@@ -122,7 +122,7 @@ const tag_list = [
     level: -2,
     effect(G, ctx) {
       let deck = G.deck.map(x=>enemy2card(G, ctx));
-      G.edeck = ctx.random.Shuffle(G.deck.map(x=>({...x})));
+      G.edeck = ctx.random.Shuffle(G.deck.map(x=>({...x, power:0}))); // If don't add power:0, plenty of bugs gonna come
       G.deck = deck;
       G.rhodes_training_mode = true;
     }
