@@ -253,7 +253,11 @@ export var CARDS = [
       G.costs += num_exhausted + self.power * 2;
     },
     reinforce: 1,
-    reinforce_desc: "再获得2点费用",
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
   },
   
   {
@@ -285,7 +289,7 @@ export var CARDS = [
     hp:2, 
     mine:1, 
     block:1, 
-    desc:"亡语：将手牌中的1名干员部署到场上", 
+    desc:"亡语：将手牌中的1个干员部署到场上", 
     illust:"http://ak.mooncell.wiki/images/7/70/%E7%AB%8B%E7%BB%98_%E7%BA%A2%E8%B1%86_1.png",
     onOut(G, ctx, self) {
       if (G.hand.length > 0) {
@@ -318,7 +322,7 @@ export var CARDS = [
     onReinforce(G, ctx, self) {
       self.onPlay(G, ctx);
     },
-    reinforce_desc: "触发一次”部署:“效果",
+    reinforce_desc: "触发1次\"部署:\"效果",
   },
 
   {
@@ -346,22 +350,30 @@ export var CARDS = [
   
   {
     name:"能天使", 
-    cost:4, 
-    atk:4, 
-    hp:3, 
+    cost:3, 
+    atk:5, 
+    hp:2, 
     mine:2, 
     block:0, 
-    desc:"攻击被横置的敌人时，对所有敌人造成2点伤害", 
+    desc:"行动：每有1个被横置的敌人，就强化场上的1个干员", 
     illust:"http://ak.mooncell.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
-    onFight(G, ctx, self, enemy) {
-      if (enemy.exhausted) {
-        for (let i=G.efield.length-1; i>=0; i--) {
-          deal_damage(G, ctx, "efield", i, 2+self.power);
+    action(G, ctx, self) {
+      let num_exhausted = G.efield.filter(x=>x.exhausted).length;
+      for (let i=0; i<num_exhausted; i++) {
+        let card = ctx.random.Shuffle(G.field.filter(x=>x!=self))[0];
+        if (card) {
+          reinforce_card(G, ctx, card);
         }
       }
     },
     reinforce: 1,
-    reinforce_desc: "伤害+1",
+    onReinforce(G, ctx) {
+      if (G.field.length > 1) {
+        let card = ctx.random.Shuffle(G.field)[0];
+        reinforce_card(G, ctx, card);
+      }
+    },
+    reinforce_desc: "强化场上的1个干员",
   },
   
   {
@@ -371,7 +383,7 @@ export var CARDS = [
     hp:3, 
     mine:2, 
     block:0, 
-    desc:"战斗：对一个敌人造成3点伤害", 
+    desc:"战斗：对1个敌人造成3点伤害", 
     illust:"http://ak.mooncell.wiki/images/6/66/%E7%AB%8B%E7%BB%98_%E8%93%9D%E6%AF%92_1.png",
     onFight(G, ctx, self) {
       deal_random_damage(G, ctx, 3+self.power*2);
@@ -420,7 +432,7 @@ export var CARDS = [
     onReinforce(G, ctx, self) {
       self.onPlay(G, ctx);
     },
-    reinforce_desc: "触发一次”部署:“效果",
+    reinforce_desc: "触发1次\"部署:\"效果",
   },
   
   {
@@ -449,7 +461,7 @@ export var CARDS = [
     desc: <span>部署：获得3个{material_icons[3]}</span>, 
     illust:"http://ak.mooncell.wiki/images/b/bb/%E7%AB%8B%E7%BB%98_%E6%98%9F%E6%9E%81_1.png",
     onPlay(G, ctx, self) {
-      G.materials[3] += 2;
+      G.materials[3] += 3;
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
@@ -525,7 +537,7 @@ export var CARDS = [
     hp:2, 
     mine:1, 
     block:0, 
-    desc:"行动：使一名干员获得+5生命值", 
+    desc:"行动：使1个干员获得+5生命值", 
     illust:"http://ak.mooncell.wiki/images/b/b9/%E7%AB%8B%E7%BB%98_%E8%8A%99%E8%93%89_1.png",
     action(G, ctx, self) {
       cure(G, ctx, 5 + 3 * self.power);
@@ -541,7 +553,7 @@ export var CARDS = [
     hp:3, 
     mine:3, 
     block:0, 
-    desc:"行动：使一名干员获得+9生命值", 
+    desc:"行动：使1个干员获得+9生命值", 
     illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
     action(G, ctx, self) {
       cure(G, ctx, 9 + 6 * self.power);
@@ -595,7 +607,7 @@ export var CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc:"部署：获得2个“莱茵生命订单”",
+    desc:"部署：获得2个\"莱茵生命订单\"",
     illust:"http://ak.mooncell.wiki/images/7/7f/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E9%BB%98_1.png",
     onPlay(G, ctx, self) {
       get_rhine_order(G, ctx);
@@ -605,7 +617,7 @@ export var CARDS = [
     onReinforce(G, ctx, self) {
       get_rhine_order(G, ctx);
     },
-    reinforce_desc: "获得1个”莱茵生命订单“",
+    reinforce_desc: "获得1个\"莱茵生命订单\"",
   },
   
   {
@@ -615,7 +627,7 @@ export var CARDS = [
     hp:3,
     mine:3,
     block:0,
-    desc:"行动：重置1个干员，获得1个“莱茵生命订单”",
+    desc:"行动：重置1个干员，获得1个\"莱茵生命订单\"",
     illust:"http://ak.mooncell.wiki/images/a/ac/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9D%A2%E9%B8%AE_1.png",
     action(G, ctx, self) {
       get_rhine_order(G, ctx);
@@ -702,7 +714,7 @@ export var CARDS = [
     hp:3,
     mine:3,
     block:0,
-    desc:"采掘：触发场上所有干员的“采掘:”效果",
+    desc:"采掘：触发场上所有干员的\"采掘:\"效果",
     illust:"http://ak.mooncell.wiki/images/c/c0/%E7%AB%8B%E7%BB%98_%E8%89%BE%E9%9B%85%E6%B3%95%E6%8B%89_1.png",
     onMine(G, ctx, self) {
       if (~G.field.indexOf(self)) {
@@ -715,13 +727,13 @@ export var CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      let miners = G.field.filter(x => x.onMine);
+      let miners = G.deck.filter(x => x.onMine);
       if (miners.length > 0) {
         let card = ctx.random.Shuffle(miners)[0];
-        card.onMine(G, ctx, card);
+        G.hand.unshift(Object.assign({}, card));
       }
     },
-    reinforce_desc: "触发场上一名干员的”采掘:“效果",
+    reinforce_desc: "检索1张有\"采掘:\"效果的牌",
   },
   
   {
@@ -731,7 +743,7 @@ export var CARDS = [
     hp:4,
     mine:3,
     block:1,
-    desc:"部署：触发手牌中所有干员的“部署:”效果",
+    desc:"部署：触发手牌中所有干员的\"部署:\"效果",
     illust:"http://ak.mooncell.wiki/images/f/fe/%E7%AB%8B%E7%BB%98_%E5%AE%89%E6%B4%81%E8%8E%89%E5%A8%9C_1.png",
     onPlay(G, ctx, self) {
       for (let card of G.hand.map(x=>x)) { //Copy the list to prevent infinite loop
@@ -740,33 +752,38 @@ export var CARDS = [
         }
       }
     },
-    reinforce: 2,
+    reinforce: 1,
     onReinforce(G, ctx, self) {
-      let idx = G.field.indexOf(self);
-      G.field.splice(idx, 1);
-      G.hand.unshift(self);
+      let battlecries = G.deck.filter(x => x.onPlay);
+      if (battlecries.length > 0) {
+        let card = ctx.random.Shuffle(battlecries)[0];
+        G.hand.unshift(Object.assign({}, card));
+      }
     },
-    reinforce_desc: "返回手牌",
+    reinforce_desc: "检索1张有\"部署:\"效果的牌",
   },
   
   {
     name:"莫斯提马",
-    cost:3,
-    atk:4,
-    hp:2,
-    mine:2,
+    cost:4,
+    atk:6,
+    hp:3,
+    mine:3,
     block:0,
-    desc:"采掘：每有1个横置的敌人，就额外获得1个随机材料",
+    desc:"采掘：重置所有被横置的敌人，每重置1个就获得2个随机材料",
     illust:"http://ak.mooncell.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
     onMine(G, ctx, self) {
-      if (self.power > 0) {
-        exhaust_random_enemy(G, ctx);
-      }
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
-      gainMaterials(G, ctx, num_exhausted);
+      gainMaterials(G, ctx, 2 * num_exhausted);
+      for (let enemy of G.efield) {
+        enemy.exhausted = false;
+      }
     },
-    reinforce: 2,
-    reinforce_desc: "获得”采掘:横置1个敌人“，限强化1次",
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.mine += 1;
+    },
+    reinforce_desc: "<+1>",
   },
 
   {
@@ -922,7 +939,7 @@ export var CARDS = [
     hp:5,
     mine:1,
     block:2,
-    desc: "部署：在手牌中每被强化过1次，就强化场上的1名干员",
+    desc: "部署：在手牌中每被强化过1次，就强化场上的1个干员",
     illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -947,7 +964,7 @@ export var CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc: "部署：在手牌中每被强化过1次，就对一名敌人造成3点伤害",
+    desc: "部署：在手牌中每被强化过1次，就对1个敌人造成3点伤害",
     illust:"http://ak.mooncell.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%97%A9%E9%9C%B2_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -969,7 +986,7 @@ export var CARDS = [
     hp:1,
     mine:1,
     block:0,
-    desc: "部署：变成场上一名干员的复制",
+    desc: "部署：变成场上1个干员的复制",
     illust:"http://ak.mooncell.wiki/images/e/e0/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E6%A1%91_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -980,7 +997,7 @@ export var CARDS = [
     onReinforce(G, ctx, self) {
       enemy2hand(G, ctx);
     },
-    reinforce_desc: "将一张敌人牌加入手牌",
+    reinforce_desc: "将1张敌人牌加入手牌",
   },
 
   {
@@ -990,7 +1007,7 @@ export var CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc: "行动：使一个有阻挡能力的干员获得+4生命值，重复2次",
+    desc: "行动：使1个有阻挡能力的干员获得+4生命值，重复2次",
     illust:"http://ak.mooncell.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
     reinforce: 1,
     action(G, ctx, self) {
@@ -1013,7 +1030,7 @@ export var CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "部署：使2个订单的能力改为”→造成5点伤害“",
+    desc: "部署：使2个订单的能力改为\"→造成5点伤害\"",
     illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
     reinforce: 1,
 

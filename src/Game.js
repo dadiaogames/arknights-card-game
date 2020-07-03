@@ -349,7 +349,7 @@ export function exhaust_random_enemy(G, ctx) {
 }
 
 export function ready_random_card(G, ctx, self) {
-  let exhausted_cards = G.field.filter(x => (x.exhausted && (![self.name, "雷蛇", "白面鸮"].includes(x.name))));
+  let exhausted_cards = G.field.filter(x => (x.exhausted && (![self.name, "雷蛇", "白面鸮", "艾雅法拉"].includes(x.name))));
   if (exhausted_cards.length > 0) {
     ctx.random.Shuffle(exhausted_cards)[0].exhausted = false;
   }
