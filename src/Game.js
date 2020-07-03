@@ -322,7 +322,7 @@ export function reinforce(G, ctx, idx) {
   requirements[card.material] = card.reinforce;
 
   if (G.harder_reinforce) {
-    let paid = payCost(G, ctx, 1);
+    let paid = payCost(G, ctx, 2);
     if (!paid) {
       return;
     }
@@ -390,23 +390,27 @@ function enemyInit(G, ctx) {
   G.stage = "enemy";
 }
 
-function enemyMove(G, ctx, idx) {
+export function enemyMove(G, ctx, idx) {
   let enemy = G.efield[idx];
 
   if (use(G, ctx, enemy)) {
-    if (enemy.action) {
-      enemy.action(G, ctx, enemy);
-      logMsg(G, ctx, `${enemy.name} 使用其行动能力`);
-    }
-
-    else if (enemy.enraged) {
+    if (enemy.enraged) {
       if (G.field.length > 0) {
-        deal_damage(G, ctx, "field", ctx.random.Die(G.field.length)-1, enemy.atk);
-        if (enemy.onFight) {
-          enemy.onFight(G, ctx, enemy);
+        let card = ctx.random.Shuffle(G.field.filter(x=>(x.hp>x.dmg)))[0];
+        let card_idx = G.field.indexOf(card);
+        if (card){
+          deal_damage(G, ctx, "field", card_idx, enemy.atk);
+          if (enemy.onFight) {
+            enemy.onFight(G, ctx, enemy, card);
+          }
         }
         logMsg(G, ctx, `暴怒的 ${enemy.name} 发起了进攻`);
       }
+    }
+
+    else if (enemy.action) {
+      enemy.action(G, ctx, enemy);
+      logMsg(G, ctx, `${enemy.name} 使用其行动能力`);
     }
 
     else {
@@ -507,7 +511,7 @@ export function setup(ctx) {
 
     G.deck = [];
     let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
-    G.edeck = ctx.random.Shuffle(get_enemies().concat(get_enemies()));
+    G.edeck = ctx.random.Shuffle(get_enemies().concat(get_enemies())).slice(0,20);
     G.odeck = ctx.random.Shuffle(ORDERS.map((x,idx)=>({...x, order_id:idx})));
     
     G.efield = [];

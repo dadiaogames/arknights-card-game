@@ -36,12 +36,20 @@ const tag_list = [
     }
   },
   {
-    src: "http://ak.mooncell.wiki/images/5/5a/Char_atk_2.png",
-    desc: "所有干员获得-1攻击力",
+    src: "http://ak.mooncell.wiki/images/7/71/Level_predefines_1.png",
+    desc: "敌方牌库减少20%的牌",
     level: 1,
     effect(G, ctx) {
+      G.edeck = G.edeck.slice(0, G.edeck.length-4);
+    }
+  },
+  {
+    src: "http://ak.mooncell.wiki/images/5/5a/Char_atk_2.png",
+    desc: "所有干员获得-3攻击力",
+    level: 2,
+    effect(G, ctx) {
       for (let card of G.deck) {
-        card.atk -= 1;
+        card.atk -= 3;
         if (card.atk < 0) {
           card.atk = 0;
         }
@@ -63,12 +71,15 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/7/71/Level_predefines_1.png",
-    desc: "所有干员获得-1采掘力",
+    src: "http://ak.mooncell.wiki/images/0/06/Enemy_reveng_3.png",
+    desc: "所有精英敌人获得+3/+3",
     level: 2,
     effect(G, ctx) {
-      for (let card of G.deck) {
-        card.mine -= 1;
+      for (let enemy of G.edeck) {
+        if (enemy.is_elite) {
+          enemy.atk += 3;
+          enemy.hp += 3;
+        }
       }
     }
   },
@@ -86,7 +97,7 @@ const tag_list = [
 
   {
     src: "http://ak.mooncell.wiki/images/c/c7/Global_costrecovery_1.png",
-    desc: "强化干员需要消耗1点费用",
+    desc: "强化干员需要消耗2点费用",
     level: 2,
     effect(G, ctx) {
       G.harder_reinforce = true;
@@ -94,17 +105,14 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
-    desc: "所有订单的分数-1",
+    src: "http://ak.mooncell.wiki/images/0/06/Enemy_attackspeed_2.png",
+    desc: "每回合额外翻开1张敌人牌",
     level: 3,
     effect(G, ctx) {
-      for (let order of G.odeck) {
-        order.score -= 1;
-      }
+      G.more_enemies = true;
     }
   },
 
-  
   {
     src: "http://ak.mooncell.wiki/images/0/03/Enemy_atk_2.png",
     desc: "所有敌人获得+2/+2",
@@ -117,6 +125,18 @@ const tag_list = [
     }
   },
 
+
+  {
+    src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
+    desc: "所有订单的分数-1",
+    level: 3,
+    effect(G, ctx) {
+      for (let order of G.odeck) {
+        order.score -= 1;
+      }
+    }
+  },
+  
   {
     src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
     desc: "胜利所需分数+5",
