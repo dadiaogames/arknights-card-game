@@ -1246,9 +1246,9 @@ export var CARDS = [
   {
     name:"斯卡蒂",
     cost:3,
-    atk:4,
-    hp:4,
-    mine:2,
+    atk:3,
+    hp:3,
+    mine:1,
     block:1,
     illust: "http://ak.mooncell.wiki/images/4/45/%E7%AB%8B%E7%BB%98_%E6%96%AF%E5%8D%A1%E8%92%82_1.png",
     reinforce: 1,
