@@ -297,14 +297,14 @@ export var CARDS = [
     onOut(G, ctx, self) {
       if (G.hand.length > 0) {
         let idx = ctx.random.Die(G.hand.length) - 1;
-        let card = G.hand.splice(idx, 1);
+        let card = G.hand.splice(idx, 1)[0];
         G.field.push(card);
         init_card_state(G, ctx, card);
       }
-      G.costs += 2 * self.power;
+      G.costs += 3 * self.power;
     },
     reinforce: 1,
-    reinforce_desc: "并返还2点费用",
+    reinforce_desc: "并返还3点费用",
   },
   
   {
@@ -466,7 +466,7 @@ export var CARDS = [
     onPlay(G, ctx, self) {
       G.materials[3] += 3;
     },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
       G.materials[3] += 1;
     },

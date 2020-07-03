@@ -107,8 +107,13 @@ export function deal_damage(G, ctx, deck, idx, dmg) {
   card.dmg += dmg;
   logMsg(G, ctx, `${card.name} 受到${dmg}点伤害`);
 
-  if (card.dmg >= card.hp && ~G.efield.indexOf(card)) {
-    out(G, ctx, deck, idx);
+  if (card.dmg >= card.hp) {
+    if (~G.efield.indexOf(card)) {
+      out(G, ctx, deck, idx);
+    }
+    else {
+      card.exhausted = true;
+    }
   }
 }
 

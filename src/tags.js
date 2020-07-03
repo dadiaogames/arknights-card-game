@@ -138,6 +138,17 @@ const tag_list = [
   },
 
   {
+    src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
+    desc: "所有订单的分数-1",
+    level: 3,
+    effect(G, ctx) {
+      for (let order of G.odeck) {
+        order.score -= 1;
+      }
+    }
+  },
+
+  {
     src: "http://ak.mooncell.wiki/images/0/03/Enemy_atk_2.png",
     desc: "所有敌人获得+2/+2",
     level: 3,
@@ -150,16 +161,7 @@ const tag_list = [
   },
 
 
-  {
-    src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
-    desc: "所有订单的分数-1",
-    level: 3,
-    effect(G, ctx) {
-      for (let order of G.odeck) {
-        order.score -= 1;
-      }
-    }
-  },
+  
   
   {
     src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
