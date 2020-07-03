@@ -1,5 +1,6 @@
 import { CARDS } from "./cards";
 import { arr2obj, PRNG } from "./utils";
+var _ = require("lodash");
 
 const PREFIXES = "欧皇 非酋 只肝不氪 只氪不肝 肝帝 碎石猛肝 一发入魂 搓玉者 线索7传递者 借点龙门币 调箱师 不要恐慌 大哥抽芙蓉 热泵通道 高级资深干员 非洲战神 黄票之源 注意力涣散 弑君者迫害者 空降兵拯救者 工口发生 工具人 摔炮 中门对狙 富婆 老婆 猛男 打得不错 神抽狗 金色普通 龙门粗口 Kokodayo 拳皇".split(" ");
 
@@ -281,4 +282,25 @@ export function generate_deck(deck_name) {
   return deck2str(deck);
 
   //TODO: let deck be the summarized version, this is an advanced feature
+}
+
+export function is_standard(deck_data) {
+  let numbers = deck_data.split("\n").map(x=>parseInt(x.split(" ")[0]));
+  let names = deck_data.split("\n").map(x=>(x.split(" ")[1])); // EH: reconstruct this
+  numbers = numbers.filter(x => !isNaN(x));
+  let unique_names = [...new Set(names)];
+  if (names.length != unique_names.length) {
+    return false;
+  }
+  for (let i of numbers) {
+    if (i > 3) {
+      return false;
+    }
+  }
+  let sum_value = _.sum(numbers);
+  if (sum_value < 30) {
+    return false;
+  }
+
+  return true;
 }

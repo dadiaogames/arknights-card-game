@@ -422,7 +422,7 @@ export var CARDS = [
     hp:4, 
     mine:2, 
     block:1, 
-    desc:"部署：对两名敌人造成4点伤害", 
+    desc:"部署：造成4点伤害，重复2次", 
     illust:"http://ak.mooncell.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E9%99%88_1.png",
     onPlay(G, ctx, self) {
       deal_random_damage(G, ctx, 4);

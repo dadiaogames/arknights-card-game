@@ -1,11 +1,14 @@
 import React from 'react';
 import './DeckConstruction.css';
+import { is_standard } from './DeckGenerator';
 
 export const DeckConstruction = (props) => {
   return (
     <div className="deck-construction">
       <form>
         请组出一套强力或欢乐的卡组
+        <br/>
+        当前卡组为&nbsp;{is_standard(props.value)?"标准卡组":"狂野卡组"}
         <br/>
         <textarea 
           value={props.value} 
@@ -26,6 +29,14 @@ export const DeckConstruction = (props) => {
         className="deck-construction-button"
       >
         干员图鉴
+      </button>
+      <button
+        onClick={()=>{
+          alert("标准卡组: 至少30张, 且同名卡不能超过3张;\n狂野卡组: 来啊, 整活啊!");
+        }} 
+        className="deck-construction-button"
+      >
+        查看标准
       </button>
       <br/>
       <br/>

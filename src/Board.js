@@ -6,7 +6,7 @@ import { Panel } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
 import { DeckConstruction, DeckGeneration } from './DeckConstruction';
 import { TitleScreen } from './TitleScreen';
-import { get_deck_name, generate_deck } from './DeckGenerator';
+import { get_deck_name, generate_deck, is_standard } from './DeckGenerator';
 import { str2deck } from './Game';
 import { map_object, sleep } from './utils';
 import { CARDS, default_deck } from './cards';
@@ -102,7 +102,7 @@ export class Board extends React.Component {
 
       deck_mode: "random",
       deck_name: get_deck_name(),
-      deck_data: "5 黑角\n5 巡林者\n5 12F",
+      deck_data: CARDS.slice(0,10).map(x=>`3 ${x.name}`).join("\n"),
       preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),
 
       checking: {},
@@ -533,7 +533,7 @@ export class Board extends React.Component {
         else {
           grade = "SSS";
         }
-        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:"自组卡组"}`);
+        alert(`任务完成\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}`);
       }
 
       else {

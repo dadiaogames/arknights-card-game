@@ -1,6 +1,6 @@
 .deck-construction {
   height: 70%;
-  width: 80%;
+  width: 90%;
   margin: 5%;
   margin-top: 5%;
   overflow: scroll;
@@ -24,7 +24,7 @@
 }
 
 .deck-construction-button {
-  margin-right: 5%;
-  margin-top: 10%;
+  margin-right: 2%;
+  margin-top: 5%;
   font-size: 105%;
 }
