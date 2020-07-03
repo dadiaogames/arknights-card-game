@@ -45,11 +45,11 @@ const tag_list = [
   },
   {
     src: "http://ak.mooncell.wiki/images/5/5a/Char_atk_2.png",
-    desc: "所有干员获得-3攻击力",
+    desc: "所有干员获得-2攻击力",
     level: 2,
     effect(G, ctx) {
       for (let card of G.deck) {
-        card.atk -= 3;
+        card.atk -= 2;
         if (card.atk < 0) {
           card.atk = 0;
         }

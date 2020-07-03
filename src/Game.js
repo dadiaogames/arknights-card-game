@@ -128,6 +128,7 @@ export function addTags(G, ctx, tags) {
 export function init_card_state(G, ctx, card) {
   card.dmg = 0;
   card.power = card.power || 0;
+  card.material = card.material || ctx.random.Die(3) - 1;
   card.exhausted = G.exhausted_enter;
   return card;
 }
@@ -510,7 +511,7 @@ export function init_decks(deck_data, seed) {
   edeck = rng.shuffle(edeck);
   odeck = rng.shuffle(odeck);
 
-  edeck = edeck.slice(0, 20);
+  edeck = edeck.slice(0, 22);
 
   return {deck, edeck, odeck};
 }
@@ -535,6 +536,7 @@ export function setup(ctx) {
     // G.odeck = ctx.random.Shuffle(ORDERS.map((x,idx)=>({...x, order_id:idx})));
     G.edeck = [];
     G.odeck = [];
+    G.CARDS = CARDS.slice(0);
     
     G.efield = [];
     G.discard = [];

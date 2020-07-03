@@ -164,10 +164,9 @@ export var CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
+      draw(G, ctx);
     },
-    reinforce_desc: "+2/+2",
+    reinforce_desc: "摸1张牌",
   },
 
   {
@@ -177,7 +176,7 @@ export var CARDS = [
     hp: 2,
     mine: 2,
     block: 0,
-    desc: "战斗: 获得1个随机材料",
+    desc: "战斗: 获得1个材料",
     illust:"http://ak.mooncell.wiki/images/8/80/%E7%AB%8B%E7%BB%98_%E7%82%8E%E7%86%94_1.png",
     onFight(G, ctx, self) {
       gainMaterials(G, ctx, 1);
@@ -768,16 +767,13 @@ export var CARDS = [
     cost:4,
     atk:6,
     hp:3,
-    mine:3,
+    mine:2,
     block:0,
-    desc:"采掘: 重置所有被横置的敌人，每重置1个就获得2个随机材料",
+    desc:"采掘: 每有1个被横置的敌人，就再获得1个材料",
     illust:"http://ak.mooncell.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
     onMine(G, ctx, self) {
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
-      gainMaterials(G, ctx, 2 * num_exhausted);
-      for (let enemy of G.efield) {
-        enemy.exhausted = false;
-      }
+      gainMaterials(G, ctx, num_exhausted);
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
@@ -1164,8 +1160,8 @@ export var CARDS = [
     },
     
     onReinforce(G, ctx, self) {
-      G.atk += 2;
-      G.hp += 2;
+      self.atk += 2;
+      self.hp += 2;
     },
     reinforce_desc: "+2/+2",
   },
@@ -1178,12 +1174,12 @@ export var CARDS = [
     block:2,
     illust: "http://ak.mooncell.wiki/images/f/f7/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E6%9E%97_1.png",
     reinforce: 1,
-    desc: "亡语: 如果\"巡林者\"也在弃牌堆，则从牌库中部署\"夜刀\"",
+    desc: "亡语: 如果\"巡林者\"也在弃牌堆，则部署\"夜刀\"",
 
     onOut(G, ctx, self) {
       let target = G.discard.find(x => x.name=="巡林者");
       if (target) {
-        let dragon = G.deck.find(x => x.name=="夜刀");
+        let dragon = G.CARDS.find(x => x.name=="夜刀");
         if (dragon) {
           G.field.push(init_card_state(G, ctx, Object.assign({}, dragon)));
         }
@@ -1196,6 +1192,47 @@ export var CARDS = [
       G.hp += 3;
     },
     reinforce_desc: "+1/+3",
+  },
+  {
+    name:"狮蝎",
+    cost:3,
+    atk:5,
+    hp:2,
+    mine:2,
+    block:0,
+    illust: "http://ak.mooncell.wiki/images/9/98/%E7%AB%8B%E7%BB%98_%E7%8B%AE%E8%9D%8E_1.png",
+    reinforce: 1,
+    desc: "行动: 将场上所有干员变成{费用+1}的干员",
+
+    action(G, ctx, self) {
+      for (let i=0; i<G.field.length; i++) {
+        let card = G.field[i];
+        let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(card.cost+1+self.power))))[0];
+        if (new_card) {
+          G.field.splice(i, 1, init_card_state(G, ctx, {...new_card}));
+        }
+      }
+    },
+    reinforce_desc: "费用再+1",
+  },
+  {
+    name:"年",
+    cost:8,
+    atk:4,
+    hp:12,
+    mine:2,
+    block:3,
+    illust: "http://ak.mooncell.wiki/images/c/c9/%E7%AB%8B%E7%BB%98_%E5%B9%B4_1.png",
+    reinforce: 1,
+    desc: "行动: 获得1张干员牌，并强化其3次",
+    action(G, ctx, self) {
+      let card = {...ctx.random.Shuffle(G.CARDS)[0]};
+      G.hand.unshift(card);
+      for (let i=0; i<(3+self.power); i++) {
+        reinforce_card(G, ctx, card);
+      }
+    },
+    reinforce_desc: "再强化1次",
   },
 
 ];
