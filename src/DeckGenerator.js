@@ -71,7 +71,7 @@ const penguin =  `德克萨斯 3 4
 狮蝎 0 1
 年 0 1`;
 
-const highcost = `风笛 3 4
+const highcost = `风笛 2 3
 红豆 0 2
 桃金娘 2 3
 极境 2 3
@@ -92,10 +92,10 @@ const highcost = `风笛 3 4
 伊桑 1 2
 年 1 2`;
 
-const rhine = `赫默 2 3
-白面鸮 2 3
-梅尔 2 3
-史都华德 2 3
+const rhine = `赫默 1 3
+白面鸮 1 3
+梅尔 1 3
+史都华德 1 3
 12F 1 2
 伊芙利特 1 2
 塞雷娅 1 2
@@ -117,6 +117,7 @@ const eyja = `艾雅法拉 1 2
 凛冬 2 3
 德克萨斯 1 2
 极境 1 2
+史都华德 0 2
 雷蛇 0 2
 可颂 0 2
 蓝毒 0 2
@@ -143,9 +144,9 @@ const angelina = `安洁莉娜 1 2
 极境 2 3
 狮蝎 1 2`;
 
-const karlan = `银灰 2 3
-崖心 2 3
-角峰 2 3
+const karlan = `银灰 1 3
+崖心 1 3
+角峰 1 3
 初雪 3 4
 星极 2 3
 赫默 1 2
@@ -215,7 +216,6 @@ function arr2deck(arr) {
     }
   }
 
-
   return deck;
 
 }
@@ -254,21 +254,18 @@ export function generate_deck(deck_name) {
     deck.push(get_single_card(rng, strategy[0], parseInt(strategy[1]), parseInt(strategy[2])));
   }
 
-  deck = arr2deck(deck);
-
-  if (deck.length < 30) {
-    let amount_add = 30 - deck.length;
-    for (let i=0; i<amount_add; i++) {
-      deck.push(get_random_card(rng));
-    }
+  deck = rng.shuffle(arr2deck(deck)).slice(0, 25);
+  let amount_add = 35 - deck.length;
+  for (let i=0; i<amount_add; i++) {
+    deck.push(get_random_card(rng));
   }
 
-  if (deck.length > 30) {
-    let amount_remove = deck.length - 30;
-    for (let i=0; i<(amount_remove); i++) {
-      deck.splice(rng.randRange(deck.length), 1);
-    }
-  }
+  // if (deck.length > 30) {
+  //   let amount_remove = deck.length - 30;
+  //   for (let i=0; i<(amount_remove); i++) {
+  //     deck.splice(rng.randRange(deck.length), 1);
+  //   }
+  // }
 
 
   return deck2str(deck);

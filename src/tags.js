@@ -1,3 +1,5 @@
+import { enemy2card } from "./Game";
+
 const tag_list = [
   {
     src: "http://ak.mooncell.wiki/images/d/d3/Enemy_def_1.png",
@@ -41,6 +43,16 @@ const tag_list = [
     level: 1,
     effect(G, ctx) {
       G.edeck = G.edeck.slice(0, G.edeck.length-4);
+    }
+  },
+  {
+    src: "http://ak.mooncell.wiki/images/6/65/Char_cost_casterhealer_1.png",
+    desc: "所有高台干员部署费用+1",
+    level: 1,
+    effect(G, ctx) {
+      for (let card of G.deck.filter(x=>((x.block||0)==0))) {
+        card.cost += 1;
+      }
     }
   },
   {
@@ -101,6 +113,18 @@ const tag_list = [
     level: 2,
     effect(G, ctx) {
       G.harder_reinforce = true;
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/f/f1/Enemy_buster_1.png",
+    desc: "这个tag是送你的哦~",
+    level: -2,
+    effect(G, ctx) {
+      let deck = G.deck.map(x=>enemy2card(G, ctx));
+      G.edeck = ctx.random.Shuffle(G.deck.map(x=>({...x})));
+      G.deck = deck;
+      G.rhodes_training_mode = true;
     }
   },
 

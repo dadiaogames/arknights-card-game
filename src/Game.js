@@ -107,7 +107,7 @@ export function deal_damage(G, ctx, deck, idx, dmg) {
   card.dmg += dmg;
   logMsg(G, ctx, `${card.name} 受到${dmg}点伤害`);
 
-  if (card.dmg >= card.hp && G.stage != "enemy") {
+  if (card.dmg >= card.hp && ~G.efield.indexOf(card)) {
     out(G, ctx, deck, idx);
   }
 }
@@ -264,10 +264,11 @@ export function switchEnemy(G, ctx) {
   }
 }
 
-export function enemy2hand(G, ctx) {
+export function enemy2card(G, ctx) {
   let enemy = Object.assign({}, ctx.random.Shuffle(G.edeck)[0]);
   enemy = {
     ...enemy,
+    was_enemy: true,
     cost: 1,
     mine: 5,
     block: 3,
@@ -279,7 +280,7 @@ export function enemy2hand(G, ctx) {
       self.hp += 4;
     },
   };
-  G.hand.unshift(enemy);
+  return enemy;
 }
 
 function fight(G, ctx, idx1, idx2) {

@@ -130,7 +130,9 @@ export var ENEMIES = [
         let idx = G.efield.indexOf(self);
         if (card.dmg > card.hp) {
           self.exhausted = false;
-          enemyMove(G, ctx, idx);
+          if (~idx) {
+            enemyMove(G, ctx, idx);
+          }
         }
       },
     

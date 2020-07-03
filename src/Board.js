@@ -208,8 +208,9 @@ export class Board extends React.Component {
   }
   
   process_hand_data(card) {
+    let illust = card.was_enemy?"e_illust":"illust";
     let data = {
-      illust: card.illust,
+      [illust]: card.illust,
       atk: card.atk,
       hp: card.hp,
       cost: card.cost,
@@ -227,8 +228,9 @@ export class Board extends React.Component {
   }
   
   process_field_data(card) {
+    let illust = card.was_enemy?"e_illust":"illust";
     let data = {
-      illust: card.illust,
+      [illust]: card.illust,
       atk: card.atk,
       hp: (card.hp - card.dmg),
       mine: (<span>{ICONS.mine}{card.mine}</span>),
@@ -251,8 +253,9 @@ export class Board extends React.Component {
   }
 
   process_efield_data(card) {
+    let illust = this.props.G.rhodes_training_mode?"illust":"e_illust";
     return {
-      e_illust: card.illust,
+      [illust]: card.illust,
       atk: card.atk,
       hp: (card.hp - card.dmg),
       //cost: card.cost,
@@ -310,8 +313,9 @@ export class Board extends React.Component {
   }
 
   process_card_details(card) {
+    let illust = card.was_enemy?"eo_illust_detailed":"illust_detailed";
     return {
-      illust_detailed: card.illust,
+      [illust]: card.illust,
       cost_detailed: card.cost,
       desc: (
         <span>
