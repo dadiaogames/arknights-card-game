@@ -1211,7 +1211,7 @@ export var CARDS = [
     action(G, ctx, self) {
       for (let i=0; i<G.field.length; i++) {
         let card = G.field[i];
-        let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(card.cost+1+self.power))))[0];
+        let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(card.cost+1+(self.power||0)))))[0];
         if (new_card) {
           G.field.splice(i, 1, init_card_state(G, ctx, {...new_card}));
           for (let j=0; j<card.power; j++) {

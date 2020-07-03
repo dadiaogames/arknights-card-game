@@ -427,8 +427,8 @@ export function enemyMove(G, ctx, idx) {
       else {
         G.danger += 1;
         logMsg(G, ctx, `${enemy.name} 发起了动乱`);
-        if (enemy.onUnrest) {
-          enemy.onUnrest(G, ctx, enemy);
+        if (enemy.onMine) {
+          enemy.onMine(G, ctx, enemy);
         }
       }
     }

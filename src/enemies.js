@@ -44,7 +44,7 @@ export var ENEMIES = [
     hp: 2,
     illust: "http://ak.mooncell.wiki/images/f/f2/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A0%B4%E9%98%B5%E8%80%85.png",
     desc: "动乱: 额外增加1点动乱值",
-    onUnrest(G, ctx) {
+    onMine(G, ctx) {
       G.danger += 1;
     }
   },
