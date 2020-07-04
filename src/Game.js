@@ -626,7 +626,7 @@ export function setup(ctx) {
 
     G.CARDS = CARDS.slice(0);
     let effects = [];
-    for (let c of CARDS.filter(x=>(typeof x.desc == "string"))) {
+    for (let c of CARDS.filter(x=>((typeof x.desc == "string") && (x.name != "可露希尔")))) {
       let desc = c.desc.split(":").slice(1).join("");
       if (c.onPlay) {
         effects.push([desc, c.onPlay]);

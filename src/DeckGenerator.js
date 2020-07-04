@@ -192,7 +192,9 @@ const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina
 
 
 function get_random_card(rng) {
-  return rng.choice(CARDS).name;
+  let banned_cards = ["砾", "可露希尔"];
+  let card_pool = CARDS.filter(x => (!banned_cards.includes(x.name)));
+  return rng.choice(card_pool).name;
 }
 
 export function get_deck_name() {
@@ -286,6 +288,12 @@ export function is_standard(deck_data) {
   let unique_names = [...new Set(names)];
   if (names.length != unique_names.length) {
     return false;
+  }
+  let banned_cards = ["可露希尔", "砾"];
+  for (let card of banned_cards) {
+    if (names.includes(card)) {
+      return false;
+    }
   }
   for (let i of numbers) {
     if (i > 3) {
