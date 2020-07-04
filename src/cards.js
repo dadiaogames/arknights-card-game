@@ -35,10 +35,10 @@ export var CARDS = [
     illust: "http://ak.mooncell.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E9%98%BF%E7%B1%B3%E5%A8%85_1.png",
     desc: "采掘: 获得1分",
     onMine(G, ctx, self) {
-      G.score += 1 + self.power;
+      G.score += 1 + 2 * self.power;
     },
-    reinforce: 1,
-    reinforce_desc: "再获得1分",
+    reinforce: 3,
+    reinforce_desc: "再获得2分",
   },
 
   {
@@ -198,9 +198,11 @@ export var CARDS = [
     mine: 1,
     block: 1,
     illust:"http://ak.mooncell.wiki/images/4/42/%E7%AB%8B%E7%BB%98_%E6%A1%83%E9%87%91%E5%A8%98_1.png",
-    desc: "行动: 获得3点费用，阻挡数-1",
+    desc: "行动: 获得3点费用，本回合阻挡数-1",
     onTurnBegin(G, ctx, self) {
-      self.block += 1;
+      if (self.block <= 0) {
+        self.block = 1;
+      }
     },
     action(G, ctx, self) {
       G.costs += 3 + 3 * self.power;
