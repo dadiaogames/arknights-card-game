@@ -119,23 +119,39 @@ export var ENEMIES = [
   },
 
   {
-      name: "复仇者",
-      atk: 4,
-      hp: 6,
-      illust: "http://ak.mooncell.wiki/images/1/14/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A4%8D%E4%BB%87%E8%80%85.png",
-      desc: "替换，愤怒，超杀：再次攻击",
-      is_elite: true,
-      enraged: true,
-      onFight(G, ctx, self, card) {
-        let idx = G.efield.indexOf(self);
-        if (card.dmg > card.hp) {
-          self.exhausted = false;
-          if (~idx) {
-            enemyMove(G, ctx, idx);
-          }
+    name: "复仇者",
+    atk: 4,
+    hp: 6,
+    illust: "http://ak.mooncell.wiki/images/1/14/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A4%8D%E4%BB%87%E8%80%85.png",
+    desc: "替换，愤怒，超杀：再次攻击",
+    is_elite: true,
+    enraged: true,
+    onFight(G, ctx, self, card) {
+      let idx = G.efield.indexOf(self);
+      if (card.dmg > card.hp) {
+        self.exhausted = false;
+        if (~idx) {
+          enemyMove(G, ctx, idx);
         }
-      },
-    
+      }
+    },
+    },
+  
+  {
+      name: "碎岩者",
+      illust: "http://ak.mooncell.wiki/images/b/bd/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A2%8E%E5%B2%A9%E8%80%85.png",
+      atk: -2,
+      hp: 8,
   },
+
+//   {
+//     name: "碎岩者组长",
+//     illust: "http://ak.mooncell.wiki/images/b/bf/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A2%8E%E5%B2%A9%E8%80%85%E7%BB%84%E9%95%BF.png",
+//     atk: -2,
+//     hp: 12,
+//     desc: "替换",
+//     is_elite: true,
+
+// },
 
 ];

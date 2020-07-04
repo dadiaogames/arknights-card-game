@@ -1126,12 +1126,12 @@ export var CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc: "部署: 获得8点费用",
+    desc: "部署: 获得7点费用",
     illust:"http://ak.mooncell.wiki/images/5/5a/%E7%AB%8B%E7%BB%98_%E6%9E%81%E5%A2%83_1.png",
     reinforce: 1,
 
     onPlay(G, ctx) {
-      G.costs += 8;
+      G.costs += 7;
     },
     
     onReinforce(G, ctx, self) {
