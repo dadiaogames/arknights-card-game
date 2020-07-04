@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import { CARDS } from "./cards";
 import { ENEMIES } from "./enemies";
 import { ORDERS, material_icons } from "./orders";
@@ -288,6 +288,46 @@ export function enemy2card(G, ctx) {
   return enemy;
 }
 
+export function generate_combined_card(G, ctx) {
+  let card = {
+    reversed: true,
+    cost: ctx.random.Die(12)-2,
+    atk: ctx.random.Die(12)-2,
+    hp: ctx.random.Die(12),
+    mine: ctx.random.Die(5),
+    block: ctx.random.Die(4)-1,
+    reinforce: 1,
+    material: ctx.random.Die(3)-1,
+    desc: [],
+  };
+
+  let time_points = [
+    ["部署: ", "onPlay"],
+    ["采掘: ", "onMine"],
+    ["战斗: ", "onFight"],
+    ["行动: ", "action"],
+    ["亡语: ", "onOut"],
+  ];
+  time_points = ctx.random.Shuffle(time_points).slice(0,2);
+  let effects = ctx.random.Shuffle(G.EFFECTS);
+
+  for (let i=0; i<2; i++) {
+    card.desc.push(`${time_points[i][0]}${effects[i][0]}`);
+    card[time_points[i][1]] = effects[i][1];
+  }
+  card.desc = [card.desc[0], <br/>, card.desc[1]];
+
+  card.reinforce_desc = effects[2][0];
+  card.onReinforce = effects[2][1];
+
+  let title = ctx.random.Shuffle(G.CARDS)[0];
+  card.name = title.name.split("").reverse().join("");
+  card.illust = title.illust;
+
+  return card;
+  
+}
+
 function fight(G, ctx, idx1, idx2) {
   if (idx1 < 0 || idx1 >= G.field.length || idx2 < 0 || idx2 >= G.efield.length) {
     console.log("invalid move");
@@ -507,10 +547,16 @@ export function str2deck(deck_data) {
 
 function setDecks(G, ctx, decks) {
   Object.assign(G, decks);
+  // To make sure each time also got different ctx.random results
+  // EH: However, it's still better if I can adjust the seed of ctx
+  for (let i=0; i<G.shuffle_times; i++) {
+    ctx.random.D4(); 
+  }
 }
 
 export function init_decks(deck_data, seed) {
   let deck = str2deck(deck_data);
+  // deck = deck.map(x=>({...x, reversed:true}));
   let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
   let edeck = get_enemies().concat(get_enemies());
   let odeck = ORDERS.map((x,idx)=>({...x, order_id:idx}));
@@ -522,7 +568,7 @@ export function init_decks(deck_data, seed) {
 
   edeck = edeck.slice(0, 22);
 
-  return {deck, edeck, odeck};
+  return {deck, edeck, odeck, shuffle_times:rng.randRange(10)};
 }
 
 export function logMsg(G, ctx, msg) {
@@ -545,7 +591,6 @@ export function setup(ctx) {
     // G.odeck = ctx.random.Shuffle(ORDERS.map((x,idx)=>({...x, order_id:idx})));
     G.edeck = [];
     G.odeck = [];
-    G.CARDS = CARDS.slice(0);
     
     G.efield = [];
     G.discard = [];
@@ -570,7 +615,21 @@ export function setup(ctx) {
     G.gained = [];
     G.stage = "player";
 
-    console.log(ctx.random);
+    G.CARDS = CARDS.slice(0);
+    let effects = [];
+    for (let c of CARDS.filter(x=>(typeof x.desc == "string"))) {
+      let desc = c.desc.split(":").slice(1).join("");
+      if (c.onPlay) {
+        effects.push([desc, c.onPlay]);
+      }
+      if (c.onMine) {
+        effects.push([desc, c.onMine]);
+      }
+      if (c.action) {
+        effects.push([desc, c.action]);
+      }
+    }
+    G.EFFECTS = effects;
 
     return G;
   }
@@ -612,7 +671,7 @@ export const AC = {
         drawOrder(G, ctx);
         G.costs += 3;
 
-        for (let card of G.field.concat(G.efield.concat(G.finished))) {
+        for (let card of [...G.hand, ...G.field, ...G.efield]) {
           if (card.onTurnBegin) {
             card.onTurnBegin(G, ctx, card);
           }
@@ -622,6 +681,7 @@ export const AC = {
           for (let i=G.field.length-1; i>=0; i--) {
             deal_damage(G, ctx, "field", i, 1);
           }
+          onEnemyStageEnd(G, ctx); // EH: Maybe this can be reconstructed?
         }
         if (G.danger < 0) {
           G.danger = 0;

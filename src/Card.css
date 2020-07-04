@@ -131,7 +131,7 @@
   font-size: 135%;
 }
 
-.illust, .e_illust, .o_illust, .illust_detailed, .eo_illust_detailed {
+.illust, .e_illust, .o_illust, .illust_detailed, .eo_illust_detailed, .r_illust {
   width: 90%;
   height: 90%;
   margin: 10%;
@@ -146,6 +146,15 @@ img.illust {
   width: 350%;
   height: auto;
   margin-left: -120%;
+  border: 0px;
+}
+
+img.r_illust {
+  width: 350%;
+  height: auto;
+  margin-left: -120%;
+  margin-top: -200%;
+  transform: scaleY(-1);
   border: 0px;
 }
 

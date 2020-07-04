@@ -53,6 +53,7 @@ export class Board extends React.Component {
     this.wrap_controller_action = this.wrap_controller_action.bind(this);
     this.set_branch = this.set_branch.bind(this);
     this.check_card = this.check_card.bind(this);
+    this.get_illust_attr = this.get_illust_attr.bind(this);
 
     this.play_card = this.play_card.bind(this);
     this.use_mine = this.use_mine.bind(this);
@@ -206,9 +207,23 @@ export class Board extends React.Component {
     this.setState({finished_selected: -1});
     return {};
   }
+
+  get_illust_attr(card) {
+    if (card.was_enemy) {
+      return "e_illust";
+    }
+
+    else if (card.reversed) {
+      return "r_illust";
+    }
+
+    else {
+      return "illust";
+    }
+  }
   
   process_hand_data(card) {
-    let illust = card.was_enemy?"e_illust":"illust";
+    let illust = this.get_illust_attr(card);
     let data = {
       [illust]: card.illust,
       atk: card.atk,
@@ -228,7 +243,7 @@ export class Board extends React.Component {
   }
   
   process_field_data(card) {
-    let illust = card.was_enemy?"e_illust":"illust";
+    let illust = this.get_illust_attr(card);
     let data = {
       [illust]: card.illust,
       atk: card.atk,

@@ -8,6 +8,7 @@ export const Card = (props) => {
     illust: {},
     e_illust: {},
     o_illust: {},
+    r_illust: {},
     hp: {},
     atk: {},
   };
@@ -17,6 +18,7 @@ export const Card = (props) => {
     additional_styles.illust.border = exhausted_border;
     additional_styles.e_illust.border = exhausted_border;
     additional_styles.o_illust.border = exhausted_border;
+    additional_styles.r_illust.border = exhausted_border;
     //EH: reconstruct this part
   }
   if (props.cardState.selected) {
@@ -25,6 +27,7 @@ export const Card = (props) => {
       additional_styles.illust.border = selected_exhausted_border;
       additional_styles.e_illust.border = selected_exhausted_border;
       additional_styles.o_illust.border = selected_exhausted_border;
+      additional_styles.r_illust.border = selected_exhausted_border;
 
     }
     else {
@@ -32,6 +35,7 @@ export const Card = (props) => {
       additional_styles.illust.border = selected_border;
       additional_styles.e_illust.border = selected_border;
       additional_styles.o_illust.border = selected_border;
+      additional_styles.r_illust.border = selected_border;
     }
   };
   if (props.cardState.damaged) { 

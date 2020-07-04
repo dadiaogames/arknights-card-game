@@ -4,6 +4,7 @@ import {
   move, exhaust_random_enemy, ready_random_card, cure, 
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
+  generate_combined_card,
 } from './Game';
 import { material_icons } from './orders';
 
@@ -323,7 +324,9 @@ export var CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.onPlay(G, ctx);
+      if (self.onPlay) {
+        self.onPlay(G, ctx);
+      }
     },
     reinforce_desc: "触发1次\"部署:\"效果",
   },
@@ -339,7 +342,7 @@ export var CARDS = [
     illust:"http://ak.mooncell.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E5%A4%A9%E7%81%AB_1.png",
     onPlay(G, ctx, self) {
       for (let card of G.field) {
-        if (card.name != self.name) {
+        if (card != self) {
           card.mine += 2;
         }
       }
@@ -433,7 +436,9 @@ export var CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.onPlay(G, ctx);
+      if (self.onPlay) {
+        self.onPlay(G, ctx);
+      }
     },
     reinforce_desc: "触发1次\"部署:\"效果",
   },
@@ -801,7 +806,9 @@ export var CARDS = [
       }
     },
     onFight(G, ctx, self) {
-      self.onMine(G, ctx, self);
+      if (payMaterials(G, ctx, [0,0,0,1])) {
+        self.exhausted = false;
+      }
     },
     reinforce: 2,
     reinforce_desc: "+3/+1 <+1>",
@@ -1192,8 +1199,8 @@ export var CARDS = [
     },
     
     onReinforce(G, ctx, self) {
-      G.atk += 1;
-      G.hp += 3;
+      self.atk += 1;
+      self.hp += 3;
     },
     reinforce_desc: "+1/+3",
   },
@@ -1280,6 +1287,55 @@ export var CARDS = [
     },
     
     reinforce_desc: "触发1个随机干员的强化效果",
+  },
+
+  {
+    name:"砾",
+    cost:1,
+    atk:1,
+    hp:1,
+    mine:1,
+    block:1,
+    illust: "http://ak.mooncell.wiki/images/3/38/%E7%AB%8B%E7%BB%98_%E7%A0%BE_1.png",
+    reinforce: 1,
+    desc: "部署: 获得1个随机效果",
+    onPlay(G, ctx, self) {
+      let time_points = [["采掘: ", "onMine"], ["战斗: ", "onFight"], ["行动: ", "action"], ["亡语: ", "onOut"]];
+      let time_point = ctx.random.Shuffle(time_points)[0];
+      let effects = ctx.random.Shuffle(G.EFFECTS);
+      let effect = effects[0];
+      self.desc = time_point[0] + effect[0];
+      self[time_point[1]] = effect[1];
+      self.reinforce_desc = effects[1][0];
+      self.onReinforce = effects[1][1];
+      logMsg(G, ctx, `获得效果"${self.desc}"`);
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+
+  {
+    name:"可露希尔",
+    cost:5,
+    atk:1,
+    hp:1,
+    mine:1,
+    block:0,
+    illust: "https://img.moegirl.org/common/thumb/4/43/Ak_char_007_closre_1.png/800px-Ak_char_007_closre_1.png",
+    reinforce: 1,
+    desc: "部署: ？？？",
+    onPlay(G, ctx) {
+      for (let i=0; i<5; i++) {
+        G.hand.unshift(generate_combined_card(G, ctx));
+      }
+    },
+    reinforce_desc: "？？？",
+    onReinforce(G, ctx) {
+      G.hand.unshift(generate_combined_card(G, ctx));
+    }
   },
 
 ];
