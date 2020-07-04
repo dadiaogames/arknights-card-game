@@ -1264,28 +1264,28 @@ export var CARDS = [
     desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
     onPlay(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onPlay))[0];
-      card.onPlay(G, ctx, self);
       logMsg(G, ctx, `触发 ${card.name} 的部署效果`);
+      card.onPlay(G, ctx, self);
     },
     onMine(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onMine))[0];
-      card.onMine(G, ctx, self);
       logMsg(G, ctx, `触发 ${card.name} 的采掘效果`);
+      card.onMine(G, ctx, self);
     },
     onFight(G, ctx, self, enemy) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onFight))[0];
-      card.onFight(G, ctx, self, enemy);
       logMsg(G, ctx, `触发 ${card.name} 的战斗效果`);
+      card.onFight(G, ctx, self, enemy);
     },
     action(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.action))[0];
-      card.action(G, ctx, self);
       logMsg(G, ctx, `触发 ${card.name} 的行动效果`);
+      card.action(G, ctx, self);
     },
     onReinforce(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce))[0];
-      card.onReinforce(G, ctx, self);
       logMsg(G, ctx, `触发 ${card.name} 的强化效果`);
+      card.onReinforce(G, ctx, self);
     },
     
     reinforce_desc: "触发1个随机干员的强化效果",
@@ -1300,7 +1300,7 @@ export var CARDS = [
     block:1,
     illust: "http://ak.mooncell.wiki/images/3/38/%E7%AB%8B%E7%BB%98_%E7%A0%BE_1.png",
     reinforce: 1,
-    desc: "部署: 获得1个随机效果",
+    desc: "部署: 获得1个随机能力",
     onPlay(G, ctx, self) {
       let time_points = [["采掘: ", "onMine"], ["战斗: ", "onFight"], ["行动: ", "action"], ["亡语: ", "onOut"]];
       let time_point = ctx.random.Shuffle(time_points)[0];
