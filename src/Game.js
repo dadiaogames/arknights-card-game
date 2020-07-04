@@ -275,7 +275,7 @@ export function enemy2card(G, ctx) {
     ...enemy,
     was_enemy: true,
     cost: 1,
-    mine: 5,
+    mine: 4,
     block: 2,
     reinforce: 1,
     reinforce_desc: "+4/+4",
@@ -398,7 +398,14 @@ export function exhaust_random_enemy(G, ctx) {
 export function ready_random_card(G, ctx, self) {
   let exhausted_cards = G.field.filter(x => (x.exhausted && (![self.name, "雷蛇", "白面鸮", "艾雅法拉"].includes(x.name))));
   if (exhausted_cards.length > 0) {
-    ctx.random.Shuffle(exhausted_cards)[0].exhausted = false;
+    let card = ctx.random.Shuffle(exhausted_cards)[0];
+    card.ready_times = card.ready_times || 0;
+    if (card.ready_times >= 5) {
+      logMsg(G, ctx, `${card.name} 感到意外的疲惫`);
+      return;
+    }
+    card.exhausted = false;
+    card.ready_times += 1;
   }
 
 }
@@ -489,6 +496,8 @@ function onEnemyStageEnd(G, ctx) {
     if (card.hp - card.dmg <= 0) {
       out(G, ctx, "field", i);
     }
+    // refresh the card states here
+    card.ready_times = 0;
   }
 }
 
