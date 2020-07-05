@@ -180,14 +180,10 @@ export var CARDS = [
     desc: "战斗: 获得1个材料",
     illust:"http://ak.mooncell.wiki/images/8/80/%E7%AB%8B%E7%BB%98_%E7%82%8E%E7%86%94_1.png",
     onFight(G, ctx, self) {
-      gainMaterials(G, ctx, 1);
+      gainMaterials(G, ctx, 1+2*self.power);
     },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 1;
-    },
-    reinforce_desc: "+3/+1",
+    reinforce: 3,
+    reinforce_desc: "再获得2个材料",
   },
 
   {
@@ -355,34 +351,6 @@ export var CARDS = [
     },
     reinforce_desc: "<+3>",
   },
-  
-  // {
-  //   name:"能天使", 
-  //   cost:3, 
-  //   atk:5, 
-  //   hp:2, 
-  //   mine:2, 
-  //   block:0, 
-  //   desc:"行动: 每有1个被横置的敌人，就强化场上的1个干员", 
-  //   illust:"http://ak.mooncell.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
-  //   action(G, ctx, self) {
-  //     let num_exhausted = G.efield.filter(x=>x.exhausted).length;
-  //     for (let i=0; i<num_exhausted; i++) {
-  //       let card = ctx.random.Shuffle(G.field.filter(x=>x!=self))[0];
-  //       if (card) {
-  //         reinforce_card(G, ctx, card);
-  //       }
-  //     }
-  //   },
-  //   reinforce: 1,
-  //   onReinforce(G, ctx) {
-  //     if (G.field.length > 1) {
-  //       let card = ctx.random.Shuffle(G.field)[0];
-  //       reinforce_card(G, ctx, card);
-  //     }
-  //   },
-  //   reinforce_desc: "强化场上的1个干员",
-  // },
   
   {
     name:"蓝毒", 
@@ -778,7 +746,7 @@ export var CARDS = [
     desc:"采掘: 触发场上所有干员的\"采掘:\"效果",
     illust:"http://ak.mooncell.wiki/images/c/c0/%E7%AB%8B%E7%BB%98_%E8%89%BE%E9%9B%85%E6%B3%95%E6%8B%89_1.png",
     onMine(G, ctx, self) {
-      if (~G.field.indexOf(self)) {
+      if (~G.field.indexOf(self)) { // To prevent reinforce hand infinite loop
         for (let card of G.field) {
           if (card.onMine && (card.name != self.name)) {
             card.onMine(G, ctx, card);
@@ -796,7 +764,63 @@ export var CARDS = [
     },
     reinforce_desc: "检索1张有\"采掘:\"效果的牌",
   },
-  
+
+  {
+    name:"能天使", 
+    cost:4, 
+    atk:4, 
+    hp:3, 
+    mine:2, 
+    block:0, 
+    desc:"战斗: 触发场上所有干员的\"战斗\"效果", 
+    illust:"http://ak.mooncell.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
+    onFight(G, ctx, self, enemy) {
+      if (~G.field.indexOf(self)) {
+        for (let card of G.field) {
+          if (card.onFight && (card.name != self.name)) {
+            card.onFight(G, ctx, card, enemy);
+          }
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      let fighters = G.deck.filter(x => x.onFight);
+      if (fighters.length > 0) {
+        let card = ctx.random.Shuffle(fighters)[0];
+        G.hand.unshift(Object.assign({}, card));
+      }
+    },
+    reinforce_desc: "检索1张有\"战斗:\"效果的牌",
+  },
+  {
+    name:"温蒂", 
+    cost:5, 
+    atk:5, 
+    hp:6, 
+    mine:2, 
+    block:1, 
+    desc:"行动: 触发场上所有干员的\"行动\"效果", 
+    illust:"http://ak.mooncell.wiki/images/2/26/%E7%AB%8B%E7%BB%98_%E6%B8%A9%E8%92%82_1.png",
+    action(G, ctx, self, enemy) {
+      if (~G.field.indexOf(self)) {
+        for (let card of G.field) {
+          if (card.action && (card.name != self.name)) {
+            card.action(G, ctx, card);
+          }
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      let actors = G.deck.filter(x => x.action);
+      if (actors.length > 0) {
+        let card = ctx.random.Shuffle(actors)[0];
+        G.hand.unshift(Object.assign({}, card));
+      }
+    },
+    reinforce_desc: "检索1张有\"行动:\"效果的牌",
+  },
   {
     name:"安洁莉娜",
     cost:6,
