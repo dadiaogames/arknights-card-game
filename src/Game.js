@@ -645,6 +645,8 @@ export function setup(ctx) {
     G.stage = "player";
 
     G.CARDS = CARDS.slice(0);
+    let banned_cards = ["砾", "可露希尔"];
+    G.CARDS = G.CARDS.filter(x => !banned_cards.includes(x.name));
     let effects = [];
     for (let c of CARDS.filter(x=>((typeof x.desc == "string") && (x.name != "可露希尔")))) {
       let desc = c.desc.split(":").slice(1).join("");

@@ -264,7 +264,7 @@ export var CARDS = [
   
   {
     name:"风笛", 
-    cost:3, 
+    cost:4, 
     atk:4, 
     hp:3, 
     mine:2, 
@@ -329,6 +329,52 @@ export var CARDS = [
     reinforce_desc: "触发1次\"部署:\"效果",
   },
 
+   
+  {
+    name:"蓝毒", 
+    cost:4, 
+    atk:5, 
+    hp:3, 
+    mine:2, 
+    block:0, 
+    desc:"战斗: 对1个敌人造成3点伤害", 
+    illust:"http://ak.mooncell.wiki/images/6/66/%E7%AB%8B%E7%BB%98_%E8%93%9D%E6%AF%92_1.png",
+    onFight(G, ctx, self) {
+      deal_random_damage(G, ctx, 3+self.power*2);
+    },
+    reinforce: 1,
+    reinforce_desc: "伤害+2",
+  },
+  
+  {
+    name:"杜宾", 
+    cost:5, 
+    atk:2, 
+    hp:2, 
+    mine:1, 
+    block:2, 
+    desc:"部署: 使场上所有其他干员获得+2/+2", 
+    illust:"http://ak.mooncell.wiki/images/2/25/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E5%AE%BE_1.png",
+    onPlay(G, ctx, self) {
+      for (let card of G.field) {
+        if (card != self) {
+          card.atk += 2;
+          card.hp += 2;
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      for (let card of G.field) {
+        if (card != self) {
+          card.atk += 1;
+          card.hp += 1;
+        }
+      }
+    },
+    reinforce_desc: "使场上所有其他干员获得+1/+1",
+  }, 
+  
   {
     name:"天火", 
     cost:5, 
@@ -351,45 +397,7 @@ export var CARDS = [
     },
     reinforce_desc: "<+3>",
   },
-  
-  {
-    name:"蓝毒", 
-    cost:4, 
-    atk:5, 
-    hp:3, 
-    mine:2, 
-    block:0, 
-    desc:"战斗: 对1个敌人造成3点伤害", 
-    illust:"http://ak.mooncell.wiki/images/6/66/%E7%AB%8B%E7%BB%98_%E8%93%9D%E6%AF%92_1.png",
-    onFight(G, ctx, self) {
-      deal_random_damage(G, ctx, 3+self.power*2);
-    },
-    reinforce: 1,
-    reinforce_desc: "伤害+2",
-  },
-  
-  {
-    name:"杜宾", 
-    cost:4, 
-    atk:2, 
-    hp:2, 
-    mine:1, 
-    block:2, 
-    desc:"部署: 场上每有1个干员，就获得+1/+1和<+1>", 
-    illust:"http://ak.mooncell.wiki/images/2/25/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E5%AE%BE_1.png",
-    onPlay(G, ctx, self) {
-      for (let card of G.field) {
-        self.atk += 1;
-        self.hp += 1;
-        self.mine += 1;
-      }
-    },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.block += 1;
-    },
-    reinforce_desc: "阻挡数+1",
-  },
+
   
   {
     name:"陈", 
