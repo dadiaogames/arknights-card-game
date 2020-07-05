@@ -583,7 +583,7 @@ export var CARDS = [
     mine:2, 
     block:0, 
     desc:"行动: 使1个干员获得+3攻击力", 
-    illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
+    illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E5%98%89%E7%BB%B4%E5%B0%94_1.png",
     action(G, ctx, self) {
       let field = G.field.filter(x => (x != self));
       let card = ctx.random.Shuffle(field)[0];
