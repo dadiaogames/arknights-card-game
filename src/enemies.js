@@ -1,6 +1,6 @@
 import 
   { drawEnemy, switchEnemy, deal_damage, enemyMove,
-    get_blocker, logMsg
+    get_blocker, logMsg,
  } from "./Game";
 
 export var ENEMIES = [

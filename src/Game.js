@@ -79,9 +79,9 @@ export function get_blocker(G, ctx, enemy) {
   let idx = G.efield.indexOf(enemy);
   let blocked_enemies = 0;
 
-  // if (idx == -1) {
-  //   return false;
-  // }
+  if (idx == -1) {
+    return false;
+  }
 
   for (let c of G.field) {
     blocked_enemies += c.block || 0;
@@ -245,6 +245,11 @@ export function drawEnemy(G, ctx) {
     if (enemy.is_elite) {
       let surge = switchEnemy(G, ctx);
       if (enemy.onPlay && !surge) {
+        enemy.onPlay(G, ctx, enemy);
+      }
+    }
+    else {
+      if (enemy.onPlay) {
         enemy.onPlay(G, ctx, enemy);
       }
     }
