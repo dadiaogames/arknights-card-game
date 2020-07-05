@@ -322,6 +322,9 @@ export function generate_combined_card(G, ctx) {
 
   let title = ctx.random.Shuffle(G.CARDS)[0];
   card.name = title.name.split("").reverse().join("");
+  if (card.name.length == 1) {
+    card.name += card.name;
+  }
   card.illust = title.illust;
 
   return card;

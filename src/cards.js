@@ -356,33 +356,33 @@ export var CARDS = [
     reinforce_desc: "<+3>",
   },
   
-  {
-    name:"能天使", 
-    cost:3, 
-    atk:5, 
-    hp:2, 
-    mine:2, 
-    block:0, 
-    desc:"行动: 每有1个被横置的敌人，就强化场上的1个干员", 
-    illust:"http://ak.mooncell.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
-    action(G, ctx, self) {
-      let num_exhausted = G.efield.filter(x=>x.exhausted).length;
-      for (let i=0; i<num_exhausted; i++) {
-        let card = ctx.random.Shuffle(G.field.filter(x=>x!=self))[0];
-        if (card) {
-          reinforce_card(G, ctx, card);
-        }
-      }
-    },
-    reinforce: 1,
-    onReinforce(G, ctx) {
-      if (G.field.length > 1) {
-        let card = ctx.random.Shuffle(G.field)[0];
-        reinforce_card(G, ctx, card);
-      }
-    },
-    reinforce_desc: "强化场上的1个干员",
-  },
+  // {
+  //   name:"能天使", 
+  //   cost:3, 
+  //   atk:5, 
+  //   hp:2, 
+  //   mine:2, 
+  //   block:0, 
+  //   desc:"行动: 每有1个被横置的敌人，就强化场上的1个干员", 
+  //   illust:"http://ak.mooncell.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
+  //   action(G, ctx, self) {
+  //     let num_exhausted = G.efield.filter(x=>x.exhausted).length;
+  //     for (let i=0; i<num_exhausted; i++) {
+  //       let card = ctx.random.Shuffle(G.field.filter(x=>x!=self))[0];
+  //       if (card) {
+  //         reinforce_card(G, ctx, card);
+  //       }
+  //     }
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx) {
+  //     if (G.field.length > 1) {
+  //       let card = ctx.random.Shuffle(G.field)[0];
+  //       reinforce_card(G, ctx, card);
+  //     }
+  //   },
+  //   reinforce_desc: "强化场上的1个干员",
+  // },
   
   {
     name:"蓝毒", 
@@ -566,10 +566,41 @@ export var CARDS = [
     desc:"行动: 使1个干员获得+9生命值", 
     illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
     action(G, ctx, self) {
-      cure(G, ctx, 9 + 6 * self.power);
+      cure(G, ctx, 9);
     },
-    reinforce: 2,
-    reinforce_desc: "再获得+6生命值",
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      cure(G, ctx, 5);
+    },
+    reinforce_desc: "使1个干员获得+5生命值",
+  },
+
+  {
+    name:"嘉维尔", 
+    cost:3, 
+    atk:0, 
+    hp:3, 
+    mine:2, 
+    block:0, 
+    desc:"行动: 使1个干员获得+3攻击力", 
+    illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
+    action(G, ctx, self) {
+      let field = G.field.filter(x => (x != self));
+      let card = ctx.random.Shuffle(field)[0];
+      if (card) {
+        card.atk += 3;
+      }
+    },
+    onReinforce(G, ctx, self) {
+      // TODO: reconstruct this, find a way that only calling a function is enough and it can be used in all creatures, like static method?
+      let field = G.field.filter(x => (x != self));
+      let card = ctx.random.Shuffle(field)[0];
+      if (card) {
+        card.atk += 2;
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "使1个干员获得+2攻击力",
   },
   
   {
@@ -772,6 +803,31 @@ export var CARDS = [
     },
     reinforce_desc: "检索1张有\"部署:\"效果的牌",
   },
+  {
+    name:"煌",
+    cost:6,
+    atk:5,
+    hp:6,
+    mine:2,
+    block:2,
+    desc:"超杀: 每造成2点额外伤害，就获得1分",
+    illust:"http://ak.mooncell.wiki/images/3/38/%E7%AB%8B%E7%BB%98_%E7%85%8C_1.png",
+    onFight(G, ctx, self, enemy) {
+      if (enemy.dmg > enemy.hp) {
+        let delta = enemy.dmg - enemy.hp;
+        let score_gained = Math.floor(delta / 2);
+        G.score += score_gained;
+        logMsg(G, ctx, `使用 煌 获得${score_gained}分`);
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 1;
+      self.hp += 3;
+    },
+    reinforce_desc: "+1/+3",
+  },
+
   
   {
     name:"莫斯提马",
