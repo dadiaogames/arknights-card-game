@@ -1108,6 +1108,26 @@ export var CARDS = [
     },
     reinforce_desc: "将1张敌人牌加入手牌",
   },
+  
+  {
+    name:"W",
+    cost:6,
+    atk:6,
+    hp:6,
+    mine:3,
+    block:1,
+    desc: "行动: 将1张敌人牌加入手牌",
+    illust:"http://ak.mooncell.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
+    action(G, ctx, self) {
+      let card = enemy2card(G, ctx);
+      for (let i=0; i<self.power; i++) {
+        reinforce_card(G, ctx, card);
+      }
+      G.hand.unshift(card);
+    },
+    reinforce: 2,
+    reinforce_desc: "并强化其1次",
+  },
 
   {
     name:"调香师",

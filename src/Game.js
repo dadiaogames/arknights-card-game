@@ -275,14 +275,14 @@ export function enemy2card(G, ctx) {
     ...enemy,
     was_enemy: true,
     cost: 1,
-    mine: 4,
+    mine: 3,
     block: 2,
     reinforce: 1,
-    reinforce_desc: "+4/+4",
+    reinforce_desc: "+3/+3",
     material: ctx.random.Die(3)-1,
     onReinforce: (G, ctx, self) => {
-      self.atk += 4;
-      self.hp += 4;
+      self.atk += 3;
+      self.hp += 3;
     },
   };
   return enemy;
