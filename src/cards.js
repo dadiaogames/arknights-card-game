@@ -772,7 +772,7 @@ export var CARDS = [
     hp:3, 
     mine:2, 
     block:0, 
-    desc:"战斗: 触发场上所有干员的\"战斗\"效果", 
+    desc:"战斗: 触发场上所有干员的\"战斗:\"效果", 
     illust:"http://ak.mooncell.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
     onFight(G, ctx, self, enemy) {
       if (~G.field.indexOf(self)) {
@@ -800,7 +800,7 @@ export var CARDS = [
     hp:6, 
     mine:2, 
     block:1, 
-    desc:"行动: 触发场上所有干员的\"行动\"效果", 
+    desc:"行动: 触发场上所有干员的\"行动:\"效果", 
     illust:"http://ak.mooncell.wiki/images/2/26/%E7%AB%8B%E7%BB%98_%E6%B8%A9%E8%92%82_1.png",
     action(G, ctx, self, enemy) {
       if (~G.field.indexOf(self)) {
