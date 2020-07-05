@@ -768,7 +768,7 @@ export var CARDS = [
   {
     name:"能天使", 
     cost:4, 
-    atk:4, 
+    atk:5, 
     hp:3, 
     mine:2, 
     block:0, 
@@ -1383,7 +1383,7 @@ export var CARDS = [
     reinforce: 1,
     desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
     onPlay(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onPlay))[0];
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.onPlay&&(x.name!="可露希尔"))))[0];
       logMsg(G, ctx, `触发 ${card.name} 的部署效果`);
       card.onPlay(G, ctx, self);
     },

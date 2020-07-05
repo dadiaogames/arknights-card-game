@@ -75,9 +75,13 @@ function use(G, ctx, card) {
   }
 }
 
-function get_blocker(G, ctx, enemy) {
+export function get_blocker(G, ctx, enemy) {
   let idx = G.efield.indexOf(enemy);
   let blocked_enemies = 0;
+
+  // if (idx == -1) {
+  //   return false;
+  // }
 
   for (let c of G.field) {
     blocked_enemies += c.block || 0;
@@ -239,11 +243,12 @@ export function drawEnemy(G, ctx) {
     enemy.enraged = enemy.enraged || false;
     logMsg(G, ctx, `${enemy.name} 入场`);
     if (enemy.is_elite) {
-      switchEnemy(G, ctx);
+      let surge = switchEnemy(G, ctx);
+      if (enemy.onPlay && !surge) {
+        enemy.onPlay(G, ctx, enemy);
+      }
     }
-    if (enemy.onPlay) {
-      enemy.onPlay(G, ctx, enemy);
-    }
+    
   }
 }
 
@@ -267,6 +272,8 @@ export function switchEnemy(G, ctx) {
   else {
     G.efield.splice(len-2, 1);
   }
+
+  return surge;
 }
 
 export function enemy2card(G, ctx) {
@@ -403,7 +410,7 @@ export function exhaust_random_enemy(G, ctx) {
 }
 
 export function ready_random_card(G, ctx, self) {
-  let exhausted_cards = G.field.filter(x => (x.exhausted && (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "温蒂"].includes(x.name))));
+  let exhausted_cards = G.field.filter(x => (x.exhausted && (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂"].includes(x.name))));
   if (exhausted_cards.length > 0) {
     let card = ctx.random.Shuffle(exhausted_cards)[0];
     card.ready_times = card.ready_times || 0;

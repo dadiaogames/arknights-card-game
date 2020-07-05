@@ -576,7 +576,7 @@ export class Board extends React.Component {
 
       else {
         let failed = this.props.G.rhodes_training_mode?"任务完成":"任务失败";
-        alert(`${failed}\n原因: ${result.reason}\n${this.props.G.rhodes_training_mode?`评级:${good_grade}\n`:""}地图种子: ${this.state.seed}`);
+        alert(`${failed}\n原因: ${result.reason}\n${this.props.G.rhodes_training_mode?`评级: ${good_grade}\n`:""}地图种子: ${this.state.seed}`);
       }
 
     }
