@@ -537,12 +537,16 @@ export class Board extends React.Component {
     let result = this.props.ctx.gameover;
     if (result && !this.state.scenario_finished) {
       this.setState({scenario_finished: true});
+      let good_grade = "O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA";
 
       if (result.win) {
         let risk_level = this.get_risk_level();
         let grade = "D";
         // TODO: reconstruct this using "range" function
-        if (risk_level >= 0 && risk_level < 2) {
+        if (risk_level < 0 || this.props.G.rhodes_training_mode) {
+          grade = good_grade;
+        }
+        else if (risk_level >= 0 && risk_level < 2) {
           grade = "C";
         }
         else if (risk_level >= 2 && risk_level < 4) {
@@ -557,8 +561,14 @@ export class Board extends React.Component {
         else if (risk_level >= 12 && risk_level < 16) {
           grade = "SS";
         }
-        else {
+        else if (risk_level >= 16 && risk_level < 22) {
           grade = "SSS";
+        }
+        else if (risk_level >= 22 && risk_level < 30) {
+          grade = "SSSS";
+        }
+        else {
+          grade = "SSSSS";
         }
         let finish = this.props.G.rhodes_training_mode?"任务失败":"任务完成";
         alert(`${finish}\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n地图种子: ${this.state.seed}`);
@@ -566,7 +576,7 @@ export class Board extends React.Component {
 
       else {
         let failed = this.props.G.rhodes_training_mode?"任务完成":"任务失败";
-        alert(`${failed}\n原因: ${result.reason}\n地图种子: ${this.state.seed}`);
+        alert(`${failed}\n原因: ${result.reason}\n${this.props.G.rhodes_training_mode?`评级:${good_grade}\n`:""}地图种子: ${this.state.seed}`);
       }
 
     }
@@ -796,7 +806,7 @@ export class Board extends React.Component {
             color: "red", 
             marginLeft: "2%",
             marginTop: "-3%",
-            display:(risk_level>=5)? "" : "none"
+            display:(risk_level>=16)? "" : "none"
           }}
         >
           当前合约难度极大，请谨慎行动
