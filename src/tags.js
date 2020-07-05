@@ -138,6 +138,13 @@ const tag_list = [
       G.edeck = ctx.random.Shuffle(G.deck.map(x=>({...x, power:0}))); // If don't add power:0, plenty of bugs gonna come
       G.deck = deck;
       G.rhodes_training_mode = true;
+
+      for (let card of G.edeck) {
+        if (typeof card.desc == "string") {
+          card.desc = card.desc.replace("采掘", "动乱");
+          card.desc = card.desc.replace("部署", "入场");
+        }
+      }
     }
   },
 

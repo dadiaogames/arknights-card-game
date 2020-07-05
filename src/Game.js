@@ -285,6 +285,10 @@ export function enemy2card(G, ctx) {
       self.hp += 3;
     },
   };
+  if (typeof enemy.desc == "string") {
+    enemy.desc = enemy.desc.replace("动乱", "采掘");
+    enemy.desc = enemy.desc.replace("入场", "部署");
+  }
   return enemy;
 }
 
