@@ -97,6 +97,27 @@ const tag_list = [
   },
 
   {
+    src: "http://ak.mooncell.wiki/images/c/c7/Global_costrecovery_1.png",
+    desc: "强化干员需要消耗2点费用",
+    level: 2,
+    effect(G, ctx) {
+      G.harder_reinforce = true;
+    }
+  },
+
+  {
+    src: "http://ak.mooncell.wiki/images/c/cd/Global_tokencnt_2.png",
+    desc: "强化干员需要的材料数+1",
+    level: 2,
+    effect(G, ctx) {
+      for (let card of G.deck) {
+        card.reinforce += 1;
+      }
+    }
+  },
+
+
+  {
     src: "http://ak.mooncell.wiki/images/6/6d/Enemy_eagent_1.png",
     desc: "敌人无法被横置",
     level: 2,
@@ -107,14 +128,6 @@ const tag_list = [
     }
   },
 
-  {
-    src: "http://ak.mooncell.wiki/images/c/c7/Global_costrecovery_1.png",
-    desc: "强化干员需要消耗2点费用",
-    level: 2,
-    effect(G, ctx) {
-      G.harder_reinforce = true;
-    }
-  },
 
   {
     src: "http://ak.mooncell.wiki/images/f/f1/Enemy_buster_1.png",
@@ -125,15 +138,6 @@ const tag_list = [
       G.edeck = ctx.random.Shuffle(G.deck.map(x=>({...x, power:0}))); // If don't add power:0, plenty of bugs gonna come
       G.deck = deck;
       G.rhodes_training_mode = true;
-    }
-  },
-
-  {
-    src: "http://ak.mooncell.wiki/images/0/06/Enemy_attackspeed_2.png",
-    desc: "每回合额外翻开1张敌人牌",
-    level: 3,
-    effect(G, ctx) {
-      G.more_enemies = true;
     }
   },
 
@@ -149,6 +153,17 @@ const tag_list = [
   },
 
   {
+    src: "http://ak.mooncell.wiki/images/0/06/Enemy_attackspeed_2.png",
+    desc: "每回合额外翻开1张敌人牌",
+    level: 3,
+    effect(G, ctx) {
+      G.more_enemies = true;
+    }
+  },
+
+  
+
+  {
     src: "http://ak.mooncell.wiki/images/0/03/Enemy_atk_2.png",
     desc: "所有敌人获得+2/+2",
     level: 3,
@@ -157,18 +172,6 @@ const tag_list = [
         enemy.atk += 2;
         enemy.hp += 2;
       }
-    }
-  },
-
-
-  
-  
-  {
-    src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
-    desc: "胜利所需分数+5",
-    level: 3,
-    effect(G, ctx){
-      G.goal += 5;
     }
   },
 
@@ -181,6 +184,18 @@ const tag_list = [
     }
   },
 
+  
+  
+  {
+    src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
+    desc: "胜利所需分数+5",
+    level: 3,
+    effect(G, ctx){
+      G.goal += 5;
+    }
+  },
+
+  
   {
     src: "http://ak.mooncell.wiki/images/c/c1/Char_cdtime_2.png",
     desc: "干员以横置状态入场",

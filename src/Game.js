@@ -416,12 +416,12 @@ export function ready_random_card(G, ctx, self) {
 export function cure(G, ctx, amount) {
   // EH: find a "sorted" function instead of this way
   let ranked_field_by_dmg = G.field.filter(x=>(x.block>0)).sort((x,y) => {
-    if (x.dmg > y.dmg) {
-      return -1;
+    if (x.dmg != y.dmg) {
+      return y.dmg - x.dmg;
     }
-    else if (x.dmg < y.dmg) {
-      return 1;
-    }
+    // else if (x.block != y.block) {
+    //   return y.block - x.block;
+    // }
     else {
       return x.hp-y.hp;
     }
@@ -434,6 +434,7 @@ export function cure(G, ctx, amount) {
       card.dmg = 0;
     }
   }
+  return card;
 }
 
 export function get_rhine_order(G, ctx) {
