@@ -71,14 +71,10 @@ const tag_list = [
 
   {
     src: "http://ak.mooncell.wiki/images/3/3f/Char_blockminus_2.png",
-    desc: "所有干员阻挡数-1",
+    desc: "所有精英敌人失去\"替换\"效果",
     level: 2,
     effect(G, ctx){
-      for (let card of G.deck) {
-        if (card.block > 0) {
-          card.block -= 1;
-        }
-      }
+      G.not_switch = true;
     }
   },
 

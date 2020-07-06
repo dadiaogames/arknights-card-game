@@ -258,6 +258,10 @@ export function drawEnemy(G, ctx) {
 }
 
 export function switchEnemy(G, ctx) {
+  if (G.not_switch) {
+    return false;
+  }
+
   let len = G.efield.length;
   let enemy = G.efield[len-1];
   let switcher = G.efield[len-2];

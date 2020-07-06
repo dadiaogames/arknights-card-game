@@ -352,7 +352,7 @@ export var CARDS = [
     atk:2, 
     hp:2, 
     mine:1, 
-    block:2, 
+    block:1, 
     desc:"部署: 使场上所有其他干员获得+2/+2", 
     illust:"http://ak.mooncell.wiki/images/2/25/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E5%AE%BE_1.png",
     onPlay(G, ctx, self) {
