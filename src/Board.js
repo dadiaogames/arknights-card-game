@@ -329,6 +329,9 @@ export class Board extends React.Component {
 
   process_card_details(card) {
     let illust = card.was_enemy?"eo_illust_detailed":"illust_detailed";
+    if (card.reversed) {
+      illust = "r_" + illust;
+    }
     return {
       [illust]: card.illust,
       cost_detailed: card.cost,

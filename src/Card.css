@@ -131,14 +131,14 @@
   font-size: 135%;
 }
 
-.illust, .e_illust, .o_illust, .illust_detailed, .eo_illust_detailed, .r_illust {
+.illust, .e_illust, .o_illust, .illust_detailed, .eo_illust_detailed, .r_illust, .r_illust_detailed {
   width: 90%;
   height: 90%;
   margin: 10%;
   overflow: hidden;
 }
 
-.illust_detailed, .eo_illust_detailed {
+.illust_detailed, .r_illust_detailed, .eo_illust_detailed {
   border: 0px;
 }
 
@@ -146,7 +146,6 @@ img.illust {
   width: 350%;
   height: auto;
   margin-left: -120%;
-  border: 0px;
 }
 
 img.r_illust {
@@ -155,14 +154,12 @@ img.r_illust {
   margin-left: -120%;
   margin-top: -200%;
   transform: scaleY(-1);
-  border: 0px;
 }
 
 img.e_illust, img.eo_illust_detailed {
   width: 100%;
   height: auto;
   margin-left: 0%;
-  border: 0px;
 }
 
 /* img.o_illust {
@@ -185,11 +182,17 @@ img.o_illust {
   margin-top: -20%;
 }
 
-img.illust_detailed {
+img.illust_detailed, img.r_illust_detailed {
   width: 200%;
   height: auto;
   margin-left: -50%;
   border: 0px;
+}
+
+img.r_illust_detailed {
+  transform: rotate(90deg);
+  margin-left: -100%;
+  margin-top: -50%;
 }
 
 .check-card {
