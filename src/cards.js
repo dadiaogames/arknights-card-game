@@ -578,13 +578,13 @@ export var CARDS = [
     hp:3, 
     mine:2, 
     block:0, 
-    desc:"行动: 使1个干员获得+3攻击力", 
+    desc:"行动: 使1个干员获得+4攻击力", 
     illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E5%98%89%E7%BB%B4%E5%B0%94_1.png",
     action(G, ctx, self) {
       let field = G.field.filter(x => (x != self));
       let card = ctx.random.Shuffle(field)[0];
       if (card) {
-        card.atk += 3;
+        card.atk += 4;
       }
     },
     onReinforce(G, ctx, self) {
@@ -592,11 +592,11 @@ export var CARDS = [
       let field = G.field.filter(x => (x != self));
       let card = ctx.random.Shuffle(field)[0];
       if (card) {
-        card.atk += 2;
+        card.atk += 3;
       }
     },
     reinforce: 1,
-    reinforce_desc: "使1个干员获得+2攻击力",
+    reinforce_desc: "使1个干员获得+3攻击力",
   },
   
   {
