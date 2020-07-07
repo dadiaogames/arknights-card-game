@@ -170,8 +170,13 @@ export var ENEMIES = [
   {
     name: "碎岩者",
     illust: "http://ak.mooncell.wiki/images/b/bd/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A2%8E%E5%B2%A9%E8%80%85.png",
-    atk: -2,
+    atk: -3,
     hp: 8,
+    onTurnBegin(G, ctx, self) {
+      if (self.atk <= 0) {
+        self.atk = 1;
+      }
+    }
   },
 
   {
@@ -181,6 +186,11 @@ export var ENEMIES = [
     hp: 12,
     desc: "替换",
     is_elite: true,
+    onTurnBegin(G, ctx, self) {
+      if (self.atk <= 0) {
+        self.atk = 1;
+      }
+    }
   },
 
   {

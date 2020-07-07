@@ -647,6 +647,7 @@ export function setup(ctx) {
     G.playing = false;
     G.gained = [];
     G.stage = "player";
+    G.round_num = 0;
 
     G.CARDS = CARDS.slice(0);
     let banned_cards = ["砾", "可露希尔"];
@@ -709,6 +710,15 @@ export const AC = {
         for (let card of [...G.hand, ...G.field, ...G.efield]) {
           if (card.onTurnBegin) {
             card.onTurnBegin(G, ctx, card);
+          }
+        }
+
+        G.round_num += 1;
+
+        if (G.round_num == 3 && G.reinforceOnR3) {
+          for (let enemy of [...edeck, ...efield]) {
+            enemy.atk += 4;
+            enemy.hp += 4;
           }
         }
 

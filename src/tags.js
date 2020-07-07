@@ -198,6 +198,15 @@ const tag_list = [
     }
   },
 
+  {
+    src: "http://ak.mooncell.wiki/images/f/fa/Enemy_atk_3.png",
+    desc: "所有敌人在2回合后获得+4/+4",
+    level: 3,
+    effect(G, ctx){
+      G.reinforceOnR3 = true;
+    }
+  },
+
   
   {
     src: "http://ak.mooncell.wiki/images/c/c1/Char_cdtime_2.png",
