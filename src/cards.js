@@ -373,7 +373,7 @@ export var CARDS = [
   
   {
     name:"杜宾", 
-    cost:5, 
+    cost:4, 
     atk:2, 
     hp:2, 
     mine:1, 
@@ -405,7 +405,7 @@ export var CARDS = [
     cost:5, 
     atk:3, 
     hp:2, 
-    mine:1, 
+    mine:2, 
     block:0, 
     desc:"部署: 场上所有其他干员获得<+2>", 
     illust:"http://ak.mooncell.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E5%A4%A9%E7%81%AB_1.png",
@@ -491,10 +491,10 @@ export var CARDS = [
     desc:"行动: 获得+3生命值", 
     illust:"http://ak.mooncell.wiki/images/c/c7/%E7%AB%8B%E7%BB%98_%E8%9B%87%E5%B1%A0%E7%AE%B1_1.png",
     action(G, ctx, self) {
-      self.hp += 3 + 2 * self.power;
+      self.hp += 3 + 3 * self.power;
     },
     reinforce: 1,
-    reinforce_desc: "再获得+2生命值",
+    reinforce_desc: "再获得+3生命值",
   },
   
   {
@@ -559,22 +559,22 @@ export var CARDS = [
 
   {
     name:"安赛尔", 
-    cost:2,
+    cost:1,
     atk:0, 
     hp:2, 
-    mine:2, 
-    block:0, 
+    mine:1, 
+    block:1, 
     desc:"行动: 使1个干员获得+2/+2", 
     illust:"http://ak.mooncell.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E5%AE%89%E8%B5%9B%E5%B0%94_1.png",
     action(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.field)[0];
+      let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
       if (card) {
         card.atk += 2 + self.power;
-        card.hp += 2 + self.power;
+        card.hp += 2 + 2 * self.power;
       }
     },
     reinforce: 1,
-    reinforce_desc: "再获得+1/+1",
+    reinforce_desc: "再获得+1/+2",
   },
   
   {
