@@ -905,6 +905,34 @@ export var CARDS = [
     reinforce_desc: "+1/+3",
   },
 
+  {
+    name:"刻俄柏",
+    cost:5,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:0,
+    desc:"部署/采掘/战斗: 造成3点伤害, 随机分配到所有敌人身上",
+    illust:"http://prts.wiki/images/3/3d/%E7%AB%8B%E7%BB%98_%E5%88%BB%E4%BF%84%E6%9F%8F_1.png",
+    onPlay(G, ctx, self) {
+      for (let i=0; i<(3*(1+self.power)); i++) {
+        deal_random_damage(G, ctx, 1);
+      }
+    },
+    onMine(G, ctx, self) {
+      for (let i=0; i<(3*(1+self.power)); i++) {
+        deal_random_damage(G, ctx, 1);
+      }
+    },
+    onFight(G, ctx, self) {
+      for (let i=0; i<(3*(1+self.power)); i++) {
+        deal_random_damage(G, ctx, 1);
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "伤害+3",
+  },
+
   
   {
     name:"莫斯提马",
