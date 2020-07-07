@@ -199,7 +199,7 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/f/fa/Enemy_atk_3.png",
+    src: "http://ak.mooncell.wiki/images/4/40/Enemy_hirman_2.png",
     desc: "所有敌人在2回合后获得+4/+4",
     level: 3,
     effect(G, ctx){
