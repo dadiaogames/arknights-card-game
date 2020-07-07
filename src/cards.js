@@ -166,26 +166,12 @@ export var CARDS = [
     reinforce: 1,
     onReinforce(G, ctx, self) {
       draw(G, ctx);
+      draw(G, ctx);
     },
-    reinforce_desc: "摸1张牌",
+    reinforce_desc: "摸2张牌",
   },
 
-  {
-    name: "炎熔",
-    cost: 3,
-    atk: 4,
-    hp: 2,
-    mine: 2,
-    block: 0,
-    desc: "战斗: 获得1个材料",
-    illust:"http://ak.mooncell.wiki/images/8/80/%E7%AB%8B%E7%BB%98_%E7%82%8E%E7%86%94_1.png",
-    onFight(G, ctx, self) {
-      gainMaterials(G, ctx, 1+2*self.power);
-    },
-    reinforce: 3,
-    reinforce_desc: "再获得2个材料",
-  },
-
+  
   {
     name: "桃金娘",
     cost: 2,
@@ -238,6 +224,29 @@ export var CARDS = [
     },
     reinforce: 1,
     reinforce_desc: "再获得2点费用",
+  },
+
+  {
+    name:"清道夫", 
+    cost:3, 
+    atk:3, 
+    hp:4, 
+    mine:1, 
+    block:1, 
+    desc:"采掘/战斗: 摸1张牌", 
+    illust:"https://img.moegirl.org/common/1/1d/%E6%98%8E%E6%97%A5%E6%96%B9%E8%88%9F%E7%AB%8B%E7%BB%98_%E6%B8%85%E9%81%93%E5%A4%AB_1.png",
+    onMine(G, ctx) {
+      draw(G, ctx);
+    },
+    onFight(G, ctx) {
+      draw(G, ctx);
+    },
+    reinforce: 1,
+    reinforce_desc: "+2/+2",
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    }
   },
   
   {
@@ -327,6 +336,22 @@ export var CARDS = [
       }
     },
     reinforce_desc: "触发1次\"部署:\"效果",
+  },
+
+  {
+    name: "炎熔",
+    cost: 3,
+    atk: 4,
+    hp: 2,
+    mine: 2,
+    block: 0,
+    desc: "战斗: 获得1个材料",
+    illust:"http://ak.mooncell.wiki/images/8/80/%E7%AB%8B%E7%BB%98_%E7%82%8E%E7%86%94_1.png",
+    onFight(G, ctx, self) {
+      gainMaterials(G, ctx, 1+2*self.power);
+    },
+    reinforce: 3,
+    reinforce_desc: "再获得2个材料",
   },
 
    
