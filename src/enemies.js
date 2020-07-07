@@ -116,17 +116,14 @@ export var ENEMIES = [
   {
     name: "高能源石虫",
     atk: 1,
-    hp: 3,
+    hp: 1,
     illust: "http://ak.mooncell.wiki/images/6/68/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%AB%98%E8%83%BD%E6%BA%90%E7%9F%B3%E8%99%AB.png",
-    desc: "亡语: 对其阻挡者造成{攻击力+2}点伤害",
+    desc: "亡语: 对1个随机干员造成{攻击力+2}点伤害",
     onOut(G, ctx, self) {
       if (G.field.length > 0) {
-        let blocker = get_blocker(G, ctx, self);
-        let blocker_idx = G.field.indexOf(blocker);
-        if (~blocker_idx) {
-          deal_damage(G, ctx, "field", blocker_idx, self.atk+2);
-          logMsg(G, ctx, `高能源石虫对 ${blocker} 造成了${self.atk+2}点伤害`);
-        }
+        let idx = ctx.random.Die(G.field.length) - 1;
+        deal_damage(G, ctx, "field", idx, self.atk+2);
+        logMsg(G, ctx, `高能源石虫对 ${G.field[idx].name} 造成了${self.atk+2}点伤害`);
       }
     }
   },
