@@ -51,9 +51,10 @@ export var ENEMIES = [
     atk: 1,
     hp: 1,
     illust: "http://ak.mooncell.wiki/images/3/3e/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%BA%90%E7%9F%B3%E8%99%AB.png",
-    desc: "涌动",
+    desc: "入场: 召唤1个1/1的源石虫",
     onPlay(G, ctx) {
-      drawEnemy(G, ctx);
+      let self_copy = {...G.efield[G.efield.length-1], atk:1, hp:1};
+      G.efield.push(self_copy);
     }
   },
   {
