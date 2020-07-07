@@ -461,6 +461,26 @@ export var CARDS = [
     },
     reinforce_desc: "+5/+5",
   },
+
+  {
+    name:"慕斯", 
+    cost:3, 
+    atk:2, 
+    hp:2, 
+    mine:3, 
+    block:1, 
+    illust:"http://prts.wiki/images/c/c5/%E7%AB%8B%E7%BB%98_%E6%85%95%E6%96%AF_1.png",
+    reinforce: 1,
+    desc: "战斗: 使目标攻击力-4",
+    onFight(G, ctx, self, enemy) {
+      enemy.atk -= 4;
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 3;
+    },
+    reinforce_desc: "+2/+3",
+  },
   
   {
     name:"星极", 
