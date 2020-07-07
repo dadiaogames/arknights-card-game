@@ -715,7 +715,7 @@ export const AC = {
 
         G.round_num += 1;
 
-        if (G.round_num == 3 && G.reinforceOnR3) {
+        if (G.round_num == 4 && G.reinforceOnR4) {
           for (let enemy of [...G.edeck, ...G.efield]) {
             enemy.atk += 4;
             enemy.hp += 4;
