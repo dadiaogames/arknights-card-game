@@ -45,16 +45,16 @@ const tag_list = [
       G.edeck = G.edeck.slice(0, G.edeck.length-4);
     }
   },
-  {
-    src: "http://ak.mooncell.wiki/images/6/65/Char_cost_casterhealer_1.png",
-    desc: "所有高台干员部署费用+1",
-    level: 1,
-    effect(G, ctx) {
-      for (let card of G.deck.filter(x=>((x.block||0)==0))) {
-        card.cost += 1;
-      }
-    }
-  },
+  // {
+  //   src: "http://ak.mooncell.wiki/images/6/65/Char_cost_casterhealer_1.png",
+  //   desc: "所有高台干员部署费用+1",
+  //   level: 1,
+  //   effect(G, ctx) {
+  //     for (let card of G.deck.filter(x=>((x.block||0)==0))) {
+  //       card.cost += 1;
+  //     }
+  //   }
+  // },
   {
     src: "http://ak.mooncell.wiki/images/5/5a/Char_atk_2.png",
     desc: "所有干员获得-2攻击力",
