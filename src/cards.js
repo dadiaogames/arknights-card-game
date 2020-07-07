@@ -861,7 +861,7 @@ export var CARDS = [
     atk:5,
     hp:6,
     mine:2,
-    block:2,
+    block:1,
     desc:"超杀: 每造成2点额外伤害，就获得1分",
     illust:"http://ak.mooncell.wiki/images/3/38/%E7%AB%8B%E7%BB%98_%E7%85%8C_1.png",
     onFight(G, ctx, self, enemy) {
