@@ -362,7 +362,7 @@ export var CARDS = [
     hp:3, 
     mine:2, 
     block:0, 
-    desc:"战斗: 对1个敌人造成3点伤害", 
+    desc:"战斗: 再造成3点伤害", 
     illust:"http://ak.mooncell.wiki/images/6/66/%E7%AB%8B%E7%BB%98_%E8%93%9D%E6%AF%92_1.png",
     onFight(G, ctx, self) {
       deal_random_damage(G, ctx, 3+self.power*2);
@@ -903,9 +903,9 @@ export var CARDS = [
   {
     name:"煌",
     cost:6,
-    atk:5,
-    hp:6,
-    mine:2,
+    atk:7,
+    hp:7,
+    mine:3,
     block:1,
     desc:"超杀: 每造成2点额外伤害，就获得1分",
     illust:"http://ak.mooncell.wiki/images/3/38/%E7%AB%8B%E7%BB%98_%E7%85%8C_1.png",
@@ -932,7 +932,7 @@ export var CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:"部署/采掘/战斗: 造成3点伤害, 随机分配到所有敌人身上",
+    desc:"部署/采掘/战斗: 造成1点伤害, 重复3次",
     illust:"http://prts.wiki/images/3/3d/%E7%AB%8B%E7%BB%98_%E5%88%BB%E4%BF%84%E6%9F%8F_1.png",
     onPlay(G, ctx, self) {
       for (let i=0; i<(3*(1+self.power)); i++) {
@@ -950,7 +950,7 @@ export var CARDS = [
       }
     },
     reinforce: 1,
-    reinforce_desc: "伤害+3",
+    reinforce_desc: "再重复3次",
   },
 
   
@@ -1100,10 +1100,10 @@ export var CARDS = [
       reinforce_hand(G, ctx);
     },
     onReinforce(G, ctx, self) {
-      self.atk += 3;
+      self.atk += 2;
       self.hp += 3;
     },
-    reinforce_desc: "+3/+3",
+    reinforce_desc: "+2/+3",
   },
   {
     name:"真理",
