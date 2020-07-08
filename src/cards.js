@@ -645,14 +645,14 @@ export var CARDS = [
   },
 
   {
-    name:"调香师",
+    name:"闪灵",
     cost:4,
     atk:4,
     hp:3,
     mine:2,
     block:0,
     desc: "采掘/战斗: 使1个干员获得+2/+2",
-    illust:"http://ak.mooncell.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
+    illust:"http://prts.wiki/images/e/e9/%E7%AB%8B%E7%BB%98_%E9%97%AA%E7%81%B5_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
       // TODO: reconstruct this part, of course buffing an card needs a function
