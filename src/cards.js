@@ -643,7 +643,32 @@ export var CARDS = [
     reinforce: 1,
     reinforce_desc: "使1个干员获得+3攻击力",
   },
-  
+
+  {
+    name:"调香师",
+    cost:4,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:0,
+    desc: "采掘/战斗: 使1个干员获得+2/+2",
+    illust:"http://ak.mooncell.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      // TODO: reconstruct this part, of course buffing an card needs a function
+      let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
+      if (card) {
+        card.atk += 2 + self.power;
+        card.hp += 2 + 2 * self.power;
+      }
+    },
+    onFight(G, ctx, self) {
+      self.onMine(G, ctx, self);
+      // It's okay to do this because "onFight"s are not on G.effects
+    },
+    reinforce_desc: "再获得+1/+2",
+  },
+
   {
     name:"空", 
     cost:4, 
@@ -792,9 +817,9 @@ export var CARDS = [
   {
     name:"艾雅法拉",
     cost:4,
-    atk:4,
+    atk:5,
     hp:3,
-    mine:3,
+    mine:2,
     block:0,
     desc:"采掘: 触发场上所有干员的\"采掘:\"效果",
     illust:"http://ak.mooncell.wiki/images/c/c0/%E7%AB%8B%E7%BB%98_%E8%89%BE%E9%9B%85%E6%B3%95%E6%8B%89_1.png",
@@ -849,7 +874,7 @@ export var CARDS = [
   {
     name:"温蒂", 
     cost:5, 
-    atk:5, 
+    atk:3, 
     hp:6, 
     mine:2, 
     block:1, 
@@ -1210,29 +1235,7 @@ export var CARDS = [
     reinforce_desc: "并强化其1次",
   },
 
-  {
-    name:"调香师",
-    cost:3,
-    atk:0,
-    hp:2,
-    mine:2,
-    block:0,
-    desc: "行动: 使1个有阻挡能力的干员获得+4生命值，重复2次",
-    illust:"http://ak.mooncell.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
-    reinforce: 1,
-    action(G, ctx, self) {
-      let warriors = G.field.filter(x => (x.block > 0));
-
-      if (warriors.length > 0){
-        for (let i=0; i<2; i++) {
-          let warrior = ctx.random.Shuffle(warriors)[0];
-          warrior.hp += 4 + self.power;
-        }
-      }
-    },
-    reinforce_desc: "生命值加成+1",
-  },
-
+ 
   {
     name:"梅尔",
     cost:2,
