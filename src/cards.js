@@ -149,6 +149,23 @@ export var CARDS = [
     },
     reinforce_desc: "+3/+1",
   },
+  
+  {
+    name:"夜刀",
+    cost:12,
+    atk:12,
+    hp:12,
+    mine:6,
+    block:3,
+    illust:"http://ak.mooncell.wiki/images/a/ad/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E5%88%80_1.png",
+    reinforce: 1,
+    
+    onReinforce(G, ctx, self) {
+      G.atk += 4;
+      G.hp += 4;
+    },
+    reinforce_desc: "+4/+4",
+  },
 
   {
     name: "芬",
@@ -224,6 +241,27 @@ export var CARDS = [
     },
     reinforce: 1,
     reinforce_desc: "再获得2点费用",
+  },
+  
+  {
+    name:"极境",
+    cost:5,
+    atk:2,
+    hp:2,
+    mine:1,
+    block:1,
+    desc: "部署: 获得7点费用",
+    illust:"http://ak.mooncell.wiki/images/5/5a/%E7%AB%8B%E7%BB%98_%E6%9E%81%E5%A2%83_1.png",
+    reinforce: 1,
+
+    onPlay(G, ctx) {
+      G.costs += 7;
+    },
+    
+    onReinforce(G, ctx, self) {
+      G.costs += 2;
+    },
+    reinforce_desc: "获得2点费用",
   },
 
   {
@@ -534,9 +572,9 @@ export var CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.hp += 8;
+      self.hp += 10;
     },
-    reinforce_desc: "+0/+8",
+    reinforce_desc: "+0/+10",
   },
   
   {
@@ -556,9 +594,9 @@ export var CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.hp += 8;
+      self.hp += 10;
     },
-    reinforce_desc: "+0/+8",
+    reinforce_desc: "+0/+10",
   },
   
   {
@@ -1323,43 +1361,9 @@ export var CARDS = [
     reinforce_desc: "+0/+3",
   },
 
-  {
-    name:"极境",
-    cost:5,
-    atk:2,
-    hp:2,
-    mine:1,
-    block:1,
-    desc: "部署: 获得7点费用",
-    illust:"http://ak.mooncell.wiki/images/5/5a/%E7%AB%8B%E7%BB%98_%E6%9E%81%E5%A2%83_1.png",
-    reinforce: 1,
+  
 
-    onPlay(G, ctx) {
-      G.costs += 7;
-    },
-    
-    onReinforce(G, ctx, self) {
-      G.costs += 2;
-    },
-    reinforce_desc: "获得2点费用",
-  },
-
-  {
-    name:"夜刀",
-    cost:12,
-    atk:12,
-    hp:12,
-    mine:6,
-    block:4,
-    illust:"http://ak.mooncell.wiki/images/a/ad/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E5%88%80_1.png",
-    reinforce: 1,
-    
-    onReinforce(G, ctx, self) {
-      G.atk += 4;
-      G.hp += 4;
-    },
-    reinforce_desc: "+4/+4",
-  },
+  
 
   {
     name:"翎羽",
@@ -1382,34 +1386,34 @@ export var CARDS = [
     },
     reinforce_desc: "+2/+2",
   },
-  {
-    name:"杜林",
-    cost:5,
-    atk:4,
-    hp:7,
-    mine:2,
-    block:2,
-    illust: "http://ak.mooncell.wiki/images/f/f7/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E6%9E%97_1.png",
-    reinforce: 1,
-    desc: "亡语: 如果\"巡林者\"也在弃牌堆，则部署\"夜刀\"",
+  // {
+  //   name:"杜林",
+  //   cost:5,
+  //   atk:4,
+  //   hp:7,
+  //   mine:2,
+  //   block:2,
+  //   illust: "http://ak.mooncell.wiki/images/f/f7/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E6%9E%97_1.png",
+  //   reinforce: 1,
+  //   desc: "亡语: 如果\"巡林者\"也在弃牌堆，则部署\"夜刀\"",
 
-    onOut(G, ctx, self) {
-      let target = G.discard.find(x => x.name=="巡林者");
-      if (target) {
-        let dragon = G.CARDS.find(x => x.name=="夜刀");
-        if (dragon) {
-          G.field.push(init_card_state(G, ctx, Object.assign({}, dragon)));
-        }
-      }
+  //   onOut(G, ctx, self) {
+  //     let target = G.discard.find(x => x.name=="巡林者");
+  //     if (target) {
+  //       let dragon = G.CARDS.find(x => x.name=="夜刀");
+  //       if (dragon) {
+  //         G.field.push(init_card_state(G, ctx, Object.assign({}, dragon)));
+  //       }
+  //     }
 
-    },
+  //   },
     
-    onReinforce(G, ctx, self) {
-      self.atk += 1;
-      self.hp += 3;
-    },
-    reinforce_desc: "+1/+3",
-  },
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 1;
+  //     self.hp += 3;
+  //   },
+  //   reinforce_desc: "+1/+3",
+  // },
   {
     name:"狮蝎",
     cost:3,

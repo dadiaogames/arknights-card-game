@@ -70,11 +70,11 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/3/3f/Char_blockminus_2.png",
-    desc: "所有精英敌人失去\"替换\"效果",
+    src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
+    desc: "所有敌人在2回合后获得+4生命值",
     level: 2,
     effect(G, ctx){
-      G.not_switch = true;
+      G.reinforceOnR3 = true;
     }
   },
 
@@ -190,11 +190,11 @@ const tag_list = [
   
   
   {
-    src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
-    desc: "胜利所需分数+5",
+    src: "http://ak.mooncell.wiki/images/d/d3/Enemy_def_1.png",
+    desc: "胜利所需分数+8",
     level: 3,
     effect(G, ctx){
-      G.goal += 5;
+      G.goal += 8;
     }
   },
 
