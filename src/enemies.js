@@ -27,7 +27,7 @@ export var ENEMIES = [
     atk: 5,
     hp: 4,
     illust: "http://ak.mooncell.wiki/images/a/a5/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%B0%84%E6%89%8B.png",
-    desc: "行动: 对最后部署的单位造成等同于自己攻击力的伤害",
+    desc: "行动: 对最后部署的单位，造成等同于自己攻击力的伤害",
     action(G, ctx, self) {
       let card = G.field[G.field.length-1];
       if (card) {
@@ -52,9 +52,9 @@ export var ENEMIES = [
     hp: 1,
     illust: "http://ak.mooncell.wiki/images/3/3e/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%BA%90%E7%9F%B3%E8%99%AB.png",
     desc: "入场: 召唤1个1/1的源石虫",
-    onPlay(G, ctx) {
-      let self_copy = {...G.efield[G.efield.length-1], atk:1, hp:1};
-      G.efield.push(self_copy);
+    onPlay(G, ctx, self) {
+      let self_copy = {...self, atk:1, hp:1};
+      G.efield.splice(G.efield.length-1, 0, self_copy);
     }
   },
   {

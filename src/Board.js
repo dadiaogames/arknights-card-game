@@ -573,6 +573,7 @@ export class Board extends React.Component {
         else {
           grade = "SSSSS";
         }
+        // TODO: reconstruct this part, flat is better than nested
         let finish = this.props.G.rhodes_training_mode?"任务失败":"任务完成";
         alert(`${finish}\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n地图种子: ${this.state.seed}`);
       }
@@ -601,6 +602,7 @@ export class Board extends React.Component {
         }}>
         {/* this part, css in js, or css in file? 
         In my view, after this part is moved to a new file, change it to css in file
+        TODO: reconstruct this part
         */}
       {RULES}
       </div>

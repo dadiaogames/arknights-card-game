@@ -252,7 +252,7 @@ export var CARDS = [
   {
     name:"德克萨斯", 
     cost:3, 
-    atk:5, 
+    atk:4, 
     hp:2, 
     mine:1, 
     block:1, 
@@ -623,13 +623,13 @@ export var CARDS = [
     hp:3, 
     mine:2, 
     block:0, 
-    desc:"行动: 使1个干员获得+4攻击力", 
+    desc:"行动: 使1个干员获得+3攻击力", 
     illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E5%98%89%E7%BB%B4%E5%B0%94_1.png",
     action(G, ctx, self) {
       let field = G.field.filter(x => (x != self));
       let card = ctx.random.Shuffle(field)[0];
       if (card) {
-        card.atk += 4;
+        card.atk += 3;
       }
     },
     onReinforce(G, ctx, self) {
@@ -637,11 +637,11 @@ export var CARDS = [
       let field = G.field.filter(x => (x != self));
       let card = ctx.random.Shuffle(field)[0];
       if (card) {
-        card.atk += 3;
+        card.atk += 2;
       }
     },
     reinforce: 1,
-    reinforce_desc: "使1个干员获得+3攻击力",
+    reinforce_desc: "使1个干员获得+2攻击力",
   },
 
   {
@@ -957,7 +957,7 @@ export var CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:"部署/采掘/战斗: 造成1点伤害, 重复3次",
+    desc:"部署/采掘/战斗: 造成1点伤害，重复3次",
     illust:"http://prts.wiki/images/3/3d/%E7%AB%8B%E7%BB%98_%E5%88%BB%E4%BF%84%E6%9F%8F_1.png",
     onPlay(G, ctx, self) {
       for (let i=0; i<(3*(1+self.power)); i++) {
@@ -1464,7 +1464,7 @@ export var CARDS = [
     mine:1,
     block:1,
     illust: "http://ak.mooncell.wiki/images/4/45/%E7%AB%8B%E7%BB%98_%E6%96%AF%E5%8D%A1%E8%92%82_1.png",
-    reinforce: 1,
+    reinforce: 2,
     desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
     onPlay(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.onPlay&&(x.name!="可露希尔"))))[0];

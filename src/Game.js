@@ -84,7 +84,7 @@ export function get_blocker(G, ctx, enemy) {
   }
 
   for (let c of G.field) {
-    blocked_enemies += c.block || 0;
+    blocked_enemies += Math.max(0, c.block||0);
     if (blocked_enemies > idx) {
       return c;
     }
@@ -379,7 +379,7 @@ function act(G, ctx, idx) {
 }
 
 export function reinforce_card(G, ctx, card) {
-  card.power = card.power || 0;
+  card.power = card.power || 0; // EH: are there any better methods to write less var||0?
   card.power += 1;
   if (card.onReinforce) {
     card.onReinforce(G, ctx, card);
