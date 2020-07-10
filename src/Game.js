@@ -533,7 +533,7 @@ function refresh(G, ctx) {
 
 function onScenarioBegin(G, ctx) {
   //SetUp
-  for (let i=0; i<4; i++){
+  for (let i=0; i<5; i++){
     draw(G, ctx);
   }
 
@@ -541,7 +541,7 @@ function onScenarioBegin(G, ctx) {
     drawEnemy(G, ctx);
   }
 
-  for (let i=0; i<4; i++){
+  for (let i=0; i<5; i++){
     drawOrder(G, ctx);
   }
   console.log("Setup finished");

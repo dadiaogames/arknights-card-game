@@ -37,7 +37,7 @@ export var CARDS = [
     onMine(G, ctx, self) {
       G.score += 1 + 2 * self.power;
     },
-    reinforce: 3,
+    reinforce: 2,
     reinforce_desc: "再获得2分",
   },
 
@@ -83,9 +83,9 @@ export var CARDS = [
     illust: "http://ak.mooncell.wiki/images/4/44/%E7%AB%8B%E7%BB%98_%E7%B1%B3%E6%A0%BC%E9%B2%81_1.png",
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.hp += 4;
+      self.hp += 6;
     },
-    reinforce_desc: "+0/+4",
+    reinforce_desc: "+0/+6",
   },
 
   {
@@ -98,9 +98,9 @@ export var CARDS = [
     illust: "http://ak.mooncell.wiki/images/4/44/%E7%AB%8B%E7%BB%98_%E5%8F%B2%E9%83%BD%E5%8D%8E%E5%BE%B7_1.png",
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.mine += 1;
+      self.mine += 2;
     },
-    reinforce_desc: "<+1>",
+    reinforce_desc: "<+2>",
   },
 
   {
@@ -113,9 +113,9 @@ export var CARDS = [
     illust: "http://ak.mooncell.wiki/images/6/61/%E7%AB%8B%E7%BB%98_12F_1.png",
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 3;
+      self.mine += 4;
     },
-    reinforce_desc: "<+3>",
+    reinforce_desc: "<+4>",
   },
 
   {
@@ -388,7 +388,7 @@ export var CARDS = [
     onFight(G, ctx, self) {
       gainMaterials(G, ctx, 1+2*self.power);
     },
-    reinforce: 3,
+    reinforce: 2,
     reinforce_desc: "再获得2个材料",
   },
 
