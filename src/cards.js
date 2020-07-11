@@ -108,14 +108,14 @@ export var CARDS = [
     cost: 6,
     atk: 6,
     hp: 4,
-    mine: 5,
+    mine: 6,
     block: 0,
     illust: "http://ak.mooncell.wiki/images/6/61/%E7%AB%8B%E7%BB%98_12F_1.png",
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 4;
+      self.mine += 5;
     },
-    reinforce_desc: "<+4>",
+    reinforce_desc: "<+5>",
   },
 
   {
@@ -356,7 +356,7 @@ export var CARDS = [
   {
     name:"推进之王", 
     cost:4, 
-    atk:3, 
+    atk:4, 
     hp:3, 
     mine:1, 
     block:1, 
@@ -456,9 +456,9 @@ export var CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 3;
+      self.mine += 6;
     },
-    reinforce_desc: "<+3>",
+    reinforce_desc: "<+6>",
   },
 
   
@@ -504,7 +504,7 @@ export var CARDS = [
     name:"慕斯", 
     cost:3, 
     atk:2, 
-    hp:2, 
+    hp:3, 
     mine:3, 
     block:1, 
     illust:"http://prts.wiki/images/c/c5/%E7%AB%8B%E7%BB%98_%E6%85%95%E6%96%AF_1.png",
@@ -543,7 +543,7 @@ export var CARDS = [
     name:"蛇屠箱", 
     cost:3, 
     atk:2, 
-    hp:5, 
+    hp:6, 
     mine:1, 
     block:2, 
     desc:"行动: 获得+3生命值", 
@@ -601,7 +601,7 @@ export var CARDS = [
   
   {
     name:"芙蓉", 
-    cost:2, 
+    cost:1, 
     atk:0, 
     hp:2, 
     mine:1, 
@@ -637,7 +637,7 @@ export var CARDS = [
   
   {
     name:"清流", 
-    cost:4, 
+    cost:3, 
     atk:0, 
     hp:3, 
     mine:3, 
@@ -659,7 +659,7 @@ export var CARDS = [
     cost:3, 
     atk:0, 
     hp:3, 
-    mine:2, 
+    mine:3, 
     block:0, 
     desc:"行动: 使1个干员获得+3攻击力", 
     illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E5%98%89%E7%BB%B4%E5%B0%94_1.png",
@@ -721,20 +721,20 @@ export var CARDS = [
       exhaust_random_enemy(G, ctx);
     },
     onReinforce(G, ctx, self) {
-      self.mine += 3;
+      self.mine += 2;
     },
-    reinforce: 2,
-    reinforce_desc: "<+3>",
+    reinforce: 1,
+    reinforce_desc: "<+2>",
   },
   
   {
     name:"阿消", 
     cost:4, 
-    atk:3, 
-    hp:4, 
-    mine:2, 
+    atk:4, 
+    hp:5, 
+    mine:1, 
     block:1, 
-    desc:"行动: 消耗3点费用，获得4分", 
+    desc:"行动: 消耗4点费用，获得5分", 
     illust:"http://ak.mooncell.wiki/images/c/c6/%E7%AB%8B%E7%BB%98_%E9%98%BF%E6%B6%88_1.png",
     action(G, ctx, self) {
       if (payCost(G, ctx, 3-2*self.power)) {
@@ -750,7 +750,7 @@ export var CARDS = [
     cost:3,
     atk:2,
     hp:2,
-    mine:1,
+    mine:2,
     block:1,
     desc:"部署: 获得2个\"莱茵生命订单\"",
     illust:"http://ak.mooncell.wiki/images/7/7f/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E9%BB%98_1.png",
@@ -788,48 +788,85 @@ export var CARDS = [
   {
     name:"伊芙利特",
     cost:4,
-    atk:4,
+    atk:6,
     hp:3,
-    mine:4,
+    mine:2,
     block:0,
-    desc:"行动: 重置所有已完成的订单",
+    desc:"采掘: 重置所有已完成的订单",
     illust:"http://ak.mooncell.wiki/images/5/53/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E8%8A%99%E5%88%A9%E7%89%B9_1.png",
-    action(G, ctx, self) {
+    onMine(G, ctx, self) {
       for (let order of G.finished) {
         order.exhausted = false;
       }
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 3;
+      self.mine += 5;
     },
-    reinforce_desc: "<+3>",
+    reinforce_desc: "<+5>",
   },
   
+  // {
+  //   name:"远山",
+  //   cost:3,
+  //   atk:4,
+  //   hp:2,
+  //   mine:1,
+  //   block:0,
+  //   desc:"部署/采掘/战斗: 重置1个已完成的订单",
+  //   illust:"http://ak.mooncell.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
+  //   onMine(G, ctx, self) {
+  //     for (let order of ctx.random.Shuffle(G.finished)) {
+  //       if (order.exhausted) {
+  //         order.exhausted = false;
+  //         break;
+  //       }
+  //     }
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 4;
+  //     self.hp += 2;
+  //   },
+  //   reinforce_desc: "+4/+2",
+  // }, 
+  
   {
-    name:"远山",
-    cost:3,
-    atk:4,
+    name:"梅尔",
+    cost:2,
+    atk:3,
     hp:2,
-    mine:2,
+    mine:1,
     block:0,
-    desc:"采掘: 重置1个已完成的订单",
-    illust:"http://ak.mooncell.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
-    onMine(G, ctx, self) {
-      for (let order of ctx.random.Shuffle(G.finished)) {
-        if (order.exhausted) {
-          order.exhausted = false;
-          break;
-        }
+    desc: "部署: 使2个订单的能力改为\"→造成5点伤害\"",
+    illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
+    reinforce: 1,
+
+    onPlay(G, ctx) {
+      let orders = ctx.random.Shuffle(G.finished);
+      if (orders.length > 2) {
+        orders = orders.slice(0,2);
+      }
+      for (let order of orders) {
+        let material = ctx.random.Die(3) - 1;
+        let requirements = [0,0,0,0];
+        requirements[material] = 1;
+        order.desc = <span>{material_icons[material]}→5伤害</span>;
+        order.effect = (G,ctx) => {
+          if (payMaterials(G, ctx, requirements)) {
+            deal_random_damage(G, ctx, 5);
+          }
+        };
       }
     },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.atk += 4;
-      self.hp += 2;
+    
+    onReinforce(G, ctx) {
+      deal_random_damage(G, ctx, 3);
     },
-    reinforce_desc: "+4/+2",
+    reinforce_desc: "造成3点伤害",
   },
+
+
   
   {
     name:"塞雷娅",
@@ -1274,42 +1311,7 @@ export var CARDS = [
   },
 
  
-  {
-    name:"梅尔",
-    cost:2,
-    atk:3,
-    hp:2,
-    mine:1,
-    block:0,
-    desc: "部署: 使2个订单的能力改为\"→造成5点伤害\"",
-    illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
-    reinforce: 1,
-
-    onPlay(G, ctx) {
-      let orders = ctx.random.Shuffle(G.finished);
-      if (orders.length > 2) {
-        orders = orders.slice(0,2);
-      }
-      for (let order of orders) {
-        let material = ctx.random.Die(3) - 1;
-        let requirements = [0,0,0,0];
-        requirements[material] = 1;
-        order.desc = <span>{material_icons[material]}→5伤害</span>;
-        order.effect = (G,ctx) => {
-          if (payMaterials(G, ctx, requirements)) {
-            deal_random_damage(G, ctx, 5);
-          }
-        };
-      }
-    },
-    
-    onReinforce(G, ctx) {
-      deal_random_damage(G, ctx, 3);
-    },
-    reinforce_desc: "造成3点伤害",
-  },
-
-  {
+   {
     name:"猎蜂",
     cost:1,
     atk:1,
@@ -1361,10 +1363,6 @@ export var CARDS = [
     reinforce_desc: "+0/+3",
   },
 
-  
-
-  
-
   {
     name:"翎羽",
     cost:3,
@@ -1414,6 +1412,7 @@ export var CARDS = [
   //   },
   //   reinforce_desc: "+1/+3",
   // },
+
   {
     name:"狮蝎",
     cost:3,
