@@ -303,10 +303,10 @@ export var CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      let lappland = G.CARDS.find(x => (x.name == "拉普兰德"));
-      G.field.push(init_card_state(G, ctx, {...lappland}));
+      self.atk += 5;
+      self.hp += 5;
     },
-    reinforce_desc: "部署\"拉普兰德\"",
+    reinforce_desc: "+5/+5",
   },
   
   {

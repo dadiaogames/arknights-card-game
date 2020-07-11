@@ -137,7 +137,7 @@ export function addTags(G, ctx, tags) {
 export function init_card_state(G, ctx, card) {
   card.dmg = 0;
   card.power = card.power || 0;
-  card.material = card.material || ctx.random.Die(3) - 1;
+  card.material = card.material || (ctx.random.Die(3) - 1);
   card.exhausted = G.exhausted_enter;
   return card;
 }
