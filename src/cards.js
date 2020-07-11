@@ -51,10 +51,10 @@ export var CARDS = [
     illust: "http://ak.mooncell.wiki/images/9/96/%E7%AB%8B%E7%BB%98_%E6%9D%B0%E8%A5%BF%E5%8D%A1_1.png",
     desc: "采掘: 造成3点伤害",
     onMine(G, ctx, self) {
-      deal_random_damage(G, ctx, 3+2*self.power);
+      deal_random_damage(G, ctx, 3+3*self.power);
     },
     reinforce: 1,
-    reinforce_desc: "伤害+2",
+    reinforce_desc: "伤害+3",
   },
 
   {
@@ -204,11 +204,11 @@ export var CARDS = [
       }
     },
     action(G, ctx, self) {
-      G.costs += 3 + 3 * self.power;
+      G.costs += 3 + 2 * self.power;
       self.block -= 1;
     },
-    reinforce: 2,
-    reinforce_desc: "再获得3点费用",
+    reinforce: 1,
+    reinforce_desc: "再获得2点费用",
   },
 
   {
@@ -301,12 +301,12 @@ export var CARDS = [
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
       G.costs += num_exhausted + self.power * 2;
     },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
+      let lappland = G.CARDS.find(x => (x.name == "拉普兰德"));
+      G.field.push(init_card_state(G, ctx, {...lappland}));
     },
-    reinforce_desc: "+2/+2",
+    reinforce_desc: "部署\"拉普兰德\"",
   },
   
   {
@@ -627,12 +627,12 @@ export var CARDS = [
     action(G, ctx, self) {
       let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
       if (card) {
-        card.atk += 2 + self.power;
+        card.atk += 2 + 2 * self.power;
         card.hp += 2 + 2 * self.power;
       }
     },
     reinforce: 1,
-    reinforce_desc: "再获得+1/+2",
+    reinforce_desc: "再获得+2/+2",
   },
   
   {
@@ -667,19 +667,11 @@ export var CARDS = [
       let field = G.field.filter(x => (x != self));
       let card = ctx.random.Shuffle(field)[0];
       if (card) {
-        card.atk += 3;
-      }
-    },
-    onReinforce(G, ctx, self) {
-      // TODO: reconstruct this, find a way that only calling a function is enough and it can be used in all creatures, like static method?
-      let field = G.field.filter(x => (x != self));
-      let card = ctx.random.Shuffle(field)[0];
-      if (card) {
-        card.atk += 2;
+        card.atk += 3 + 3 * self.power;
       }
     },
     reinforce: 1,
-    reinforce_desc: "使1个干员获得+2攻击力",
+    reinforce_desc: "攻击力加成+3",
   },
 
   {
@@ -696,7 +688,7 @@ export var CARDS = [
       // TODO: reconstruct this part, of course buffing an card needs a function
       let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
       if (card) {
-        card.atk += 2 + self.power;
+        card.atk += 2 + 2 * self.power;
         card.hp += 2 + 2 * self.power;
       }
     },
@@ -704,7 +696,7 @@ export var CARDS = [
       self.onMine(G, ctx, self);
       // It's okay to do this because "onFight"s are not on G.effects
     },
-    reinforce_desc: "再获得+1/+2",
+    reinforce_desc: "再获得+2/+2",
   },
 
   {
@@ -1226,19 +1218,16 @@ export var CARDS = [
     name:"古米",
     cost:4,
     atk:3,
-    hp:5,
+    hp:6,
     mine:1,
     block:2,
-    desc: "部署: 在手牌中每被强化过1次，就强化场上的1个干员",
+    desc: "部署: 在手牌中每被强化过1次，就强化1张手牌",
     illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       let power = self.power || 0;
       for (let i=0; i<power; i++) {
-        let card = ctx.random.Shuffle(G.field)[0];
-        if (card){
-          reinforce_card(G, ctx, card);
-        }
+        reinforce_hand(G, ctx);
       }
     },
     onReinforce(G, ctx, self) {
@@ -1294,7 +1283,7 @@ export var CARDS = [
     name:"W",
     cost:6,
     atk:6,
-    hp:6,
+    hp:7,
     mine:3,
     block:1,
     desc: "行动: 将1张敌人牌加入手牌",
@@ -1306,8 +1295,12 @@ export var CARDS = [
       }
       G.hand.unshift(card);
     },
-    reinforce: 2,
-    reinforce_desc: "并强化其1次",
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 3;
+    },
+    reinforce_desc: "+2/+3",
   },
 
  
@@ -1342,7 +1335,7 @@ export var CARDS = [
     block:1,
     desc: "战斗: 将目标变成1/1并失去所有能力",
     illust:"http://ak.mooncell.wiki/images/7/75/%E7%AB%8B%E7%BB%98_%E6%8B%89%E6%99%AE%E5%85%B0%E5%BE%B7_1.png",
-    reinforce: 1,
+    reinforce: 2,
 
     onFight(G, ctx, self, enemy) {
       let blank_enemy = {
@@ -1358,9 +1351,10 @@ export var CARDS = [
     },
 
     onReinforce(G, ctx, self) {
-      self.hp += 3;
+      let texas = G.CARDS.find(x => (x.name == "德克萨斯"));
+      G.field.push(init_card_state(G, ctx, {...texas}));
     },
-    reinforce_desc: "+0/+3",
+    reinforce_desc: "部署\"德克萨斯\"",
   },
 
   {
