@@ -1642,10 +1642,9 @@ export const BORROWS = [
         G.field = G.field.slice(0, G.field.length-1);
       }
     },
-    reinforce_desc: "摸2张牌",
+    reinforce_desc: "获得1张\"青眼白龙\"",
     onReinforce(G, ctx, self) {
-      draw(G, ctx);
-      draw(G, ctx);
+      G.hand.unshift({...self});
     }
   },
 
@@ -1719,7 +1718,7 @@ export const BORROWS = [
     onTurnBegin(G, ctx, self) {
       let idx = G.hand.indexOf(self);
       if (~idx) {
-        G.hand[idx] = {...ctx.random.Shuffle(G.CARDS)[0]};
+        G.hand[idx] = {...ctx.random.Shuffle(G.CARDS)[0], was_enemy:true}; // add "was enemy" to differ it from other cards, may got a better method, and meybe in the future other cards may use this feature "was_enemy" as well, but at this time only this card use this feature.
       }
     },
     reinforce_desc: "随机变成一张随从牌",
