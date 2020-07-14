@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs, TabList, Tab } from 'react-tabs';
-import { Card, CardRow, CheckCard, SCardRow, TypeFilter } from './Card';
+import { Card, SCard, CardRow, CheckCard, SCardRow, TypeFilter } from './Card';
 import { Controller, EnterGame } from './Controller';
 import { Panel } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
@@ -714,7 +714,7 @@ export class Board extends React.Component {
 
         <span onClick={()=>{alert(this.props.G.messages.slice(0,20).join("\n"));}}>{this.props.G.messages[0]}</span>
       </p>
-          </div>);
+    </div>);
 
     let field_cardrow = (
       <CardRow 
@@ -773,6 +773,9 @@ export class Board extends React.Component {
           variant = "player-panel"
           content = {player_panel}
         />
+        <div className="card-display">
+          <SCard card={this.state.checking} />
+        </div>
 
       </div>
     );

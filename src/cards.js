@@ -1281,29 +1281,29 @@ export var CARDS = [
     reinforce_desc: "将1张敌人牌加入手牌",
   },
   
-  {
-    name:"W",
-    cost:6,
-    atk:6,
-    hp:7,
-    mine:3,
-    block:1,
-    desc: "行动: 将1张敌人牌加入手牌",
-    illust:"http://ak.mooncell.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
-    action(G, ctx, self) {
-      let card = enemy2card(G, ctx);
-      for (let i=0; i<self.power; i++) {
-        reinforce_card(G, ctx, card);
-      }
-      G.hand.unshift(card);
-    },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 3;
-    },
-    reinforce_desc: "+2/+3",
-  },
+  // {
+  //   name:"W",
+  //   cost:6,
+  //   atk:6,
+  //   hp:7,
+  //   mine:3,
+  //   block:1,
+  //   desc: "行动: 将1张敌人牌加入手牌",
+  //   illust:"http://ak.mooncell.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
+  //   action(G, ctx, self) {
+  //     let card = enemy2card(G, ctx);
+  //     for (let i=0; i<self.power; i++) {
+  //       reinforce_card(G, ctx, card);
+  //     }
+  //     G.hand.unshift(card);
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 3;
+  //   },
+  //   reinforce_desc: "+2/+3",
+  // },
 
  
    {
@@ -1466,29 +1466,34 @@ export var CARDS = [
     reinforce: 2,
     desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
     onPlay(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.onPlay&&(x.name!="可露希尔"))))[0];
-      logMsg(G, ctx, `触发 ${card.name} 的部署效果`);
+      let card = ctx.random.Shuffle(G.CARDS)[0];
       card.onPlay(G, ctx, self);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的部署效果`);}
     },
     onMine(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onMine))[0];
-      logMsg(G, ctx, `触发 ${card.name} 的采掘效果`);
       card.onMine(G, ctx, self);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的采掘效果`);}
     },
     onFight(G, ctx, self, enemy) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onFight))[0];
-      logMsg(G, ctx, `触发 ${card.name} 的战斗效果`);
       card.onFight(G, ctx, self, enemy);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的战斗效果`);}
     },
     action(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.action))[0];
-      logMsg(G, ctx, `触发 ${card.name} 的行动效果`);
       card.action(G, ctx, self);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的行动效果`);}
     },
     onReinforce(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce))[0];
-      logMsg(G, ctx, `触发 ${card.name} 的强化效果`);
       card.onReinforce(G, ctx, self);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的强化效果`);}
     },
     
     reinforce_desc: "触发1个随机干员的强化效果",
