@@ -1578,11 +1578,11 @@ export const BORROWS = [
   {
     name:"陆逊",
     cost:3,
-    atk:2,
-    hp:2,
-    mine:1,
+    atk:3,
+    hp:3,
+    mine:2,
     block:0,
-    illust: "https://bkimg.cdn.bcebos.com/pic/29381f30e924b899a9016623b74e0a950a7b020858dd?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U5Mg==,xp_5,yp_5",
+    illust: "https://b-ssl.duitang.com/uploads/blog/201306/12/20130612021923_k3EJx.thumb.700_0.jpeg",
     was_enemy: true,
     reinforce: 1,
     desc: "连营: 当你失去最后的手牌时，你可以摸一张牌",
@@ -1655,7 +1655,7 @@ export const BORROWS = [
     hp:1,
     mine:1,
     block:1,
-    illust: "https://bkimg.cdn.bcebos.com/pic/0b46f21fbe096b63f62413aab97b9044ebf81b4c06ba?x-bce-process=image/resize,m_lfit,w_268,limit_1/format,f_jpg",
+    illust: "https://bkimg.cdn.bcebos.com/pic/0b46f21fbe096b63f62413aab97b9044ebf81b4c06ba?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2UyNzI=,xp_5,yp_5",
     reinforce: 1,
     was_enemy: true,
     desc: "战吼: 随机施放10个法术",
@@ -1718,10 +1718,10 @@ export const BORROWS = [
     onTurnBegin(G, ctx, self) {
       let idx = G.hand.indexOf(self);
       if (~idx) {
-        G.hand[idx] = {...ctx.random.Shuffle(G.CARDS)[0], was_enemy:true}; // add "was enemy" to differ it from other cards, may got a better method, and meybe in the future other cards may use this feature "was_enemy" as well, but at this time only this card use this feature.
+        G.hand[idx] = {...ctx.random.Shuffle(G.CARDS)[0], onTurnBegin: self.onTurnBegin, reinforce_desc: self.reinforce_desc, was_enemy:true}; // add "was enemy" to differ it from other cards, may got a better method, and meybe in the future other cards may use this feature "was_enemy" as well, but at this time only this card use this feature.
       }
     },
-    reinforce_desc: "随机变成一张随从牌",
+    reinforce_desc: "这张牌由百变泽鲁斯变成",
     onReinforce(G, ctx, self) {
       self.onTurnBegin(G, ctx, self);
     }
