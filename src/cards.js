@@ -524,19 +524,21 @@ export var CARDS = [
     name:"星极", 
     cost:5, 
     atk:3, 
-    hp:4, 
+    hp:3, 
     mine:2, 
     block:1, 
-    desc: <span>部署: 获得3个{material_icons[3]}</span>, 
+    desc: <span>部署: 获得2个{material_icons[3]}</span>, 
     illust:"http://ak.mooncell.wiki/images/b/bb/%E7%AB%8B%E7%BB%98_%E6%98%9F%E6%9E%81_1.png",
     onPlay(G, ctx, self) {
-      G.materials[3] += 3;
+      G.materials[3] += 2;
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      G.materials[3] += 1;
+      self.atk += 2;
+      self.hp += 2;
+      self.mine += 1;
     },
-    reinforce_desc: <span>获得1个{material_icons[3]}</span>,
+    reinforce_desc: "+2/+2 <+1>",
   },
   
   {
@@ -995,7 +997,7 @@ export var CARDS = [
   {
     name:"煌",
     cost:6,
-    atk:7,
+    atk:6,
     hp:7,
     mine:3,
     block:1,
@@ -1011,10 +1013,10 @@ export var CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.atk += 1;
-      self.hp += 3;
+      self.atk += 3;
+      self.hp += 1;
     },
-    reinforce_desc: "+1/+3",
+    reinforce_desc: "+3/+1",
   },
 
   {
@@ -1086,10 +1088,10 @@ export var CARDS = [
       }
     },
     reinforce: 2,
-    reinforce_desc: "+3/+1 <+1>",
+    reinforce_desc: "+2/+2 <+1>",
     onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 1;
+      self.atk += 2;
+      self.hp += 2;
       self.mine += 1;
     }
   },
