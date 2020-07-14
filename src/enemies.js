@@ -6,13 +6,13 @@ import
 export var ENEMIES = [
   {
     name: "小兵",
-    atk: 3,
+    atk: 2,
     hp: 3,
     illust: "http://ak.mooncell.wiki/images/3/34/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A3%AB%E5%85%B5.png",
   },
   {
     name: "游击队战士",
-    atk: 2,
+    atk: 1,
     hp: 2,
     illust: "http://ak.mooncell.wiki/images/a/ac/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%B8%B8%E5%87%BB%E9%98%9F%E6%88%98%E5%A3%AB.png",
     desc: "入场: 使1个敌人获得+2/+2",
@@ -24,7 +24,7 @@ export var ENEMIES = [
   },
   {
     name: "弩手",
-    atk: 5,
+    atk: 3,
     hp: 4,
     illust: "http://ak.mooncell.wiki/images/a/a5/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%B0%84%E6%89%8B.png",
     desc: "行动: 对最后部署的单位，造成等同于自己攻击力的伤害",
@@ -34,12 +34,11 @@ export var ENEMIES = [
         card.dmg += self.atk;
       }
     }
-    
   },
   {
     name: "猎犬",
-    atk: 2,
-    hp: 2,
+    atk: 3,
+    hp: 1,
     illust: "http://ak.mooncell.wiki/images/3/3f/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%8C%8E%E7%8B%97.png",
     desc: "冲锋",
     onPlay(G, ctx, self) {
@@ -140,7 +139,7 @@ export var ENEMIES = [
   {
     name: "寻仇者",
     atk: 3,
-    hp: 4,
+    hp: 3,
     illust: "http://ak.mooncell.wiki/images/d/d0/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%AF%BB%E4%BB%87%E8%80%85.png",
     desc: "愤怒",
     enraged: true,
@@ -149,7 +148,7 @@ export var ENEMIES = [
   {
     name: "复仇者",
     atk: 4,
-    hp: 6,
+    hp: 4,
     illust: "http://ak.mooncell.wiki/images/1/14/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A4%8D%E4%BB%87%E8%80%85.png",
     desc: "替换，愤怒，超杀: 再次攻击",
     is_elite: true,
@@ -194,7 +193,7 @@ export var ENEMIES = [
   {
     name: "酸液源石虫",
     illust: "http://ak.mooncell.wiki/images/6/6b/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%85%B8%E6%B6%B2%E6%BA%90%E7%9F%B3%E8%99%AB%C2%B7%CE%B1.png",
-    atk: 3,
+    atk: 2,
     hp: 3,
     desc: "替换, 入场/亡语: 场上的干员数每多于敌人数1个, 以及自己每有2点攻击力, 就对1个随机干员造成1点伤害",
     is_elite: true,
