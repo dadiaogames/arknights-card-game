@@ -1,5 +1,5 @@
 import { setup, init_card_state } from './Game';
-import { CARDS } from './cards';
+import { CARDS, BORROWS } from './cards';
 import { ENEMIES } from './enemies';
 
 it('cards run normally', () => {
@@ -11,7 +11,7 @@ it('cards run normally', () => {
   };
   let G = setup(ctx);
 
-  for (let card of [].concat(CARDS, ENEMIES)) {
+  for (let card of [].concat(CARDS, BORROWS, ENEMIES)) {
     G.deck = CARDS.map(x => x);
     G.hand = CARDS.map(x => x);
     G.field = CARDS.map(x => init_card_state(G, ctx, x));

@@ -1466,7 +1466,7 @@ export var CARDS = [
     reinforce: 2,
     desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
     onPlay(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.CARDS)[0];
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onPlay))[0];
       card.onPlay(G, ctx, self);
       if (card.name != "斯卡蒂") {
         logMsg(G, ctx, `触发 ${card.name} 的部署效果`);}
@@ -1498,6 +1498,30 @@ export var CARDS = [
     
     reinforce_desc: "触发1个随机干员的强化效果",
   },
+  
+  {
+    name:"暗索",
+    cost:2,
+    atk:2,
+    hp:2,
+    mine:1,
+    block:1,
+    illust: "http://prts.wiki/images/0/00/%E7%AB%8B%E7%BB%98_%E6%9A%97%E7%B4%A2_1.png",
+    reinforce: 1,
+    desc: "部署/行动: 从另一个游戏里偷1张牌",
+    onPlay(G, ctx, self) {
+      G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
+    },
+    action(G, ctx, self) {
+      G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
+    },
+    reinforce_desc: "从另一个游戏里偷1张牌",
+    onReinforce(G, ctx, self) {
+      G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
+    }
+  },
+
+
 
   {
     name:"砾",
@@ -1545,6 +1569,162 @@ export var CARDS = [
     reinforce_desc: "？？？",
     onReinforce(G, ctx) {
       G.hand.unshift(generate_combined_card(G, ctx));
+    }
+  },
+
+];
+
+export const BORROWS = [
+  {
+    name:"陆逊",
+    cost:3,
+    atk:2,
+    hp:2,
+    mine:1,
+    block:0,
+    illust: "https://bkimg.cdn.bcebos.com/pic/29381f30e924b899a9016623b74e0a950a7b020858dd?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U5Mg==,xp_5,yp_5",
+    was_enemy: true,
+    reinforce: 1,
+    desc: "连营: 当你失去最后的手牌时，你可以摸一张牌",
+    action(G, ctx, self) {
+      if (G.hand.length == 0) {
+        draw(G, ctx);
+        self.exhausted = false;
+      }
+    },
+    reinforce_desc: "+2/+2",
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    }
+  },
+
+  {
+    name:"凯露",
+    cost:10,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    illust: "https://img.moegirl.org/common/thumb/c/cb/Karyl.png/545px-Karyl.png",
+    reinforce: 1,
+    was_enemy: true,
+    desc: "行动: 使1个敌人变成\"凯露\"",
+    action(G, ctx, self) {
+      let enemy = ctx.random.Shuffle(G.efield.filter(x => (x.name != "凯露")))[0];
+      if (enemy) {
+        G.efield[G.efield.indexOf(enemy)] = {...self, exhausted: false};
+      }
+    },
+    reinforce_desc: "+2/+2",
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    }
+  },
+
+  {
+    name:"青眼白龙",
+    cost:4,
+    atk:3000,
+    hp:8,
+    mine:2,
+    block:1,
+    illust: "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1495165458,392829716&fm=173&app=49&f=JPEG?w=544&h=544&s=B0A7DC140001EFF7589EB14603008098",
+    was_enemy: true,
+    reinforce: 1,
+    desc: "召唤: 解放2个怪兽",
+    onPlay(G, ctx, self) {
+      if (G.field.length > 2) {
+        G.field = G.field.slice(2);
+      }
+      else {
+        G.field = G.field.slice(0, G.field.length-1);
+      }
+    },
+    reinforce_desc: "摸2张牌",
+    onReinforce(G, ctx, self) {
+      draw(G, ctx);
+      draw(G, ctx);
+    }
+  },
+
+  {
+    name:"尤格萨隆",
+    cost:10,
+    atk:1,
+    hp:1,
+    mine:1,
+    block:1,
+    illust: "https://bkimg.cdn.bcebos.com/pic/0b46f21fbe096b63f62413aab97b9044ebf81b4c06ba?x-bce-process=image/resize,m_lfit,w_268,limit_1/format,f_jpg",
+    reinforce: 1,
+    was_enemy: true,
+    desc: "战吼: 随机施放10个法术",
+    onPlay(G, ctx, self) {
+      for (let i=0; i<10; i++) {
+        let effect = ctx.random.Shuffle(G.EFFECTS)[0];
+        effect[1](G, ctx, self);
+        logMsg(G, ctx, "施放 "+effect[0]);
+      }
+    },
+    reinforce_desc: "随机施放1个法术",
+    onReinforce(G, ctx, self) {
+      let effect = ctx.random.Shuffle(G.EFFECTS)[0];
+      effect[1](G, ctx, self);
+      logMsg(G, ctx, "施放 "+effect[0]);
+    }
+  },
+
+  {
+    name:"火车王",
+    cost:2,
+    atk:6,
+    hp:2,
+    mine:3,
+    block:1,
+    illust: "http://newsimg.5054399.com/uploads/userup/1405/1015531B059.jpg",
+    reinforce: 1,
+    was_enemy: true,
+    desc: "战吼: 为对手召唤2只1/1的源石虫",
+    onPlay(G, ctx, self) {
+      let blank_enemy = {
+        name: "源石虫",
+        atk: 1,
+        hp: 1,
+        illust: "http://ak.mooncell.wiki/images/3/3e/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%BA%90%E7%9F%B3%E8%99%AB.png",
+        dmg: 0,
+        exhausted: false,
+      };
+      G.efield.push({...blank_enemy});
+      G.efield.push({...blank_enemy});
+    },
+    reinforce_desc: "+2/+2",
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    }
+  },
+
+  {
+    name:"百变泽鲁斯",
+    cost:1,
+    atk:1,
+    hp:1,
+    mine:1,
+    block:1,
+    illust: "https://i03piccdn.sogoucdn.com/f8b756971cd5abcd",
+    was_enemy: true,
+    reinforce: 1,
+    desc: "如果这张牌在你的手牌中，每个回合都会随机变成一张随从牌",
+    onTurnBegin(G, ctx, self) {
+      let idx = G.hand.indexOf(self);
+      if (~idx) {
+        G.hand[idx] = {...ctx.random.Shuffle(G.CARDS)[0]};
+      }
+    },
+    reinforce_desc: "随机变成一张随从牌",
+    onReinforce(G, ctx, self) {
+      self.onTurnBegin(G, ctx, self);
     }
   },
 
