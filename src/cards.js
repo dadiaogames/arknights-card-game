@@ -717,7 +717,7 @@ export var CARDS = [
     onReinforce(G, ctx, self) {
       self.exhausted = false;
     },
-    reinforce: 3,
+    reinforce: 2,
     reinforce_desc: "重置自己",
   },
   
@@ -1176,10 +1176,9 @@ export var CARDS = [
       G.danger -= 1;
     },
     onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 1;
+      G.danger -= 1;
     },
-    reinforce_desc: "+3/+1",
+    reinforce_desc: "化解1点动乱值",
   },
 
   {
