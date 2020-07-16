@@ -472,21 +472,9 @@ export function enemyMove(G, ctx, idx) {
   let enemy = G.efield[idx];
 
   if (use(G, ctx, enemy)) {
-    if (enemy.enraged) {
-      if (G.field.length > 0) {
-        let card = ctx.random.Shuffle(G.field.filter(x=>(x.hp>x.dmg)))[0];
-        let card_idx = G.field.indexOf(card);
-        if (card){
-          deal_damage(G, ctx, "field", card_idx, enemy.atk);
-          if (enemy.onFight) {
-            enemy.onFight(G, ctx, enemy, card);
-          }
-        }
-        logMsg(G, ctx, `暴怒的 ${enemy.name} 发起了进攻`);
-      }
-    }
+    
 
-    else if (enemy.action) {
+    if (enemy.action && (!enemy.enraged)) {
       enemy.action(G, ctx, enemy);
       logMsg(G, ctx, `${enemy.name} 使用其行动能力`);
     }
@@ -504,10 +492,25 @@ export function enemyMove(G, ctx, idx) {
       }
 
       else {
-        G.danger += 1;
-        logMsg(G, ctx, `${enemy.name} 发起了动乱`);
-        if (enemy.onMine) {
-          enemy.onMine(G, ctx, enemy);
+        if (enemy.enraged) {
+          if (G.field.length > 0) {
+            let card = ctx.random.Shuffle(G.field.filter(x=>(x.hp>x.dmg)))[0];
+            let card_idx = G.field.indexOf(card);
+            if (card){
+              deal_damage(G, ctx, "field", card_idx, enemy.atk);
+              if (enemy.onFight) {
+                enemy.onFight(G, ctx, enemy, card);
+              }
+            }
+            logMsg(G, ctx, `暴怒的 ${enemy.name} 发起了进攻`);
+          }
+        }
+        else {
+          G.danger += 1;
+          logMsg(G, ctx, `${enemy.name} 发起了动乱`);
+          if (enemy.onMine) {
+            enemy.onMine(G, ctx, enemy);
+          }
         }
       }
     }
