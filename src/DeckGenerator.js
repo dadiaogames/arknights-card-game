@@ -114,7 +114,7 @@ const rhine = `赫默 1 3
 克洛丝 1 2
 刻俄柏 1 2
 讯使 2 3
-惊蛰 1 2
+惊蛰 2 3
 陈 1 2
 芬 2 3
 铃兰 1 2
@@ -128,17 +128,17 @@ const eyja = `艾雅法拉 2 3
 阿米娅 2 3
 杰西卡 2 3
 凛冬 2 3
+斯卡蒂 2 3
 讯使 2 3
+惊蛰 1 2
 德克萨斯 0 2
 清道夫 2 3
-斯卡蒂 2 3
 刻俄柏 1 2
 克洛丝 1 2
 米格鲁 1 2
 蓝毒 1 2
 慕斯 1 2
 真理 1 2
-惊蛰 1 2
 赫默 1 2
 梅尔 1 2
 伊芙利特 1 2
@@ -150,7 +150,7 @@ const angelina = `安洁莉娜 2 3
 推进之王 2 3
 陈 2 3
 翎羽 2 3
-极境 2 3
+极境 3 4
 远山 1 2
 星极 1 2
 红 2 3
@@ -186,7 +186,7 @@ const ursus = `凛冬 2 3
 早露 2 3
 史都华德 1 3
 慕斯 1 2
-极境 1 2
+讯使 2 3
 惊蛰 1 2
 芬 1 2
 阿 1 2
@@ -224,9 +224,10 @@ const arise = `阿 2 3
 慕斯 1 2
 刻刀 1 2
 梓兰 1 2
-铃兰 1 2`;
+铃兰 1 2
+星熊 0 2`;
 
-const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus];
+const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus, arise];
 
 
 function get_random_card(rng) {
