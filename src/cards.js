@@ -1311,12 +1311,12 @@ export var CARDS = [
 
   {
     name:"阿",
-    cost:3,
-    atk:3,
+    cost:1,
+    atk:2,
     hp:2,
-    mine:2,
+    mine:1,
     block:0,
-    desc: "行动: 对1个干员造成4点伤害，并获得2分，如果该伤害摧毁了干员，则重置自己",
+    desc: "行动: 对1个干员造成4点伤害，并获得2分，如果该干员未被摧毁，则重置自己",
     illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
     reinforce: 2,
     action(G, ctx, self) {
@@ -1328,6 +1328,8 @@ export var CARDS = [
           let card_idx = G.field.indexOf(card);
           G.field.splice(card_idx, 1);
           G.discard.push(card);
+        }
+        else {
           self.exhausted = false;
         }
       }
