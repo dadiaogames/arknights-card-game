@@ -170,7 +170,7 @@ export var CARDS = [
   {
     name: "芬",
     cost: 2,
-    atk: 1,
+    atk: 2,
     hp: 2,
     mine: 1,
     block: 1,
@@ -307,6 +307,28 @@ export var CARDS = [
       self.hp += 5;
     },
     reinforce_desc: "+5/+5",
+  },
+  {
+    name:"红豆",
+    cost:4,
+    atk:6,
+    hp:3,
+    mine:2,
+    block:1,
+    desc: "超杀: 每造成1点额外伤害，就获得1点费用",
+    illust:"http://prts.wiki/images/7/70/%E7%AB%8B%E7%BB%98_%E7%BA%A2%E8%B1%86_1.png",
+    reinforce: 1,
+    onFight(G, ctx, self, enemy) {
+      if (enemy.dmg > enemy.hp) {
+        let delta = enemy.dmg - enemy.hp;
+        G.costs += delta;
+      }
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 3;
+      self.hp += 1;
+    },
+    reinforce_desc: "+3/+1",
   },
   
   {
@@ -808,7 +830,7 @@ export var CARDS = [
   //   mine:1,
   //   block:0,
   //   desc:"部署/采掘/战斗: 重置1个已完成的订单",
-  //   illust:"http://ak.mooncell.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
+  //   illust:"http://ak.mooncell.wiki/images/f/f3/%e7%ab%8b%e7%bb%98_%e6%b8%85%e6%b5%81_1.png",
   //   onMine(G, ctx, self) {
   //     for (let order of ctx.random.Shuffle(G.finished)) {
   //       if (order.exhausted) {
@@ -1286,6 +1308,206 @@ export var CARDS = [
     },
     reinforce_desc: "造成3点伤害",
   },
+
+  {
+    name:"阿",
+    cost:3,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: "行动: 对1个干员造成4点伤害，并获得2分，如果该伤害摧毁了干员，则重置自己",
+    illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
+    reinforce: 2,
+    action(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.field.filter(x => (x!=self)))[0];
+      if (card) {
+        card.dmg += 4;
+        G.score += 2;
+        if (card.dmg >= card.hp) {
+          let card_idx = G.field.indexOf(card);
+          G.field.splice(card_idx, 1);
+          G.discard.push(card);
+          self.exhausted = false;
+        }
+      }
+    },
+    onReinforce(G, ctx, self) {
+      for (let i=0; i<5; i++) {
+        draw(G, ctx);
+      }
+    },
+    reinforce_desc: "摸5张牌",
+  },
+  
+  {
+    name:"断罪者",
+    cost:2,
+    atk:2,
+    hp:2,
+    mine:2,
+    block:1,
+    desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
+    illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%96%AD%E7%BD%AA%E8%80%85_1.png",
+    reinforce: 1,
+    action(G, ctx, self) {
+      let num_cards = G.hand.length;
+      G.discard = [...G.discard, ...G.hand]; // EH: reconstruct the discard
+      G.hand = [];
+      G.score += num_cards;
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+  {
+    name:"清流",
+    cost:3,
+    atk:0,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: "部署: 将弃牌堆中所有牌返回手牌",
+    illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      G.hand = [...G.discard, ...G.hand];
+      G.discard = [];
+    },
+    onReinforce(G, ctx, self) {
+      cure(G, ctx, 6);
+    },
+    reinforce_desc: "使1个干员获得+6生命值",
+  },
+  {
+    name:"远山",
+    cost:3,
+    atk:3,
+    hp:2,
+    mine:1,
+    block:0,
+    desc: "部署: 获得3个材料",
+    illust:"http://prts.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      gainMaterials(G, ctx, 3);
+    },
+    onReinforce(G, ctx, self) {
+      self.mine += 2;
+    },
+    reinforce_desc: "<+2>",
+  },
+  {
+    name:"红",
+    cost:1,
+    atk:1,
+    hp:1,
+    mine:1,
+    block:1,
+    desc: <span>部署: 获得1分<br/>行动: 返回牌库顶</span>,
+    illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E7%BA%A2_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      G.score += 1;
+    },
+    action(G, ctx, self) {
+      let self_idx = G.field.indexOf(self);
+      G.field.splice(self_idx, 1);
+      G.deck.push(self);
+    },
+    onReinforce(G, ctx, self) {
+      G.score += 1;
+    },
+    reinforce_desc: "获得1分",
+  },
+  {
+    name:"波登可",
+    cost:3,
+    atk:4,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: "行动: 触发手牌中1个干员的\"部署\"效果",
+    illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E6%B3%A2%E7%99%BB%E5%8F%AF_1.png",
+    reinforce: 1,
+    action(G, ctx, self) {
+      let player = ctx.random.Shuffle(G.hand.filter(x => x.onPlay))[0];
+      if (player) {
+        player.onPlay(G, ctx, player);
+      }
+    },
+    onReinforce(G, ctx, self) {
+      draw(G, ctx);
+      draw(G, ctx);
+    },
+    reinforce_desc: "摸2张牌",
+  },
+  
+  {
+    name:"刻刀",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:1,
+    block:1,
+    desc: "部署: 摧毁1个受到伤害的敌人",
+    illust:"http://prts.wiki/images/5/51/%E7%AB%8B%E7%BB%98_%E5%88%BB%E5%88%80_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      let damaged_enemy = ctx.random.Shuffle(G.efield.filter(x => (x.dmg > 0)))[0];
+      if (damaged_enemy) {
+        let enemy_idx = G.efield.indexOf(damaged_enemy); // TODO: have a "list.remove()" funcion is better
+        G.efield.splice(enemy_idx, 1);
+      }
+    },
+    onReinforce(G, ctx, self) {
+      deal_random_damage(G, ctx, 3);
+    },
+    reinforce_desc: "造成3点伤害",
+  },
+  {
+    name:"星熊",
+    cost:6,
+    atk:0,
+    hp:2,
+    mine:1,
+    block:2,
+    desc: "部署: 每有1张手牌，就获得+1/+3",
+    illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      let num_cards = G.hand.length;
+      self.atk += num_cards;
+      self.hp += 3 * num_cards;
+    },
+    onReinforce(G, ctx, self) {
+      self.block += 1;
+    },
+    reinforce_desc: "阻挡数+1",
+  },
+  {
+    name:"惊蛰",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得9点费用</span>,
+    illust:"http://prts.wiki/images/9/9f/%E7%AB%8B%E7%BB%98_%E6%83%8A%E8%9B%B0_1.png",
+    reinforce: 2,
+    action(G, ctx, self) {
+      if (payMaterials(G, ctx, [1,1,1,0])) {
+        G.costs += 9;
+      }
+    },
+    onReinforce(G, ctx, self) {
+      G.costs += 5;
+    },
+    reinforce_desc: "获得5点费用",
+  },
+  
 
   {
     name:"伊桑",

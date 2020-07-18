@@ -472,7 +472,6 @@ export function enemyMove(G, ctx, idx) {
   let enemy = G.efield[idx];
 
   if (use(G, ctx, enemy)) {
-    
 
     if (enemy.action && (!enemy.enraged)) {
       enemy.action(G, ctx, enemy);
@@ -536,7 +535,7 @@ function refresh(G, ctx) {
 
 function onScenarioBegin(G, ctx) {
   //SetUp
-  for (let i=0; i<5; i++){
+  for (let i=0; i<4; i++){
     draw(G, ctx);
   }
 
