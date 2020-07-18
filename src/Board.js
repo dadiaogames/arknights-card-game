@@ -520,6 +520,7 @@ export class Board extends React.Component {
 
   enter_game() {
     let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
+    // EH: it's better to setup each scenario in one function
     this.props.moves.setDecks(init_decks(deck_data, this.state.seed));
     this.props.moves.addTags(this.state.tags.filter(t => t.selected));
     this.props.moves.onScenarioBegin();
