@@ -230,14 +230,14 @@ export var CARDS = [
   {
     name:"讯使", 
     cost:3, 
-    atk:2, 
-    hp:3, 
+    atk:3, 
+    hp:4, 
     mine:1, 
     block:1, 
-    desc:"采掘: 获得4点费用", 
+    desc:"采掘: 获得3点费用", 
     illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E8%AE%AF%E4%BD%BF_1.png",
     onMine(G, ctx, self) {
-      G.costs += 4 + 2 * self.power;
+      G.costs += 3 + 2 * self.power;
     },
     reinforce: 1,
     reinforce_desc: "再获得2点费用",
@@ -1107,11 +1107,11 @@ export var CARDS = [
     hp:4,
     mine:1,
     block:1,
-    desc:<span>行动: 消耗1个{material_icons[3]}，获得3分</span>,
+    desc:<span>行动: 消耗2个{material_icons[3]}，获得5分</span>,
     illust:"http://ak.mooncell.wiki/images/a/a7/%E7%AB%8B%E7%BB%98_%E5%B4%96%E5%BF%83_1.png",
     action(G, ctx, self) {
-      if (payMaterials(G, ctx, [0,0,0,1])) {
-        G.score += 3 + self.power;
+      if (payMaterials(G, ctx, [0,0,0,2])) {
+        G.score += 5 + self.power;
       }
     },
     reinforce: 1,
