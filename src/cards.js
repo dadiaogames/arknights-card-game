@@ -1345,7 +1345,7 @@ export var CARDS = [
     cost:2,
     atk:2,
     hp:2,
-    mine:2,
+    mine:1,
     block:1,
     desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%96%AD%E7%BD%AA%E8%80%85_1.png",
@@ -1369,7 +1369,7 @@ export var CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc: "部署: 将弃牌堆中所有牌返回手牌",
+    desc: "部署: 将弃牌堆中的所有牌返回手牌",
     illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -1401,21 +1401,18 @@ export var CARDS = [
   },
   {
     name:"红",
-    cost:1,
+    cost:2,
     atk:1,
     hp:1,
     mine:1,
     block:1,
-    desc: <span>部署: 获得1分<br/>行动: 返回牌库顶</span>,
+    desc: "部署: 获得1分，然后在弃牌堆中每有1张\"红\"，就再获得1分",
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E7%BA%A2_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       G.score += 1;
-    },
-    action(G, ctx, self) {
-      let self_idx = G.field.indexOf(self);
-      G.field.splice(self_idx, 1);
-      G.deck.push(self);
+      let num_reds = G.discard.filter(x => (x.name == "红")).length;
+      G.score += num_reds;
     },
     onReinforce(G, ctx, self) {
       G.score += 1;

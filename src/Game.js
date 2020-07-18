@@ -734,7 +734,8 @@ export const AC = {
           for (let i=G.field.length-1; i>=0; i--) {
             deal_damage(G, ctx, "field", i, 1);
           }
-          onEnemyStageEnd(G, ctx); // EH: Maybe this can be reconstructed?
+          onEnemyStageEnd(G, ctx); // Add this to discard destroyed cards
+          // EH: Maybe this can be reconstructed?
         }
         if (G.danger < 0) {
           G.danger = 0;
