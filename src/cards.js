@@ -61,7 +61,7 @@ export var CARDS = [
     name: "玫兰莎",
     cost: 2,
     atk: 3,
-    hp: 3,
+    hp: 4,
     mine: 1,
     block: 1,
     illust: "http://ak.mooncell.wiki/images/0/09/%E7%AB%8B%E7%BB%98_%E7%8E%AB%E5%85%B0%E8%8E%8E_1.png",
@@ -1318,7 +1318,7 @@ export var CARDS = [
     block:0,
     desc: "行动: 对1个干员造成4点伤害，并获得2分，如果该干员未被摧毁，则重置自己",
     illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
-    reinforce: 2,
+    reinforce: 1,
     action(G, ctx, self) {
       let card = ctx.random.Shuffle(G.field.filter(x => (x!=self)))[0];
       if (card) {
@@ -1335,11 +1335,9 @@ export var CARDS = [
       }
     },
     onReinforce(G, ctx, self) {
-      for (let i=0; i<5; i++) {
-        draw(G, ctx);
-      }
+      self.exhausted = false;
     },
-    reinforce_desc: "摸5张牌",
+    reinforce_desc: "重置自己",
   },
   
   {
@@ -1384,6 +1382,24 @@ export var CARDS = [
     reinforce_desc: "使1个干员获得+6生命值",
   },
   {
+    name:"调香师",
+    cost:2,
+    atk:0,
+    hp:3,
+    mine:2,
+    block:0,
+    desc: "采掘: 摸2张牌",
+    illust:"http://prts.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      for (let i=0; i<(2+self.power); i++) {
+        draw(G, ctx);
+      }
+      G.costs += self.power;
+    },
+    reinforce_desc: "再摸1张并获得1点费用",
+  },
+  {
     name:"远山",
     cost:3,
     atk:3,
@@ -1403,18 +1419,18 @@ export var CARDS = [
   },
   {
     name:"红",
-    cost:2,
+    cost:1,
     atk:1,
     hp:1,
     mine:1,
     block:1,
-    desc: "部署: 获得1分，然后在弃牌堆中每有1张\"红\"，就再获得1分",
+    desc: "部署: 获得1分",
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E7%BA%A2_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       G.score += 1;
-      let num_reds = G.discard.filter(x => (x.name == "红")).length;
-      G.score += num_reds;
+      // let num_reds = G.discard.filter(x => (x.name == "红")).length;
+      // G.score += num_reds;
     },
     onReinforce(G, ctx, self) {
       G.score += 1;
