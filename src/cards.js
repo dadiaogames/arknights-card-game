@@ -1390,14 +1390,17 @@ export var CARDS = [
     block:0,
     desc: "采掘: 摸2张牌",
     illust:"http://prts.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
-    reinforce: 1,
+    reinforce: 2,
     onMine(G, ctx, self) {
-      for (let i=0; i<(2+self.power); i++) {
+      draw(G, ctx);
+      draw(G, ctx);
+    },
+    reinforce_desc: "摸5张牌",
+    onReinforce(G, ctx) {
+      for (let i=0; i<5; i++) {
         draw(G, ctx);
       }
-      G.costs += self.power;
-    },
-    reinforce_desc: "再摸1张并获得1点费用",
+    }
   },
   {
     name:"远山",
