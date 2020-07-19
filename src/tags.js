@@ -56,22 +56,17 @@ const tag_list = [
   //   }
   // },
   {
-    src: "http://ak.mooncell.wiki/images/5/5a/Char_atk_2.png",
-    desc: "所有干员获得-2攻击力",
+    src: "http://ak.mooncell.wiki/images/9/99/Enemy_movespeed_2.png",
+    desc: "2回合后，所有敌人获得\"冲锋\"",
     level: 2,
     effect(G, ctx) {
-      for (let card of G.deck) {
-        card.atk -= 2;
-        if (card.atk < 0) {
-          card.atk = 0;
-        }
-      }
+      G.dashOnR3 = true;
     }
   },
 
   {
     src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
-    desc: "所有敌人在2回合后获得+4生命值",
+    desc: "2回合后，所有敌人获得+4生命值",
     level: 2,
     effect(G, ctx){
       G.reinforceOnR3 = true;
@@ -200,7 +195,7 @@ const tag_list = [
 
   {
     src: "http://ak.mooncell.wiki/images/4/40/Enemy_hirman_2.png",
-    desc: "所有敌人在3回合后获得+4/+4",
+    desc: "3回合后，所有敌人获得+4/+4",
     level: 3,
     effect(G, ctx){
       G.reinforceOnR4 = true;

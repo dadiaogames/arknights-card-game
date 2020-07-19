@@ -238,7 +238,7 @@ function harvest(G, ctx) {
 export function drawEnemy(G, ctx) {
   if (G.edeck.length > 0) {
     let enemy = move(G, ctx, "edeck", "efield");
-    enemy.exhausted = true;
+    enemy.exhausted = G.enemy_exhausted_enter;
     enemy.dmg = 0;
     enemy.enraged = enemy.enraged || false;
     logMsg(G, ctx, `${enemy.name} 入场`);
@@ -643,6 +643,7 @@ export function setup(ctx) {
     G.max_danger = 8;
 
     G.exhausted_enter = false;
+    G.enemy_exhausted_enter = true;
 
     G.messages = ["欢迎来到明日方舟: 采掘行动"];
 
@@ -721,6 +722,10 @@ export const AC = {
           for (let enemy of [...G.edeck, ...G.efield]) {
             enemy.hp += 4;
           }
+        }
+        
+        if (G.round_num == 3 && G.dashOnR3) {
+          G.enemy_exhausted_enter = false;
         }
 
         if (G.round_num == 4 && G.reinforceOnR4) {

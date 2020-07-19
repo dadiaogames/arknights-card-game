@@ -322,6 +322,7 @@ export var CARDS = [
       if (enemy.dmg > enemy.hp) {
         let delta = enemy.dmg - enemy.hp;
         G.costs += delta;
+        logMsg(G, ctx, `使用 红豆 获得${delta}点费用`);
       }
     },
     onReinforce(G, ctx, self) {
@@ -1355,6 +1356,7 @@ export var CARDS = [
       G.discard = [...G.discard, ...G.hand]; // EH: reconstruct the discard
       G.hand = [];
       G.score += num_cards;
+      logMsg(G, ctx, `使用 断罪者 获得${num_cards}分`);
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
@@ -1454,6 +1456,7 @@ export var CARDS = [
       let player = ctx.random.Shuffle(G.hand.filter(x => x.onPlay))[0];
       if (player) {
         player.onPlay(G, ctx, player);
+        logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
       }
     },
     onReinforce(G, ctx, self) {
@@ -1478,6 +1481,7 @@ export var CARDS = [
       if (damaged_enemy) {
         let enemy_idx = G.efield.indexOf(damaged_enemy); // TODO: have a "list.remove()" funcion is better
         G.efield.splice(enemy_idx, 1);
+        logMsg(G, ctx, `${damaged_enemy.name} 被摧毁`)
       }
     },
     onReinforce(G, ctx, self) {
