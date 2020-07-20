@@ -918,7 +918,7 @@ export var CARDS = [
     onMine(G, ctx, self) {
       if (~G.field.indexOf(self)) { // To prevent reinforce hand infinite loop
         for (let card of G.field) {
-          if (card.onMine && (card.name != self.name)) {
+          if (card.onMine && (card.onMine != self.onMine)) {
             card.onMine(G, ctx, card);
           }
         }
@@ -947,7 +947,7 @@ export var CARDS = [
     onFight(G, ctx, self, enemy) {
       if (~G.field.indexOf(self)) {
         for (let card of G.field) {
-          if (card.onFight && (card.name != self.name)) {
+          if (card.onFight && (card.onFight != self.onFight)) {
             card.onFight(G, ctx, card, enemy);
           }
         }
@@ -975,7 +975,7 @@ export var CARDS = [
     action(G, ctx, self, enemy) {
       if (~G.field.indexOf(self)) {
         for (let card of G.field) {
-          if (card.action && (card.name != self.name)) {
+          if (card.action && (card.action != self.action)) {
             card.action(G, ctx, card);
           }
         }
@@ -1002,7 +1002,7 @@ export var CARDS = [
     illust:"http://ak.mooncell.wiki/images/f/fe/%E7%AB%8B%E7%BB%98_%E5%AE%89%E6%B4%81%E8%8E%89%E5%A8%9C_1.png",
     onPlay(G, ctx, self) {
       for (let card of G.hand.map(x=>x)) { //Copy the list to prevent infinite loop
-        if (card.onPlay && (card.name != self.name)) {
+        if (card.onPlay && (card.onPlay != self.onPlay)) {
           card.onPlay(G, ctx, card);
         }
       }
