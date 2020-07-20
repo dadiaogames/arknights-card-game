@@ -322,7 +322,7 @@ export var CARDS = [
       if (enemy.dmg > enemy.hp) {
         let delta = enemy.dmg - enemy.hp;
         G.costs += delta;
-        logMsg(G, ctx, `使用 红豆 获得${delta}点费用`);
+        logMsg(G, ctx, `使用 ${self.name} 获得${delta}点费用`);
       }
     },
     onReinforce(G, ctx, self) {
@@ -1031,7 +1031,7 @@ export var CARDS = [
         let delta = enemy.dmg - enemy.hp;
         let score_gained = Math.floor(delta / 2);
         G.score += score_gained;
-        logMsg(G, ctx, `使用 煌 获得${score_gained}分`);
+        logMsg(G, ctx, `使用 ${self.name} 获得${score_gained}分`);
       }
     },
     reinforce: 1,
@@ -1449,7 +1449,7 @@ export var CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc: "行动: 触发手牌中1个干员的\"部署\"效果",
+    desc: "行动: 触发手牌中1个干员的\"部署:\"效果",
     illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E6%B3%A2%E7%99%BB%E5%8F%AF_1.png",
     reinforce: 1,
     action(G, ctx, self) {

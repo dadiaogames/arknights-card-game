@@ -1,6 +1,6 @@
 import React from 'react';
-const icon_height = "25em";
-const attr_icon_height = "20em";
+const icon_height = 25;
+const attr_icon_height = 20;
 
 export const ICONS = {
   alcohol: (<img src="http://ak.mooncell.wiki/images/a/a8/%E9%81%93%E5%85%B7_%E5%B8%A6%E6%A1%86_%E6%89%AD%E8%BD%AC%E9%86%87.png" height={icon_height} />),
