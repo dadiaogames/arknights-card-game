@@ -1277,7 +1277,8 @@ export var CARDS = [
     illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      for (let card of G.hand) {
+      let cards = [...G.hand];
+      for (let card of cards) {
         reinforce_card(G, ctx, card);
       }
     },
