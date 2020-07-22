@@ -106,24 +106,26 @@ function out(G, ctx, deck, idx) {
 export function deal_damage(G, ctx, deck, idx, dmg) {
   let card = G[deck][idx];
 
-  //cards with no damage may not have the damage attr
-  card.dmg = card.dmg || 0;
-  card.dmg += dmg;
-  logMsg(G, ctx, `${card.name} 受到${dmg}点伤害`);
+  if (card) {
+    //cards with no damage may not have the damage attr
+    card.dmg = card.dmg || 0;
+    card.dmg += dmg;
+    logMsg(G, ctx, `${card.name} 受到${dmg}点伤害`);
 
-  if (card.dmg >= card.hp) {
-    if (~G.efield.indexOf(card)) {
-      out(G, ctx, deck, idx);
-    }
-    else {
-      card.exhausted = true;
+    if (card.dmg >= card.hp) {
+      if (~G.efield.indexOf(card)) {
+        out(G, ctx, deck, idx);
+      }
+      else {
+        card.exhausted = true;
+      }
     }
   }
 }
 
 export function deal_random_damage(G, ctx, amount) {
   if (G.efield.length > 0){
-    let idx = ctx.random.Die(G.efield.length) - 1
+    let idx = ctx.random.Die(G.efield.length) - 1;
     deal_damage(G, ctx, "efield", idx, amount);
   }
 }
@@ -143,9 +145,15 @@ export function init_card_state(G, ctx, card) {
 }
 
 export function draw(G, ctx) {
+  // First, check the limit
+  if (G.limit_hand_field && (G.hand.length >= 5)) {
+    logMsg(G, ctx, "手牌数已达到上限");
+    return;
+  }
+
   if (G.deck.length > 0) {
     G.hand.unshift(G.deck.pop());
-  } //TODO: else, lose the game
+  } 
 }
 
 export function mulligan(G, ctx, choices) {
@@ -162,6 +170,11 @@ export function mulligan(G, ctx, choices) {
 
 function play(G, ctx, idx) {
   let card = G.hand[idx]; //No need to verify at this stage
+
+  if (G.limit_hand_field && (G.field.length >= 5)) {
+    logMsg(G, ctx, "场上干员数已达到上限");
+    return;
+  }
 
   if (payCost(G, ctx, card.cost)) {
     move(G, ctx, "hand", "field", idx);

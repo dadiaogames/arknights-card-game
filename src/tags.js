@@ -88,11 +88,11 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/c/c7/Global_costrecovery_1.png",
-    desc: "强化干员需要消耗2点费用",
+    src: "http://ak.mooncell.wiki/images/4/46/Global_forbidloc_2.png",
+    desc: "手牌和场上干员数量的上限为5",
     level: 2,
     effect(G, ctx) {
-      G.harder_reinforce = true;
+      G.limit_hand_field = true;
     }
   },
 

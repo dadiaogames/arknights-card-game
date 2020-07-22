@@ -344,7 +344,6 @@ export var CARDS = [
     action(G, ctx, self) {
       let card = move(G, ctx, "deck", "field");
       init_card_state(G, ctx, card);
-      //EH: add "init field card state" function
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
