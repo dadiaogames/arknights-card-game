@@ -114,7 +114,7 @@ export class Board extends React.Component {
       scenario_finished: false,
     };
 
-    this.branches = { // TODO: set all "check" aside to the right, this is not done using Controller, first set the width of controller, then add a new button on render_board
+    this.branches = { 
       hand: {
         部署: this.play_card,
       },
@@ -310,7 +310,6 @@ export class Board extends React.Component {
       selected: (this.state.order_selected == this.props.G.orders.indexOf(card)),
       exhausted: card.exhausted, 
     }
-
   }
 
   process_finished_data(card) {

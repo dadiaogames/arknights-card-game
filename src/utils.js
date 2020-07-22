@@ -35,6 +35,9 @@ export class PRNG {
     else {
       this.val = seed;
     }
+
+    // this.random = this.random.bind(this);
+    // No need to bind
   }
 
   random() {

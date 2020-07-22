@@ -390,7 +390,7 @@ export var CARDS = [
         card.cost -= 1;
       }
     },
-    reinforce: 2,
+    reinforce: 1,
     onReinforce(G, ctx, self) {
       if (self.onPlay) {
         self.onPlay(G, ctx);
@@ -571,20 +571,20 @@ export var CARDS = [
     hp:6, 
     mine:1, 
     block:2, 
-    desc:"行动: 获得+3生命值", 
+    desc:"行动: 获得+4生命值", 
     illust:"http://ak.mooncell.wiki/images/c/c7/%E7%AB%8B%E7%BB%98_%E8%9B%87%E5%B1%A0%E7%AE%B1_1.png",
     action(G, ctx, self) {
-      self.hp += 3 + 3 * self.power;
+      self.hp += 4 + 4 * self.power;
     },
     reinforce: 1,
-    reinforce_desc: "再获得+3生命值",
+    reinforce_desc: "再获得+4生命值",
   },
   
   {
     name:"可颂", 
     cost:6, 
     atk:3, 
-    hp:8, 
+    hp:9, 
     mine:1, 
     block:2, 
     desc:"采掘/战斗: 横置1个敌人", 
@@ -606,7 +606,7 @@ export var CARDS = [
     name:"雷蛇", 
     cost:6, 
     atk:3, 
-    hp:8, 
+    hp:9, 
     mine:1, 
     block:2, 
     desc:"采掘/战斗: 重置1个干员", 
@@ -699,30 +699,30 @@ export var CARDS = [
   //   reinforce_desc: "攻击力加成+3",
   // },
 
-  {
-    name:"闪灵",
-    cost:4,
-    atk:4,
-    hp:2,
-    mine:2,
-    block:0,
-    desc: "采掘/战斗: 使1个干员获得+3/+3",
-    illust:"http://prts.wiki/images/e/e9/%E7%AB%8B%E7%BB%98_%E9%97%AA%E7%81%B5_1.png",
-    reinforce: 1,
-    onMine(G, ctx, self) {
-      // TODO: reconstruct this part, of course buffing an card needs a function
-      let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
-      if (card) {
-        card.atk += 3 + 2 * self.power;
-        card.hp += 3 + 2 * self.power;
-      }
-    },
-    onFight(G, ctx, self) {
-      self.onMine(G, ctx, self);
-      // It's okay to do this because "onFight"s are not on G.effects
-    },
-    reinforce_desc: "再获得+2/+2",
-  },
+  // {
+  //   name:"闪灵",
+  //   cost:4,
+  //   atk:4,
+  //   hp:2,
+  //   mine:2,
+  //   block:0,
+  //   desc: "采掘/战斗: 使1个干员获得+3/+3",
+  //   illust:"http://prts.wiki/images/e/e9/%E7%AB%8B%E7%BB%98_%E9%97%AA%E7%81%B5_1.png",
+  //   reinforce: 1,
+  //   onMine(G, ctx, self) {
+  //     // TODO: reconstruct this part, of course buffing an card needs a function
+  //     let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
+  //     if (card) {
+  //       card.atk += 3 + 2 * self.power;
+  //       card.hp += 3 + 2 * self.power;
+  //     }
+  //   },
+  //   onFight(G, ctx, self) {
+  //     self.onMine(G, ctx, self);
+  //     // It's okay to do this because "onFight"s are not on G.effects
+  //   },
+  //   reinforce_desc: "再获得+2/+2",
+  // },
 
   {
     name:"空", 
@@ -1269,17 +1269,16 @@ export var CARDS = [
   {
     name:"古米",
     cost:4,
-    atk:3,
+    atk:2,
     hp:6,
     mine:1,
     block:2,
-    desc: "部署: 每被强化过1次，就获得1分",
+    desc: "部署: 强化所有手牌1次",
     illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      let power = self.power || 0;
-      for (let i=0; i<power; i++) {
-        G.score += 1; // EH: Reconstruct this
+      for (let card of G.hand) {
+        reinforce_card(G, ctx, card);
       }
     },
     onReinforce(G, ctx, self) {
@@ -1290,18 +1289,19 @@ export var CARDS = [
   },
   {
     name:"早露",
-    cost:4,
-    atk:6,
-    hp:3,
+    cost:5,
+    atk:5,
+    hp:2,
     mine:2,
     block:0,
-    desc: "部署: 每被强化过1次，就对1个敌人造成4点伤害",
+    desc: "部署: 每有1张被强化过的手牌(包括自己)，就对1个敌人造成3点伤害并获得1分",
     illust:"http://ak.mooncell.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%97%A9%E9%9C%B2_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      let power = self.power || 0;
-      for (let i=0; i<power; i++) {
-        deal_random_damage(G, ctx, 4);
+      let num_reinforced = [...G.hand, self].filter(x => (x.power > 0)).length;
+      for (let i=0; i<num_reinforced; i++) {
+        deal_random_damage(G, ctx, 3);
+        G.score += 1;
       }
     },
     onReinforce(G, ctx, self) {
@@ -1405,6 +1405,29 @@ export var CARDS = [
     }
   },
   {
+    name:"食铁兽",
+    cost:7,
+    atk:5,
+    hp:6,
+    mine:2,
+    block:1,
+    desc: "部署: 横置场上所有干员，然后每横置1个，就获得2分",
+    illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E9%A3%9F%E9%93%81%E5%85%BD_1.png",
+    reinforce: 2,
+    onPlay(G, ctx, self) {
+      let ready_cards = G.field.filter(x => ((!x.exhausted) && (x != self)));
+      let num_ready_cards = ready_cards.length;
+      for (let card of ready_cards) {
+        card.exhausted = true;
+      }
+      G.score += 2 * num_ready_cards;
+    },
+    onReinforce(G, ctx, self) {
+      G.score += 2
+    },
+    reinforce_desc: "获得2分",
+  },
+  {
     name:"远山",
     cost:3,
     atk:3,
@@ -1469,8 +1492,8 @@ export var CARDS = [
   {
     name:"刻刀",
     cost:2,
-    atk:3,
-    hp:2,
+    atk:2,
+    hp:1,
     mine:1,
     block:1,
     desc: "部署: 摧毁1个受到伤害的敌人",
@@ -1603,7 +1626,7 @@ export var CARDS = [
     name:"拉普兰德",
     cost:4,
     atk:1,
-    hp:3,
+    hp:2,
     mine:1,
     block:1,
     desc: "战斗: 将目标变成1/1并失去所有能力",
@@ -1634,7 +1657,7 @@ export var CARDS = [
     name:"翎羽",
     cost:2,
     atk:2,
-    hp:2,
+    hp:1,
     mine:1,
     block:1,
     illust: "http://ak.mooncell.wiki/images/8/84/%E7%AB%8B%E7%BB%98_%E7%BF%8E%E7%BE%BD_1.png",

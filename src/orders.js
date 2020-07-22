@@ -84,7 +84,7 @@ export const ORDERS = [
     requirements: [3,0,0,0],
     score: 2,
     reward: 2,
-    desc: (<span>{material_icons[1]}→{material_icons[3]}+1费</span>),
+    desc: (<span>{material_icons[1]} → {material_icons[3]} + 1费</span>),
     effect(G, ctx) {
       if (payMaterials(G, ctx, [0,1,0,0])) {
         G.materials[3] += 1;

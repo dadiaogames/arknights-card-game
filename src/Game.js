@@ -419,9 +419,13 @@ export function exhaust_random_enemy(G, ctx) {
 }
 
 export function ready_random_card(G, ctx, self) {
-  let exhausted_cards = G.field.filter(x => (x.exhausted && (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂"].includes(x.name))));
-  if (exhausted_cards.length > 0) {
-    let card = ctx.random.Shuffle(exhausted_cards)[0];
+  let exhausted_cards = G.field.filter(x => (x.exhausted && (x != self)));
+  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂"].includes(x.name)));
+  if ((exhausted_cards.length != 0) && (prepared_cards.length == 0)) {
+    logMsg(G, ctx, "干员们感到意外的疲惫，无法被重置");
+  }
+  if (prepared_cards.length > 0) {
+    let card = ctx.random.Shuffle(prepared_cards)[0];
     card.ready_times = card.ready_times || 0;
     if (card.ready_times >= 5) {
       logMsg(G, ctx, `${card.name} 感到意外的疲惫`);
@@ -429,6 +433,7 @@ export function ready_random_card(G, ctx, self) {
     }
     card.exhausted = false;
     card.ready_times += 1;
+    logMsg(G, ctx, `重置 ${card.name}`);
   }
 
 }
