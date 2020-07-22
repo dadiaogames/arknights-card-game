@@ -342,6 +342,10 @@ export var CARDS = [
     desc:"行动: 打出牌库顶的1张牌", 
     illust:"http://ak.mooncell.wiki/images/5/5e/%E7%AB%8B%E7%BB%98_%E9%A3%8E%E7%AC%9B_1.png",
     action(G, ctx, self) {
+      if (G.limit_hand_field && G.field.length >= 5) {
+        logMsg(G, ctx, "场上干员数已达到上限");
+        return;
+      }
       let card = move(G, ctx, "deck", "field");
       init_card_state(G, ctx, card);
     },
@@ -1377,6 +1381,11 @@ export var CARDS = [
     onPlay(G, ctx, self) {
       G.hand = [...G.discard, ...G.hand];
       G.discard = [];
+
+      if (G.limit_hand_field && G.hand.length >= 5) {
+        logMsg(G, ctx, "手牌数已达到上限");
+        G.hand = G.hand.slice(G.hand.length-5);
+      }
     },
     onReinforce(G, ctx, self) {
       cure(G, ctx, 6);
