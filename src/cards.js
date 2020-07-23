@@ -105,7 +105,7 @@ export var CARDS = [
 
   {
     name: "12F",
-    cost: 6,
+    cost: 5,
     atk: 6,
     hp: 4,
     mine: 6,
@@ -116,6 +116,22 @@ export var CARDS = [
       self.mine += 5;
     },
     reinforce_desc: "<+5>",
+  },
+  
+  {
+    name: "巡林者",
+    cost: 5,
+    atk: 7,
+    hp: 4,
+    mine: 2,
+    block: 0,
+    illust: "http://ak.mooncell.wiki/images/c/c8/%E7%AB%8B%E7%BB%98_%E5%B7%A1%E6%9E%97%E8%80%85_1.png",
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 3;
+      self.hp += 1;
+    },
+    reinforce_desc: "+3/+1",
   },
 
   {
@@ -132,22 +148,6 @@ export var CARDS = [
       self.hp += 8;
     },
     reinforce_desc: "+8/+8",
-  },
-
-  {
-    name: "巡林者",
-    cost: 5,
-    atk: 7,
-    hp: 4,
-    mine: 2,
-    block: 0,
-    illust: "http://ak.mooncell.wiki/images/c/c8/%E7%AB%8B%E7%BB%98_%E5%B7%A1%E6%9E%97%E8%80%85_1.png",
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 1;
-    },
-    reinforce_desc: "+3/+1",
   },
   
   {
@@ -649,7 +649,7 @@ export var CARDS = [
     atk:0, 
     hp:2, 
     mine:1, 
-    block:1, 
+    block:0, 
     desc:"行动: 使1个干员获得+2/+2", 
     illust:"http://ak.mooncell.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E5%AE%89%E8%B5%9B%E5%B0%94_1.png",
     action(G, ctx, self) {
@@ -661,6 +661,30 @@ export var CARDS = [
     },
     reinforce: 1,
     reinforce_desc: "再获得+2/+2",
+  },
+  
+  {
+    name:"末药", 
+    cost:2,
+    atk:2, 
+    hp:1, 
+    mine:1, 
+    block:1, 
+    desc:"部署: 使1个干员获得+3/+3", 
+    illust:"http://prts.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E6%9C%AB%E8%8D%AF_1.png",
+    onPlay(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
+      if (card) {
+        card.atk += 3;
+        card.hp += 3;
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      cure(G, ctx, 6);
+    },
+    reinforce_desc: "使1个干员获得+6生命值",
+
   },
   
   // {
@@ -745,6 +769,31 @@ export var CARDS = [
     },
     reinforce: 2,
     reinforce_desc: "重置自己",
+  },
+
+  {
+    name:"莫斯提马",
+    cost:4,
+    atk:6,
+    hp:3,
+    mine:2,
+    block:0,
+    desc:"采掘/战斗: 每有1个被横置的敌人，就再获得1个材料",
+    illust:"http://ak.mooncell.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
+    onMine(G, ctx, self) {
+      let num_exhausted = G.efield.filter(x=>x.exhausted).length;
+      gainMaterials(G, ctx, num_exhausted);
+    },
+    onFight(G, ctx, self) {
+      self.onMine(G, ctx, self);
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 1;
+      self.mine += 1;
+    },
+    reinforce_desc: "+2/+1 <+1>",
   },
   
   {
@@ -1073,30 +1122,50 @@ export var CARDS = [
     reinforce_desc: "再重复3次",
   },
 
+ 
   
   {
-    name:"莫斯提马",
-    cost:4,
-    atk:6,
+    name:"斯卡蒂",
+    cost:3,
+    atk:3,
     hp:3,
-    mine:2,
-    block:0,
-    desc:"采掘/战斗: 每有1个被横置的敌人，就再获得1个材料",
-    illust:"http://ak.mooncell.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
+    mine:1,
+    block:1,
+    illust: "http://ak.mooncell.wiki/images/4/45/%E7%AB%8B%E7%BB%98_%E6%96%AF%E5%8D%A1%E8%92%82_1.png",
+    reinforce: 2,
+    desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
+    onPlay(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onPlay))[0];
+      card.onPlay(G, ctx, self);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的部署效果`);}
+    },
     onMine(G, ctx, self) {
-      let num_exhausted = G.efield.filter(x=>x.exhausted).length;
-      gainMaterials(G, ctx, num_exhausted);
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onMine))[0];
+      card.onMine(G, ctx, self);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的采掘效果`);}
     },
-    onFight(G, ctx, self) {
-      self.onMine(G, ctx, self);
+    onFight(G, ctx, self, enemy) {
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onFight))[0];
+      card.onFight(G, ctx, self, enemy);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的战斗效果`);}
     },
-    reinforce: 1,
+    action(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.action))[0];
+      card.action(G, ctx, self);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的行动效果`);}
+    },
     onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 1;
-      self.mine += 1;
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce))[0];
+      card.onReinforce(G, ctx, self);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的强化效果`);}
     },
-    reinforce_desc: "+2/+1 <+1>",
+    
+    reinforce_desc: "触发1个随机干员的强化效果",
   },
 
   {
@@ -1436,6 +1505,64 @@ export var CARDS = [
     },
     reinforce_desc: "获得2分",
   },
+  
+  {
+    name:"宴",
+    cost:3,
+    atk:2,
+    hp:2,
+    mine:1,
+    block:1,
+    desc: "部署: 获得+4/+4直到回合结束",
+    illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%AE%B4_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      self.atk += 4;
+      self.hp += 4;
+
+      self.played = true;
+    },
+    onTurnBegin(G, ctx, self) {
+      if (self.played) {
+        self.atk -= 4;
+        self.hp -= 4;
+        if (self.dmg > self.hp) {
+          self.exhausted = true;
+        }
+        self.played = false;
+      }
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+  
+  {
+    name:"白金", 
+    cost:3, 
+    atk:4, 
+    hp:2, 
+    mine:1, 
+    block:0, 
+    desc:"战斗: 使1个干员获得+3攻击力", 
+    illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%87%91_1.png",
+    onFight(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.field.filter(x => x != self))[0];
+      if (card) {
+        card.atk += 3;
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "+3/+1",
+    onReinforce(G, ctx, self) {
+      self.atk += 3;
+      self.hp += 1;
+    }
+  },
+
+
   {
     name:"远山",
     cost:3,
@@ -1758,49 +1885,7 @@ export var CARDS = [
     reinforce_desc: "再强化1次",
   },
 
-  {
-    name:"斯卡蒂",
-    cost:3,
-    atk:3,
-    hp:3,
-    mine:1,
-    block:1,
-    illust: "http://ak.mooncell.wiki/images/4/45/%E7%AB%8B%E7%BB%98_%E6%96%AF%E5%8D%A1%E8%92%82_1.png",
-    reinforce: 2,
-    desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
-    onPlay(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onPlay))[0];
-      card.onPlay(G, ctx, self);
-      if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的部署效果`);}
-    },
-    onMine(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onMine))[0];
-      card.onMine(G, ctx, self);
-      if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的采掘效果`);}
-    },
-    onFight(G, ctx, self, enemy) {
-      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onFight))[0];
-      card.onFight(G, ctx, self, enemy);
-      if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的战斗效果`);}
-    },
-    action(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.action))[0];
-      card.action(G, ctx, self);
-      if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的行动效果`);}
-    },
-    onReinforce(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce))[0];
-      card.onReinforce(G, ctx, self);
-      if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的强化效果`);}
-    },
-    
-    reinforce_desc: "触发1个随机干员的强化效果",
-  },
+  
   
   {
     name:"暗索",

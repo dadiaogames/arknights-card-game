@@ -23,6 +23,7 @@ const dubin_score = `杜宾 2 3
 天火 1 2
 讯使 1 2
 香草 1 2
+桃金娘 1 2
 芬 2 3
 清道夫 1 2
 米格鲁 2 3
@@ -36,6 +37,7 @@ const dubin_score = `杜宾 2 3
 蛇屠箱 0 2
 炎熔 0 2
 蓝毒 0 2
+白金 1 2
 梓兰 0 1
 凛冬 0 2
 真理 0 2
@@ -44,6 +46,7 @@ const dubin_score = `杜宾 2 3
 斯卡蒂 1 2
 阿 1 2
 铃兰 1 2
+食铁兽 1 2
 清流 0 2`;
 
 const solve = `天火 1 2
@@ -51,6 +54,9 @@ const solve = `天火 1 2
 克洛丝 2 3
 杰西卡 2 3
 蓝毒 2 3
+白金 2 3
+末药 1 2
+宴 2 3
 巡林者 2 3
 陈 2 3
 香草 2 3
@@ -107,14 +113,14 @@ const highcost = `风笛 2 3
 夜刀 1 2`;
 
 const rhine = `赫默 1 3
-白面鸮 1 3
+白面鸮 2 3
 伊芙利特 1 2
 塞雷娅 1 2
 梅尔 2 3
 史都华德 1 3
 克洛丝 1 2
 刻俄柏 1 2
-讯使 2 3
+讯使 2 4
 惊蛰 2 3
 陈 1 2
 芬 2 3
@@ -130,7 +136,7 @@ const eyja = `艾雅法拉 2 3
 杰西卡 2 3
 凛冬 2 3
 斯卡蒂 2 3
-讯使 2 3
+讯使 3 4
 惊蛰 1 2
 德克萨斯 0 2
 调香师 1 2
@@ -153,6 +159,7 @@ const angelina = `安洁莉娜 2 3
 陈 2 3
 翎羽 2 3
 极境 3 4
+末药 1 2
 远山 1 2
 星极 1 2
 红 2 3
@@ -189,6 +196,7 @@ const ursus = `凛冬 2 3
 史都华德 1 3
 慕斯 1 2
 讯使 2 3
+极境 1 2
 惊蛰 1 2
 芬 1 2
 调香师 1 2
@@ -221,15 +229,27 @@ const arise = `阿 2 3
 玫兰莎 1 2
 史都华德 1 2
 极境 2 3
+桃金娘 2 3
 惊蛰 2 3
-讯使 1 2
 慕斯 1 2
 刻刀 1 2
 梓兰 1 2
 铃兰 1 2
 星熊 0 2`;
 
-const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus, arise];
+const champion = `香草 2 3
+极境 2 3
+调香师 2 3
+芬 2 3
+能天使 2 3
+拉普兰德 2 3
+清道夫 2 3
+白面鸮 0 2
+雷蛇 0 2
+艾雅法拉 2 3
+断罪者 2 3`;
+
+const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus, arise, champion];
 
 
 function get_random_card(rng) {
