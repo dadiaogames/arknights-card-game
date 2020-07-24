@@ -1513,20 +1513,22 @@ export var CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc: "部署: 获得+4/+4直到回合结束",
+    desc: "部署: 获得+5/+5直到回合结束",
     illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%AE%B4_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      self.atk += 4;
-      self.hp += 4;
+      self.atk += 5;
+      self.dmg -= 5;
 
       self.played = true;
     },
     onTurnBegin(G, ctx, self) {
       if (self.played) {
-        self.atk -= 4;
-        self.hp -= 4;
-        if (self.dmg > self.hp) {
+        self.atk -= 5;
+        if (self.dmg < 0) {
+          self.dmg = 0;
+        }
+        if ((self.hp - self.dmg) <= 0) {
           self.exhausted = true;
         }
         self.played = false;
