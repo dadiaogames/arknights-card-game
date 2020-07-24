@@ -429,17 +429,17 @@ export var CARDS = [
     desc:"战斗: 再造成3点伤害", 
     illust:"http://ak.mooncell.wiki/images/6/66/%E7%AB%8B%E7%BB%98_%E8%93%9D%E6%AF%92_1.png",
     onFight(G, ctx, self) {
-      deal_random_damage(G, ctx, 3+self.power*2);
+      deal_random_damage(G, ctx, 3 + 3 * self.power);
     },
     reinforce: 1,
-    reinforce_desc: "伤害+2",
+    reinforce_desc: "伤害+3",
   },
   
   {
     name:"杜宾", 
     cost:4, 
-    atk:2, 
-    hp:2, 
+    atk:3, 
+    hp:4, 
     mine:1, 
     block:1, 
     desc:"部署: 使场上所有其他干员获得+2/+2", 
@@ -806,12 +806,12 @@ export var CARDS = [
     desc:"行动: 消耗4点费用，获得5分", 
     illust:"http://ak.mooncell.wiki/images/c/c6/%E7%AB%8B%E7%BB%98_%E9%98%BF%E6%B6%88_1.png",
     action(G, ctx, self) {
-      if (payCost(G, ctx, 3-2*self.power)) {
-        G.score += 4;
+      if (payCost(G, ctx, 4 + 3 * self.power)) {
+        G.score += 5 + 3 * self.power;
       }
     },
     reinforce: 1,
-    reinforce_desc: "消耗费用-2",
+    reinforce_desc: "消耗费用+3，得分+3",
   },
 
   {
@@ -1175,7 +1175,7 @@ export var CARDS = [
     hp:6,
     mine:2,
     block:1,
-    desc: <span>采掘/战斗: 消耗1个{material_icons[3]}，并重置自己</span>,
+    desc: <span>采掘/战斗: 消耗1个{material_icons[3]}，重置自己</span>,
     illust:"http://ak.mooncell.wiki/images/0/03/%E7%AB%8B%E7%BB%98_%E9%93%B6%E7%81%B0_1.png",
     onMine(G, ctx, self) {
       if (payMaterials(G, ctx, [0,0,0,1])) {
@@ -1342,7 +1342,7 @@ export var CARDS = [
     name:"古米",
     cost:4,
     atk:2,
-    hp:6,
+    hp:5,
     mine:1,
     block:2,
     desc: "部署: 强化所有手牌1次",
@@ -1521,17 +1521,17 @@ export var CARDS = [
       self.dmg -= 5;
 
       self.played = true;
-    },
-    onTurnBegin(G, ctx, self) {
-      if (self.played) {
-        self.atk -= 5;
-        if (self.dmg < 0) {
-          self.dmg = 0;
+      self.onTurnBegin = (G, ctx, self) => {
+        if (self.played) {
+          self.atk -= 5;
+          if (self.dmg < 0) {
+            self.dmg = 0;
+          }
+          if ((self.hp - self.dmg) <= 0) {
+            self.exhausted = true;
+          }
+          self.played = false;
         }
-        if ((self.hp - self.dmg) <= 0) {
-          self.exhausted = true;
-        }
-        self.played = false;
       }
     },
     onReinforce(G, ctx, self) {
