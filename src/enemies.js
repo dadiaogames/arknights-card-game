@@ -27,7 +27,7 @@ export var ENEMIES = [
     atk: 3,
     hp: 4,
     illust: "http://ak.mooncell.wiki/images/a/a5/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%B0%84%E6%89%8B.png",
-    desc: "行动: 对最后部署的单位，造成等同于自己攻击力的伤害",
+    desc: "行动: 对最后部署的单位，造成[攻击力]点伤害",
     action(G, ctx, self) {
       let card = G.field[G.field.length-1];
       if (card) {
@@ -79,7 +79,7 @@ export var ENEMIES = [
     atk: 2,
     hp: 4,
     illust: "http://ak.mooncell.wiki/images/0/02/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%9C%AF%E5%B8%88.png",
-    desc: "行动: 对1个无阻挡力单位，造成等同于自己攻击力的伤害",
+    desc: "行动: 对1个无阻挡能力干员，造成[攻击力]点伤害",
     action(G, ctx, self) {
       let high = G.field.filter(x => (x.block == 0));
       if (high.length > 0) {
@@ -103,7 +103,7 @@ export var ENEMIES = [
     hp: 6,
     illust: "http://ak.mooncell.wiki/images/b/b9/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%AB%98%E9%98%B6%E6%9C%AF%E5%B8%88.png",
     is_elite: true,
-    desc: "替换, 行动: 对2个无阻挡力干员, 造成等同于自己攻击力的伤害",
+    desc: "替换, 行动: 对2个无阻挡能力干员, 造成[攻击力]点伤害",
     action(G, ctx, self) {
       let high = G.field.filter(x => (x.block == 0));
       for (let card of ctx.random.Shuffle(high).slice(0,2)) {
@@ -117,7 +117,7 @@ export var ENEMIES = [
     atk: 1,
     hp: 1,
     illust: "http://ak.mooncell.wiki/images/6/68/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%AB%98%E8%83%BD%E6%BA%90%E7%9F%B3%E8%99%AB.png",
-    desc: "亡语: 对1个随机干员造成{攻击力+2}点伤害",
+    desc: "亡语: 对1个随机干员造成[攻击力+2]点伤害",
     onOut(G, ctx, self) {
       if (G.field.length > 0) {
         let idx = ctx.random.Die(G.field.length) - 1;

@@ -8,7 +8,7 @@ import {
 } from './Game';
 import { material_icons } from './orders';
 
-export var CARDS = [
+export const CARDS = [
   {
     name: "克洛丝",
     cost: 1,
@@ -51,7 +51,7 @@ export var CARDS = [
     illust: "http://ak.mooncell.wiki/images/9/96/%E7%AB%8B%E7%BB%98_%E6%9D%B0%E8%A5%BF%E5%8D%A1_1.png",
     desc: "采掘: 造成3点伤害",
     onMine(G, ctx, self) {
-      deal_random_damage(G, ctx, 3+3*self.power);
+      deal_random_damage(G, ctx, 3 + 3 * self.power);
     },
     reinforce: 1,
     reinforce_desc: "伤害+3",
@@ -214,9 +214,9 @@ export var CARDS = [
   {
     name:"香草", 
     cost:3, 
-    atk:5, 
-    hp:2, 
-    mine:2, 
+    atk:4, 
+    hp:4, 
+    mine:1, 
     block:1, 
     desc:"战斗: 获得2点费用", 
     illust:"http://ak.mooncell.wiki/images/a/a0/%E7%AB%8B%E7%BB%98_%E9%A6%99%E8%8D%89_1.png",
@@ -778,7 +778,7 @@ export var CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:"采掘/战斗: 每有1个被横置的敌人，就再获得1个材料",
+    desc:"采掘/战斗: 每有1个被横置的敌人，就获得1个材料",
     illust:"http://ak.mooncell.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
     onMine(G, ctx, self) {
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
@@ -1850,7 +1850,7 @@ export var CARDS = [
     block:0,
     illust: "http://ak.mooncell.wiki/images/9/98/%E7%AB%8B%E7%BB%98_%E7%8B%AE%E8%9D%8E_1.png",
     reinforce: 1,
-    desc: "行动: 将场上所有干员变成{费用+1}的干员",
+    desc: "行动: 将场上所有干员变成[费用+1]的干员",
 
     action(G, ctx, self) {
       for (let i=0; i<G.field.length; i++) {
