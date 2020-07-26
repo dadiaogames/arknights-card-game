@@ -38,8 +38,8 @@ export const CARDS = [
       let delta = 1 + 2 * self.power;
       G.score += delta;
 
-      if (delta >= 20) {
-        achieve(G, ctx, "女主角", "使用阿米娅获得20分以上", self);
+      if (delta >= 10) {
+        achieve(G, ctx, "女主角", "使用阿米娅获得10分以上", self);
       }
     },
     reinforce: 2,
@@ -333,8 +333,8 @@ export const CARDS = [
         G.costs += delta;
         logMsg(G, ctx, `使用 ${self.name} 获得${delta}点费用`);
 
-        if (delta >= 10) {
-          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少10点费用", self);
+        if (delta >= 8) {
+          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少8点费用", self);
         }
       }
     },
@@ -409,8 +409,8 @@ export const CARDS = [
         card.cost -= 1;
       }
 
-      if (G.hand.length >= 10) {
-        achieve(G, ctx, "推进之王", "使用推进之王给至少10张牌减费", self);
+      if (self.power >= 3) {
+        achieve(G, ctx, "推进之王", "强化推进之王3次", self);
       }
     },
     reinforce: 1,
@@ -834,7 +834,7 @@ export const CARDS = [
     desc:"行动: 消耗4点费用，获得5分", 
     illust:"http://ak.mooncell.wiki/images/c/c6/%E7%AB%8B%E7%BB%98_%E9%98%BF%E6%B6%88_1.png",
     action(G, ctx, self) {
-      if (payCost(G, ctx, 4 + 3 * self.power)) {
+      if (payCost(G, ctx, 4 + 2 * self.power)) {
         let delta = 5 + 3 * self.power;
         G.score += delta;
 
@@ -844,7 +844,7 @@ export const CARDS = [
       }
     },
     reinforce: 1,
-    reinforce_desc: "消耗费用+3，得分+3",
+    reinforce_desc: "消耗费用+2，得分+3",
   },
 
   {
@@ -1846,7 +1846,7 @@ export const CARDS = [
       G.field.push(init_card_state(G, ctx, {...texas}));
 
       if (self.power >= 5) {
-        achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰度部署至少5个德克萨斯", self);
+        achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰度部署5个德克萨斯", self);
       }
     },
     reinforce_desc: "部署\"德克萨斯\"",
