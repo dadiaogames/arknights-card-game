@@ -35,9 +35,16 @@ export const EnterGame = (props) => {
       <button
         className = "enter-game"
         onClick = {props.advancedSettings}
-        style = {{display:props.action=="进入游戏"?"":"none"}}
+        style = {{display:props.advancedSettings?"":"none"}}
       >
         高级设置
+      </button>
+      <button
+        className = "enter-game"
+        onClick = {props.back}
+        style = {{display:props.back?"":"none"}}
+      >
+        返回标题
       </button>
     </div>
   );

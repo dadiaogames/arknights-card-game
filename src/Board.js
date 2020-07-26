@@ -821,8 +821,9 @@ export class Board extends React.Component {
         </div>
         
         <EnterGame 
-          switchScene = {() => {this.change_board("deck")}}
+          switchScene = {() => {this.change_board("deck");}}
           action = "查看卡组"
+          back = {() => {this.change_board("title");}}
         />
         
       </div>

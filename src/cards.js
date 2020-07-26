@@ -4,7 +4,7 @@ import {
   move, exhaust_random_enemy, ready_random_card, cure, 
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
-  generate_combined_card,
+  generate_combined_card, achieve
 } from './Game';
 import { material_icons } from './orders';
 
@@ -35,7 +35,12 @@ export const CARDS = [
     illust: "http://ak.mooncell.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E9%98%BF%E7%B1%B3%E5%A8%85_1.png",
     desc: "采掘: 获得1分",
     onMine(G, ctx, self) {
-      G.score += 1 + 2 * self.power;
+      let delta = 1 + 2 * self.power;
+      G.score += delta;
+
+      if (delta >= 20) {
+        achieve(G, ctx, "女主角", "使用阿米娅获得20分以上", self);
+      }
     },
     reinforce: 2,
     reinforce_desc: "再获得2分",
@@ -161,8 +166,12 @@ export const CARDS = [
     reinforce: 1,
     
     onReinforce(G, ctx, self) {
-      G.atk += 4;
-      G.hp += 4;
+      self.atk += 4;
+      self.hp += 4;
+
+      if (self.atk >= 30) {
+        achieve(G, ctx, "罗德岛的基石", "夜刀的攻击力达到30", self);
+      }
     },
     reinforce_desc: "+4/+4",
   },
@@ -323,6 +332,10 @@ export const CARDS = [
         let delta = enemy.dmg - enemy.hp;
         G.costs += delta;
         logMsg(G, ctx, `使用 ${self.name} 获得${delta}点费用`);
+
+        if (delta >= 10) {
+          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少10点费用", self);
+        }
       }
     },
     onReinforce(G, ctx, self) {
@@ -348,6 +361,9 @@ export const CARDS = [
       }
       let card = move(G, ctx, "deck", "field");
       init_card_state(G, ctx, card);
+      if (card.name == "夜刀") {
+        achieve(G, ctx, "特殊召唤", "使用风笛跳出夜刀", self);
+      }
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
@@ -391,6 +407,10 @@ export const CARDS = [
     onPlay(G, ctx, self) {
       for (let card of G.hand) {
         card.cost -= 1;
+      }
+
+      if (G.hand.length >= 10) {
+        achieve(G, ctx, "推进之王", "使用推进之王给至少10张牌减费", self);
       }
     },
     reinforce: 1,
@@ -505,6 +525,10 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       if (self.onPlay) {
         self.onPlay(G, ctx);
+      }
+
+      if (~G.hand.indexOf(self) && (self.power >= 3)) {
+        achieve(G, ctx, "赤霄·绝影", "陈在手牌中被强化过至少3次", self);
       }
     },
     reinforce_desc: "触发1次\"部署:\"效果",
@@ -783,6 +807,10 @@ export const CARDS = [
     onMine(G, ctx, self) {
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
       gainMaterials(G, ctx, num_exhausted);
+
+      if (num_exhausted >= 6) {
+        achieve(G, ctx, "企鹅物流", "场上有至少6个敌人被横置", self);
+      }
     },
     onFight(G, ctx, self) {
       self.onMine(G, ctx, self);
@@ -807,7 +835,12 @@ export const CARDS = [
     illust:"http://ak.mooncell.wiki/images/c/c6/%E7%AB%8B%E7%BB%98_%E9%98%BF%E6%B6%88_1.png",
     action(G, ctx, self) {
       if (payCost(G, ctx, 4 + 3 * self.power)) {
-        G.score += 5 + 3 * self.power;
+        let delta = 5 + 3 * self.power;
+        G.score += delta;
+
+        if (delta >= 10) {
+          achieve(G, ctx, "龙门消防局", "使用阿消获得至少10分", self);
+        }
       }
     },
     reinforce: 1,
@@ -864,9 +897,15 @@ export const CARDS = [
     desc:"采掘: 重置所有已完成的订单",
     illust:"http://ak.mooncell.wiki/images/5/53/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E8%8A%99%E5%88%A9%E7%89%B9_1.png",
     onMine(G, ctx, self) {
+      let count = G.finished.filter(x => x.exhausted).length;
       for (let order of G.finished) {
         order.exhausted = false;
       }
+
+      if (count >= 6) {
+        achieve(G, ctx, "无敌的小火龙", "使用伊芙利特重置至少6个订单", self);
+      }
+
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
@@ -1019,7 +1058,7 @@ export const CARDS = [
     name:"温蒂", 
     cost:4, 
     atk:3, 
-    hp:6, 
+    hp:3, 
     mine:1, 
     block:1, 
     desc:"行动: 触发场上所有干员的\"行动:\"效果", 
@@ -1084,6 +1123,9 @@ export const CARDS = [
         let score_gained = Math.floor(delta / 2);
         G.score += score_gained;
         logMsg(G, ctx, `使用 ${self.name} 获得${score_gained}分`);
+        if (score_gained >= 6) {
+          achieve(G, ctx, "热血沸腾", "使用煌获得至少6分", self);
+        }
       }
     },
     reinforce: 1,
@@ -1180,12 +1222,17 @@ export const CARDS = [
     onMine(G, ctx, self) {
       if (payMaterials(G, ctx, [0,0,0,1])) {
         self.exhausted = false;
+
+        self.use_count = self.use_count || 0;
+        self.use_count += 1;
+
+        if (self.use_count >= 5) {
+          achieve(G, ctx, "真银斩", "一回合内使用银灰5次以上", self);
+        }
       }
     },
     onFight(G, ctx, self) {
-      if (payMaterials(G, ctx, [0,0,0,1])) {
-        self.exhausted = false;
-      }
+      self.onMine(G, ctx, self);
     },
     reinforce: 2,
     reinforce_desc: "+2/+2 <+1>",
@@ -1406,6 +1453,12 @@ export const CARDS = [
         else {
           self.exhausted = false;
         }
+
+        self.use_count = self.use_count || 0;
+        self.use_count += 1;
+        if (self.use_count >= 5) {
+          achieve(G, ctx, "爆发剂·榴莲味", "一回合内使用阿5次以上", self);
+        }
       }
     },
     onReinforce(G, ctx, self) {
@@ -1430,6 +1483,10 @@ export const CARDS = [
       G.hand = [];
       G.score += num_cards;
       logMsg(G, ctx, `使用 断罪者 获得${num_cards}分`);
+
+      if (num_cards >= 17) {
+        achieve(G, ctx, "17张牌你能秒我", "使用断罪者弃掉至少17张手牌", self);
+      }
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
@@ -1787,6 +1844,10 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       let texas = G.CARDS.find(x => (x.name == "德克萨斯"));
       G.field.push(init_card_state(G, ctx, {...texas}));
+
+      if (self.power >= 5) {
+        achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰度部署至少5个德克萨斯", self);
+      }
     },
     reinforce_desc: "部署\"德克萨斯\"",
   },

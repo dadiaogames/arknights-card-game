@@ -632,6 +632,13 @@ function changeMsg(G, ctx, msg) {
   G.messages[0] = msg;
 }
 
+export function achieve(G, ctx, achievement_name, achievement_desc, card) {
+  if (card && !G.achievements[card.name]) {
+    alert(`达成成就: ${achievement_name}\n${achievement_desc}`);
+    G.achievements[card.name] = true;
+  }
+}
+
 export function setup(ctx) {
     const G = {};
 
@@ -664,6 +671,7 @@ export function setup(ctx) {
     G.enemy_exhausted_enter = true;
 
     G.messages = ["欢迎来到明日方舟: 采掘行动"];
+    G.achievements = {};
 
     G.playing = false;
     G.gained = [];

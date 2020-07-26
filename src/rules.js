@@ -28,4 +28,21 @@ export const RULES = <div>
   拥有“行动”能力的敌人(比如高阶术师)，无论被阻挡与否，都会执行其“行动”能力；
   <br/>
   愤怒状态的敌人，一定会发起攻击，如果未被阻挡，则会攻击场上的一名随机干员，而不会发起动乱或行动；
+  <br/><br/>
+  <b>成就一览:</b>
+  <br/>
+  <span>* 女主角</span><br/>
+  <span>* 罗德岛的基石</span><br/>
+  <span>* 常山豆子龙</span><br/>
+  <span>* 特殊召唤</span><br/>
+  <span>* 推进之王</span><br/>
+  <span>* 赤霄·绝影</span><br/>
+  <span>* 企鹅物流</span><br/>
+  <span>* 龙门消防局</span><br/>
+  <span>* 无敌的小火龙</span><br/>
+  <span>* 热血沸腾</span><br/>
+  <span>* 真银斩</span><br/>
+  <span>* 爆发剂·榴莲味</span><br/>
+  <span>* 17张牌你能秒我</span><br/>
+  <span>* 德克萨斯做得到吗</span><br/>
 </div>;
