@@ -7,7 +7,8 @@ it("Test deck generator", () => {
   console.log(generate_deck("克洛丝"));
   for (let i=0; i<10; i++){
     let deck_name = get_deck_name();
+    let deck = generate_deck(deck_name);
     console.log(deck_name);
-    console.log(generate_deck(deck_name));
+    console.log(deck);
   }
 });
