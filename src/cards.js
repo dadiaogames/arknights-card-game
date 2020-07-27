@@ -38,8 +38,8 @@ export const CARDS = [
       let delta = 1 + 2 * self.power;
       G.score += delta;
 
-      if (delta >= 10) {
-        achieve(G, ctx, "女主角", "使用阿米娅获得10分以上", self);
+      if (delta >= 15) {
+        achieve(G, ctx, "女主角", "使用阿米娅获得15分以上", self);
       }
     },
     reinforce: 2,
@@ -477,7 +477,7 @@ export const CARDS = [
     hp:4, 
     mine:1, 
     block:1, 
-    desc:"部署: 使场上所有其他干员获得+2/+2", 
+    desc:"部署: 场上所有其他干员获得+2/+2", 
     illust:"http://ak.mooncell.wiki/images/2/25/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E5%AE%BE_1.png",
     onPlay(G, ctx, self) {
       for (let card of G.field) {
@@ -489,14 +489,10 @@ export const CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      for (let card of G.field) {
-        if (card != self) {
-          card.atk += 1;
-          card.hp += 1;
-        }
-      }
+      self.atk += 2;
+      self.hp += 2;
     },
-    reinforce_desc: "使场上所有其他干员获得+1/+1",
+    reinforce_desc: "+2/+2",
   }, 
   
   {
@@ -1250,6 +1246,9 @@ export const CARDS = [
     onFight(G, ctx, self) {
       self.onMine(G, ctx, self);
     },
+    onTurnBegin(G, ctx, self) {
+      self.use_count = 0;
+    },
     reinforce: 2,
     reinforce_desc: "+2/+2 <+1>",
     onReinforce(G, ctx, self) {
@@ -1473,7 +1472,7 @@ export const CARDS = [
         self.use_count = self.use_count || 0;
         self.use_count += 1;
         if (self.use_count >= 5) {
-          achieve(G, ctx, "爆发剂·榴莲味", "一回合内使用阿5次以上", self);
+          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿5次以上", self);
         }
       }
     },
@@ -1536,7 +1535,7 @@ export const CARDS = [
   },
   {
     name:"调香师",
-    cost:2,
+    cost:3,
     atk:0,
     hp:2,
     mine:2,
@@ -1886,7 +1885,7 @@ export const CARDS = [
       G.field.push(init_card_state(G, ctx, {...texas}));
 
       if (self.power >= 5) {
-        achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰度部署5个德克萨斯", self);
+        achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰德部署5个德克萨斯", self);
       }
     },
     reinforce_desc: "部署\"德克萨斯\"",
