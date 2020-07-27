@@ -778,7 +778,8 @@ export const AC = {
       onEnemyStageEnd(G, ctx);
     },
 
-    moveLimit: 1000, // To prevent infinite loop
+    // moveLimit: 1000,    // I don't know why, when adding this line, the init hand size comes to 4
+
   },
 
   endIf(G, ctx) {
