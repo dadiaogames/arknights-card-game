@@ -77,6 +77,22 @@ export const CARDS = [
     },
     reinforce_desc: "+2/+2",
   },
+  
+  {
+    name:"芙兰卡", 
+    cost:4, 
+    atk:5, 
+    hp:5, 
+    mine:3, 
+    block:1, 
+    illust:"http://ak.mooncell.wiki/images/6/6c/%E7%AB%8B%E7%BB%98_%E8%8A%99%E5%85%B0%E5%8D%A1_1.png",
+    reinforce: 2,
+    onReinforce(G, ctx, self) {
+      self.atk += 5;
+      self.hp += 5;
+    },
+    reinforce_desc: "+5/+5",
+  },
 
   {
     name: "米格鲁",
@@ -128,7 +144,7 @@ export const CARDS = [
     cost: 5,
     atk: 7,
     hp: 4,
-    mine: 2,
+    mine: 3,
     block: 0,
     illust: "http://ak.mooncell.wiki/images/c/c8/%E7%AB%8B%E7%BB%98_%E5%B7%A1%E6%9E%97%E8%80%85_1.png",
     reinforce: 1,
@@ -533,21 +549,22 @@ export const CARDS = [
     },
     reinforce_desc: "触发1次\"部署:\"效果",
   },
-  
+
   {
-    name:"芙兰卡", 
-    cost:4, 
-    atk:4, 
-    hp:5, 
-    mine:2, 
-    block:1, 
-    illust:"http://ak.mooncell.wiki/images/6/6c/%E7%AB%8B%E7%BB%98_%E8%8A%99%E5%85%B0%E5%8D%A1_1.png",
-    reinforce: 2,
-    onReinforce(G, ctx, self) {
-      self.atk += 5;
-      self.hp += 5;
+    name:"柏喙",
+    cost:4,
+    atk:5,
+    hp:4,
+    mine:2,
+    block:1,
+    desc: "采掘: 获得+3/+3",
+    illust:"http://prts.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E6%9F%8F%E5%96%99_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      self.atk += 3 + 2 * self.power;
+      self.hp += 3 + 2 * self.power;
     },
-    reinforce_desc: "+5/+5",
+    reinforce_desc: "再获得+2/+2",
   },
 
   {
@@ -1414,7 +1431,7 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc: "部署: 每有1张被强化过的手牌(包括自己)，就对1个敌人造成3点伤害并获得1分",
+    desc: "部署: 每有1张被强化过的手牌(包括自己)，就造成3点伤害并获得1分",
     illust:"http://ak.mooncell.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%97%A9%E9%9C%B2_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -1469,10 +1486,10 @@ export const CARDS = [
   
   {
     name:"断罪者",
-    cost:2,
-    atk:2,
-    hp:2,
-    mine:1,
+    cost:5,
+    atk:6,
+    hp:5,
+    mine:3,
     block:1,
     desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%96%AD%E7%BD%AA%E8%80%85_1.png",
@@ -1747,6 +1764,7 @@ export const CARDS = [
     },
     reinforce_desc: "获得5点费用",
   },
+  
   
 
   {

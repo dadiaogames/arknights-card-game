@@ -195,7 +195,7 @@ const tag_list = [
 
   {
     src: "http://ak.mooncell.wiki/images/4/40/Enemy_hirman_2.png",
-    desc: "3回合后，所有敌人获得+4/+4",
+    desc: "3回合后，所有敌人获得+5/+5",
     level: 3,
     effect(G, ctx){
       G.reinforceOnR4 = true;
