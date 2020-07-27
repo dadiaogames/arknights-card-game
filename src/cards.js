@@ -424,15 +424,14 @@ export const CARDS = [
       for (let card of G.hand) {
         card.cost -= 1;
       }
-
-      if (self.power >= 3) {
-        achieve(G, ctx, "推进之王", "强化推进之王3次", self);
-      }
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
       if (self.onPlay) {
         self.onPlay(G, ctx);
+      }
+      if (self.power >= 3) {
+        achieve(G, ctx, "推进之王", "强化推进之王3次", self);
       }
     },
     reinforce_desc: "触发1次\"部署:\"效果",
@@ -1074,9 +1073,9 @@ export const CARDS = [
   {
     name:"温蒂", 
     cost:4, 
-    atk:3, 
+    atk:5, 
     hp:3, 
-    mine:1, 
+    mine:2, 
     block:1, 
     desc:"行动: 触发场上所有干员的\"行动:\"效果", 
     illust:"http://ak.mooncell.wiki/images/2/26/%E7%AB%8B%E7%BB%98_%E6%B8%A9%E8%92%82_1.png",
@@ -1699,6 +1698,29 @@ export const CARDS = [
       draw(G, ctx);
     },
     reinforce_desc: "摸2张牌",
+  },
+  
+  {
+    name:"巫恋",
+    cost:4,
+    atk:6,
+    hp:3,
+    mine:1,
+    block:0,
+    desc:"采掘: 触发场上1个干员的\"行动:\"效果",
+    illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
+      if (actor) {
+        actor.action(G, ctx, actor);
+        logMsg(G, ctx, `触发 ${actor.name} 的行动效果`);
+      }
+    },
+    onReinforce(G, ctx, self) {
+      G.costs += 2;
+    },
+    reinforce_desc: "获得2点费用",
   },
   
   {
