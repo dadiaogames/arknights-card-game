@@ -119,6 +119,15 @@ const tag_list = [
     }
   },
 
+  {
+    src: "http://ak.mooncell.wiki/images/f/fb/Char_atk_1.png",
+    desc: "每过2回合，每回合就额外翻开1张敌人牌",
+    level: 2,
+    effect(G, ctx){
+      G.more_enemies = true;
+    }
+  },
+
 
   {
     src: "http://ak.mooncell.wiki/images/f/f1/Enemy_buster_1.png",
@@ -140,6 +149,17 @@ const tag_list = [
   },
 
   {
+    src: "http://ak.mooncell.wiki/images/7/7f/Global_costrecovery_3.png",
+    desc: "所有干员的部署费用提升至1.5倍",
+    level: 3,
+    effect(G, ctx) {
+      for (let card of G.deck) {
+        card.cost *= 1.5;
+      }
+    }
+  },
+
+  {
     src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
     desc: "所有订单的分数-1",
     level: 3,
@@ -155,7 +175,7 @@ const tag_list = [
     desc: "每回合额外翻开1张敌人牌",
     level: 3,
     effect(G, ctx) {
-      G.more_enemies = true;
+      G.num_enemies_out += 1;
     }
   },
 

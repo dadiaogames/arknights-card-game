@@ -25,7 +25,8 @@ const cost_vanguard =  `极境 1 2
 
 const draw_vanguard = `芬 1 2
 清道夫 1 2
-调香师 0 1`;
+调香师 1 1
+清流 0 1`;
 
 const scorer = `阿米娅 1 2
 崖心 1 2
@@ -125,6 +126,7 @@ const highcost = `风笛 3 3
 
 const rhine = `赫默 2 3
 白面鸮 3 3
+麦哲伦 1 2
 伊芙利特 2 3
 塞雷娅 1 2
 米格鲁 2 3

@@ -677,7 +677,7 @@ export class Board extends React.Component {
           }} 
           onClick={()=>{
             this.props.moves.enemyInit();
-            this.enemy_move(this.props.G.more_enemies?-3:-2);
+            this.enemy_move(-this.props.G.num_enemies_out);
           }}
         >
           结束回合

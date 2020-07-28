@@ -838,9 +838,9 @@ export const CARDS = [
   
   {
     name:"阿消", 
-    cost:4, 
+    cost:3, 
     atk:4, 
-    hp:5, 
+    hp:4, 
     mine:1, 
     block:1, 
     desc:"行动: 消耗4点费用，获得5分", 
@@ -986,6 +986,34 @@ export const CARDS = [
     reinforce_desc: "造成4点伤害",
   },
 
+
+  {
+    name:"麦哲伦",
+    cost:3,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:0,
+    desc:"部署/采掘/战斗: 获得2个未完成的订单",
+    illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      for (let i=0; i<2; i++){
+        let order = {...(ctx.random.Shuffle(G.ORDERS)[0])};
+        G.orders.unshift(order);
+      }
+    },
+    onFight(G, ctx, self) {
+      self.onMine(G, ctx, self);
+    },
+    onPlay(G, ctx, self) {
+      self.onMine(G, ctx, self);
+    },
+    onReinforce(G, ctx, self) {
+      self.onMine(G, ctx, self);
+    },
+    reinforce_desc: "获得2个未完成的订单",
+  },
 
   
   {

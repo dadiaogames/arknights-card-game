@@ -476,7 +476,7 @@ export function cure(G, ctx, amount) {
 }
 
 export function get_rhine_order(G, ctx) {
-  let order = Object.assign({}, ctx.random.Shuffle(G.odeck)[0]);
+  let order = {...(ctx.random.Shuffle(G.ORDERS)[0])};
   order.rhine = true;
   G.finished.unshift(order);
   sort_finished(G);
@@ -666,6 +666,7 @@ export function setup(ctx) {
     G.danger = 0;
     G.goal = 10;
     G.max_danger = 8;
+    G.num_enemies_out = 2;
 
     G.exhausted_enter = false;
     G.enemy_exhausted_enter = true;
@@ -695,6 +696,9 @@ export function setup(ctx) {
       }
     }
     G.EFFECTS = effects;
+    G.ORDERS = [...ORDERS];
+
+    console.log("Setup finished.");
 
     return G;
   }
@@ -759,6 +763,10 @@ export const AC = {
             enemy.atk += 5;
             enemy.hp += 5;
           }
+        }
+
+        if (G.round_num % 2 == 1 && G.round_num > 2 && G.more_enemies) {
+          G.num_enemies_out += 1;
         }
 
         if (G.fog) {
