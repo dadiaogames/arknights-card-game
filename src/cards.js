@@ -904,7 +904,7 @@ export const CARDS = [
     cost:4,
     atk:6,
     hp:3,
-    mine:2,
+    mine:1,
     block:0,
     desc:"采掘: 重置所有已完成的订单",
     illust:"http://ak.mooncell.wiki/images/5/53/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E8%8A%99%E5%88%A9%E7%89%B9_1.png",
@@ -951,40 +951,40 @@ export const CARDS = [
   //   reinforce_desc: "+4/+2",
   // }, 
   
-  {
-    name:"梅尔",
-    cost:2,
-    atk:3,
-    hp:2,
-    mine:1,
-    block:0,
-    desc: "部署: 使2个订单的能力改为\"→造成5点伤害\"",
-    illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
-    reinforce: 1,
+  // {
+  //   name:"梅尔",
+  //   cost:2,
+  //   atk:3,
+  //   hp:2,
+  //   mine:1,
+  //   block:0,
+  //   desc: "部署: 使2个订单的能力改为\"→造成5点伤害\"",
+  //   illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
+  //   reinforce: 1,
 
-    onPlay(G, ctx) {
-      let orders = ctx.random.Shuffle(G.finished);
-      if (orders.length > 2) {
-        orders = orders.slice(0,2);
-      }
-      for (let order of orders) {
-        let material = ctx.random.Die(3) - 1;
-        let requirements = [0,0,0,0];
-        requirements[material] = 1;
-        order.desc = <span>{material_icons[material]}→5伤害</span>;
-        order.effect = (G,ctx) => {
-          if (payMaterials(G, ctx, requirements)) {
-            deal_random_damage(G, ctx, 5);
-          }
-        };
-      }
-    },
+  //   onPlay(G, ctx) {
+  //     let orders = ctx.random.Shuffle(G.finished);
+  //     if (orders.length > 2) {
+  //       orders = orders.slice(0,2);
+  //     }
+  //     for (let order of orders) {
+  //       let material = ctx.random.Die(3) - 1;
+  //       let requirements = [0,0,0,0];
+  //       requirements[material] = 1;
+  //       order.desc = <span>{material_icons[material]}→5伤害</span>;
+  //       order.effect = (G,ctx) => {
+  //         if (payMaterials(G, ctx, requirements)) {
+  //           deal_random_damage(G, ctx, 5);
+  //         }
+  //       };
+  //     }
+  //   },
     
-    onReinforce(G, ctx) {
-      deal_random_damage(G, ctx, 4);
-    },
-    reinforce_desc: "造成4点伤害",
-  },
+  //   onReinforce(G, ctx) {
+  //     deal_random_damage(G, ctx, 4);
+  //   },
+  //   reinforce_desc: "造成4点伤害",
+  // },
 
 
   {
@@ -1420,7 +1420,7 @@ export const CARDS = [
     block:0,
     desc: "行动: 强化2张手牌",
     illust:"http://ak.mooncell.wiki/images/1/19/%E7%AB%8B%E7%BB%98_%E7%9C%9F%E7%90%86_1.png",
-    reinforce: 1,
+    reinforce: 2,
     action(G, ctx, self) {
       for (let i=0; i<self.power+2; i++){
         reinforce_hand(G, ctx);
@@ -1450,28 +1450,28 @@ export const CARDS = [
     },
     reinforce_desc: "+2/+2",
   },
-  {
-    name:"早露",
-    cost:5,
-    atk:5,
-    hp:2,
-    mine:2,
-    block:0,
-    desc: "部署: 每有1张被强化过的手牌(包括自己)，就造成3点伤害并获得1分",
-    illust:"http://ak.mooncell.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%97%A9%E9%9C%B2_1.png",
-    reinforce: 1,
-    onPlay(G, ctx, self) {
-      let num_reinforced = [...G.hand, self].filter(x => (x.power > 0)).length;
-      for (let i=0; i<num_reinforced; i++) {
-        deal_random_damage(G, ctx, 3);
-        G.score += 1;
-      }
-    },
-    onReinforce(G, ctx, self) {
-      deal_random_damage(G, ctx, 3);
-    },
-    reinforce_desc: "造成3点伤害",
-  },
+  // {
+  //   name:"早露",
+  //   cost:5,
+  //   atk:5,
+  //   hp:2,
+  //   mine:2,
+  //   block:0,
+  //   desc: "部署: 每有1张被强化过的手牌(包括自己)，就造成3点伤害并获得1分",
+  //   illust:"http://ak.mooncell.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%97%A9%E9%9C%B2_1.png",
+  //   reinforce: 1,
+  //   onPlay(G, ctx, self) {
+  //     let num_reinforced = [...G.hand, self].filter(x => (x.power > 0)).length;
+  //     for (let i=0; i<num_reinforced; i++) {
+  //       deal_random_damage(G, ctx, 3);
+  //       G.score += 1;
+  //     }
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     deal_random_damage(G, ctx, 3);
+  //   },
+  //   reinforce_desc: "造成3点伤害",
+  // },
 
   {
     name:"阿",
@@ -1542,7 +1542,7 @@ export const CARDS = [
     cost:2,
     atk:0,
     hp:2,
-    mine:2,
+    mine:1,
     block:0,
     desc: "部署: 将弃牌堆中的所有牌返回手牌",
     illust:"http://ak.mooncell.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",

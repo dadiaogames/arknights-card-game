@@ -132,7 +132,7 @@ const tag_list = [
   {
     src: "http://ak.mooncell.wiki/images/f/f1/Enemy_buster_1.png",
     desc: "这个tag是送你的哦~",
-    level: -2,
+    level: -50,
     effect(G, ctx) {
       let deck = G.deck.map(x=>enemy2card(G, ctx));
       G.edeck = ctx.random.Shuffle(G.deck.map(x=>({...x, power:0}))); // If don't add power:0, plenty of bugs gonna come
