@@ -1366,26 +1366,26 @@ export const CARDS = [
     reinforce_desc: "化解1点动乱值",
   },
   
-  {
-    name:"铃兰",
-    cost:2,
-    atk:3,
-    hp:2,
-    mine:2,
-    block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得5分</span>,
-    illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
-    reinforce: 1,
-    action(G, ctx, self) {
-      if (payMaterials(G, ctx, [1,1,1,0])) {
-        G.score += 5;
-      }
-    },
-    onReinforce(G, ctx, self) {
-      self.exhausted = false;
-    },
-    reinforce_desc: "重置自己",
-  },
+  // {
+  //   name:"铃兰",
+  //   cost:2,
+  //   atk:3,
+  //   hp:2,
+  //   mine:2,
+  //   block:0,
+  //   desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得5分</span>,
+  //   illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
+  //   reinforce: 1,
+  //   action(G, ctx, self) {
+  //     if (payMaterials(G, ctx, [1,1,1,0])) {
+  //       G.score += 5;
+  //     }
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.exhausted = false;
+  //   },
+  //   reinforce_desc: "重置自己",
+  // },
 
 
 
