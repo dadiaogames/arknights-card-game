@@ -570,8 +570,11 @@ export class Board extends React.Component {
         else if (risk_level >= 22 && risk_level < 30) {
           grade = "SSSS";
         }
-        else {
+        else if (risk_level >= 30 && risk_level < 50) {
           grade = "SSSSS";
+        }
+        else {
+          grade = "SSSSSS";
         }
         // TODO: reconstruct this part, flat is better than nested
         let finish = this.props.G.rhodes_training_mode?"任务失败":"任务完成";

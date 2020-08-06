@@ -42,7 +42,7 @@ export const CARDS = [
         achieve(G, ctx, "女主角", "使用阿米娅获得15分以上", self);
       }
     },
-    reinforce: 2,
+    reinforce: 3,
     reinforce_desc: "再获得2分",
   },
 
@@ -676,7 +676,7 @@ export const CARDS = [
       cure(G, ctx, 5 + 3 * self.power);
     },
     reinforce: 1,
-    reinforce_desc: "再获得+3生命值",
+    reinforce_desc: "再获得+5生命值",
   },
 
   {
@@ -951,40 +951,37 @@ export const CARDS = [
   //   reinforce_desc: "+4/+2",
   // }, 
   
-  // {
-  //   name:"梅尔",
-  //   cost:2,
-  //   atk:3,
-  //   hp:2,
-  //   mine:1,
-  //   block:0,
-  //   desc: "部署: 使2个订单的能力改为\"→造成5点伤害\"",
-  //   illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
-  //   reinforce: 1,
+  {
+    name:"梅尔",
+    cost:2,
+    atk:2,
+    hp:1,
+    mine:1,
+    block:1,
+    desc: "部署: 获得1个\"莱茵生命订单\"，其能力为\"→造成5点伤害\"",
+    illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
+    reinforce: 1,
 
-  //   onPlay(G, ctx) {
-  //     let orders = ctx.random.Shuffle(G.finished);
-  //     if (orders.length > 2) {
-  //       orders = orders.slice(0,2);
-  //     }
-  //     for (let order of orders) {
-  //       let material = ctx.random.Die(3) - 1;
-  //       let requirements = [0,0,0,0];
-  //       requirements[material] = 1;
-  //       order.desc = <span>{material_icons[material]}→5伤害</span>;
-  //       order.effect = (G,ctx) => {
-  //         if (payMaterials(G, ctx, requirements)) {
-  //           deal_random_damage(G, ctx, 5);
-  //         }
-  //       };
-  //     }
-  //   },
+    onPlay(G, ctx) {
+      let order = {};
+      let material = ctx.random.Die(3) - 1;
+      let requirements = [0,0,0,0];
+      requirements[material] = 1;
+      order.desc = <span>{material_icons[material]}→5伤害</span>;
+      order.effect = (G,ctx) => {
+        if (payMaterials(G, ctx, requirements)) {
+          deal_random_damage(G, ctx, 5);
+        }
+      };
+      order.is_rhine = true;
+      G.finished.unshift(order);
+    },
     
-  //   onReinforce(G, ctx) {
-  //     deal_random_damage(G, ctx, 4);
-  //   },
-  //   reinforce_desc: "造成4点伤害",
-  // },
+    onReinforce(G, ctx) {
+      deal_random_damage(G, ctx, 3);
+    },
+    reinforce_desc: "造成3点伤害",
+  },
 
 
   {
@@ -1105,7 +1102,7 @@ export const CARDS = [
     illust:"http://ak.mooncell.wiki/images/2/26/%E7%AB%8B%E7%BB%98_%E6%B8%A9%E8%92%82_1.png",
     action(G, ctx, self, enemy) {
       if (~G.field.indexOf(self)) {
-        for (let card of G.field) {
+        for (let card of G.field.map(x=>x)) {
           if (card.action && (card.action != self.action)) {
             card.action(G, ctx, card);
           }
@@ -1366,26 +1363,26 @@ export const CARDS = [
     reinforce_desc: "化解1点动乱值",
   },
   
-  // {
-  //   name:"铃兰",
-  //   cost:2,
-  //   atk:3,
-  //   hp:2,
-  //   mine:2,
-  //   block:0,
-  //   desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得5分</span>,
-  //   illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
-  //   reinforce: 1,
-  //   action(G, ctx, self) {
-  //     if (payMaterials(G, ctx, [1,1,1,0])) {
-  //       G.score += 5;
-  //     }
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     self.exhausted = false;
-  //   },
-  //   reinforce_desc: "重置自己",
-  // },
+  {
+    name:"铃兰",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得5分</span>,
+    illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
+    reinforce: 1,
+    action(G, ctx, self) {
+      if (payMaterials(G, ctx, [1,1,1,0])) {
+        G.score += 5;
+      }
+    },
+    onReinforce(G, ctx, self) {
+      self.exhausted = false;
+    },
+    reinforce_desc: "重置自己",
+  },
 
 
 
@@ -1582,26 +1579,22 @@ export const CARDS = [
       }
     }
   },
+
   {
     name:"食铁兽",
-    cost:7,
-    atk:5,
-    hp:6,
-    mine:2,
+    cost:8,
+    atk:8,
+    hp:8,
+    mine:4,
     block:1,
-    desc: "部署: 横置场上所有干员，然后每横置1个，就获得2分",
+    desc: "行动: 获得6分",
     illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E9%A3%9F%E9%93%81%E5%85%BD_1.png",
     reinforce: 2,
-    onPlay(G, ctx, self) {
-      let ready_cards = G.field.filter(x => ((!x.exhausted) && (x != self)));
-      let num_ready_cards = ready_cards.length;
-      for (let card of ready_cards) {
-        card.exhausted = true;
-      }
-      G.score += 2 * num_ready_cards;
+    action(G, ctx) {
+      G.score += 6;
     },
     onReinforce(G, ctx, self) {
-      G.score += 2
+      G.score += 2;
     },
     reinforce_desc: "获得2分",
   },
