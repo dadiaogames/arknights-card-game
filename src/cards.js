@@ -1239,11 +1239,11 @@ export const CARDS = [
     atk:5,
     hp:3,
     mine:1,
-    block:1,
+    block:0,
     desc:"超杀: 如果场上没有敌人，则获得5分",
     illust:"http://prts.wiki/images/7/7b/%E7%AB%8B%E7%BB%98_%E9%BB%91_1.png",
     onFight(G, ctx, self, enemy) {
-      if (enemy.dmg > enemy.hp) {
+      if (enemy.dmg > enemy.hp && G.efield.length == 0) {
         let diff = 5 + 3 * self.power;
         G.score += diff;
         logMsg(G, ctx, `使用 黑 获得${diff}分`);
