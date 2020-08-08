@@ -841,7 +841,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc:"部署: 每有1个被横置的敌人，就获得2分",
-    illust:"https://img.moegirl.org.cn/common/thumb/1/1b/Ak_char_105_emper.png/800px-Ak_char_105_emper.png",
+    illust:"https://img.moegirl.org.cn/common/1/1b/Ak_char_105_emper.png",
     onPlay(G, ctx, self) {
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
       G.score += 2 * num_exhausted;
@@ -2149,7 +2149,7 @@ export const CARDS = [
     hp:1,
     mine:1,
     block:0,
-    illust: "https://img.moegirl.org/common/thumb/4/43/Ak_char_007_closre_1.png/800px-Ak_char_007_closre_1.png",
+    illust: "https://img.moegirl.org.cn/common/4/43/Ak_char_007_closre_1.png",
     reinforce: 1,
     desc: "部署: ？？？",
     onPlay(G, ctx) {
