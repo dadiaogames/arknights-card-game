@@ -120,7 +120,7 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/f/fb/Char_atk_1.png",
+    src: "http://prts.wiki/images/f/f4/Enemy_reveng_spdmod_2.png",
     desc: "每过2回合，每回合就额外翻开1张敌人牌",
     level: 2,
     effect(G, ctx){

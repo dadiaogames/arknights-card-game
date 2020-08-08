@@ -297,7 +297,7 @@ export const CARDS = [
     mine:1, 
     block:1, 
     desc:"采掘/战斗: 摸1张牌", 
-    illust:"https://img.moegirl.org/common/1/1d/%E6%98%8E%E6%97%A5%E6%96%B9%E8%88%9F%E7%AB%8B%E7%BB%98_%E6%B8%85%E9%81%93%E5%A4%AB_1.png",
+    illust:"http://prts.wiki/images/3/3a/%E7%AB%8B%E7%BB%98_%E6%B8%85%E9%81%93%E5%A4%AB_1.png",
     onMine(G, ctx) {
       draw(G, ctx);
     },
@@ -820,9 +820,6 @@ export const CARDS = [
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
       gainMaterials(G, ctx, num_exhausted);
 
-      if (num_exhausted >= 6) {
-        achieve(G, ctx, "企鹅物流", "场上有至少6个敌人被横置", self);
-      }
     },
     onFight(G, ctx, self) {
       self.onMine(G, ctx, self);
@@ -835,6 +832,31 @@ export const CARDS = [
     },
     reinforce_desc: "+2/+1 <+1>",
   },
+  
+  {
+    name:"皇帝",
+    cost:4,
+    atk:2,
+    hp:2,
+    mine:1,
+    block:1,
+    desc:"部署: 每有1个被横置的敌人，就获得2分",
+    illust:"https://img.moegirl.org.cn/common/thumb/1/1b/Ak_char_105_emper.png/800px-Ak_char_105_emper.png",
+    onPlay(G, ctx, self) {
+      let num_exhausted = G.efield.filter(x=>x.exhausted).length;
+      G.score += 2 * num_exhausted;
+      if (num_exhausted >= 6) {
+        achieve(G, ctx, "企鹅物流", "场上有至少6个敌人被横置时部署皇帝", self);
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+
   
   {
     name:"阿消", 
@@ -958,7 +980,7 @@ export const CARDS = [
     hp:1,
     mine:1,
     block:1,
-    desc: "部署: 获得1个\"莱茵生命订单\"，其能力为\"→造成5点伤害\"",
+    desc: "部署: 获得1个\"莱茵生命订单\"，其能力为\"?→造成5点伤害\"",
     illust:"http://ak.mooncell.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
     reinforce: 1,
 
@@ -1011,6 +1033,44 @@ export const CARDS = [
     },
     reinforce_desc: "获得2个未完成的订单",
   },
+  
+  {
+    name:"稀音",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc:"部署/采掘/战斗: 获得1个订单，其能力为\"?→获得1分\"",
+    illust:"http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E7%A8%80%E9%9F%B3_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      let order = {}; // EH: Reconstruct this as this code is the same as Meier
+      let material = ctx.random.Die(3) - 1;
+      let requirements = [0,0,0,0];
+      requirements[material] = 1;
+      order.desc = <span>{material_icons[material]}→1分</span>;
+      order.effect = (G, ctx) => {
+        if (payMaterials(G, ctx, requirements)) {
+          G.score += 1;
+        }
+      };
+      G.finished.unshift(order);
+    },
+    onFight(G, ctx, self) {
+      self.onMine(G, ctx, self);
+    },
+    onPlay(G, ctx, self) {
+      self.onMine(G, ctx, self);
+    },
+    onReinforce(G, ctx, self) {
+      self.hp += 2;
+      self.atk += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+
+
 
   
   {
@@ -1171,6 +1231,26 @@ export const CARDS = [
       self.hp += 1;
     },
     reinforce_desc: "+3/+1",
+  },
+  
+  {
+    name:"黑",
+    cost:4,
+    atk:5,
+    hp:3,
+    mine:1,
+    block:1,
+    desc:"超杀: 如果场上没有敌人，则获得5分",
+    illust:"http://prts.wiki/images/7/7b/%E7%AB%8B%E7%BB%98_%E9%BB%91_1.png",
+    onFight(G, ctx, self, enemy) {
+      if (enemy.dmg > enemy.hp) {
+        let diff = 5 + 3 * self.power;
+        G.score += diff;
+        logMsg(G, ctx, `使用 黑 获得${diff}分`);
+      }
+    },
+    reinforce: 2,
+    reinforce_desc: "再获得3分",
   },
 
   {
