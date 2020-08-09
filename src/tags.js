@@ -29,11 +29,11 @@ const tag_list = [
   },
   {
     src: "http://ak.mooncell.wiki/images/4/4e/Enemy_hp_1.png",
-    desc: "所有敌人获得+1生命值",
+    desc: "所有敌人获得+2生命值",
     level: 1,
     effect(G, ctx) {
       for (let enemy of G.edeck) {
-        enemy.hp += 1;
+        enemy.hp += 2;
       }
     }
   },

@@ -1235,7 +1235,7 @@ export const CARDS = [
   
   {
     name:"黑",
-    cost:4,
+    cost:5,
     atk:5,
     hp:3,
     mine:1,
@@ -1800,6 +1800,7 @@ export const CARDS = [
     reinforce_desc: "摸2张牌",
   },
   
+  
   {
     name:"巫恋",
     cost:4,
@@ -1885,6 +1886,41 @@ export const CARDS = [
       G.costs += 5;
     },
     reinforce_desc: "获得5点费用",
+  },
+  {
+    name:"白雪",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:1,
+    block:0,
+    desc: "采掘/战斗: 触发手牌中1个干员的采掘/战斗效果",
+    illust:"http://prts.wiki/images/1/10/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9B%AA_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      let miner = ctx.random.Shuffle(G.hand.filter(x => (x.onMine && !["白雪", "艾雅法拉"].includes(x.name))))[0];
+      if (miner) {
+        miner.onMine(G, ctx, self);
+        logMsg(G, ctx, `触发 ${miner.name} 的采掘效果`);
+      }
+      else {
+        logMsg(G, ctx, "未找到合适的干员触发效果");
+      }
+    },
+    onFight(G, ctx, self) {
+      let fighter = ctx.random.Shuffle(G.hand.filter(x => (x.onFight && !["白雪", "能天使"].includes(x.name))))[0];
+      if (fighter) {
+        fighter.onFight(G, ctx, self);
+        logMsg(G, ctx, `触发 ${fighter.name} 的战斗效果`);
+      }
+      else {
+        logMsg(G, ctx, "未找到合适的干员触发效果");
+      }
+    },
+    onReinforce(G, ctx, self) {
+      draw(G, ctx);
+    },
+    reinforce_desc: "摸1张牌",
   },
   
   
