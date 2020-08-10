@@ -119,9 +119,9 @@ export const CARDS = [
     illust: "http://ak.mooncell.wiki/images/4/44/%E7%AB%8B%E7%BB%98_%E5%8F%B2%E9%83%BD%E5%8D%8E%E5%BE%B7_1.png",
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.mine += 2;
+      self.mine += 1;
     },
-    reinforce_desc: "<+2>",
+    reinforce_desc: "<+1>",
   },
 
   {
@@ -134,9 +134,9 @@ export const CARDS = [
     illust: "http://ak.mooncell.wiki/images/6/61/%E7%AB%8B%E7%BB%98_12F_1.png",
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 5;
+      self.mine += 3;
     },
-    reinforce_desc: "<+5>",
+    reinforce_desc: "<+3>",
   },
   
   {
@@ -232,7 +232,7 @@ export const CARDS = [
       G.costs += 3 + 2 * self.power;
       self.block -= 1;
     },
-    reinforce: 1,
+    reinforce: 2,
     reinforce_desc: "再获得2点费用",
   },
 
@@ -240,39 +240,39 @@ export const CARDS = [
     name:"香草", 
     cost:3, 
     atk:4, 
-    hp:4, 
+    hp:2, 
     mine:1, 
     block:1, 
     desc:"战斗: 获得2点费用", 
     illust:"http://ak.mooncell.wiki/images/a/a0/%E7%AB%8B%E7%BB%98_%E9%A6%99%E8%8D%89_1.png",
     onFight(G, ctx, self) {
-      G.costs += 2 + 2 * self.power;
+      G.costs += 2 + 1 * self.power;
     },
     reinforce: 1,
-    reinforce_desc: "再获得2点费用",
+    reinforce_desc: "再获得1点费用",
   },
 
   {
     name:"讯使", 
     cost:3, 
-    atk:3, 
-    hp:4, 
+    atk:2, 
+    hp:3, 
     mine:1, 
     block:1, 
     desc:"采掘: 获得3点费用", 
     illust:"http://ak.mooncell.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E8%AE%AF%E4%BD%BF_1.png",
     onMine(G, ctx, self) {
-      G.costs += 3 + 2 * self.power;
+      G.costs += 3 + 1 * self.power;
     },
     reinforce: 1,
-    reinforce_desc: "再获得2点费用",
+    reinforce_desc: "再获得1点费用",
   },
   
   {
     name:"极境",
     cost:5,
     atk:2,
-    hp:2,
+    hp:1,
     mine:1,
     block:1,
     desc: "部署: 获得7点费用",
@@ -336,7 +336,7 @@ export const CARDS = [
   {
     name:"红豆",
     cost:4,
-    atk:6,
+    atk:5,
     hp:3,
     mine:2,
     block:1,
@@ -371,7 +371,7 @@ export const CARDS = [
     desc:"行动: 打出牌库顶的1张牌", 
     illust:"http://ak.mooncell.wiki/images/5/5e/%E7%AB%8B%E7%BB%98_%E9%A3%8E%E7%AC%9B_1.png",
     action(G, ctx, self) {
-      if (G.limit_hand_field && G.field.length >= 5) {
+      if (G.limit_hand_field && G.field.length >= 6) {
         logMsg(G, ctx, "场上干员数已达到上限");
         return;
       }
@@ -425,7 +425,7 @@ export const CARDS = [
         card.cost -= 1;
       }
     },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
       if (self.onPlay) {
         self.onPlay(G, ctx);
@@ -511,11 +511,11 @@ export const CARDS = [
         }
       }
     },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 2;
+      self.mine += 3;
     },
-    reinforce_desc: "<+2>",
+    reinforce_desc: "<+3>",
   },
 
   
@@ -841,7 +841,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc:"部署: 每有1个被横置的敌人，就获得2分",
-    illust:"https://img.moegirl.org.cn/common/1/1b/Ak_char_105_emper.png",
+    illust:"https://s1.ax1x.com/2020/08/10/abktzR.png",
     onPlay(G, ctx, self) {
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
       G.score += 2 * num_exhausted;
@@ -943,9 +943,9 @@ export const CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 5;
+      self.mine += 2;
     },
-    reinforce_desc: "<+5>",
+    reinforce_desc: "<+2>",
   },
   
   // {
@@ -1628,9 +1628,9 @@ export const CARDS = [
       G.hand = [...G.discard, ...G.hand];
       G.discard = [];
 
-      if (G.limit_hand_field && G.hand.length >= 5) {
+      if (G.limit_hand_field && G.hand.length >= 6) {
         logMsg(G, ctx, "手牌数已达到上限");
-        G.hand = G.hand.slice(G.hand.length-5);
+        G.hand = G.hand.slice(G.hand.length-6);
       }
     },
     onReinforce(G, ctx, self) {
@@ -1752,9 +1752,9 @@ export const CARDS = [
       gainMaterials(G, ctx, 3);
     },
     onReinforce(G, ctx, self) {
-      self.mine += 2;
+      self.mine += 1;
     },
-    reinforce_desc: "<+2>",
+    reinforce_desc: "<+1>",
   },
   {
     name:"红",
@@ -2185,7 +2185,7 @@ export const CARDS = [
     hp:1,
     mine:1,
     block:0,
-    illust: "https://img.moegirl.org.cn/common/4/43/Ak_char_007_closre_1.png",
+    illust: "https://s1.ax1x.com/2020/08/10/abkasx.png",
     reinforce: 1,
     desc: "部署: ？？？",
     onPlay(G, ctx) {

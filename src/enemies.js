@@ -37,8 +37,8 @@ export var ENEMIES = [
   },
   {
     name: "猎犬",
-    atk: 3,
-    hp: 1,
+    atk: 2,
+    hp: 2,
     illust: "http://ak.mooncell.wiki/images/3/3f/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%8C%8E%E7%8B%97.png",
     desc: "冲锋",
     onPlay(G, ctx, self) {
@@ -90,11 +90,11 @@ export var ENEMIES = [
   {
     name: "空降兵",
     atk: 2,
-    hp: 2,
+    hp: 3,
     illust: "http://ak.mooncell.wiki/images/f/f7/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A9%BA%E9%99%8D%E5%85%B5.png",
-    desc: "入场: 使1个敌人获得+3攻击力",
+    desc: "入场: 使1个敌人获得+2攻击力",
     onPlay(G, ctx) {
-      ctx.random.Shuffle(G.efield)[0].atk += 3;
+      ctx.random.Shuffle(G.efield)[0].atk += 2;
     }
   },
   {
@@ -115,7 +115,7 @@ export var ENEMIES = [
   {
     name: "高能源石虫",
     atk: 1,
-    hp: 1,
+    hp: 2,
     illust: "http://ak.mooncell.wiki/images/6/68/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%AB%98%E8%83%BD%E6%BA%90%E7%9F%B3%E8%99%AB.png",
     desc: "亡语: 对1个随机干员造成[攻击力+2]点伤害",
     onOut(G, ctx, self) {

@@ -146,7 +146,7 @@ export function init_card_state(G, ctx, card) {
 
 export function draw(G, ctx) {
   // First, check the limit
-  if (G.limit_hand_field && (G.hand.length >= 5)) {
+  if (G.limit_hand_field && (G.hand.length >= 6)) {
     logMsg(G, ctx, "手牌数已达到上限");
     return;
   }
@@ -171,7 +171,7 @@ export function mulligan(G, ctx, choices) {
 function play(G, ctx, idx) {
   let card = G.hand[idx]; //No need to verify at this stage
 
-  if (G.limit_hand_field && (G.field.length >= 5)) {
+  if (G.limit_hand_field && (G.field.length >= 6)) {
     logMsg(G, ctx, "场上干员数已达到上限");
     return;
   }

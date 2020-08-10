@@ -89,7 +89,7 @@ const tag_list = [
 
   {
     src: "http://ak.mooncell.wiki/images/4/46/Global_forbidloc_2.png",
-    desc: "手牌上限和场上干员数量上限调整为5",
+    desc: "手牌上限和场上干员数量上限调整为6",
     level: 2,
     effect(G, ctx) {
       G.limit_hand_field = true;
