@@ -191,7 +191,7 @@ function play(G, ctx, idx) {
 function mine(G, ctx, idx) {
   let card = G.field[idx];
 
-  if (use(G, ctx, card)) {
+  if (use(G, ctx, card) && (G.stage == "player")) {
     gainMaterials(G, ctx, card.mine);
     logMsg(G, ctx, `使用 ${card.name} 采掘`);
     if (card.onMine) {
@@ -339,7 +339,7 @@ export function generate_combined_card(G, ctx) {
     ["采掘: ", "onMine"],
     ["战斗: ", "onFight"],
     ["行动: ", "action"],
-    ["亡语: ", "onOut"],
+    ["摧毁: ", "onOut"],
   ];
   time_points = ctx.random.Shuffle(time_points).slice(0,2);
   let effects = ctx.random.Shuffle(G.EFFECTS);
@@ -373,7 +373,7 @@ function fight(G, ctx, idx1, idx2) {
   let card = G.field[idx1];
   let enemy = G.efield[idx2];
 
-  if (use(G, ctx, card)) {
+  if (use(G, ctx, card) && (G.stage == "player")) {
     logMsg(G, ctx, `使用 ${card.name} 战斗`);
     deal_damage(G, ctx, "efield", idx2, card.atk);
     if (card.onFight) {
@@ -385,7 +385,7 @@ function fight(G, ctx, idx1, idx2) {
 function act(G, ctx, idx) {
   let card = G.field[idx];
 
-  if (use(G, ctx, card)) {
+  if (use(G, ctx, card) && (G.stage == "player")) {
     logMsg(G, ctx, `使用 ${card.name} 行动`);
     card.action(G, ctx, card);
   }
@@ -396,6 +396,30 @@ export function reinforce_card(G, ctx, card) {
   card.power += 1;
   if (card.onReinforce) {
     card.onReinforce(G, ctx, card);
+  }
+}
+
+export function get_num_rest_cards(G, ctx) {
+  return G.field.filter(x => (!x.exhausted)).length;
+}
+
+export function rest(G, ctx) {
+  let rest_cards = G.field.filter(x => (!x.exhausted));
+  let num_rest_cards = rest_cards.length;
+
+  for (let i=0; i<num_rest_cards; i++) {
+    if (ctx.random.D6() <= 3) {
+      draw(G, ctx);
+    }
+    else{
+      G.costs += 1;
+    }
+  }
+
+  for (let card of rest_cards) {
+    if (card.onRest) {
+      card.onRest(G, ctx, card);
+    }
   }
 }
 
@@ -716,6 +740,7 @@ export const AC = {
     mine,
     act,
     reinforce,
+    rest,
     setValue,
     drawOrder,
     finishOrder,

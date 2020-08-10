@@ -4,7 +4,7 @@ import {
   move, exhaust_random_enemy, ready_random_card, cure, 
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
-  generate_combined_card, achieve
+  get_num_rest_cards, generate_combined_card, achieve
 } from './Game';
 import { material_icons } from './orders';
 
@@ -396,7 +396,7 @@ export const CARDS = [
   //   hp:2, 
   //   mine:1, 
   //   block:1, 
-  //   desc:"亡语: 将手牌中的1个干员部署到场上", 
+  //   desc:"摧毁: 将手牌中的1个干员部署到场上", 
   //   illust:"http://ak.mooncell.wiki/images/7/70/%E7%AB%8B%E7%BB%98_%E7%BA%A2%E8%B1%86_1.png",
   //   onOut(G, ctx, self) {
   //     if (G.hand.length > 0) {
@@ -1153,7 +1153,7 @@ export const CARDS = [
   },
   {
     name:"温蒂", 
-    cost:4, 
+    cost:5, 
     atk:5, 
     hp:3, 
     mine:2, 
@@ -1235,7 +1235,7 @@ export const CARDS = [
   
   {
     name:"黑",
-    cost:5,
+    cost:4,
     atk:5,
     hp:3,
     mine:1,
@@ -1549,6 +1549,111 @@ export const CARDS = [
   //   },
   //   reinforce_desc: "造成3点伤害",
   // },
+  {
+    name:"守林人",
+    cost:4,
+    atk:5,
+    hp:3,
+    mine:2,
+    block:0,
+    desc: "休整: 造成7点伤害",
+    illust:"http://prts.wiki/images/1/1f/%E7%AB%8B%E7%BB%98_%E5%AE%88%E6%9E%97%E4%BA%BA_1.png",
+    reinforce: 1,
+    onRest(G, ctx, self) {
+      deal_random_damage(G, ctx, 7 + 4 * self.power);
+    },
+    reinforce_desc: "伤害+4",
+  },
+  {
+    name:"霜叶",
+    cost:4,
+    atk:2,
+    hp:5,
+    mine:1,
+    block:1,
+    desc: "休整: 每有1个休整中的干员，就获得+1/+2",
+    illust:"http://prts.wiki/images/5/50/%E7%AB%8B%E7%BB%98_%E9%9C%9C%E5%8F%B6_1.png",
+    reinforce: 1,
+    onRest(G, ctx, self) {
+      let num_rest_cards = get_num_rest_cards(G, ctx);
+      self.atk += num_rest_cards;
+      self.hp += 2 * num_rest_cards;
+    },
+    onReinforce(G, ctx, self) {
+      self.block += 1;
+    },
+    reinforce_desc: "阻挡数+1",
+  },
+  {
+    name:"锡兰",
+    cost:4,
+    atk:0,
+    hp:3,
+    mine:3,
+    block:0,
+    desc: "休整: 每有1个休整中的干员，就获得1分",
+    illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
+    reinforce: 1,
+    onRest(G, ctx, self) {
+      let num_rest_cards = get_num_rest_cards(G, ctx);
+      G.score += num_rest_cards;
+    },
+    onReinforce(G, ctx, self) {
+      G.costs += 2;
+    },
+    reinforce_desc: "获得2点费用",
+  },
+  {
+    name:"诗怀雅",
+    cost:4,
+    atk:4,
+    hp:5,
+    mine:1,
+    block:1,
+    desc: "休整: 触发场上1个干员的\"部署:\"效果(极境和安洁莉娜除外)",
+    illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
+    reinforce: 1,
+    onRest(G, ctx, self) {
+      let player = ctx.random.Shuffle(G.field.filter(x => (x.onPlay && !["极境", "安洁莉娜"].includes(x.name))))[0];
+      if (player) {
+        player.onPlay(G, ctx, player);
+        logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
+      }
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+  {
+    name:"夜莺",
+    cost:5,
+    atk:0,
+    hp:3,
+    mine:3,
+    block:0,
+    desc: "休整: 触发场上所有干员的\"休整:\"效果",
+    illust:"http://prts.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E8%8E%BA_1.png",
+    onRest(G, ctx, self) {
+      if (~G.field.indexOf(self)) {
+        for (let card of G.field.map(x=>x)) {
+          if (card.onRest && (card.onRest != self.onRest)) {
+            card.onRest(G, ctx, card);
+          }
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      let resters = G.deck.filter(x => x.onRest);
+      if (resters.length > 0) {
+        let card = ctx.random.Shuffle(resters)[0];
+        G.hand.unshift(Object.assign({}, card));
+      }
+    },
+    reinforce_desc: "检索1张有\"休整:\"效果的牌",
+  },
 
   {
     name:"阿",
@@ -2058,7 +2163,7 @@ export const CARDS = [
   //   block:2,
   //   illust: "http://ak.mooncell.wiki/images/f/f7/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E6%9E%97_1.png",
   //   reinforce: 1,
-  //   desc: "亡语: 如果\"巡林者\"也在弃牌堆，则部署\"夜刀\"",
+  //   desc: "摧毁: 如果\"巡林者\"也在弃牌堆，则部署\"夜刀\"",
 
   //   onOut(G, ctx, self) {
   //     let target = G.discard.find(x => x.name=="巡林者");
@@ -2161,7 +2266,7 @@ export const CARDS = [
     reinforce: 1,
     desc: "部署: 获得1个随机能力",
     onPlay(G, ctx, self) {
-      let time_points = [["采掘: ", "onMine"], ["战斗: ", "onFight"], ["行动: ", "action"], ["亡语: ", "onOut"]];
+      let time_points = [["采掘: ", "onMine"], ["战斗: ", "onFight"], ["行动: ", "action"], ["摧毁: ", "onOut"]];
       let time_point = ctx.random.Shuffle(time_points)[0];
       let effects = ctx.random.Shuffle(G.EFFECTS);
       let effect = effects[0];

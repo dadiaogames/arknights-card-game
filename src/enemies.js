@@ -117,7 +117,7 @@ export var ENEMIES = [
     atk: 1,
     hp: 2,
     illust: "http://ak.mooncell.wiki/images/6/68/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%AB%98%E8%83%BD%E6%BA%90%E7%9F%B3%E8%99%AB.png",
-    desc: "亡语: 对1个随机干员造成[攻击力+2]点伤害",
+    desc: "摧毁: 对1个随机干员造成[攻击力+2]点伤害",
     onOut(G, ctx, self) {
       if (G.field.length > 0) {
         let idx = ctx.random.Die(G.field.length) - 1;
@@ -186,26 +186,21 @@ export var ENEMIES = [
     }
   },
 
-  // {
-  //   name: "酸液源石虫",
-  //   illust: "http://ak.mooncell.wiki/images/6/6b/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%85%B8%E6%B6%B2%E6%BA%90%E7%9F%B3%E8%99%AB%C2%B7%CE%B1.png",
-  //   atk: 2,
-  //   hp: 3,
-  //   desc: "替换, 入场/亡语: 场上的干员数每多于敌人数1个, 以及自己每有2点攻击力, 就对1个随机干员造成1点伤害",
-  //   is_elite: true,
-  //   onPlay(G, ctx, self) {
-  //     let amount_dmg = G.field.length - G.efield.length;
-  //     amount_dmg += Math.floor(self.atk / 2);
-  //     for (let i=0; i<amount_dmg; i++) {
-  //       let card = ctx.random.Shuffle(G.field)[0];
-  //       if (card) {
-  //         card.dmg += 1;
-  //       }
-  //     }
-  //   },
-  //   onOut(G, ctx, self) {
-  //     self.onPlay(G, ctx, self);
-  //   }
-  // },
+  {
+    name: "酸液源石虫",
+    illust: "http://ak.mooncell.wiki/images/6/6b/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%85%B8%E6%B6%B2%E6%BA%90%E7%9F%B3%E8%99%AB%C2%B7%CE%B1.png",
+    atk: 1,
+    hp: 2,
+    desc: "替换, 入场/摧毁: 对所有干员造成1点伤害",
+    is_elite: true,
+    onPlay(G, ctx, self) {
+      for (let card of G.field) {
+        card.dmg += 1;
+      }
+    },
+    onOut(G, ctx, self) {
+      self.onPlay(G, ctx, self);
+    }
+  },
 
 ];

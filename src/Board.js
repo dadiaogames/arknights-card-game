@@ -679,6 +679,7 @@ export class Board extends React.Component {
             display: (this.props.G.stage=="enemy")? "none" : ""
           }} 
           onClick={()=>{
+            this.props.moves.rest();
             this.props.moves.enemyInit();
             this.enemy_move(-this.props.G.num_enemies_out);
           }}

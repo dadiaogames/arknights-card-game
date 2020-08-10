@@ -34,8 +34,8 @@ it('cards run normally', () => {
     if (card.action) {
       card.action(G, ctx, card);
     }
-    if (card.onUnrest) {
-      card.onUnrest(G, ctx, card);
+    if (card.onRest) {
+      card.onRest(G, ctx, card);
     }
     if (card.onReinforce) {
       card.onReinforce(G, ctx, card);
