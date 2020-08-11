@@ -1888,11 +1888,11 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc: "行动: 触发手牌中1个干员的\"部署:\"效果",
+    desc: "行动: 触发手牌中1个干员的\"部署:\"效果(极境和安洁莉娜除外)",
     illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E6%B3%A2%E7%99%BB%E5%8F%AF_1.png",
     reinforce: 1,
     action(G, ctx, self) {
-      let player = ctx.random.Shuffle(G.hand.filter(x => x.onPlay))[0];
+      let player = ctx.random.Shuffle(G.hand.filter(x => (x.onPlay && !["极境", "安洁莉娜"].includes(x.name))))[0];
       if (player) {
         player.onPlay(G, ctx, player);
         logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
