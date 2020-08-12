@@ -1571,13 +1571,13 @@ export const CARDS = [
     hp:5,
     mine:1,
     block:1,
-    desc: "休整: 每有1个休整中的干员，就获得+1/+2",
+    desc: "休整: 每有1个休整中的干员，就获得+1/+1",
     illust:"http://prts.wiki/images/5/50/%E7%AB%8B%E7%BB%98_%E9%9C%9C%E5%8F%B6_1.png",
     reinforce: 1,
     onRest(G, ctx, self) {
       let num_rest_cards = get_num_rest_cards(G, ctx);
       self.atk += num_rest_cards;
-      self.hp += 2 * num_rest_cards;
+      self.hp += num_rest_cards;
     },
     onReinforce(G, ctx, self) {
       self.block += 1;
@@ -1628,7 +1628,7 @@ export const CARDS = [
   },
   {
     name:"夜莺",
-    cost:5,
+    cost:6,
     atk:0,
     hp:3,
     mine:3,

@@ -773,6 +773,13 @@ export const AC = {
 
         G.round_num += 1;
 
+        if (G.enemy_grow) {
+          for (let enemy of [...G.edeck, ...G.efield]) {
+            enemy.atk += 1;
+            enemy.hp += 1;
+          }
+        }
+
         if (G.round_num == 3 && G.reinforceOnR3) {
           for (let enemy of [...G.edeck, ...G.efield]) {
             enemy.hp += 4;
@@ -785,8 +792,8 @@ export const AC = {
 
         if (G.round_num == 4 && G.reinforceOnR4) {
           for (let enemy of [...G.edeck, ...G.efield]) {
-            enemy.atk += 5;
-            enemy.hp += 5;
+            enemy.atk += 6;
+            enemy.hp += 6;
           }
         }
 

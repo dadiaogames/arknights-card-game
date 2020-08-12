@@ -24,7 +24,7 @@ export var ENEMIES = [
   },
   {
     name: "弩手",
-    atk: 3,
+    atk: 2,
     hp: 4,
     illust: "http://ak.mooncell.wiki/images/a/a5/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%B0%84%E6%89%8B.png",
     desc: "行动: 对最后部署的单位，造成[攻击力]点伤害",
@@ -90,7 +90,7 @@ export var ENEMIES = [
   {
     name: "空降兵",
     atk: 2,
-    hp: 3,
+    hp: 2,
     illust: "http://ak.mooncell.wiki/images/f/f7/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A9%BA%E9%99%8D%E5%85%B5.png",
     desc: "入场: 使1个敌人获得+2攻击力",
     onPlay(G, ctx) {
@@ -129,8 +129,8 @@ export var ENEMIES = [
   
   {
     name: "双持剑士",
-    atk: 3,
-    hp: 2,
+    atk: 2,
+    hp: 4,
     illust: "http://ak.mooncell.wiki/images/d/d8/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%8F%8C%E6%8C%81%E5%89%91%E5%A3%AB%E7%BB%84%E9%95%BF.png",
     desc: "无法被横置",
     unyielding: true,
@@ -138,8 +138,8 @@ export var ENEMIES = [
 
   {
     name: "寻仇者",
-    atk: 3,
-    hp: 3,
+    atk: 2,
+    hp: 4,
     illust: "http://ak.mooncell.wiki/images/d/d0/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%AF%BB%E4%BB%87%E8%80%85.png",
     desc: "愤怒",
     enraged: true,
@@ -147,8 +147,8 @@ export var ENEMIES = [
 
   {
     name: "复仇者",
-    atk: 4,
-    hp: 4,
+    atk: 3,
+    hp: 6,
     illust: "http://ak.mooncell.wiki/images/1/14/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A4%8D%E4%BB%87%E8%80%85.png",
     desc: "替换，愤怒，超杀: 增加1点动乱值",
     is_elite: true,

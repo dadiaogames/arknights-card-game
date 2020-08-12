@@ -3,10 +3,10 @@ import { enemy2card } from "./Game";
 const tag_list = [
   {
     src: "http://ak.mooncell.wiki/images/d/d3/Enemy_def_1.png",
-    desc: "胜利所需的分数+2",
+    desc: "胜利所需的分数+4",
     level: 1,
     effect(G, ctx) {
-      G.goal += 2;
+      G.goal += 4;
     }
   },
   {
@@ -65,7 +65,7 @@ const tag_list = [
   },
 
   {
-    src: "http://ak.mooncell.wiki/images/0/09/Enemy_hp_3.png",
+    src: "http://prts.wiki/images/a/a0/Enemy_hp_2.png",
     desc: "2回合后，所有敌人获得+4生命值",
     level: 2,
     effect(G, ctx){
@@ -75,13 +75,13 @@ const tag_list = [
 
   {
     src: "http://ak.mooncell.wiki/images/0/06/Enemy_reveng_3.png",
-    desc: "所有精英敌人获得+3/+3",
+    desc: "所有精英敌人获得+2/+4",
     level: 2,
     effect(G, ctx) {
       for (let enemy of G.edeck) {
         if (enemy.is_elite) {
-          enemy.atk += 3;
-          enemy.hp += 3;
+          enemy.atk += 2;
+          enemy.hp += 4;
         }
       }
     }
@@ -182,14 +182,11 @@ const tag_list = [
   
 
   {
-    src: "http://ak.mooncell.wiki/images/0/03/Enemy_atk_2.png",
-    desc: "所有敌人获得+2/+2",
+    src: "http://prts.wiki/images/0/03/Enemy_atk_2.png",
+    desc: "回合开始时，所有敌人获得+1/+1",
     level: 3,
     effect(G, ctx){
-      for (let enemy of G.edeck) {
-        enemy.atk += 2;
-        enemy.hp += 2;
-      }
+      G.enemy_grow = true;
     }
   },
 
@@ -206,16 +203,16 @@ const tag_list = [
   
   {
     src: "http://ak.mooncell.wiki/images/d/d3/Enemy_def_1.png",
-    desc: "胜利所需分数+8",
+    desc: "胜利所需分数+10",
     level: 3,
     effect(G, ctx){
-      G.goal += 8;
+      G.goal += 10;
     }
   },
 
   {
     src: "http://ak.mooncell.wiki/images/4/40/Enemy_hirman_2.png",
-    desc: "3回合后，所有敌人获得+5/+5",
+    desc: "3回合后，所有敌人获得+6/+6",
     level: 3,
     effect(G, ctx){
       G.reinforceOnR4 = true;
