@@ -1,6 +1,6 @@
+import _ from 'lodash';
 import { CARDS } from "./cards";
 import { arr2obj, PRNG } from "./utils";
-var _ = require("lodash");
 
 const PREFIXES = "欧皇 非酋 只肝不氪 只氪不肝 肝帝 碎石猛肝 一发入魂 基建搓玉者 线索7传递者 借点龙门币 调箱师 不要恐慌 大哥抽芙蓉 热泵通道 高级资深干员 非洲战神 黄票之源 注意力涣散 弑君者迫害者 空降兵拯救者 工口发生 工具人 摔炮 中门对狙 富婆 老婆 猛男 打得不错 神抽狗 金色普通 龙门粗口 Kokodayo 拳皇".split(" ");
 
@@ -364,7 +364,7 @@ export function generate_deck(deck_name) {
 
   // Strategy deck
   let strategy = rng.choice(strategies);
-  deck = [...deck, ...deck_from_strategy(strategy, 20, rng)];
+  deck = [...deck, ...deck_from_strategy(strategy, 18, rng)];
 
   // Random cards
   let amount_add = 40 - deck.length;

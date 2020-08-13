@@ -865,15 +865,15 @@ export const CARDS = [
     hp:4, 
     mine:1, 
     block:1, 
-    desc:"行动: 消耗4点费用，获得5分", 
+    desc:"行动: 消耗4点费用，获得6分", 
     illust:"http://ak.mooncell.wiki/images/c/c6/%E7%AB%8B%E7%BB%98_%E9%98%BF%E6%B6%88_1.png",
     action(G, ctx, self) {
       if (payCost(G, ctx, 4 + 2 * self.power)) {
-        let delta = 5 + 3 * self.power;
+        let delta = 6 + 3 * self.power;
         G.score += delta;
 
-        if (delta >= 10) {
-          achieve(G, ctx, "龙门消防局", "使用阿消获得至少10分", self);
+        if (delta >= 12) {
+          achieve(G, ctx, "龙门消防局", "使用阿消获得至少12分", self);
         }
       }
     },
