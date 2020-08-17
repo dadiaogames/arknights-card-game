@@ -315,7 +315,7 @@ export const CARDS = [
   {
     name:"德克萨斯", 
     cost:3, 
-    atk:5, 
+    atk:4, 
     hp:2, 
     mine:1, 
     block:1, 
@@ -1080,12 +1080,12 @@ export const CARDS = [
     hp:6,
     mine:2,
     block:3,
-    desc:"部署: 每有1个已完成的订单，就获得+1/+3",
+    desc:"部署: 每有1个已完成的订单，就获得+1/+2",
     illust:"http://ak.mooncell.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E5%A1%9E%E9%9B%B7%E5%A8%85_1.png",
     onPlay(G, ctx, self) {
       let num_finished = G.finished.length;
       self.atk += num_finished;
-      self.hp += 3 * num_finished;
+      self.hp += 2 * num_finished;
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
@@ -1325,6 +1325,33 @@ export const CARDS = [
     },
     
     reinforce_desc: "触发1个随机干员的强化效果",
+  },
+
+  {
+    name:"凯尔希",
+    cost:5,
+    atk:2,
+    hp:1,
+    mine:1,
+    block:0,
+    desc:"部署: 部署4个随机干员的1/1复制",
+    illust:"http://prts.wiki/images/7/72/%E7%AB%8B%E7%BB%98_%E5%87%AF%E5%B0%94%E5%B8%8C_1.png",
+    onPlay(G, ctx) {
+      let cards = ctx.random.Shuffle(G.CARDS).slice(0, 4);
+      for (let i=0; i<4; i++) {
+        let card = {...cards[i]}; // Copy at this stage
+        card.atk = 1;
+        card.hp = 1;
+        card.mine = 1;
+        card.cost = 1;
+        G.field.push(init_card_state(G, ctx, card));
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx) {
+      G.score += 1;
+    },
+    reinforce_desc: "获得1分",
   },
 
   {
@@ -1591,12 +1618,14 @@ export const CARDS = [
     hp:3,
     mine:3,
     block:0,
-    desc: "休整: 每有1个休整中的干员，就获得1分",
+    desc: "休整: 如果至少有5个休整中的干员，则获得5分",
     illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
     reinforce: 1,
     onRest(G, ctx, self) {
       let num_rest_cards = get_num_rest_cards(G, ctx);
-      G.score += num_rest_cards;
+      if (num_rest_cards >= 5) {
+        G.score += 5;
+      }
     },
     onReinforce(G, ctx, self) {
       G.costs += 2;
@@ -1768,9 +1797,9 @@ export const CARDS = [
   {
     name:"食铁兽",
     cost:8,
-    atk:8,
-    hp:8,
-    mine:4,
+    atk:6,
+    hp:7,
+    mine:3,
     block:1,
     desc: "行动: 获得6分",
     illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E9%A3%9F%E9%93%81%E5%85%BD_1.png",
@@ -1959,13 +1988,13 @@ export const CARDS = [
     hp:2,
     mine:3,
     block:2,
-    desc: "部署: 每有1张手牌，就获得+1/+3",
+    desc: "部署: 每有1张手牌，就获得+1/+2",
     illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       let num_cards = G.hand.length;
       self.atk += num_cards;
-      self.hp += 3 * num_cards;
+      self.hp += 2 * num_cards;
     },
     onReinforce(G, ctx, self) {
       self.block += 1;
@@ -1979,18 +2008,18 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得9点费用</span>,
+    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得6点费用</span>,
     illust:"http://prts.wiki/images/9/9f/%E7%AB%8B%E7%BB%98_%E6%83%8A%E8%9B%B0_1.png",
     reinforce: 2,
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
-        G.costs += 9;
+        G.costs += 6;
       }
     },
     onReinforce(G, ctx, self) {
-      G.costs += 5;
+      G.costs += 4;
     },
-    reinforce_desc: "获得5点费用",
+    reinforce_desc: "获得4点费用",
   },
   {
     name:"白雪",
