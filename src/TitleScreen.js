@@ -5,7 +5,7 @@ export const TitleScreen = (props) => (
   <div style={{textAlign: "center", marginTop:"40%"}}>
     <h2>明日方舟: 采掘行动</h2>
     <div >
-      制作: <a href="https://space.bilibili.com/8492192/">大雕游戏</a>
+      制作: <a href="https://space.bilibili.com/8492192/dynamic/">大雕游戏</a>
     </div>
     <button className="title-screen-button" onClick={props.enterGame}>进入游戏</button><br/>
     <button className="title-screen-button" onClick={props.checkRule}>查看规则</button><br/>
