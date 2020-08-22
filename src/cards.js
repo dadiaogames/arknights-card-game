@@ -1981,7 +1981,7 @@ export const CARDS = [
   },
   {
     name:"波登可",
-    cost:3,
+    cost:5,
     atk:4,
     hp:2,
     mine:2,
