@@ -142,7 +142,7 @@ export const CARDS = [
   {
     name: "巡林者",
     cost: 5,
-    atk: 7,
+    atk: 8,
     hp: 4,
     mine: 3,
     block: 0,
@@ -355,10 +355,10 @@ export const CARDS = [
       }
     },
     onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 1;
+      self.atk += 2;
+      self.hp += 2;
     },
-    reinforce_desc: "+3/+1",
+    reinforce_desc: "+2/+2",
   },
   
   {
@@ -781,7 +781,7 @@ export const CARDS = [
   //     }
   //   },
   //   onFight(G, ctx, self) {
-  //     self.onMine(G, ctx, self);
+  //     this.onMine(G, ctx, self);
   //     // It's okay to do this because "onFight"s are not on G.effects
   //   },
   //   reinforce_desc: "再获得+2/+2",
@@ -803,7 +803,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       self.exhausted = false;
     },
-    reinforce: 2,
+    reinforce: 3,
     reinforce_desc: "重置自己",
   },
 
@@ -822,7 +822,7 @@ export const CARDS = [
 
     },
     onFight(G, ctx, self) {
-      self.onMine(G, ctx, self);
+      this.onMine(G, ctx, self);
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
@@ -1023,13 +1023,13 @@ export const CARDS = [
       }
     },
     onFight(G, ctx, self) {
-      self.onMine(G, ctx, self);
+      this.onMine(G, ctx, self);
     },
     onPlay(G, ctx, self) {
-      self.onMine(G, ctx, self);
+      this.onMine(G, ctx, self);
     },
     onReinforce(G, ctx, self) {
-      self.onMine(G, ctx, self);
+      this.onMine(G, ctx, self);
     },
     reinforce_desc: "获得2个未完成的订单",
   },
@@ -1058,10 +1058,10 @@ export const CARDS = [
       G.finished.unshift(order);
     },
     onFight(G, ctx, self) {
-      self.onMine(G, ctx, self);
+      this.onMine(G, ctx, self);
     },
     onPlay(G, ctx, self) {
-      self.onMine(G, ctx, self);
+      this.onMine(G, ctx, self);
     },
     onReinforce(G, ctx, self) {
       self.hp += 2;
@@ -1297,31 +1297,31 @@ export const CARDS = [
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onPlay))[0];
       card.onPlay(G, ctx, self);
       if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的部署效果`);}
+        logMsg(G, ctx, `触发 ${card.name} 的部署效果 \"${card.desc}\"`);}
     },
     onMine(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onMine))[0];
       card.onMine(G, ctx, self);
       if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的采掘效果`);}
+        logMsg(G, ctx, `触发 ${card.name} 的采掘效果 \"${card.desc}\"`);}
     },
     onFight(G, ctx, self, enemy) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onFight))[0];
       card.onFight(G, ctx, self, enemy);
       if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的战斗效果`);}
+        logMsg(G, ctx, `触发 ${card.name} 的战斗效果 \"${card.desc}\"`);}
     },
     action(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.action))[0];
       card.action(G, ctx, self);
       if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的行动效果`);}
+        logMsg(G, ctx, `触发 ${card.name} 的行动效果 \"${card.desc}\"`);}
     },
     onReinforce(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce))[0];
       card.onReinforce(G, ctx, self);
       if (card.name != "斯卡蒂") {
-        logMsg(G, ctx, `触发 ${card.name} 的强化效果`);}
+        logMsg(G, ctx, `触发 ${card.name} 的强化效果 \"${card.reinforce_desc}\"`);}
     },
     
     reinforce_desc: "触发1个随机干员的强化效果",
@@ -1331,14 +1331,14 @@ export const CARDS = [
     name:"凯尔希",
     cost:5,
     atk:2,
-    hp:1,
+    hp:2,
     mine:1,
     block:0,
-    desc:"部署: 部署4个随机干员的1/1复制",
+    desc:"部署: 部署5个随机干员的1/1复制",
     illust:"http://prts.wiki/images/7/72/%E7%AB%8B%E7%BB%98_%E5%87%AF%E5%B0%94%E5%B8%8C_1.png",
     onPlay(G, ctx) {
-      let cards = ctx.random.Shuffle(G.CARDS).slice(0, 4);
-      for (let i=0; i<4; i++) {
+      let cards = ctx.random.Shuffle(G.CARDS).slice(0, 20);
+      for (let i=0; i<5; i++) {
         let card = {...cards[i]}; // Copy at this stage
         card.atk = 1;
         card.hp = 1;
@@ -1376,7 +1376,7 @@ export const CARDS = [
       }
     },
     onFight(G, ctx, self) {
-      self.onMine(G, ctx, self);
+      this.onMine(G, ctx, self);
     },
     onTurnBegin(G, ctx, self) {
       self.use_count = 0;

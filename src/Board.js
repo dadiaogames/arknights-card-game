@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { Tabs, TabList, Tab } from 'react-tabs';
 import { Card, SCard, CardRow, CheckCard, SCardRow, TypeFilter } from './Card';
 import { Controller, EnterGame } from './Controller';
@@ -17,8 +18,6 @@ import { RULES } from './rules';
 
 import './Board.css';
 import 'react-tabs/style/react-tabs.css';
-
-var _ = require("lodash");
 
 export class Board extends React.Component {
 
@@ -494,7 +493,7 @@ export class Board extends React.Component {
   }
 
   change_board(new_board) {
-    const boards = {
+    const BOARDS = {
       "title": this.render_title_board,
       "rules": this.render_rules_board,
       "game": this.render_game_board,
@@ -506,7 +505,7 @@ export class Board extends React.Component {
       "settings": this.render_setting_board,
     };
     this.setState({last_board: this.state.board})
-    this.setState({board: boards[new_board]});
+    this.setState({board: BOARDS[new_board]});
   }
 
   check_deck() {
@@ -602,12 +601,12 @@ export class Board extends React.Component {
         width: "94%", 
         margin:"3%", 
         overflow:"scroll",
-        }}>
+      }}>
         {/* this part, css in js, or css in file? 
         In my view, after this part is moved to a new file, change it to css in file
         TODO: reconstruct this part
         */}
-      {RULES}
+        {RULES}
       </div>
       <button 
         onClick={()=>this.change_board("title")}
