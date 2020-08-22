@@ -1517,21 +1517,21 @@ export const CARDS = [
   
   {
     name:"苏苏洛",
-    cost:2,
+    cost:6,
     atk:0,
-    hp:2,
-    mine:2,
+    hp:5,
+    mine:3,
     block:0,
-    desc:<span>行动: 每有1组{material_icons.slice(0,3)}，就获得2分</span>,
+    desc:<span>部署: 每有1组{material_icons.slice(0,3)}，就获得2分</span>,
     illust:"http://prts.wiki/images/1/1c/%E7%AB%8B%E7%BB%98_%E8%8B%8F%E8%8B%8F%E6%B4%9B_1.png",
-    reinforce: 2,
-    action(G, ctx, self) {
+    reinforce: 1,
+    onPlay(G, ctx, self) {
       G.score += 2 * G.materials.slice(0,3).sort()[0];
     },
-    onReinforce(G, ctx, self) {
-      self.exhausted = false;
+    onReinforce(G, ctx) {
+      G.costs += 2;
     },
-    reinforce_desc: "重置自己",
+    reinforce_desc: "获得2点费用",
   },
 
   {
