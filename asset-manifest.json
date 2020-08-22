@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/arknights-card-game/static/css/main.0df87881.chunk.css",
-    "main.js": "/arknights-card-game/static/js/main.f3f6068c.chunk.js",
-    "main.js.map": "/arknights-card-game/static/js/main.f3f6068c.chunk.js.map",
+    "main.js": "/arknights-card-game/static/js/main.61bbe9f2.chunk.js",
+    "main.js.map": "/arknights-card-game/static/js/main.61bbe9f2.chunk.js.map",
     "runtime-main.js": "/arknights-card-game/static/js/runtime-main.af872496.js",
     "runtime-main.js.map": "/arknights-card-game/static/js/runtime-main.af872496.js.map",
     "static/css/2.5c17b9f1.chunk.css": "/arknights-card-game/static/css/2.5c17b9f1.chunk.css",
     "static/js/2.7abc8560.chunk.js": "/arknights-card-game/static/js/2.7abc8560.chunk.js",
     "static/js/2.7abc8560.chunk.js.map": "/arknights-card-game/static/js/2.7abc8560.chunk.js.map",
     "index.html": "/arknights-card-game/index.html",
-    "precache-manifest.e1f0f6048138448aac456c7c45058088.js": "/arknights-card-game/precache-manifest.e1f0f6048138448aac456c7c45058088.js",
+    "precache-manifest.9239f78291f18b84f990df5edfbf2570.js": "/arknights-card-game/precache-manifest.9239f78291f18b84f990df5edfbf2570.js",
     "service-worker.js": "/arknights-card-game/service-worker.js",
     "static/css/2.5c17b9f1.chunk.css.map": "/arknights-card-game/static/css/2.5c17b9f1.chunk.css.map",
     "static/css/main.0df87881.chunk.css.map": "/arknights-card-game/static/css/main.0df87881.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.5c17b9f1.chunk.css",
     "static/js/2.7abc8560.chunk.js",
     "static/css/main.0df87881.chunk.css",
-    "static/js/main.f3f6068c.chunk.js"
+    "static/js/main.61bbe9f2.chunk.js"
   ]
 }
