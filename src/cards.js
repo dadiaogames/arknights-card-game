@@ -880,6 +880,29 @@ export const CARDS = [
     reinforce: 1,
     reinforce_desc: "消耗费用+2，得分+3",
   },
+  
+  {
+    name:"铃兰", 
+    cost:3, 
+    atk:2, 
+    hp:1, 
+    mine:1, 
+    block:1, 
+    desc:"部署: 本回合剩余时间内，每部署1个干员，就获得1分", 
+    illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
+    onPlay(G, ctx) {
+      G.onPlayCard.push(
+        (G, ctx) => {
+          G.score += 1;
+        }
+      );
+    },
+    onReinforce(G, ctx, self) {
+      self.onPlay(G, ctx);
+    },
+    reinforce: 3,
+    reinforce_desc: "触发1次\"部署\"效果",
+  },
 
   {
     name:"赫默",
@@ -1355,6 +1378,28 @@ export const CARDS = [
   },
 
   {
+    name:"暴行",
+    cost:2,
+    atk:3,
+    hp:3,
+    mine:1,
+    block:1,
+    desc:"部署/采掘: 将所有手牌替换为随机干员牌",
+    illust:"http://prts.wiki/images/6/6e/%E7%AB%8B%E7%BB%98_%E6%9A%B4%E8%A1%8C_1.png",
+    onPlay(G, ctx) {
+      let cards = ctx.random.Shuffle(G.CARDS).slice(0, G.hand.length);
+      G.hand = cards.map(x => ({...x}));
+    },
+    onMine(G, ctx) {
+      this.onPlay(G, ctx);
+    },
+    reinforce: 1,
+    onReinforce(G, ctx) {
+      this.onPlay(G, ctx);
+    },
+    reinforce_desc: "将所有手牌替换为随机干员牌",
+  },
+  {
     name:"银灰",
     cost:6,
     atk:5,
@@ -1471,24 +1516,48 @@ export const CARDS = [
   },
   
   {
-    name:"铃兰",
+    name:"苏苏洛",
     cost:2,
-    atk:3,
+    atk:0,
     hp:2,
     mine:2,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得5分</span>,
-    illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
-    reinforce: 1,
+    desc:<span>行动: 每有1组{material_icons.slice(0,3)}，就获得2分</span>,
+    illust:"http://prts.wiki/images/1/1c/%E7%AB%8B%E7%BB%98_%E8%8B%8F%E8%8B%8F%E6%B4%9B_1.png",
+    reinforce: 2,
     action(G, ctx, self) {
-      if (payMaterials(G, ctx, [1,1,1,0])) {
-        G.score += 5;
-      }
+      G.score += 2 * G.materials.slice(0,3).sort()[0];
     },
     onReinforce(G, ctx, self) {
       self.exhausted = false;
     },
     reinforce_desc: "重置自己",
+  },
+
+  {
+    name:"孑",
+    cost:2,
+    atk:7,
+    hp:7,
+    mine:2,
+    block:1,
+    desc:"部署: 获得\"回合开始时: 消耗2点费用，如果费用不够则获得-5/-5\"",
+    illust:"http://prts.wiki/images/3/37/%E7%AB%8B%E7%BB%98_%E5%AD%91_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      self.onTurnBegin = (G, ctx, self) => {
+        let paid = payCost(G, ctx, 2);
+        if (!paid) {
+          self.atk -= 5;
+          self.hp -= 5;
+        }
+      };
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
   },
 
 

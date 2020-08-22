@@ -180,8 +180,9 @@ function play(G, ctx, idx) {
     move(G, ctx, "hand", "field", idx);
     init_card_state(G, ctx, card);
     logMsg(G, ctx, `部署 ${card.name}`);
-    //TODO: if this is a spell instead of creature
-    //TODO: onPlay
+    for (let f of G.onPlayCard) {
+      f(G, ctx, card);
+    }
     if (card.onPlay) {
       card.onPlay(G, ctx, card);
     }
@@ -692,6 +693,12 @@ export function setup(ctx) {
     G.max_danger = 8;
     G.num_enemies_out = 2;
 
+    G.onPlayCard = [];
+    G.onCardMine = [];
+    G.onCardFight = [];
+    G.onCardAct = [];
+    G.onCardReinforced = [];
+
     G.exhausted_enter = false;
     G.enemy_exhausted_enter = true;
 
@@ -760,18 +767,24 @@ export const AC = {
         console.log("On turn begin");
         logMsg(G, ctx, "回合开始");
         G.stage = "player";
+        G.round_num += 1;
+
         refresh(G, ctx);
         draw(G, ctx);
         drawOrder(G, ctx);
         G.costs += 3;
+
+        G.onPlayCard = [];
+        G.onCardMine = [];
+        G.onCardFight = [];
+        G.onCardAct = [];
+        G.onCardReinforced = [];
 
         for (let card of [...G.hand, ...G.field, ...G.efield]) {
           if (card.onTurnBegin) {
             card.onTurnBegin(G, ctx, card);
           }
         }
-
-        G.round_num += 1;
 
         if (G.enemy_grow) {
           for (let enemy of [...G.edeck, ...G.efield]) {

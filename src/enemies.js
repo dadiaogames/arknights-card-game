@@ -1,6 +1,6 @@
 import 
   { drawEnemy, switchEnemy, deal_damage, enemyMove,
-    get_blocker, logMsg,
+    get_blocker, logMsg, ready_random_card,
  } from "./Game";
 
 export var ENEMIES = [
@@ -202,5 +202,40 @@ export var ENEMIES = [
       self.onPlay(G, ctx, self);
     }
   },
+
+  {
+    name: "拳手",
+    atk: 3,
+    hp: 6,
+    illust: "http://prts.wiki/images/e/e5/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%89%93%E6%89%8B.png",
+    desc: "摧毁: 重置1个干员",
+    onOut(G, ctx, self) {
+      ready_random_card(G, ctx, self);
+    }
+  },
+  
+  {
+    name: "哨兵",
+    atk: 0,
+    hp: 6,
+    illust: "http://prts.wiki/images/1/16/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E8%90%A8%E5%8D%A1%E5%85%B9%E5%93%A8%E5%85%B5.png",
+    desc: "行动: 翻开1张敌人牌",
+    action(G, ctx, self) {
+      drawEnemy(G, ctx);
+    }
+  },
+
+  {
+    name: "狂暴宿主组长",
+    atk: 1,
+    hp: 6,
+    is_elite: true,
+    illust: "http://prts.wiki/images/e/ec/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%8B%82%E6%9A%B4%E5%AE%BF%E4%B8%BB%E6%8E%B7%E9%AA%A8%E6%89%8B.png",
+    desc: "替换，摧毁: 胜利所需分数+4",
+    onOut(G, ctx, self) {
+      G.goal += 4;
+    }
+  },
+
 
 ];

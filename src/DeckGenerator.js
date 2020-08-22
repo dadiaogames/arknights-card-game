@@ -278,8 +278,32 @@ const rest = `夜莺 2 2
 米格鲁 1 2
 断罪者 0 2`;
 
+const fullmoon = `铃兰 2 3
+推进之王 2 3
+红 3 3
+调香师 2 3
+极境 2 3
+惊蛰 0 2
+安洁莉娜 0 2
+诗怀雅 0 2
+米格鲁 2 3
+霜叶 0 2
+星熊 0 2
+杜宾 0 2
+天火 0 1
+清流 0 1
+安赛尔 0 2
+末药 1 2
+孑 2 3
+宴 1 3
+梅尔 0 2
+白金 0 2
+斯卡蒂 1 2
+真理 0 2
+刻刀 0 2`;
+
 // const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus, arise, champion];
-const strategies = [solve, penguin, highcost, rhine, angelina, karlan, ursus, champion, rest];
+const strategies = [solve, penguin, highcost, rhine, angelina, karlan, ursus, champion, rest, fullmoon];
 
 function get_random_card(rng) {
   let banned_cards = ["砾", "可露希尔"];
