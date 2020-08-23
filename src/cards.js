@@ -618,6 +618,29 @@ export const CARDS = [
     reinforce: 1,
     reinforce_desc: "再获得+4生命值",
   },
+
+  {
+    name:"年", 
+    cost:3, 
+    atk:2, 
+    hp:6, 
+    mine:1, 
+    block:2, 
+    desc:"部署: 场上所有其他干员阻挡数+1", 
+    illust:"http://prts.wiki/images/c/c9/%E7%AB%8B%E7%BB%98_%E5%B9%B4_1.png",
+    onPlay(G, ctx, self) {
+      for (let card of G.field) {
+        if (card != self) {
+          card.block += 1;
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.block += 1;
+    },
+    reinforce_desc: "阻挡数+1",
+  },
   
   {
     name:"可颂", 
@@ -883,7 +906,7 @@ export const CARDS = [
   
   {
     name:"铃兰", 
-    cost:3, 
+    cost:2, 
     atk:2, 
     hp:1, 
     mine:1, 
@@ -1519,8 +1542,8 @@ export const CARDS = [
     name:"苏苏洛",
     cost:6,
     atk:0,
-    hp:5,
-    mine:3,
+    hp:2,
+    mine:1,
     block:0,
     desc:<span>部署: 每有1组{material_icons.slice(0,3)}，就获得2分</span>,
     illust:"http://prts.wiki/images/1/1c/%E7%AB%8B%E7%BB%98_%E8%8B%8F%E8%8B%8F%E6%B4%9B_1.png",
@@ -2308,13 +2331,13 @@ export const CARDS = [
     reinforce_desc: "费用再+1",
   },
   {
-    name:"年",
+    name:"坚雷",
     cost:8,
     atk:4,
-    hp:12,
+    hp:16,
     mine:2,
     block:2,
-    illust: "http://ak.mooncell.wiki/images/c/c9/%E7%AB%8B%E7%BB%98_%E5%B9%B4_1.png",
+    illust: "http://prts.wiki/images/9/9c/%E7%AB%8B%E7%BB%98_%E5%9D%9A%E9%9B%B7_1.png",
     reinforce: 1,
     desc: "行动: 获得1张干员牌，并强化其3次",
     action(G, ctx, self) {
