@@ -3,7 +3,7 @@
   margin: 2%;
   width: 95%;
   height: 7%;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .controller-button {

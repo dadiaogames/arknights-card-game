@@ -94,7 +94,7 @@
   width: 100%;
   text-align: center;
   font-size: 70%;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .order_effect {

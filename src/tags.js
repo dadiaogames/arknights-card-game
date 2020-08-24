@@ -87,14 +87,14 @@ const tag_list = [
     }
   },
 
-  {
-    src: "http://ak.mooncell.wiki/images/4/46/Global_forbidloc_2.png",
-    desc: "手牌上限和场上干员数量上限调整为6",
-    level: 2,
-    effect(G, ctx) {
-      G.limit_hand_field = true;
-    }
-  },
+  // {
+  //   src: "http://ak.mooncell.wiki/images/4/46/Global_forbidloc_2.png",
+  //   desc: "手牌上限和场上干员数量上限调整为6",
+  //   level: 2,
+  //   effect(G, ctx) {
+  //     G.limit_hand_field = true;
+  //   }
+  // },
 
   {
     src: "http://ak.mooncell.wiki/images/c/cd/Global_tokencnt_2.png",
@@ -148,16 +148,16 @@ const tag_list = [
     }
   },
 
-  {
-    src: "http://ak.mooncell.wiki/images/7/7f/Global_costrecovery_3.png",
-    desc: "所有干员的部署费用提升至1.5倍",
-    level: 3,
-    effect(G, ctx) {
-      for (let card of G.deck) {
-        card.cost *= 1.5;
-      }
-    }
-  },
+  // {
+  //   src: "http://ak.mooncell.wiki/images/7/7f/Global_costrecovery_3.png",
+  //   desc: "所有干员的部署费用提升至1.5倍",
+  //   level: 3,
+  //   effect(G, ctx) {
+  //     for (let card of G.deck) {
+  //       card.cost *= 1.5;
+  //     }
+  //   }
+  // },
 
   {
     src: "http://ak.mooncell.wiki/images/e/eb/Global_pcharnum_2.png",
