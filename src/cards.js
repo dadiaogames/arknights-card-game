@@ -1540,7 +1540,7 @@ export const CARDS = [
   
   {
     name:"苏苏洛",
-    cost:6,
+    cost:5,
     atk:0,
     hp:2,
     mine:1,
@@ -1552,9 +1552,9 @@ export const CARDS = [
       G.score += 2 * G.materials.slice(0,3).sort()[0];
     },
     onReinforce(G, ctx) {
-      G.costs += 2;
+      cure(G, ctx, 8);
     },
-    reinforce_desc: "获得2点费用",
+    reinforce_desc: "使1个干员获得+8生命值",
   },
 
   {
@@ -1873,7 +1873,7 @@ export const CARDS = [
     block:0,
     desc: "采掘: 摸2张牌",
     illust:"http://prts.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
-    reinforce: 2,
+    reinforce: 3,
     onMine(G, ctx, self) {
       draw(G, ctx);
       draw(G, ctx);
@@ -2004,7 +2004,7 @@ export const CARDS = [
   },
   {
     name:"波登可",
-    cost:5,
+    cost:4,
     atk:4,
     hp:2,
     mine:2,
@@ -2124,7 +2124,7 @@ export const CARDS = [
     illust:"http://prts.wiki/images/1/10/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9B%AA_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
-      let miner = ctx.random.Shuffle(G.hand.filter(x => (x.onMine && !["白雪", "艾雅法拉"].includes(x.name))))[0];
+      let miner = ctx.random.Shuffle(G.hand.filter(x => (x.onMine && !["白雪", "艾雅法拉", "雷蛇"].includes(x.name))))[0];
       if (miner) {
         miner.onMine(G, ctx, self);
         logMsg(G, ctx, `触发 ${miner.name} 的采掘效果`);
@@ -2134,7 +2134,7 @@ export const CARDS = [
       }
     },
     onFight(G, ctx, self) {
-      let fighter = ctx.random.Shuffle(G.hand.filter(x => (x.onFight && !["白雪", "能天使"].includes(x.name))))[0];
+      let fighter = ctx.random.Shuffle(G.hand.filter(x => (x.onFight && !["白雪", "能天使", "雷蛇"].includes(x.name))))[0];
       if (fighter) {
         fighter.onFight(G, ctx, self);
         logMsg(G, ctx, `触发 ${fighter.name} 的战斗效果`);
