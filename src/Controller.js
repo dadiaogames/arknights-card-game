@@ -41,6 +41,13 @@ export const EnterGame = (props) => {
       </button>
       <button
         className = "enter-game"
+        onClick = {props.fastSetup}
+        style = {{display:props.fastSetup?"":"none"}}
+      >
+        快速设置
+      </button>
+      <button
+        className = "enter-game"
         onClick = {props.back}
         style = {{display:props.back?"":"none"}}
       >

@@ -75,6 +75,7 @@ export class Board extends React.Component {
 
     this.change_board = this.change_board.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
+    this.choose_standard_tags = this.choose_standard_tags.bind(this);
     this.get_risk_level = this.get_risk_level.bind(this);
     this.enter_game = this.enter_game.bind(this);
     this.check_deck = this.check_deck.bind(this);
@@ -142,6 +143,19 @@ export class Board extends React.Component {
       new_tags[idx].selected = !new_tags[idx].selected;
       this.setState({tags: new_tags});
     };
+  }
+
+  choose_standard_tags(idx) {
+    let new_tags = this.state.tags;
+    for (let tag of new_tags) {
+      if (tag.is_standard) {
+        tag.selected = true;
+      }
+      if ([0,3].includes(new_tags.indexOf(tag))) {
+        tag.selected = true;
+      }
+    }
+    this.setState({tags: new_tags});
   }
 
   get_risk_level() {
@@ -826,6 +840,7 @@ export class Board extends React.Component {
         <EnterGame 
           switchScene = {() => {this.change_board("deck");}}
           action = "查看卡组"
+          fastSetup = {this.choose_standard_tags}
           back = {() => {this.change_board("title");}}
         />
         
