@@ -14,10 +14,9 @@ export const ORDERS = [
     score: 2,
     reward: 1,
     desc: (<span>{material_icons[2]} → 2分</span>),
+    cost: [0,0,1,0],
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [0,0,1,0])) {
         G.score += 2;
-      }
     },
   },
   {
@@ -25,10 +24,9 @@ export const ORDERS = [
     score: 2,
     reward: 2,
     desc: (<span>{material_icons[0]} → 2分</span>),
+    cost: [1,0,0,0],
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [1,0,0,0])) {
         G.score += 2;
-      }
     },
 
   },
@@ -37,10 +35,9 @@ export const ORDERS = [
     score: 2,
     reward: 0,
     desc: (<span>{material_icons[1]} → 2分</span>),
+    cost: [0,1,0,0],
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [0,1,0,0])) {
         G.score += 2;
-      }
     },
   },
   
@@ -50,10 +47,9 @@ export const ORDERS = [
     score: 2,
     reward: 1,
     desc: (<span>{material_icons[2]} → ? + ?</span>),
+    cost: [0,0,1,0],
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [0,0,1,0])) { // TODO: reconstruct this, "if pay materials" should not be at here
         gainMaterials(G, ctx, 2);
-      }
     },
   },
   {
@@ -61,10 +57,9 @@ export const ORDERS = [
     score: 2,
     reward: 2,
     desc: (<span>{material_icons[0]} → ? + ?</span>),
+    cost: [1,0,0,0],
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [1,0,0,0])) {
         gainMaterials(G, ctx, 2);
-      }
     },
 
   },
@@ -73,10 +68,9 @@ export const ORDERS = [
     score: 2,
     reward: 0,
     desc: (<span>{material_icons[1]} → ? + ?</span>),
+    cost: [0,1,0,0],
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [0,1,0,0])) {
         gainMaterials(G, ctx, 2);
-      }
     },
   },
 
@@ -85,11 +79,10 @@ export const ORDERS = [
     score: 2,
     reward: 2,
     desc: (<span>{material_icons[1]} → {material_icons[3]} + 1费</span>),
+    cost: [0,1,0,0],
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [0,1,0,0])) {
         G.materials[3] += 1;
         G.costs += 1;
-      }
     },
   },
   {
@@ -98,11 +91,10 @@ export const ORDERS = [
     reward: 0,
     desc: (<span>{material_icons[2]} → {material_icons[3]} + 1费</span>),
     // desc: (<span>{material_icons[2]} → {material_icons[3]} </span>),
+    cost: [0,0,1,0],
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [0,0,1,0])) {
         G.materials[3] += 1;
         G.costs += 1;
-      }
     },
 
   },
@@ -112,15 +104,14 @@ export const ORDERS = [
     reward: 1,
     desc: (<span>{material_icons[0]} → {material_icons[3]} + 1费</span>),
     // desc: (<span>{material_icons[0]} → {material_icons[3]} </span>),
+    cost: [1,0,0,0],
     effect(G, ctx) {
-      if (payMaterials(G, ctx, [1,0,0,0])) {
         G.materials[3] += 1;
         G.costs += 1;
-      }
     },
   },
 
-    {
+  {
     requirements: [3,0,0,0],
     score: 2,
     reward: 2,

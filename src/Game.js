@@ -139,7 +139,9 @@ export function addTags(G, ctx, tags) {
 export function init_card_state(G, ctx, card) {
   card.dmg = 0;
   card.power = card.power || 0;
-  card.material = card.material || (ctx.random.Die(3) - 1);
+  if (card.material == undefined) {
+    card.material = (ctx.random.Die(3) - 1); 
+  }
   card.exhausted = G.exhausted_enter;
   return card;
 }
@@ -154,6 +156,13 @@ export function draw(G, ctx) {
   if (G.deck.length > 0) {
     G.hand.unshift(G.deck.pop());
   } 
+}
+
+export function drop(G, ctx) {
+  let idx = ctx.random.Die(G.hand.length) - 1;
+  if (~idx) {
+    G.hand.splice(idx, 1);
+  }
 }
 
 export function mulligan(G, ctx, choices) {
@@ -235,7 +244,7 @@ function finishOrder(G, ctx, idx) {
 function useOrder(G, ctx, idx) {
   let order = G.finished[idx];
 
-  if (use(G, ctx, order)) {
+  if (use(G, ctx, order) && ((order.cost == undefined) || (payMaterials(G, ctx, order.cost)))) {
     order.effect(G, ctx);
   }
 }
@@ -685,7 +694,7 @@ export function setup(ctx) {
     G.finished = [];
 
     G.costs = 2; //On turn begin, gain 3, so it's 2 at setup
-    G.materials = [0, 0, 0, 0]; //EH: it may not be a good idea to set materials in array, but whatever, do it at first
+    G.materials = [1, 1, 1, 0]; //EH: it may not be a good idea to set materials in array, but whatever, do it at first
 
     G.score = 0;
     G.danger = 0;

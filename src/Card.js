@@ -15,27 +15,30 @@ export const Card = (props) => {
 
   if (props.cardState.exhausted) {
     let exhausted_border = "1px solid red";
-    additional_styles.illust.border = exhausted_border;
-    additional_styles.e_illust.border = exhausted_border;
-    additional_styles.o_illust.border = exhausted_border;
-    additional_styles.r_illust.border = exhausted_border;
+    for (let attr in additional_styles) {
+      if (attr.includes("illust")) {
+        additional_styles[attr].border = exhausted_border;
+      }
+    }
     //EH: reconstruct this part
   }
   if (props.cardState.selected) {
     if (props.cardState.exhausted) {
       let selected_exhausted_border = "3px solid purple";
-      additional_styles.illust.border = selected_exhausted_border;
-      additional_styles.e_illust.border = selected_exhausted_border;
-      additional_styles.o_illust.border = selected_exhausted_border;
-      additional_styles.r_illust.border = selected_exhausted_border;
+      for (let attr in additional_styles) {
+        if (attr.includes("illust")) {
+          additional_styles[attr].border = selected_exhausted_border;
+        }
+      }
 
     }
     else {
       let selected_border = "3px solid blue";
-      additional_styles.illust.border = selected_border;
-      additional_styles.e_illust.border = selected_border;
-      additional_styles.o_illust.border = selected_border;
-      additional_styles.r_illust.border = selected_border;
+      for (let attr in additional_styles) {
+        if (attr.includes("illust")) {
+          additional_styles[attr].border = selected_border;
+        }
+      }
     }
   };
   if (props.cardState.damaged) { 

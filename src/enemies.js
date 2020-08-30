@@ -27,7 +27,7 @@ export var ENEMIES = [
     atk: 2,
     hp: 4,
     illust: "http://prts.wiki/images/a/a5/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%B0%84%E6%89%8B.png",
-    desc: "行动: 对最后部署的单位，造成[攻击力]点伤害",
+    desc: "行动: 对最后部署的干员造成[攻击力]点伤害",
     action(G, ctx, self) {
       let card = G.field[G.field.length-1];
       if (card) {
@@ -117,10 +117,10 @@ export var ENEMIES = [
     atk: 1,
     hp: 2,
     illust: "http://prts.wiki/images/6/68/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%AB%98%E8%83%BD%E6%BA%90%E7%9F%B3%E8%99%AB.png",
-    desc: "摧毁: 对1个随机干员造成[攻击力+2]点伤害",
+    desc: "摧毁: 对最后部署的干员造成[攻击力+2]点伤害",
     onOut(G, ctx, self) {
-      if (G.field.length > 0) {
-        let idx = ctx.random.Die(G.field.length) - 1;
+      let idx = G.field.length - 1;
+      if (G.field[idx]) {
         deal_damage(G, ctx, "field", idx, self.atk+2);
         logMsg(G, ctx, `高能源石虫对 ${G.field[idx].name} 造成了${self.atk+2}点伤害`);
       }
@@ -222,6 +222,11 @@ export var ENEMIES = [
     desc: "行动: 翻开1张敌人牌",
     action(G, ctx, self) {
       drawEnemy(G, ctx);
+    },
+    onTurnBegin(G, ctx, self) {
+      if (self.atk > 0) {
+        self.atk = 0;
+      }
     }
   },
 

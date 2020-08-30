@@ -4,7 +4,7 @@ import {
   move, exhaust_random_enemy, ready_random_card, cure, 
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
-  get_num_rest_cards, generate_combined_card, achieve
+  get_num_rest_cards, generate_combined_card, achieve, drop,
 } from './Game';
 import { material_icons } from './orders';
 
@@ -239,7 +239,7 @@ export const CARDS = [
   {
     name:"香草", 
     cost:3, 
-    atk:4, 
+    atk:3, 
     hp:2, 
     mine:1, 
     block:1, 
@@ -259,10 +259,10 @@ export const CARDS = [
     hp:3, 
     mine:1, 
     block:1, 
-    desc:"采掘: 获得3点费用", 
+    desc:"采掘: 获得2点费用", 
     illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E8%AE%AF%E4%BD%BF_1.png",
     onMine(G, ctx, self) {
-      G.costs += 3 + 1 * self.power;
+      G.costs += 2 + 1 * self.power;
     },
     reinforce: 1,
     reinforce_desc: "再获得1点费用",
@@ -277,7 +277,7 @@ export const CARDS = [
     block:1,
     desc: "部署: 获得7点费用",
     illust:"http://prts.wiki/images/5/5a/%E7%AB%8B%E7%BB%98_%E6%9E%81%E5%A2%83_1.png",
-    reinforce: 1,
+    reinforce: 2,
 
     onPlay(G, ctx) {
       G.costs += 7;
@@ -371,10 +371,10 @@ export const CARDS = [
     desc:"行动: 打出牌库顶的1张牌", 
     illust:"http://prts.wiki/images/5/5e/%E7%AB%8B%E7%BB%98_%E9%A3%8E%E7%AC%9B_1.png",
     action(G, ctx, self) {
-      if (G.limit_hand_field && G.field.length >= 6) {
-        logMsg(G, ctx, "场上干员数已达到上限");
-        return;
-      }
+      // if (G.limit_hand_field && G.field.length >= 6) {
+      //   logMsg(G, ctx, "场上干员数已达到上限");
+      //   return;
+      // }
       let card = move(G, ctx, "deck", "field");
       init_card_state(G, ctx, card);
       if (card.name == "夜刀") {
@@ -934,7 +934,7 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:1,
-    desc:"部署: 获得2个\"莱茵生命订单\"",
+    desc:"部署: 获得2个已完成的订单",
     illust:"http://prts.wiki/images/7/7f/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E9%BB%98_1.png",
     onPlay(G, ctx, self) {
       get_rhine_order(G, ctx);
@@ -944,7 +944,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       get_rhine_order(G, ctx);
     },
-    reinforce_desc: "获得1个\"莱茵生命订单\"",
+    reinforce_desc: "获得1个已完成的订单",
   },
   
   {
@@ -954,13 +954,13 @@ export const CARDS = [
     hp:3,
     mine:3,
     block:0,
-    desc:"行动: 重置1个干员，获得1个\"莱茵生命订单\"",
+    desc:"行动: 重置1个干员，获得1个已完成的订单",
     illust:"http://prts.wiki/images/a/ac/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9D%A2%E9%B8%AE_1.png",
     action(G, ctx, self) {
       get_rhine_order(G, ctx);
       ready_random_card(G, ctx, self);
     },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
       G.costs += 2;
     },
@@ -982,8 +982,8 @@ export const CARDS = [
         order.exhausted = false;
       }
 
-      if (count >= 6) {
-        achieve(G, ctx, "无敌的小火龙", "使用伊芙利特重置至少6个订单", self);
+      if (count >= 10) {
+        achieve(G, ctx, "无敌的小火龙", "使用伊芙利特重置至少10个订单", self);
       }
 
     },
@@ -1026,7 +1026,7 @@ export const CARDS = [
     hp:1,
     mine:1,
     block:1,
-    desc: "部署: 获得1个\"莱茵生命订单\"，其能力为\"?→造成5点伤害\"",
+    desc: "部署: 获得1个已完成的订单，其能力为\"?→造成5点伤害\"",
     illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
     reinforce: 1,
 
@@ -1055,18 +1055,16 @@ export const CARDS = [
   {
     name:"麦哲伦",
     cost:3,
-    atk:4,
-    hp:3,
+    atk:3,
+    hp:2,
     mine:2,
     block:0,
-    desc:"部署/采掘/战斗: 获得2个未完成的订单",
+    desc:"部署/采掘/战斗: 使1个未完成的订单分数+1",
     illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
-      for (let i=0; i<2; i++){
-        let order = {...(ctx.random.Shuffle(G.ORDERS)[0])};
-        G.orders.unshift(order);
-      }
+      let order = ctx.random.Shuffle(G.orders)[0];
+      order.score += 1;
     },
     onFight(G, ctx, self) {
       this.onMine(G, ctx, self);
@@ -1075,9 +1073,10 @@ export const CARDS = [
       this.onMine(G, ctx, self);
     },
     onReinforce(G, ctx, self) {
-      this.onMine(G, ctx, self);
+      self.atk += 2;
+      self.hp += 2;
     },
-    reinforce_desc: "获得2个未完成的订单",
+    reinforce_desc: "+2/+2",
   },
   
   {
@@ -1087,7 +1086,7 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:"部署/采掘/战斗: 获得1个订单，其能力为\"?→获得1分\"",
+    desc:"采掘/战斗: 获得1个已完成的订单，其能力为\"?→获得1分\"",
     illust:"http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E7%A8%80%E9%9F%B3_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
@@ -1104,9 +1103,6 @@ export const CARDS = [
       G.finished.unshift(order);
     },
     onFight(G, ctx, self) {
-      this.onMine(G, ctx, self);
-    },
-    onPlay(G, ctx, self) {
       this.onMine(G, ctx, self);
     },
     onReinforce(G, ctx, self) {
@@ -1817,7 +1813,7 @@ export const CARDS = [
     name:"断罪者",
     cost:4,
     atk:5,
-    hp:5,
+    hp:4,
     mine:3,
     block:1,
     desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
@@ -1854,10 +1850,10 @@ export const CARDS = [
       G.hand = [...G.discard, ...G.hand];
       G.discard = [];
 
-      if (G.limit_hand_field && G.hand.length >= 6) {
-        logMsg(G, ctx, "手牌数已达到上限");
-        G.hand = G.hand.slice(G.hand.length-6);
-      }
+      // if (G.limit_hand_field && G.hand.length >= 6) {
+      //   logMsg(G, ctx, "手牌数已达到上限");
+      //   G.hand = G.hand.slice(G.hand.length-6);
+      // }
     },
     onReinforce(G, ctx, self) {
       cure(G, ctx, 6);
@@ -1866,15 +1862,16 @@ export const CARDS = [
   },
   {
     name:"调香师",
-    cost:3,
+    cost:2,
     atk:0,
     hp:2,
     mine:2,
     block:0,
-    desc: "采掘: 摸2张牌",
+    desc: "采掘: 弃1张牌，然后摸2张牌",
     illust:"http://prts.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
     reinforce: 3,
     onMine(G, ctx, self) {
+      drop(G, ctx);
       draw(G, ctx);
       draw(G, ctx);
     },
