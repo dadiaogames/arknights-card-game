@@ -113,12 +113,10 @@ export function deal_damage(G, ctx, deck, idx, dmg) {
     logMsg(G, ctx, `${card.name} 受到${dmg}点伤害`);
 
     if (card.dmg >= card.hp) {
-      if (~G.efield.indexOf(card)) {
-        out(G, ctx, deck, idx);
-      }
-      else {
-        card.exhausted = true;
-      }
+      // if (~G.efield.indexOf(card)) {
+      //   out(G, ctx, deck, idx);
+      // }
+      card.exhausted = true;
     }
   }
 }
@@ -517,6 +515,7 @@ export function get_rhine_order(G, ctx) {
 }
 
 function enemyInit(G, ctx) {
+  clearField(G, ctx, "efield");
   G.stage = "enemy";
 }
 
@@ -568,14 +567,12 @@ export function enemyMove(G, ctx, idx) {
   }
 }
 
-function onEnemyStageEnd(G, ctx) {
-  for (let i=G.field.length-1; i>=0; i--) {
-    let card = G.field[i];
+function clearField(G, ctx, field="field") {
+  for (let i=G[field].length-1; i>=0; i--) {
+    let card = G[field][i];
     if (card.hp - card.dmg <= 0) {
-      out(G, ctx, "field", i);
+      out(G, ctx, field, i);
     }
-    // refresh the card states here
-    card.ready_times = 0;
   }
 }
 
@@ -764,6 +761,7 @@ export const AC = {
     harvest,
     drawEnemy,
     fight,
+    clearField,
     enemyInit,
     enemyMove,
     logMsg,
@@ -790,6 +788,7 @@ export const AC = {
         G.onCardReinforced = [];
 
         for (let card of [...G.hand, ...G.field, ...G.efield]) {
+          card.ready_times = 0;
           if (card.onTurnBegin) {
             card.onTurnBegin(G, ctx, card);
           }
@@ -827,7 +826,7 @@ export const AC = {
           for (let i=G.field.length-1; i>=0; i--) {
             deal_damage(G, ctx, "field", i, 1);
           }
-          onEnemyStageEnd(G, ctx); // Add this to discard destroyed cards
+          clearField(G, ctx, "field"); // Add this to discard destroyed cards
           // EH: Maybe this can be reconstructed?
         }
         if (G.danger < 0) {
@@ -837,7 +836,7 @@ export const AC = {
     },
 
     onEnd(G, ctx) {
-      onEnemyStageEnd(G, ctx);
+      clearField(G, ctx, "field");
     },
 
     // moveLimit: 1000,    // I don't know why, when adding this line, the init hand size comes to 4

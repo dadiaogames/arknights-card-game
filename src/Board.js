@@ -1,9 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 import { Tabs, TabList, Tab } from 'react-tabs';
+import { useSpring, animated } from 'react-spring';
 import { Card, SCard, CardRow, CheckCard, SCardRow, TypeFilter } from './Card';
 import { Controller, EnterGame } from './Controller';
-import { Panel } from './Panel';
+import { Panel, ScoreBoard, MaterialDisplay } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
 import { DeckConstruction, DeckGeneration, Settings } from './DeckConstruction';
 import { TitleScreen } from './TitleScreen';
@@ -18,6 +19,13 @@ import { RULES } from './rules';
 
 import './Board.css';
 import 'react-tabs/style/react-tabs.css';
+
+const init_animations = {
+  field: {},
+  efield: {},
+  finished: {},
+  materials: {},
+};
 
 export class Board extends React.Component {
 
@@ -49,6 +57,7 @@ export class Board extends React.Component {
     this.process_enemy_details = this.process_enemy_details.bind(this);
     this.process_order_details = this.process_order_details.bind(this);
 
+    this.set_animations = this.set_animations.bind(this);
     this.wrap_controller_action = this.wrap_controller_action.bind(this);
     this.set_branch = this.set_branch.bind(this);
     this.check_card = this.check_card.bind(this);
@@ -94,6 +103,8 @@ export class Board extends React.Component {
       show_tag_selection: false,
 
       stage: "player",
+
+      animations: {...init_animations},
 
       board: this.render_title_board, 
       // board: this.render_mulligan_board,
@@ -172,18 +183,22 @@ export class Board extends React.Component {
 
   play_card() {
     this.props.moves.play(this.state.hand_selected);
+    this.set_animations("field", this.props.G.field.length, true);
     this.setState({hand_selected: -1});
     return {};
   }
   
   use_mine() {
     this.props.moves.mine(this.state.field_selected);
+    // this.set_animations("field", this.state.field_selected, true);
     this.setState({field_selected: -1});
     return {};
   }
 
   use_fight() {
     this.props.moves.fight(this.state.field_selected, this.state.efield_selected);
+    // this.set_animations("field", this.state.field_selected, true);
+    this.set_animations("efield", this.state.efield_selected, true);
     this.setState({
       field_selected: -1,
       efield_selected: -1,
@@ -193,6 +208,7 @@ export class Board extends React.Component {
 
   use_act() {
     this.props.moves.act(this.state.field_selected);
+    // this.set_animations("field", this.state.field_selected, true);
     this.setState({field_selected: -1});
     return {};
   }
@@ -205,12 +221,14 @@ export class Board extends React.Component {
 
   finish_order() {
     this.props.moves.finishOrder(this.state.order_selected);
+    // this.set_animations("finished", this.props.G.finished.length, true);
     this.setState({order_selected: -1});
     return {};
   }
 
   use_order() {
     this.props.moves.useOrder(this.state.finished_selected);
+    // this.set_animations("field", this.state.finished_selected, true);
     this.setState({finished_selected: -1});
     return {};
   }
@@ -233,6 +251,12 @@ export class Board extends React.Component {
     else {
       return "illust";
     }
+  }
+
+  set_animations(cardrow, idx, value) {
+    let animations = {...this.state.animations};
+    animations[cardrow][idx] = value;
+    this.setState({animations});
   }
   
   process_hand_data(card) {
@@ -272,11 +296,13 @@ export class Board extends React.Component {
     return data;
   }
 
-  process_field_state(card) {
+  process_field_state(card, idx) {
     return {
-      selected: (this.state.field_selected == this.props.G.field.indexOf(card)),
+      selected: (this.state.field_selected == idx),
       exhausted: card.exhausted, 
       damaged: (card.dmg > 0),
+      playing: this.state.animations.field[idx],
+      setPlaying: (value) => this.set_animations("field", idx, value),
     }
   }
 
@@ -290,12 +316,15 @@ export class Board extends React.Component {
     };
   }
 
-  process_efield_state(card) {
+  process_efield_state(card, idx) {
     return {
-      selected: (this.state.efield_selected == this.props.G.efield.indexOf(card)),
+      selected: (this.state.efield_selected == idx),
       exhausted: card.exhausted, 
       damaged: (card.dmg > 0),
       enraged: card.enraged,
+      shaking: this.state.animations.efield[idx],
+      setShaking: (value) => this.set_animations("efield", idx, value),
+      onEnd: () => {this.props.moves.clearField("efield");console.log("onEnd");},
     }
   }
 
@@ -430,7 +459,7 @@ export class Board extends React.Component {
       if (this.props.G.field[idx].action) {
         new_branch["行动"] = this.use_act;
       }
-      console.log(Object.keys(new_branch));
+      // console.log(Object.keys(new_branch));
       // Add reinforce
       new_branch["强化"+card.material] = this.reinforce_card;
 
@@ -549,7 +578,16 @@ export class Board extends React.Component {
     this.change_board("tag");
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
+    // Materials
+    for (let i=0; i<this.props.G.materials.length; i++) {
+      let material_diff = this.props.G.materials[i] - prevProps.G.materials[i];
+      if (material_diff > 0) {
+        this.set_animations("materials", i, true);
+      } 
+    }
+
+    // About result
     let result = this.props.ctx.gameover;
     if (result && !this.state.scenario_finished) {
       this.setState({scenario_finished: true});
@@ -669,15 +707,36 @@ export class Board extends React.Component {
 
     // SR: player panel
     // TODO: reconstruct this, this is stateful, and html elements should go to stateless
-    let material_display = (idx) => (
-      <span style={{color:(this.props.G.gained.includes(idx))?"blue":"black"}}>
-        {material_icons[idx]}:{this.props.G.materials[idx]}&nbsp;&nbsp;&nbsp; 
-      </span>
-    );
+    // let material_display = (idx) => (
+    //   <div 
+    //     style={{
+    //       display: "inline-block",
+    //       color:(this.props.G.gained.includes(idx))?"blue":"black",
+    //     }}
+    //   >
+    //     <animated.div
+    //       style={{
+    //         display: "inline-block",
+    //       }}
+    //     >
+    //       {material_icons[idx]}
+    //     </animated.div>
+    //     :{this.props.G.materials[idx]}&nbsp;&nbsp;&nbsp; 
+    //   </div>
+    // );
 
-    let player_panel = (<div>
+    let player_panel = (<div align="center">
       <p style={{marginTop:"2%"}}>
-        {[0,1,2,3].map(material_display)}
+        {[0,1,2,3].map(
+            (idx) => <MaterialDisplay 
+              playing = {this.state.animations.materials[idx]}
+              setPlaying = {(value) => this.set_animations('materials', idx, value)}
+              idx = {idx}
+              gained = {this.props.G.gained}
+              materials = {this.props.G.materials}
+            />
+          )
+        }
         费用: {this.props.G.costs}  
         <br/>
         <button 
@@ -716,7 +775,9 @@ export class Board extends React.Component {
     let game_panel = (<div>
       <p style={{marginTop: "0%"}}>
         动乱:{this.props.G.danger}/{this.props.G.max_danger} &nbsp;&nbsp;&nbsp;
-        分数:{this.props.G.score}/{this.props.G.goal}<br/>
+        {/* <span>分数:{this.props.G.score}/{this.props.G.goal}</span> */}
+        <ScoreBoard score={this.props.G.score} goal={this.props.G.goal} />
+      <br/>
         <button 
           onClick={()=>this.end_game()}
           style = {{
@@ -729,7 +790,11 @@ export class Board extends React.Component {
         ⟳
         </button>
 
-        <span onClick={()=>{alert(this.props.G.messages.slice(0,20).join("\n"));}}>{this.props.G.messages[0]}</span>
+        <span 
+          onClick={()=>{alert(this.props.G.messages.slice(0,20).join("\n"));}}
+        >
+          {this.props.G.messages[0]}
+        </span>
       </p>
     </div>);
 

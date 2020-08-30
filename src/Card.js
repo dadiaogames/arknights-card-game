@@ -1,5 +1,9 @@
 import React from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import { animated } from 'react-spring';
+import { useShaker } from './Shaker';
+import { Ripple } from './Ripple';
+
 import 'react-tabs/style/react-tabs.css';
 import './Card.css';
 
@@ -49,12 +53,20 @@ export const Card = (props) => {
     additional_styles.atk.color = "orange";
   };
 
+  let shaker = useShaker(props.cardState.shaking, props.cardState.setShaking, -30, -30, {duration:125}, props.cardState.onEnd);
+
   return (
     <div
       className="card"
       onClick = {props.handleClick}
       style = {props.cardStyle}
     >
+      <Ripple 
+        playing = {props.cardState.playing}
+        setPlaying = {props.cardState.setPlaying || function(){return;}}
+        variants = {{top:"-50%", left:"-50%"}}
+      />
+      <animated.div style={{width: "100%", height: "100%", ...shaker}}>
       {Object.keys(props.data).map((variant) => (
         <Data
           variant = {variant}
@@ -62,6 +74,7 @@ export const Card = (props) => {
           additionalStyle = {additional_styles[variant]}
         />
       ))}
+      </animated.div>
     </div>
 
   );

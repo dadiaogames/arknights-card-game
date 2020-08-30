@@ -4,7 +4,7 @@
   text-align: center;
   margin: 2%;
   font-size: 90%;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   position: relative;
 }
 

@@ -213,6 +213,29 @@ export var ENEMIES = [
       ready_random_card(G, ctx, self);
     }
   },
+
+  {
+    name: "法术近卫",
+    atk: 4,
+    hp: 4,
+    illust: "http://prts.wiki/images/6/6d/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%B3%95%E6%9C%AF%E8%BF%91%E5%8D%AB.png",
+    desc: "摧毁: 获得2分",
+    onOut(G, ctx, self) {
+      G.score += 2;
+    }
+  },
+
+  {
+    name: "法术近卫组长",
+    atk: 8,
+    hp: 8,
+    is_elite: true,
+    illust: "http://prts.wiki/images/6/63/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%B3%95%E6%9C%AF%E8%BF%91%E5%8D%AB%E7%BB%84%E9%95%BF.png",
+    desc: "摧毁: 获得6分",
+    onOut(G, ctx, self) {
+      G.score += 6;
+    }
+  },
   
   {
     name: "哨兵",

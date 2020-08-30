@@ -886,7 +886,7 @@ export const CARDS = [
     cost:3, 
     atk:4, 
     hp:4, 
-    mine:1, 
+    mine:2, 
     block:1, 
     desc:"行动: 消耗4点费用，获得6分", 
     illust:"http://prts.wiki/images/c/c6/%E7%AB%8B%E7%BB%98_%E9%98%BF%E6%B6%88_1.png",
@@ -1458,7 +1458,7 @@ export const CARDS = [
     cost:3,
     atk:4,
     hp:4,
-    mine:1,
+    mine:2,
     block:1,
     desc:<span>行动: 消耗2个{material_icons[3]}，获得5分</span>,
     illust:"http://prts.wiki/images/a/a7/%E7%AB%8B%E7%BB%98_%E5%B4%96%E5%BF%83_1.png",
@@ -1482,7 +1482,7 @@ export const CARDS = [
     action(G, ctx, self) {
       G.materials[3] += 1 + G.materials.slice(0,3).sort()[0];
     },
-    reinforce: 1,
+    reinforce: 2,
     reinforce_desc: "获得2点费用",
     onReinforce(G, ctx, self) {
       G.costs += 2;
@@ -1491,7 +1491,7 @@ export const CARDS = [
   {
     name:"角峰",
     cost:4,
-    atk:2,
+    atk:3,
     hp:5,
     mine:1,
     block:2,
@@ -1683,7 +1683,7 @@ export const CARDS = [
     name:"霜叶",
     cost:4,
     atk:2,
-    hp:5,
+    hp:4,
     mine:1,
     block:1,
     desc: "休整: 每有1个休整中的干员，就获得+1/+1",
@@ -1708,7 +1708,7 @@ export const CARDS = [
     block:0,
     desc: "休整: 如果至少有5个休整中的干员，则获得5分",
     illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
-    reinforce: 1,
+    reinforce: 2,
     onRest(G, ctx, self) {
       let num_rest_cards = get_num_rest_cards(G, ctx);
       if (num_rest_cards >= 5) {
@@ -1940,13 +1940,13 @@ export const CARDS = [
   {
     name:"白金", 
     cost:3, 
-    atk:4, 
+    atk:5, 
     hp:2, 
     mine:1, 
     block:0, 
-    desc:"战斗: 使1个干员获得+3攻击力", 
+    desc:"采掘: 使1个干员获得+3攻击力", 
     illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%87%91_1.png",
-    onFight(G, ctx, self) {
+    onMine(G, ctx, self) {
       let card = ctx.random.Shuffle(G.field.filter(x => x != self))[0];
       if (card) {
         card.atk += 3;
@@ -1966,7 +1966,7 @@ export const CARDS = [
     cost:3,
     atk:3,
     hp:2,
-    mine:1,
+    mine:2,
     block:0,
     desc: "部署: 获得3个材料",
     illust:"http://prts.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
@@ -2006,11 +2006,11 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc: "行动: 触发手牌中1个干员的\"部署:\"效果(极境和安洁莉娜除外)",
+    desc: "行动: 触发手牌中1个干员的\"部署:\"效果(极境除外)",
     illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E6%B3%A2%E7%99%BB%E5%8F%AF_1.png",
     reinforce: 1,
     action(G, ctx, self) {
-      let player = ctx.random.Shuffle(G.hand.filter(x => (x.onPlay && !["极境", "安洁莉娜"].includes(x.name))))[0];
+      let player = ctx.random.Shuffle(G.hand.filter(x => (x.onPlay && !["极境"].includes(x.name))))[0];
       if (player) {
         player.onPlay(G, ctx, player);
         logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
@@ -2027,18 +2027,26 @@ export const CARDS = [
   {
     name:"巫恋",
     cost:4,
-    atk:6,
+    atk:5,
     hp:3,
     mine:1,
     block:0,
-    desc:"采掘: 触发场上1个干员的\"行动:\"效果",
+    desc:"采掘: 使其对位敌人攻防减半",
     illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
-    reinforce: 1,
+    reinforce: 2,
     onMine(G, ctx, self) {
-      let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
-      if (actor) {
-        actor.action(G, ctx, actor);
-        logMsg(G, ctx, `触发 ${actor.name} 的行动效果`);
+      // let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
+      // if (actor) {
+      //   actor.action(G, ctx, actor);
+      //   logMsg(G, ctx, `触发 ${actor.name} 的行动效果`);
+      // }
+      let idx = G.field.indexOf(self);
+      if (~idx) {
+        let enemy = G.efield[idx];
+        if (enemy) {
+          enemy.atk /= 2;
+          enemy.hp /= 2;
+        }
       }
     },
     onReinforce(G, ctx, self) {
@@ -2097,18 +2105,18 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得6点费用</span>,
+    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得5点费用</span>,
     illust:"http://prts.wiki/images/9/9f/%E7%AB%8B%E7%BB%98_%E6%83%8A%E8%9B%B0_1.png",
     reinforce: 2,
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
-        G.costs += 6;
+        G.costs += 5;
       }
     },
     onReinforce(G, ctx, self) {
-      G.costs += 4;
+      G.costs += 3;
     },
-    reinforce_desc: "获得4点费用",
+    reinforce_desc: "获得3点费用",
   },
   {
     name:"白雪",
