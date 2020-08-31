@@ -1939,7 +1939,7 @@ export const CARDS = [
   {
     name:"白金", 
     cost:3, 
-    atk:3, 
+    atk:4, 
     hp:2, 
     mine:1, 
     block:0, 
