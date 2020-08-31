@@ -1862,16 +1862,15 @@ export const CARDS = [
   },
   {
     name:"调香师",
-    cost:2,
+    cost:3,
     atk:0,
     hp:2,
     mine:2,
     block:0,
-    desc: "采掘: 弃1张牌，然后摸2张牌",
+    desc: "采掘: 摸2张牌",
     illust:"http://prts.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
     reinforce: 3,
     onMine(G, ctx, self) {
-      drop(G, ctx);
       draw(G, ctx);
       draw(G, ctx);
     },
