@@ -1477,10 +1477,10 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:<span>行动: 获得1个{material_icons[3]}，然后每有1组{material_icons.slice(0,3)}，就再获得1个{material_icons[3]}</span>,
+    desc:<span>行动: 每有1组{material_icons.slice(0,3)}，就获得1个{material_icons[3]}</span>,
     illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%88%9D%E9%9B%AA_1.png",
     action(G, ctx, self) {
-      G.materials[3] += 1 + G.materials.slice(0,3).sort()[0];
+      G.materials[3] += G.materials.slice(0,3).sort()[0];
     },
     reinforce: 2,
     reinforce_desc: "获得2点费用",
@@ -1939,17 +1939,20 @@ export const CARDS = [
   {
     name:"白金", 
     cost:3, 
-    atk:5, 
+    atk:3, 
     hp:2, 
     mine:1, 
     block:0, 
-    desc:"采掘: 使1个干员获得+3攻击力", 
+    desc:"采掘/战斗: 使1个干员获得+3攻击力", 
     illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%87%91_1.png",
     onMine(G, ctx, self) {
       let card = ctx.random.Shuffle(G.field.filter(x => x != self))[0];
       if (card) {
         card.atk += 3;
       }
+    },
+    onFight(G, ctx, self) {
+      this.onMine(G, ctx, self);
     },
     reinforce: 1,
     reinforce_desc: "+3/+1",
@@ -2104,18 +2107,18 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得5点费用</span>,
+    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得4点费用</span>,
     illust:"http://prts.wiki/images/9/9f/%E7%AB%8B%E7%BB%98_%E6%83%8A%E8%9B%B0_1.png",
     reinforce: 2,
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
-        G.costs += 5;
+        G.costs += 4;
       }
     },
     onReinforce(G, ctx, self) {
-      G.costs += 3;
+      G.costs += 2;
     },
-    reinforce_desc: "获得3点费用",
+    reinforce_desc: "获得2点费用",
   },
   {
     name:"白雪",
