@@ -5,6 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
+  clearField,
 } from './Game';
 import { material_icons } from './orders';
 
@@ -1282,17 +1283,21 @@ export const CARDS = [
     hp:3,
     mine:1,
     block:0,
-    desc:"超杀: 如果场上没有敌人，则获得5分",
+    desc:"超杀: 对其对位敌人造成5点伤害",
     illust:"http://prts.wiki/images/7/7b/%E7%AB%8B%E7%BB%98_%E9%BB%91_1.png",
     onFight(G, ctx, self, enemy) {
-      if (enemy.dmg > enemy.hp && G.efield.length == 0) {
-        let diff = 5 + 3 * self.power;
-        G.score += diff;
-        logMsg(G, ctx, `使用 黑 获得${diff}分`);
+      if (enemy.dmg > enemy.hp) {
+        let idx = G.field.indexOf(self);
+        if (~idx) {
+          let enemy = G.efield[idx];
+          if (enemy) {
+            enemy.dmg += 5 + 4 * self.power;
+          }
+        }
       }
     },
-    reinforce: 2,
-    reinforce_desc: "再获得3分",
+    reinforce: 1,
+    reinforce_desc: "伤害+4",
   },
 
   {

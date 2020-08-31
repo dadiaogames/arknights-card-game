@@ -122,8 +122,9 @@ export function deal_damage(G, ctx, deck, idx, dmg) {
 }
 
 export function deal_random_damage(G, ctx, amount) {
-  if (G.efield.length > 0){
-    let idx = ctx.random.Die(G.efield.length) - 1;
+  let enemy = ctx.random.Shuffle(G.efield.filter(x => (x.dmg < x.hp)))[0];
+  if (enemy) {
+    let idx = G.efield.indexOf(enemy);
     deal_damage(G, ctx, "efield", idx, amount);
   }
 }
