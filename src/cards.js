@@ -1056,7 +1056,7 @@ export const CARDS = [
   {
     name:"麦哲伦",
     cost:3,
-    atk:3,
+    atk:4,
     hp:2,
     mine:2,
     block:0,

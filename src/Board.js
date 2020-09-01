@@ -112,6 +112,7 @@ export class Board extends React.Component {
 
       tags: TAGS,
       risk_level: 0, // this is changed on game begin
+      standard_level: 0,
 
       deck_mode: "random",
       deck_name: get_deck_name(),
@@ -158,15 +159,23 @@ export class Board extends React.Component {
 
   choose_standard_tags(idx) {
     let new_tags = this.state.tags;
+    let current_standard_level = this.state.standard_level + 1;
     for (let tag of new_tags) {
-      if (tag.is_standard) {
+      if (tag.standard_level <= current_standard_level) {
         tag.selected = true;
       }
-      if ([0,3].includes(new_tags.indexOf(tag))) {
+      if ((current_standard_level >= 1) && [0,3].includes(new_tags.indexOf(tag))) {
+        tag.selected = true;
+      }
+      if ((current_standard_level >= 2) && [4,6,12].includes(new_tags.indexOf(tag))) {
+        tag.selected = true;
+      }
+      if ((current_standard_level >= 3) && [9].includes(new_tags.indexOf(tag))) {
         tag.selected = true;
       }
     }
     this.setState({tags: new_tags});
+    this.setState({standard_level: current_standard_level})
   }
 
   get_risk_level() {
