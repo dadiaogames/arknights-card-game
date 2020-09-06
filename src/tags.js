@@ -68,6 +68,7 @@ const tag_list = [
     src: "http://prts.wiki/images/a/a0/Enemy_hp_2.png",
     desc: "2回合后，所有敌人获得+4生命值",
     level: 2,
+    standard_level: 3,
     effect(G, ctx){
       G.reinforceOnR3 = true;
     }
@@ -220,7 +221,6 @@ const tag_list = [
     src: "http://prts.wiki/images/4/40/Enemy_hirman_2.png",
     desc: "3回合后，所有敌人获得+6/+6",
     level: 3,
-    standard_level: 3,
     effect(G, ctx){
       G.reinforceOnR4 = true;
     }

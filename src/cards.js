@@ -339,7 +339,7 @@ export const CARDS = [
     cost:4,
     atk:5,
     hp:3,
-    mine:2,
+    mine:1,
     block:1,
     desc: "超杀: 每造成1点额外伤害，就获得1点费用",
     illust:"http://prts.wiki/images/7/70/%E7%AB%8B%E7%BB%98_%E7%BA%A2%E8%B1%86_1.png",
@@ -357,9 +357,8 @@ export const CARDS = [
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
-      self.hp += 2;
     },
-    reinforce_desc: "+2/+2",
+    reinforce_desc: "+2攻击力",
   },
   
   {
@@ -647,8 +646,8 @@ export const CARDS = [
     name:"可颂", 
     cost:6, 
     atk:3, 
-    hp:9, 
-    mine:1, 
+    hp:12, 
+    mine:2, 
     block:2, 
     desc:"采掘/战斗: 横置1个敌人", 
     illust:"http://prts.wiki/images/6/62/%E7%AB%8B%E7%BB%98_%E5%8F%AF%E9%A2%82_1.png",
@@ -668,8 +667,8 @@ export const CARDS = [
   {
     name:"雷蛇", 
     cost:6, 
-    atk:3, 
-    hp:9, 
+    atk:2, 
+    hp:12, 
     mine:1, 
     block:2, 
     desc:"采掘/战斗: 重置1个干员", 
@@ -907,17 +906,17 @@ export const CARDS = [
   
   {
     name:"铃兰", 
-    cost:2, 
+    cost:3, 
     atk:2, 
     hp:1, 
     mine:1, 
     block:1, 
-    desc:"部署: 本回合剩余时间内，每部署1个干员，就获得1分", 
+    desc:"部署: 本回合剩余时间内，每部署1个干员，就获得2分", 
     illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
     onPlay(G, ctx) {
       G.onPlayCard.push(
         (G, ctx) => {
-          G.score += 1;
+          G.score += 2;
         }
       );
     },
@@ -1335,7 +1334,7 @@ export const CARDS = [
     cost:3,
     atk:3,
     hp:3,
-    mine:1,
+    mine:2,
     block:1,
     illust: "http://prts.wiki/images/4/45/%E7%AB%8B%E7%BB%98_%E6%96%AF%E5%8D%A1%E8%92%82_1.png",
     reinforce: 2,

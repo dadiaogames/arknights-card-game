@@ -1,0 +1,35 @@
+.deck-repr {
+  display: inline-block;
+  width: 28%;
+  height: 25%;
+  border: 2px solid gray;
+  margin: 2%;
+}
+
+.deck-selection-title {
+  margin: 2%;
+  margin-top: 38.2%;
+  font-size: 110%;
+}
+
+.deck-repr-name {
+  font-size: 80%;
+  height: 40%;
+}
+
+.deck-repr-button {
+  font-size: 100%;
+  width: 90%;
+  margin-bottom: 8%;
+}
+
+.deck-selection-button {
+  font-size: 110%;
+  margin: 1%;
+  padding: 2%;
+}
+
+.card-desc {
+  margin: 2%;
+  height: 8%;
+}

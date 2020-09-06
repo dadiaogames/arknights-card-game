@@ -2,6 +2,7 @@ import React from 'react';
 import { CARDS } from "./cards";
 import { ENEMIES } from "./enemies";
 import { ORDERS, material_icons } from "./orders";
+import { get_deck_name, generate_deck } from './DeckGenerator';
 import { arr2obj, PRNG } from "./utils";
 
 export function move(G, ctx, d1, d2, idx) {
@@ -739,7 +740,31 @@ export function setup(ctx) {
     console.log("Setup finished.");
 
     return G;
+}
+
+function setup_competition_mode(G, ctx) {
+  G.competition_mode = true;
+
+  G.deck_list = [];
+  for (let i=0; i<3; i++) {
+    G.deck_list.push(get_deck_name());
   }
+}
+
+function finish_competition_mode(G, ctx) {
+  G.competition_mode = false;
+}
+
+function select_deck(G, ctx, idx) {
+  G.Deck = str2deck(generate_deck(G.deck_list[idx]));
+  refresh_selections(G, ctx);
+}
+
+function refresh_selections(G, ctx) {
+  G.selections = ctx.random.Shuffle(G.Deck).slice(0, 3);
+  G.upgrades = [];
+  // Control the 12 selections on frontend? On frontend at first, if there are requirements for reconstructing it to backend, reconstruct it.
+}
 
 export const AC = {
   setup: setup,
@@ -767,6 +792,10 @@ export const AC = {
     enemyMove,
     logMsg,
     changeMsg,
+    setup_competition_mode,
+    finish_competition_mode,
+    select_deck,
+    refresh_selections,
   },
 
   turn: {

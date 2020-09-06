@@ -26,13 +26,13 @@ export const Controller = (props) => {
 export const EnterGame = (props) => {
   return (
     <div className="enter-game" >
-      <button
+      {Object.keys(props.actions).map(action => <button
         className = "enter-game"
-        onClick = {props.switchScene}
+        onClick = {props.actions[action]}
       >
-        {props.action}
-      </button>
-      <button
+        {action}
+      </button>)}
+      {/* <button
         className = "enter-game"
         onClick = {props.advancedSettings}
         style = {{display:props.advancedSettings?"":"none"}}
@@ -52,7 +52,7 @@ export const EnterGame = (props) => {
         style = {{display:props.back?"":"none"}}
       >
         返回标题
-      </button>
+      </button> */}
     </div>
   );
 };

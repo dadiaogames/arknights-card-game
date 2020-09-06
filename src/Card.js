@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
 import { animated } from 'react-spring';
 import { useShaker } from './Shaker';
@@ -55,6 +55,13 @@ export const Card = (props) => {
 
   let shaker = useShaker(props.cardState.shaking, props.cardState.setShaking, -30, -30, {duration:125}, props.cardState.onEnd);
 
+  useEffect(() => {
+    if ((props.cardState.dmg > 0) && props.cardState.setShaking) {
+      props.cardState.setShaking(true);
+    }
+  }, 
+  [props.cardState.dmg]);
+
   return (
     <div
       className="card"
@@ -106,8 +113,9 @@ export const CardRow = (props) => {
       {props.cards.map((card, idx) => (
         <Card
           data={card}
-          cardState = {props.states[idx]}
+          cardState = {props.states? props.states[idx]:{}}
           handleClick={(props.handleClick)? (props.handleClick(idx)) : null} 
+          // This is not a good idea for handleClick?
           cardStyle = {props.cardStyle}
         />
       ))}

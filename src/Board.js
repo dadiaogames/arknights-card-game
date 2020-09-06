@@ -8,6 +8,7 @@ import { Panel, ScoreBoard, MaterialDisplay } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
 import { DeckConstruction, DeckGeneration, Settings } from './DeckConstruction';
 import { TitleScreen } from './TitleScreen';
+import { DeckSelection, DeckUpgrade } from './Competition';
 import { get_deck_name, get_seed_name, generate_deck, is_standard } from './DeckGenerator';
 import { str2deck, init_decks } from './Game';
 import { map_object, sleep } from './utils';
@@ -57,6 +58,8 @@ export class Board extends React.Component {
     this.process_enemy_details = this.process_enemy_details.bind(this);
     this.process_order_details = this.process_order_details.bind(this);
 
+    this.process_deck_data = this.process_deck_data.bind(this);
+
     this.set_animations = this.set_animations.bind(this);
     this.wrap_controller_action = this.wrap_controller_action.bind(this);
     this.set_branch = this.set_branch.bind(this);
@@ -81,6 +84,12 @@ export class Board extends React.Component {
     this.render_preview_board = this.render_preview_board.bind(this);
     this.render_mulligan_board = this.render_mulligan_board.bind(this);
     this.render_setting_board = this.render_setting_board.bind(this);
+    this.render_deck_selection_board = this.render_deck_selection_board.bind(this);
+    this.render_deck_upgrade_board = this.render_deck_upgrade_board.bind(this);
+    this.render_competition_board = this.render_competition_board.bind(this);
+
+    this.enter_competition_mode = this.enter_competition_mode.bind(this);
+    this.select_deck = this.select_deck.bind(this);
 
     this.change_board = this.change_board.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
@@ -96,6 +105,8 @@ export class Board extends React.Component {
       efield_selected: -1,
       order_selected: -1,
       finished_selected: -1,
+      selections_selected: -1,
+      upgrades_selected: -1,
       hand_choices: [false, false, false, false, false],
 
       branch: {},
@@ -107,7 +118,7 @@ export class Board extends React.Component {
       animations: {...init_animations},
 
       board: this.render_title_board, 
-      // board: this.render_mulligan_board,
+      // board: this.render_deck_upgrade_board,
       last_board: this.render_title_board,
 
       tags: TAGS,
@@ -206,8 +217,7 @@ export class Board extends React.Component {
 
   use_fight() {
     this.props.moves.fight(this.state.field_selected, this.state.efield_selected);
-    // this.set_animations("field", this.state.field_selected, true);
-    this.set_animations("efield", this.state.efield_selected, true);
+    // this.set_animations("efield", this.state.efield_selected, true);
     this.setState({
       field_selected: -1,
       efield_selected: -1,
@@ -288,6 +298,12 @@ export class Board extends React.Component {
     }
   }
   
+  process_selection_state(card) {
+    return {
+      selected: (this.state.selection_selected == this.props.G.selections.indexOf(card)),
+    }
+  }
+  
   process_field_data(card) {
     let illust = this.get_illust_attr(card);
     let data = {
@@ -330,6 +346,7 @@ export class Board extends React.Component {
       selected: (this.state.efield_selected == idx),
       exhausted: card.exhausted, 
       damaged: (card.dmg > 0),
+      dmg: card.dmg,
       enraged: card.enraged,
       shaking: this.state.animations.efield[idx],
       setShaking: (value) => this.set_animations("efield", idx, value),
@@ -555,6 +572,9 @@ export class Board extends React.Component {
       "preview": this.render_preview_board,
       "mulligan": this.render_mulligan_board,
       "settings": this.render_setting_board,
+      "deck_selection": this.render_deck_selection_board,
+      "deck_upgrade": this.render_deck_upgrade_board,
+      "competition": this.render_competition_board,
     };
     this.setState({last_board: this.state.board})
     this.setState({board: BOARDS[new_board]});
@@ -708,6 +728,45 @@ export class Board extends React.Component {
         完成重调
       </button>
     </div>);
+
+  }
+
+  process_deck_data(deck_name, idx) {
+    let checkDeck = () => {
+      this.setState({preview_deck: str2deck(generate_deck(deck_name))});
+      this.check_deck();
+    };
+    return {
+      deckName: deck_name,
+      checkDeck,
+      selectDeck: () => {this.select_deck(idx)},
+    }
+  }
+
+  enter_competition_mode() {
+    this.props.moves.setup_competition_mode();
+    this.change_board("deck_selection");
+  }
+
+  select_deck(idx) {
+    this.props.moves.select_deck(idx);
+    this.change_board("deck_upgrade");
+  }
+
+  render_deck_selection_board() {
+    let back = () => {
+      this.change_board("title");
+      // Unlock all tags here? Because only one tag source shared between normal and competition mode
+      this.props.moves.finish_competition_mode();
+    };
+    return <DeckSelection decks={this.props.G.deck_list.map(this.process_deck_data)} back={back} />
+  }
+
+  render_deck_upgrade_board() {
+    return <DeckUpgrade cards={this.props.G.selections.map(this.process_hand_data)} />
+  }
+
+  render_competition_board() {
 
   }
 
@@ -912,10 +971,12 @@ export class Board extends React.Component {
         </div>
         
         <EnterGame 
-          switchScene = {() => {this.change_board("deck");}}
-          action = "查看卡组"
-          fastSetup = {this.choose_standard_tags}
-          back = {() => {this.change_board("title");}}
+          actions = {{
+            进入游戏: () => {this.change_board("deck");},
+            快速设置: this.choose_standard_tags,
+            // "竞技模式(推荐)": this.enter_competition_mode, 
+            返回标题: () => this.change_board("title"),
+          }}
         />
         
       </div>
@@ -963,9 +1024,11 @@ export class Board extends React.Component {
         {(this.state.deck_mode == "random")? deck_generation : deck_construction}
 
         <EnterGame 
-          switchScene = {() => {this.enter_game()}}
-          action = "进入游戏"
-          advancedSettings = {() => {this.change_board("settings")}}
+          actions = {{
+            进入游戏: () => this.enter_game(),
+            高级设置: () => this.change_board("settings"),
+            返回合约: () => this.change_board("tag"),
+          }}
         />
       </div>
     );
