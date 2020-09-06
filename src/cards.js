@@ -1059,15 +1059,14 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:"部署/采掘/战斗: 使1个未完成的订单分数+1",
+    desc:"部署/采掘: 使1个敌人攻击力-3",
     illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
-      let order = ctx.random.Shuffle(G.orders)[0];
-      order.score += 1;
-    },
-    onFight(G, ctx, self) {
-      this.onMine(G, ctx, self);
+      let enemy = ctx.random.Shuffle(G.efield)[0];
+      if (enemy) {
+        enemy.atk -= 3;
+      }
     },
     onPlay(G, ctx, self) {
       this.onMine(G, ctx, self);
@@ -1086,24 +1085,19 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:"采掘/战斗: 获得1个已完成的订单，其能力为\"?→获得1分\"",
+    desc:<span>部署: 获得1个已完成的订单，其能力为"{material_icons[0]}{material_icons[1]}{material_icons[2]}→获得4分"</span>,
     illust:"http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E7%A8%80%E9%9F%B3_1.png",
     reinforce: 1,
-    onMine(G, ctx, self) {
+    onPlay(G, ctx, self) {
       let order = {}; // EH: Reconstruct this as this code is the same as Meier
-      let material = ctx.random.Die(3) - 1;
-      let requirements = [0,0,0,0];
-      requirements[material] = 1;
-      order.desc = <span>{material_icons[material]}→1分</span>;
+      let requirements = [1,1,1,0];
+      order.desc = <span>{material_icons[0]}{material_icons[1]}{material_icons[2]}→4分</span>;
       order.effect = (G, ctx) => {
         if (payMaterials(G, ctx, requirements)) {
-          G.score += 1;
+          G.score += 4;
         }
       };
       G.finished.unshift(order);
-    },
-    onFight(G, ctx, self) {
-      this.onMine(G, ctx, self);
     },
     onReinforce(G, ctx, self) {
       self.hp += 2;
