@@ -1241,6 +1241,58 @@ export const CARDS = [
     },
     reinforce_desc: "检索1张有\"部署:\"效果的牌",
   },
+
+  {
+    name:"普罗旺斯", 
+    cost:4,
+    atk:6, 
+    hp:3, 
+    mine:2, 
+    block:0, 
+    desc:"采掘: 横置场上的1个干员，然后该干员每有2点攻击力，就获得1分", 
+    illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
+    onMine(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
+      if (card) {
+        card.exhausted = true;
+        G.score += Math.floor(card.atk / 2);
+      }
+    },
+    reinforce: 2,
+    onReinforce(G, ctx, self) {
+      G.score += 2;
+    },
+    reinforce_desc: "获得2分",
+
+  },
+  
+  {
+    name:"灰喉", 
+    cost:4,
+    atk:3, 
+    hp:1, 
+    mine:1, 
+    block:0, 
+    desc:"部署: 获得+12攻击力直到回合结束", 
+    illust:"http://prts.wiki/images/2/23/%E7%AB%8B%E7%BB%98_%E7%81%B0%E5%96%89_1.png",
+    onPlay(G, ctx, self) {
+      self.atk += 12;
+      self.played = true;
+      self.onTurnBegin = (G, ctx, self) => {
+        if (self.played) {
+          self.atk -= 12;
+          self.played = false;
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+
+  },
   {
     name:"煌",
     cost:6,
@@ -1673,9 +1725,9 @@ export const CARDS = [
     illust:"http://prts.wiki/images/1/1f/%E7%AB%8B%E7%BB%98_%E5%AE%88%E6%9E%97%E4%BA%BA_1.png",
     reinforce: 1,
     onRest(G, ctx, self) {
-      deal_random_damage(G, ctx, 7 + 4 * self.power);
+      deal_random_damage(G, ctx, 7 + 3 * self.power);
     },
-    reinforce_desc: "伤害+4",
+    reinforce_desc: "伤害+3",
   },
   {
     name:"霜叶",
@@ -1777,7 +1829,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "行动: 对1个干员造成4点伤害，并使其获得\"行动: 获得4分\"",
+    desc: "行动: 对1个干员造成4点伤害，并使其获得\"采掘/战斗: 获得4分\"",
     illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
     reinforce: 1,
     action(G, ctx, self) {
@@ -1790,8 +1842,9 @@ export const CARDS = [
           G.discard.push(card);
         }
         else {
-          card.action = (G, ctx) => {G.score += 4};
-          card.desc = "行动: 获得4分";
+          card.onMine = (G, ctx) => {G.score += 4};
+          card.onFight = card.onMine;
+          card.desc = "采掘/战斗: 获得4分";
         }
 
         self.use_count = self.use_count || 0;

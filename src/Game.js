@@ -418,12 +418,8 @@ export function rest(G, ctx) {
   let num_rest_cards = rest_cards.length;
 
   for (let i=0; i<num_rest_cards; i++) {
-    if (ctx.random.D6() <= 3) {
-      draw(G, ctx);
-    }
-    else{
-      G.costs += 1;
-    }
+    draw(G, ctx);
+    G.costs += 1;
   }
 
   for (let card of rest_cards) {
