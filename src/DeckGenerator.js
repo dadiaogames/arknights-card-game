@@ -149,26 +149,25 @@ const rhine = `赫默 2 3
 陈 1 2
 斯卡蒂 1 2`;
 
-// const eyja = `艾雅法拉 2 3
-// 阿米娅 2 3
-// 杰西卡 2 3
-// 凛冬 2 3
-// 斯卡蒂 2 3
-// 讯使 3 4
-// 惊蛰 1 2
-// 德克萨斯 0 2
-// 调香师 1 2
-// 清道夫 1 2
-// 刻俄柏 1 2
-// 克洛丝 1 2
-// 米格鲁 1 2
-// 蓝毒 1 2
-// 慕斯 1 2
-// 真理 1 2
-// 赫默 1 2
-// 梅尔 1 2
-// 伊芙利特 1 2
-// 梓兰 1 2`;
+const eyja = `艾雅法拉 1 2
+阿米娅 1 2
+杰西卡 0 2
+凛冬 0 2
+真理 1 2
+调香师 1 2
+清道夫 0 2
+断罪者 0 2
+刻俄柏 1 2
+刻刀 0 2
+克洛丝 0 2
+柏喙 1 2
+雷蛇 1 2
+翎羽 0 2
+慕斯 1 2
+赫默 1 2
+梅尔 1 2
+伊芙利特 0 2
+梓兰 0 2`;
 
 const angelina = `安洁莉娜 3 3
 波登可 2 3
@@ -382,16 +381,16 @@ export function generate_deck(deck_name) {
   let rng = new PRNG(deck_name);
 
   // Basic deck
-  deck = [...deck, ...deck_from_strategy(cost_vanguard, 5, rng)];
-  deck = [...deck, ...deck_from_strategy(draw_vanguard, 3, rng)];
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 4, rng)];
+  deck = [...deck, ...deck_from_strategy(draw_vanguard, 2, rng)];
   deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
 
   // Strategy deck
   let strategy = rng.choice(strategies);
-  deck = [...deck, ...deck_from_strategy(strategy, 18, rng)];
+  deck = [...deck, ...deck_from_strategy(strategy, 15, rng)];
 
   // Random cards
-  let amount_add = 40 - deck.length;
+  let amount_add = 32 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }
