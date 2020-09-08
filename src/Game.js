@@ -418,8 +418,8 @@ export function rest(G, ctx) {
   let num_rest_cards = rest_cards.length;
 
   for (let i=0; i<num_rest_cards; i++) {
-    draw(G, ctx);
-    G.costs += 1;
+      draw(G, ctx);
+      G.costs += 1;
   }
 
   for (let card of rest_cards) {
@@ -844,7 +844,7 @@ export const AC = {
           }
         }
 
-        if (G.round_num % 2 == 1 && G.round_num > 2 && G.more_enemies) {
+        if (G.round_num == 3 && G.moreEnemiesOnR3) {
           G.num_enemies_out += 1;
         }
 

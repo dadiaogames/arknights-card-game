@@ -68,7 +68,7 @@ const tag_list = [
     src: "http://prts.wiki/images/a/a0/Enemy_hp_2.png",
     desc: "2回合后，所有敌人获得+4生命值",
     level: 2,
-    standard_level: 3,
+    // standard_level: 3,
     effect(G, ctx){
       G.reinforceOnR3 = true;
     }
@@ -123,11 +123,11 @@ const tag_list = [
 
   {
     src: "http://prts.wiki/images/f/f4/Enemy_reveng_spdmod_2.png",
-    desc: "每过2回合，每回合就额外翻开1张敌人牌",
+    desc: "2回合后，每回合额外翻开1张敌人牌",
     level: 2,
     standard_level: 1,
     effect(G, ctx){
-      G.more_enemies = true;
+      G.moreEnemiesOnR3 = true;
     }
   },
 
