@@ -704,22 +704,21 @@ export const CARDS = [
 
   {
     name:"安赛尔", 
-    cost:1,
+    cost:2,
     atk:0, 
     hp:2, 
-    mine:1, 
+    mine:2, 
     block:0, 
-    desc:"行动: 使1个干员获得+2/+2", 
+    desc:"行动: 部署1个费用为2的干员", 
     illust:"http://prts.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E5%AE%89%E8%B5%9B%E5%B0%94_1.png",
     action(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
-      if (card) {
-        card.atk += 2 + 2 * self.power;
-        card.hp += 2 + 2 * self.power;
+      let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(2+(self.power||0)))))[0];
+      if (new_card) {
+        G.field.push(init_card_state(G, ctx, {...new_card}));
       }
     },
     reinforce: 1,
-    reinforce_desc: "再获得+2/+2",
+    reinforce_desc: "部署的干员费用+1",
   },
   
   {
@@ -2370,7 +2369,7 @@ export const CARDS = [
     mine:2,
     block:0,
     illust: "http://prts.wiki/images/9/98/%E7%AB%8B%E7%BB%98_%E7%8B%AE%E8%9D%8E_1.png",
-    reinforce: 1,
+    reinforce: 2,
     desc: "行动: 将场上所有干员变成[费用+1]的干员",
 
     action(G, ctx, self) {
