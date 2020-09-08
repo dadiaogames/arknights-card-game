@@ -251,19 +251,19 @@ const champion = `香草 1 2
 调香师 1 2
 清道夫 1 2
 芬 1 2
-能天使 2 3
+能天使 1 2
 拉普兰德 2 3
 白面鸮 0 2
 雷蛇 1 2
-艾雅法拉 2 3
-断罪者 2 3
-清流 0 2`;
+艾雅法拉 1 2
+断罪者 2 2
+清流 1 2`;
 
 const rest = `夜莺 2 2
-守林人 1 3
-霜叶 1 2
+守林人 2 2
+霜叶 2 2
 锡兰 2 3
-诗怀雅 2 3
+诗怀雅 2 2
 陈 1 2
 推进之王 2 2
 末药 1 2
@@ -280,26 +280,30 @@ const rest = `夜莺 2 2
 const fullmoon = `铃兰 2 3
 推进之王 2 3
 红 3 3
-调香师 2 3
+调香师 1 2
+芬 1 2
 极境 2 3
 惊蛰 0 2
 安洁莉娜 0 2
 诗怀雅 0 2
 米格鲁 2 3
+玫兰莎 1 2
+史都华德 1 2
+克洛丝 1 2
 霜叶 0 2
 星熊 0 2
-杜宾 0 2
-天火 0 1
-清流 0 1
+杜宾 1 2
+天火 0 2
+清流 0 2
 安赛尔 0 2
 末药 1 2
 孑 2 3
-宴 1 3
-梅尔 0 2
+宴 2 3
+梅尔 1 2
 白金 0 2
 斯卡蒂 1 2
 真理 0 2
-刻刀 0 2`;
+刻刀 1 2`;
 
 // const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus, arise, champion];
 const strategies = [solve, penguin, highcost, rhine, angelina, karlan, ursus, rest, fullmoon];
