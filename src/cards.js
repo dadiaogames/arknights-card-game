@@ -969,8 +969,8 @@ export const CARDS = [
   {
     name:"伊芙利特",
     cost:4,
-    atk:6,
-    hp:3,
+    atk:5,
+    hp:2,
     mine:1,
     block:0,
     desc:"采掘: 重置所有已完成的订单",
@@ -1467,6 +1467,32 @@ export const CARDS = [
     },
     reinforce_desc: "将所有手牌替换为随机干员牌",
   },
+
+  {
+    name:"嘉维尔",
+    cost:3,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc:"部署: 改变场上所有干员的能力",
+    illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E5%98%89%E7%BB%B4%E5%B0%94_1.png",
+    onPlay(G, ctx, self) {
+      let change_card = (card) => {
+        let new_card = ctx.random.Shuffle(G.CARDS.filter(x => (x.onMine || x.onFight || x.action)))[0];
+        let { name, desc, illust, onMine, onFight, action, reinforce, reinforce_desc, onReinforce } = new_card;
+        let extracted_attrs = { name, desc, illust, onMine, onFight, action, reinforce, reinforce_desc, onReinforce }; // EH: This is written twice which is not cool, however, are there methods in js for changing this?
+        return {...card, ...extracted_attrs};
+      }
+      G.field = G.field.map(change_card);
+    },
+    reinforce: 1,
+    reinforce_desc: "改变场上所有干员的能力",
+    onReinforce(G, ctx) {
+      this.onPlay(G, ctx);
+    },
+  },
+
   {
     name:"银灰",
     cost:6,
