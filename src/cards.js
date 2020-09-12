@@ -1307,8 +1307,8 @@ export const CARDS = [
         let score_gained = Math.floor(delta / 2);
         G.score += score_gained;
         logMsg(G, ctx, `使用 ${self.name} 获得${score_gained}分`);
-        if (score_gained >= 6) {
-          achieve(G, ctx, "热血沸腾", "使用煌获得至少6分", self);
+        if (score_gained >= 8) {
+          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少8分", self);
         }
       }
     },
