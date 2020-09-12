@@ -4,7 +4,7 @@ import { CARDS } from "./cards";
 import { ENEMIES } from "./enemies";
 import { ORDERS, material_icons } from "./orders";
 import { UPGRADES } from './upgrades';
-import { get_deck_name, generate_deck } from './DeckGenerator';
+import { get_deck_name, generate_deck, generate_deck_s2 } from './DeckGenerator';
 import { arr2obj, PRNG } from "./utils";
 
 export function move(G, ctx, d1, d2, idx) {
@@ -767,15 +767,16 @@ function setup_competition_deck(G, ctx, Deck=[]) {
 function setup_deck_selection(G, ctx, num_shuffles) {
   _.times(num_shuffles, ctx.random.D4);
   G.deck_list = [];
+  let deck_generators = ctx.random.Shuffle([generate_deck, generate_deck, generate_deck_s2, generate_deck_s2]);
   for (let i=0; i<3; i++) {
-    G.deck_list.push(get_deck_name());
+    G.deck_list.push(str2deck(deck_generators[i](get_deck_name())));
   }
   G.num_upgrades = 15;
 }
 
 
 function select_deck(G, ctx, idx) {
-  G.Deck = str2deck(generate_deck(G.deck_list[idx]));
+  G.Deck = G.deck_list[idx];
   for (let card of G.Deck) {
     card.onPlayBonus = [];
   }

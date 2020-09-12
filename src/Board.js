@@ -446,7 +446,7 @@ export class Board extends React.Component {
             display: (card.onPlayBonus && card.onPlayBonus.length > 0)?"":"none"
           }}>
             <i>
-            部署奖励: {card.onPlayBonus && card.onPlayBonus.reduce((acc, val) => (acc + val.name), "")}
+            部署奖励: {card.onPlayBonus && card.onPlayBonus.reduce((acc, val) => (acc + val.name + " "), "")}
             </i>
             <br/>
           </span>
@@ -805,13 +805,13 @@ export class Board extends React.Component {
 
   }
 
-  process_deck_data(deck_name, idx) {
+  process_deck_data(deck, idx) {
     let checkDeck = () => {
-      this.setState({preview_deck: str2deck(generate_deck(deck_name))});
+      this.setState({preview_deck: deck});
       this.check_deck();
     };
     return {
-      deckName: deck_name,
+      deckName: get_deck_name(),
       checkDeck,
       selectDeck: () => {this.select_deck(idx)},
     }

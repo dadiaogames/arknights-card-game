@@ -21,7 +21,8 @@ const SEEDS = "龙门外环 龙门市区 荒芜广场 无人危楼 59区废墟 �
 const cost_vanguard =  `极境 1 2
 香草 1 2
 讯使 1 2
-桃金娘 1 2`;
+桃金娘 1 2
+惊蛰 0 1`;
 
 const draw_vanguard = `芬 1 2
 清道夫 1 2
@@ -32,8 +33,7 @@ const scorer = `阿米娅 0 2
 阿消 0 1
 食铁兽 0 2
 铃兰 0 1
-苏苏洛 0 1
-断罪者 0 1`;
+苏苏洛 0 1`;
 
 // const dubin_score = `杜宾 2 3
 // 推进之王 2 3
@@ -308,6 +308,50 @@ const fullmoon = `铃兰 2 3
 // const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus, arise, champion];
 const strategies = [solve, penguin, highcost, rhine, angelina, karlan, ursus, rest, fullmoon];
 
+const mini_sets = [' 风笛  白面鸮  温蒂  夜刀 ',
+ ' 风笛  雷蛇  食铁兽  夜刀 ',
+ ' 赫默  12F  白面鸮  陈  惊蛰  惊蛰  坚雷 ',
+ ' 德克萨斯 德克萨斯 艾雅法拉 坚雷 ',
+ ' 空  空  温蒂 德克萨斯 坚雷 ',
+ ' 空  空  温蒂  波登可 皇帝',
+ ' 刻刀  刻刀  刻俄柏  红  波登可 ',
+ ' 孑  孑  宴  翎羽  白面鸮 ',
+ ' 拉普兰德  白雪  白雪 ',
+ ' 拉普兰德  能天使  刻俄柏 ',
+ ' 白金  煌 ',
+ ' 守林人  守林人  夜莺 ',
+ ' 霜叶  凯尔希  杜宾 ',
+ ' 能天使  蓝毒  蓝毒  炎熔 ',
+ ' 柏喙  翎羽 ',
+ ' 白金  银灰  初雪 ',
+ ' 末药  银灰  初雪 ',
+ ' 凯尔希  杜宾  天火 ',
+ ' 年  米格鲁  米格鲁  蛇屠箱  芙蓉 末药',
+ ' 梓兰  梓兰  能天使 ',
+ ' 赫默  白面鸮  伊芙利特  艾雅法拉 ',
+ ' 史都华德  赫默  稀音  梅尔  伊芙利特  塞雷娅 ',
+ ' 艾雅法拉  能天使  雷蛇  雷蛇 ',
+ ' 温蒂  白面鸮  白面鸮  桃金娘 ',
+ ' 温蒂  白面鸮  食铁兽 ',
+ ' 初雪  史都华德  赫默  白面鸮  崖心 ',
+ ' 调香师  调香师  艾雅法拉  暴行   清流   断罪者 ',
+ ' 清道夫  清道夫  能天使   清流   断罪者 ',
+ ' 铃兰  推进之王  红  红  红 ',
+ ' 铃兰  安洁莉娜  极境  芬  推进之王  推进之王 ',
+ ' 真理   阿米娅  雷蛇  艾雅法拉 ',
+ ' 普罗旺斯  灰喉  巡林者  白金  波登可 ',
+ ' 苏苏洛  波登可 ',
+ ' 锡兰  锡兰  夜莺 ',
+ ' 拉普兰德  真理 ',
+ ' 陈  真理 ',
+ ' 食铁兽  真理 ',
+ ' 伊桑  真理 ',
+ ' 斯卡蒂  斯卡蒂 ',
+ ' 凯尔希  凯尔希 ',
+ ' 安赛尔  安赛尔 ',
+ ' 伊桑  狮蝎  狮蝎 '].map(mini_set => mini_set.split(" ").filter(card => card != ""));
+
+
 function get_random_card(rng) {
   let banned_cards = ["砾", "可露希尔"];
   let card_pool = CARDS.filter(x => (!banned_cards.includes(x.name)));
@@ -380,6 +424,20 @@ function deck_from_strategy(strategy, amount, rng) {
   return deck;
 }
 
+function deck_from_mini_sets(amount, rng) {
+  let deck = [];
+  let sets = rng.shuffle(mini_sets);
+
+  for (let mini_set of sets) {
+    deck = [...deck, ...mini_set];
+    if (deck.length >= amount) {
+      break;
+    }
+  }
+  
+  return rng.shuffle(deck).slice(0, amount);
+}
+
 export function generate_deck(deck_name) {
   let deck = [];
   let rng = new PRNG(deck_name);
@@ -392,6 +450,27 @@ export function generate_deck(deck_name) {
   // Strategy deck
   let strategy = rng.choice(strategies);
   deck = [...deck, ...deck_from_strategy(strategy, 15, rng)];
+
+  // Random cards
+  let amount_add = 32 - deck.length;
+  for (let i=0; i<amount_add; i++) {
+    deck.push(get_random_card(rng));
+  }
+
+  return deck2str(deck);
+}
+
+export function generate_deck_s2(deck_name) {
+  let deck = [];
+  let rng = new PRNG(deck_name);
+
+  // Basic deck
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 4, rng)];
+  deck = [...deck, ...deck_from_strategy(draw_vanguard, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
+
+  // Strategy deck
+  deck = [...deck, ...deck_from_mini_sets(16, rng)];
 
   // Random cards
   let amount_add = 32 - deck.length;
