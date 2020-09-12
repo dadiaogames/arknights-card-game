@@ -446,7 +446,7 @@ export class Board extends React.Component {
             display: (card.onPlayBonus && card.onPlayBonus.length > 0)?"":"none"
           }}>
             <i>
-            部署奖励: {card.onPlayBonus.reduce((acc, val) => (acc + val.name), "")}
+            部署奖励: {card.onPlayBonus && card.onPlayBonus.reduce((acc, val) => (acc + val.name), "")}
             </i>
             <br/>
           </span>
