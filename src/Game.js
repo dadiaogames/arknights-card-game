@@ -770,12 +770,12 @@ function setup_deck_selection(G, ctx, num_shuffles) {
   for (let i=0; i<3; i++) {
     G.deck_list.push(get_deck_name());
   }
-  G.num_upgrades = 12;
+  G.num_upgrades = 15;
 }
 
 
 function select_deck(G, ctx, idx) {
-  G.Deck = str2deck(generate_deck(G.deck_list[idx])).slice(0, 25);
+  G.Deck = str2deck(generate_deck(G.deck_list[idx]));
   for (let card of G.Deck) {
     card.onPlayBonus = [];
   }

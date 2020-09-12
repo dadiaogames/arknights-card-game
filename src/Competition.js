@@ -13,12 +13,16 @@ function DeckRepr(props) {
   </div>
 }
 
+function introduce_competition_mode() {
+  alert(`欢迎来到竞技模式！此模式适合对游戏规则有足够了解的玩家前来挑战;\n首先，从3套随机卡组中选择1套，作为本次竞技模式的参赛卡组;\n然后，对该卡组进行15次强化;\n接着，进行5次完整的对局，最后，取5次对局中成绩最好的3次对局，以该3局的平均成绩作为最终结果;\n对于一次对局的成绩，如果对局成功，则以该局的危机等级作为该局成绩; 如果该局失败，则成绩记为0;`);
+}
+
 export function DeckSelection(props) {
   return <div className="board" align="center">
     <div className="deck-selection-title">欢迎来到竞技模式！<br/>请选择你的参赛卡组</div>
     {props.decks.map(deck => <DeckRepr {...deck} />)}
     <br/>
-    <button className="deck-selection-button">竞技模式介绍</button>
+    <button className="deck-selection-button" onClick={introduce_competition_mode}>竞技模式介绍</button>
     <button className="deck-selection-button" onClick={props.back}>返回</button>
   </div>
 }

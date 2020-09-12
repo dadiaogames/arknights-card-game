@@ -1475,7 +1475,7 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:"部署: 改变场上所有干员的能力",
+    desc:"部署: 将场上所有干员变成随机干员",
     illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E5%98%89%E7%BB%B4%E5%B0%94_1.png",
     onPlay(G, ctx, self) {
       let change_card = (card) => {
@@ -1487,7 +1487,7 @@ export const CARDS = [
       G.field = G.field.map(change_card);
     },
     reinforce: 1,
-    reinforce_desc: "改变场上所有干员的能力",
+    reinforce_desc: "将场上所有干员变成随机干员",
     onReinforce(G, ctx) {
       this.onPlay(G, ctx);
     },

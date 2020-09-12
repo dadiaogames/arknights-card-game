@@ -128,7 +128,7 @@ export class Board extends React.Component {
       // board: this.render_competition_board,
       last_board: this.render_title_board,
 
-      tags: TAGS,
+      tags: TAGS.map(x=>({...x})),
       risk_level: 0, // this is changed on game begin
       standard_level: 0,
 
@@ -839,7 +839,7 @@ export class Board extends React.Component {
       // preview_deck: this.props.G.Deck,
       results: [],
     });
-    this.setState({tags: this.choose_standard_tags(TAGS, 1)});
+    this.setState({tags: this.choose_standard_tags(TAGS.map(x=>({...x})), 3)});
     this.change_board("competition");
   }
 
@@ -852,7 +852,7 @@ export class Board extends React.Component {
     let back = () => {
       this.change_board("title");
       // Unlock all tags here? Because only one tag source shared between normal and competition mode
-      this.props.moves.finish_competition_mode();
+      this.setState({competition_mode: false})
     };
     return <DeckSelection decks={this.props.G.deck_list.map(this.process_deck_data)} back={back} />
   }
