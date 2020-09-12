@@ -132,7 +132,7 @@
   font-size: 135%;
 }
 
-.illust, .e_illust, .o_illust, .illust_detailed, .eo_illust_detailed, .r_illust, .r_illust_detailed {
+.illust, .e_illust, .o_illust, .illust_detailed, .eo_illust_detailed, .r_illust, .r_illust_detailed, .upgrade_name {
   width: 90%;
   height: 90%;
   margin: 10%;
@@ -194,6 +194,10 @@ img.r_illust_detailed {
   transform: rotate(90deg);
   margin-left: -100%;
   margin-top: -50%;
+}
+
+.upgrade_name {
+  text-align: center;
 }
 
 .check-card {

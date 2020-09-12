@@ -1,7 +1,9 @@
 import React from 'react';
+import _ from 'lodash';
 import { CARDS } from "./cards";
 import { ENEMIES } from "./enemies";
 import { ORDERS, material_icons } from "./orders";
+import { UPGRADES } from './upgrades';
 import { get_deck_name, generate_deck } from './DeckGenerator';
 import { arr2obj, PRNG } from "./utils";
 
@@ -595,7 +597,7 @@ function onScenarioBegin(G, ctx) {
   }
   console.log("Setup finished");
   G.playing = true;
-  ctx.events.endTurn();
+  ctx.events.endTurn(); // After set playing to true, end turn to call onTurnBegin effects
 }
 
 export function str2deck(deck_data) {
@@ -631,13 +633,13 @@ function setDecks(G, ctx, decks) {
   Object.assign(G, decks);
   // To make sure each time also got different ctx.random results
   // EH: However, it's still better if I can adjust the seed of ctx
-  for (let i=0; i<G.shuffle_times; i++) {
-    ctx.random.D4(); 
-  }
+  // for (let i=0; i<G.shuffle_times; i++) {
+  //   ctx.random.D4(); 
+  // }
 }
 
-export function init_decks(deck_data, seed) {
-  let deck = str2deck(deck_data);
+export function init_decks(deck, seed) {
+  // let deck = str2deck(deck_data);
   // deck = deck.map(x=>({...x, reversed:true}));
   let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
   let edeck = get_enemies().concat(get_enemies());
@@ -670,7 +672,12 @@ export function achieve(G, ctx, achievement_name, achievement_desc, card) {
 
 export function setup(ctx) {
     const G = {};
+    setup_scenario(G, ctx);
 
+    return G;
+}
+
+export function setup_scenario(G, ctx) {
     G.hand = [];
     G.field = [];
 
@@ -733,23 +740,22 @@ export function setup(ctx) {
     G.EFFECTS = effects;
     G.ORDERS = [...ORDERS];
 
-    console.log("Setup finished.");
-
-    return G;
+    console.log("Scenario setup finished.");
 }
 
-function setup_competition_mode(G, ctx) {
-  G.competition_mode = true;
+function setup_competition_deck(G, ctx, Deck=[]) {
+  G.Deck = Deck;
+}
 
+function setup_deck_selection(G, ctx, num_shuffles) {
+  _.times(num_shuffles, ctx.random.D4);
   G.deck_list = [];
   for (let i=0; i<3; i++) {
     G.deck_list.push(get_deck_name());
   }
+  G.num_upgrades = 12;
 }
 
-function finish_competition_mode(G, ctx) {
-  G.competition_mode = false;
-}
 
 function select_deck(G, ctx, idx) {
   G.Deck = str2deck(generate_deck(G.deck_list[idx]));
@@ -757,15 +763,35 @@ function select_deck(G, ctx, idx) {
 }
 
 function refresh_selections(G, ctx) {
-  G.selections = ctx.random.Shuffle(G.Deck).slice(0, 3);
-  G.upgrades = [];
-  // Control the 12 selections on frontend? On frontend at first, if there are requirements for reconstructing it to backend, reconstruct it.
+  // TOFINDOUT: Double list bug? Or say copy list bug? If modify items in sliced version of the list, then the item from the main list is not modified. Maybe "new card object" bug is similar.
+  // G.selections = ctx.random.Shuffle(G.Deck).slice(0,3);
+  // Control the 12 selections on frontend? On frontend at first, if there are requirements for reconstructing it to backend, reconstruct it.    
+  G.selections = ctx.random.Shuffle(G.Deck);
+  G.upgrades = ctx.random.Shuffle(UPGRADES).slice(0,3);
+
+
+  G.num_upgrades -= 1;
+  if (G.num_upgrades <= 0) {
+    G.finish_upgrading = true;
+  }
+}
+
+function upgrade(G, ctx, card_idx, upgrade_idx) {
+  let card = G.selections[card_idx];
+  let upgrade = G.upgrades[upgrade_idx];
+  if (card && upgrade) {
+    upgrade.effect(G, ctx, card);
+    card.upgraded = true;
+  }
+  // To prevent double list bug
+  G.Deck = G.selections;
 }
 
 export const AC = {
   setup: setup,
 
   moves: {
+    setup_scenario,
     setDecks,
     addTags,
     onScenarioBegin,
@@ -788,10 +814,11 @@ export const AC = {
     enemyMove,
     logMsg,
     changeMsg,
-    setup_competition_mode,
-    finish_competition_mode,
+    setup_competition_deck,
+    setup_deck_selection,
     select_deck,
     refresh_selections,
+    upgrade,
   },
 
   turn: {

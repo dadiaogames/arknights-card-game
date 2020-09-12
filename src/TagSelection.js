@@ -8,6 +8,13 @@ export const TagSelection = (props) => {
     let row = [];
     let row_tags = props.tags.slice(i, i+3);
     for (let tag of row_tags) {
+      let borderColor = "black";
+      if (tag.selected) {
+        borderColor = "red";
+      }
+      if (tag.locked) {
+        borderColor = "#1E90FF";
+      }
       row.push(
         <td 
           onClick={props.handleClick(props.tags.indexOf(tag))}
@@ -17,7 +24,7 @@ export const TagSelection = (props) => {
             className="tag-img" 
             src={tag.src}
             style={{
-            borderColor: (tag.selected)? "red":"black"
+            borderColor: borderColor,
           }} 
           ></img>
           </div>

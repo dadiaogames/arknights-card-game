@@ -25,7 +25,7 @@ export const Controller = (props) => {
 
 export const EnterGame = (props) => {
   return (
-    <div className="enter-game" >
+    <div className="enter-game" align={props.divAlign} >
       {Object.keys(props.actions).map(action => <button
         className = "enter-game"
         onClick = {props.actions[action]}

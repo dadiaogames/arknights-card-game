@@ -15,6 +15,9 @@ export const Card = (props) => {
     r_illust: {},
     hp: {},
     atk: {},
+    upgrade_name: {},
+    cost: {},
+    cost_detailed: {},
   };
 
   if (props.cardState.exhausted) {
@@ -39,7 +42,7 @@ export const Card = (props) => {
     else {
       let selected_border = "3px solid blue";
       for (let attr in additional_styles) {
-        if (attr.includes("illust")) {
+        if (attr.includes("illust")|| (attr == "upgrade_name")) {
           additional_styles[attr].border = selected_border;
         }
       }
@@ -52,6 +55,10 @@ export const Card = (props) => {
   if (props.cardState.enraged) {
     additional_styles.atk.color = "orange";
   };
+  if (props.cardState.upgraded) {
+    additional_styles.cost.color = "#1E90FF";
+    additional_styles.cost_detailed.color = "#1E90FF";
+  }
 
   let shaker = useShaker(props.cardState.shaking, props.cardState.setShaking, -30, -30, {duration:125}, props.cardState.onEnd);
 

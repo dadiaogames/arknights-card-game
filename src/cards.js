@@ -358,7 +358,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       self.atk += 2;
     },
-    reinforce_desc: "+2攻击力",
+    reinforce_desc: "+2/+0",
   },
   
   {
@@ -2183,12 +2183,12 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得4点费用</span>,
+    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得5点费用</span>,
     illust:"http://prts.wiki/images/9/9f/%E7%AB%8B%E7%BB%98_%E6%83%8A%E8%9B%B0_1.png",
     reinforce: 2,
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
-        G.costs += 4;
+        G.costs += 5;
       }
     },
     onReinforce(G, ctx, self) {

@@ -8,7 +8,7 @@ import { Panel, ScoreBoard, MaterialDisplay } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
 import { DeckConstruction, DeckGeneration, Settings } from './DeckConstruction';
 import { TitleScreen } from './TitleScreen';
-import { DeckSelection, DeckUpgrade } from './Competition';
+import { DeckSelection, DeckUpgrade, Competition } from './Competition';
 import { get_deck_name, get_seed_name, generate_deck, is_standard } from './DeckGenerator';
 import { str2deck, init_decks } from './Game';
 import { map_object, sleep } from './utils';
@@ -40,6 +40,8 @@ export class Board extends React.Component {
     this.handle_finished_clicked = this.handle_finished_clicked.bind(this);
     this.handle_mulligan_clicked = this.handle_mulligan_clicked.bind(this);
     this.handle_deck_change = this.handle_deck_change.bind(this);
+    this.handle_selection_clicked = this.handle_selection_clicked.bind(this) 
+    this.handle_upgrade_clicked = this.handle_upgrade_clicked.bind(this);
 
     this.enemy_move = this.enemy_move.bind(this);
 
@@ -53,6 +55,9 @@ export class Board extends React.Component {
     this.process_order_state = this.process_order_state.bind(this);
     this.process_finished_data = this.process_finished_data.bind(this);
     this.process_finished_state = this.process_finished_state.bind(this);
+    this.process_selection_state = this.process_selection_state.bind(this);
+    this.process_upgrade_data = this.process_upgrade_data.bind(this)
+    this.process_upgrade_state = this.process_upgrade_state.bind(this)
 
     this.process_card_details = this.process_card_details.bind(this);
     this.process_enemy_details = this.process_enemy_details.bind(this);
@@ -90,6 +95,8 @@ export class Board extends React.Component {
 
     this.enter_competition_mode = this.enter_competition_mode.bind(this);
     this.select_deck = this.select_deck.bind(this);
+    this.upgrade_card = this.upgrade_card.bind(this);
+    this.start_competition = this.start_competition.bind(this);
 
     this.change_board = this.change_board.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
@@ -105,8 +112,8 @@ export class Board extends React.Component {
       efield_selected: -1,
       order_selected: -1,
       finished_selected: -1,
-      selections_selected: -1,
-      upgrades_selected: -1,
+      selection_selected: -1,
+      upgrade_selected: -1,
       hand_choices: [false, false, false, false, false],
 
       branch: {},
@@ -118,7 +125,7 @@ export class Board extends React.Component {
       animations: {...init_animations},
 
       board: this.render_title_board, 
-      // board: this.render_deck_upgrade_board,
+      // board: this.render_competition_board,
       last_board: this.render_title_board,
 
       tags: TAGS,
@@ -168,9 +175,9 @@ export class Board extends React.Component {
     };
   }
 
-  choose_standard_tags(idx) {
-    let new_tags = this.state.tags;
-    let current_standard_level = this.state.standard_level + 1;
+  choose_standard_tags(tags, current_standard_level) {
+    let new_tags = [...tags];
+    // let current_standard_level = this.state.standard_level + 1;
     for (let tag of new_tags) {
       if (tag.standard_level <= current_standard_level) {
         tag.selected = true;
@@ -185,12 +192,20 @@ export class Board extends React.Component {
         tag.selected = true;
       }
     }
-    this.setState({tags: new_tags});
-    this.setState({standard_level: current_standard_level})
+
+    if (this.state.competition_mode) {
+      for (let tag of new_tags) {
+        if (tag.selected) {
+          tag.locked = true;
+        }
+      }
+    }
+
+    return new_tags;
   }
 
   get_risk_level() {
-    let selected_tags = this.state.tags.filter(t => t.selected);
+    let selected_tags = this.state.tags.filter(t => (t.selected || t.locked));
     let reducer = (acc, val) => (acc + val.level);
     let risk_level = selected_tags.reduce(reducer, 0);
     return risk_level;
@@ -292,16 +307,30 @@ export class Board extends React.Component {
     return data;
   }
 
-  process_hand_state(card) {
+  process_hand_state(card, idx) {
     return {
-      selected: (this.state.hand_selected == this.props.G.hand.indexOf(card)),
-    }
+      selected: (this.state.hand_selected == idx),
+      upgraded: card.upgraded,
+    };
   }
   
-  process_selection_state(card) {
+  process_selection_state(card, idx) {
     return {
-      selected: (this.state.selection_selected == this.props.G.selections.indexOf(card)),
-    }
+      selected: (this.state.selection_selected == idx),
+      upgraded: card.upgraded,
+    };
+  }
+
+  process_upgrade_data(card) {
+    return {
+      upgrade_name: <span><br/>{card.name}</span>,
+    };
+  }
+
+  process_upgrade_state(card, idx) {
+    return {
+      selected: (this.state.upgrade_selected == idx),
+    };
   }
   
   process_field_data(card) {
@@ -394,6 +423,7 @@ export class Board extends React.Component {
     }
   }
 
+
   process_card_details(card) {
     let illust = card.was_enemy?"eo_illust_detailed":"illust_detailed";
     if (card.reversed) {
@@ -468,6 +498,21 @@ export class Board extends React.Component {
       });
       this.set_branch("hand");
       this.log_select()("选定 "+card.name);
+    };
+  }
+
+  handle_selection_clicked(idx) {
+    return () => {
+      this.setState({
+        selection_selected: idx,
+      })
+    }
+  }
+  handle_upgrade_clicked(idx) {
+    return () => {
+      this.setState({
+        upgrade_selected: idx,
+      });
     };
   }
 
@@ -589,10 +634,19 @@ export class Board extends React.Component {
   }
 
   enter_game() {
-    let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
-    // EH: it's better to setup each scenario in one function
-    this.props.moves.setDecks(init_decks(deck_data, this.state.seed));
-    this.props.moves.addTags(this.state.tags.filter(t => t.selected));
+    let deck = [];
+    let seed = this.state.seed;
+    if (!this.state.competition_mode){
+      let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
+      deck = str2deck(deck_data);
+    }
+    else {
+      deck = this.state.Deck;
+      seed += this.state.results.length;
+    }
+    // EH: it's better to setup each scenario in one function, and in backend
+    this.props.moves.setDecks(init_decks(deck, seed));
+    this.props.moves.addTags(this.state.tags.filter(t => (t.selected || t.locked)));
     this.props.moves.onScenarioBegin();
     this.setState({hand_choices: [false, false, false, false, false]});
     this.change_board("mulligan");
@@ -604,7 +658,13 @@ export class Board extends React.Component {
       scenario_finished: false,
       seed: get_seed_name(),
     });
-    this.change_board("tag");
+    
+    if (this.state.competition_mode) {
+      this.change_board("competition");
+    }
+    else{
+      this.change_board("tag");
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -659,11 +719,17 @@ export class Board extends React.Component {
         // TODO: reconstruct this part, flat is better than nested
         let finish = this.props.G.rhodes_training_mode?"任务失败":"任务完成";
         alert(`${finish}\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n地图种子: ${this.state.seed}`);
+        if (this.state.competition_mode) {
+          this.setState({results: [...this.state.results, risk_level]});
+        }
       }
 
       else {
         let failed = this.props.G.rhodes_training_mode?"任务完成":"任务失败";
         alert(`${failed}\n原因: ${result.reason}\n${this.props.G.rhodes_training_mode?`评级: ${good_grade}\n`:""}地图种子: ${this.state.seed}`);
+        if (this.state.competition_mode) {
+          this.setState({results: [...this.state.results, 0]});
+        }
       }
 
     }
@@ -743,9 +809,30 @@ export class Board extends React.Component {
     }
   }
 
+  upgrade_card() {
+    this.props.moves.upgrade(this.state.selection_selected, this.state.upgrade_selected); 
+    this.props.moves.refresh_selections();
+    this.setState({selection_selected: -1, upgrade_selected: -1});
+
+    if (this.props.G.finish_upgrading) {
+      this.start_competition();
+    }
+  }
+
   enter_competition_mode() {
-    this.props.moves.setup_competition_mode();
+    this.setState({competition_mode: true});
+    this.props.moves.setup_deck_selection(_.random(50));
     this.change_board("deck_selection");
+  }
+
+  start_competition() {
+    this.setState({
+      // Deck: this.props.G.Deck,
+      // preview_deck: this.props.G.Deck,
+      results: [],
+    });
+    this.setState({tags: this.choose_standard_tags(TAGS, 1)});
+    this.change_board("competition");
   }
 
   select_deck(idx) {
@@ -763,11 +850,47 @@ export class Board extends React.Component {
   }
 
   render_deck_upgrade_board() {
-    return <DeckUpgrade cards={this.props.G.selections.map(this.process_hand_data)} />
+    return <DeckUpgrade 
+      cards = {this.props.G.selections.map(this.process_hand_data).slice(0,3)}
+      cardStates = {this.props.G.selections.map(this.process_selection_state)}
+      selectedCard = {{...this.props.G.selections[this.state.selection_selected]}}
+      handleCardClick = {this.handle_selection_clicked}
+      upgrades = {this.props.G.upgrades.map(this.process_upgrade_data)}
+      upgradeStates = {this.props.G.upgrades.map(this.process_upgrade_state)}
+      selectedUpgrade = {{...this.props.G.upgrades[this.state.upgrade_selected]}}
+      handleUpgradeClick = {this.handle_upgrade_clicked}
+      handleClick = {this.upgrade_card}
+    />
   }
 
   render_competition_board() {
-
+    let actions = {
+       "查看卡组": () => {
+         this.setState({preview_deck: this.state.Deck || this.props.G.Deck});  // Write deck init here, not in "start_competition", because of async moves and would swallow the last card upgrade
+         this.change_board("preview");
+      },
+       "进入游戏": () => {
+         this.setState({Deck: this.state.Deck || this.props.G.Deck});
+         this.change_board("tag");
+      },
+     };
+     let finalResult = undefined;
+     if (this.state.results.length >= 5) {
+       finalResult = _.mean(this.state.results.sort((a,b) => (b-a)).slice(0,3));
+       finalResult = _.round(finalResult, 2);
+       actions = {
+         "查看卡组": actions.查看卡组,
+         "结束游戏": () => {
+           this.change_board("title");
+           this.setState({competition_mode: false});
+         } 
+      };
+     }
+    return <Competition 
+     results = {[...this.state.results, ..._.times(5-this.state.results.length, ()=>"_")]}
+     finalResult = {finalResult}
+     actions = {actions}
+    />;
   }
 
   render_game_board() {
@@ -853,6 +976,8 @@ export class Board extends React.Component {
             fontSize: "120%",
             top: "2%",
             left: "88%",
+
+            display: (this.state.competition_mode)?"none":"",
           }}
         >
         ⟳
@@ -946,6 +1071,22 @@ export class Board extends React.Component {
   render_tag_board() {
     let risk_level = this.get_risk_level();
 
+    let actions = {
+      进入游戏: () => {this.change_board("deck");},
+      快速设置: () => this.setState({
+        tags: this.choose_standard_tags(this.state.tags, this.state.standard_level+1),
+        standard_level: this.state.standard_level + 1,
+      }),
+      "竞技模式(推荐)": this.enter_competition_mode, 
+      返回标题: () => this.change_board("title"),
+    };
+
+    if (this.state.competition_mode) {
+      actions = {
+        进入游戏: () => this.enter_game(),
+      }
+    }
+
     return (
       <div className="board" >
         <TagSelection 
@@ -953,7 +1094,7 @@ export class Board extends React.Component {
           handleClick = {this.choose_tag}
         />
         <TagList 
-          selected_tags = {this.state.tags.filter(t => t.selected)}
+          selected_tags = {this.state.tags.filter(t => (t.selected || t.locked))}
         />
         <RiskLevel 
           risk_level = {risk_level}
@@ -971,12 +1112,7 @@ export class Board extends React.Component {
         </div>
         
         <EnterGame 
-          actions = {{
-            进入游戏: () => {this.change_board("deck");},
-            快速设置: this.choose_standard_tags,
-            // "竞技模式(推荐)": this.enter_competition_mode, 
-            返回标题: () => this.change_board("title"),
-          }}
+          actions = {actions}
         />
         
       </div>

@@ -1,9 +1,10 @@
 .deck-repr {
   display: inline-block;
   width: 28%;
-  height: 25%;
+  height: 30%;
   border: 2px solid gray;
   margin: 2%;
+  margin-bottom: 5%;
 }
 
 .deck-selection-title {
@@ -20,6 +21,7 @@
 .deck-repr-button {
   font-size: 100%;
   width: 90%;
+  height: 25%;
   margin-bottom: 8%;
 }
 
@@ -32,4 +34,18 @@
 .card-desc {
   margin: 2%;
   height: 8%;
+}
+
+.results {
+  margin-top: 20%;
+  width: 100%;
+  font-size: 300%;
+  color: #4682B4;
+}
+
+.final-result {
+  font-size: 150%;
+  width: 100%;
+  height: 35%;
+  margin-top: 10%;
 }
