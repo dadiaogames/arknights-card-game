@@ -197,6 +197,11 @@ function play(G, ctx, idx) {
     if (card.onPlay) {
       card.onPlay(G, ctx, card);
     }
+    if (card.onPlayBonus) {
+      for (let bonus of card.onPlayBonus) {
+        bonus.effect(G, ctx, card);
+      }
+    }
   }
 }
 
@@ -483,15 +488,27 @@ export function ready_random_card(G, ctx, self) {
 
 }
 
-export function cure(G, ctx, amount) {
+export function fully_restore(G, ctx) {
   // EH: find a "sorted" function instead of this way
-  let ranked_field_by_dmg = G.field.filter(x=>(x.block>0)).sort((x,y) => {
+  let ranked_field_by_dmg = G.field.sort((x,y) => {
     if (x.dmg != y.dmg) {
       return y.dmg - x.dmg;
     }
-    // else if (x.block != y.block) {
-    //   return y.block - x.block;
-    // }
+    else {
+      return x.hp-y.hp;
+    }
+  });
+  let card = ranked_field_by_dmg[0];
+  card.cured = card.dmg;
+  card.dmg = 0;
+}
+
+export function cure(G, ctx, amount) {
+  // EH: find a "sorted" function instead of this way
+  let ranked_field_by_dmg = G.field.sort((x,y) => {
+    if (x.dmg != y.dmg) {
+      return y.dmg - x.dmg;
+    }
     else {
       return x.hp-y.hp;
     }
@@ -758,7 +775,10 @@ function setup_deck_selection(G, ctx, num_shuffles) {
 
 
 function select_deck(G, ctx, idx) {
-  G.Deck = str2deck(generate_deck(G.deck_list[idx]));
+  G.Deck = str2deck(generate_deck(G.deck_list[idx])).slice(0, 25);
+  for (let card of G.Deck) {
+    card.onPlayBonus = [];
+  }
   refresh_selections(G, ctx);
 }
 

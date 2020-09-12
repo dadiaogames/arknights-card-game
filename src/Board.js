@@ -442,6 +442,14 @@ export class Board extends React.Component {
           <br/>
           {card.desc||""}
           <br/>
+          <span style={{
+            display: (card.onPlayBonus && card.onPlayBonus.length > 0)?"":"none"
+          }}>
+            <i>
+            部署奖励: {card.onPlayBonus.reduce((acc, val) => (acc + val.name), "")}
+            </i>
+            <br/>
+          </span>
           ({_.times(card.reinforce, ()=>material_icons[card.material])}: {card.reinforce_desc||""})
           <br />
           <i>{card.quote||""}</i>
