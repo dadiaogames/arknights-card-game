@@ -890,7 +890,10 @@ export class Board extends React.Component {
          "查看卡组": actions.查看卡组,
          "结束游戏": () => {
            this.change_board("title");
-           this.setState({competition_mode: false});
+           this.setState({
+             competition_mode: false,
+             Deck: undefined,
+            });
          } 
       };
      }
