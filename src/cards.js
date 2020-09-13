@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField,
+  clearField, drawEnemy
 } from './Game';
 import { material_icons } from './orders';
 
@@ -337,28 +337,29 @@ export const CARDS = [
   {
     name:"红豆",
     cost:4,
-    atk:5,
-    hp:3,
+    atk:6,
+    hp:4,
     mine:1,
     block:1,
-    desc: "超杀: 每造成1点额外伤害，就获得1点费用",
+    desc: "超杀: 每造成2点额外伤害，就获得1点费用",
     illust:"http://prts.wiki/images/7/70/%E7%AB%8B%E7%BB%98_%E7%BA%A2%E8%B1%86_1.png",
     reinforce: 1,
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {
-        let delta = enemy.dmg - enemy.hp;
+        let delta = (enemy.dmg - enemy.hp) / 2;
         G.costs += delta;
         logMsg(G, ctx, `使用 ${self.name} 获得${delta}点费用`);
 
-        if (delta >= 8) {
-          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少8点费用", self);
+        if (delta >= 6) {
+          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少6点费用", self);
         }
       }
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
+      self.hp += 2;
     },
-    reinforce_desc: "+2/+0",
+    reinforce_desc: "+2/+2",
   },
   
   {
@@ -473,8 +474,8 @@ export const CARDS = [
   {
     name:"杜宾", 
     cost:4, 
-    atk:3, 
-    hp:4, 
+    atk:2, 
+    hp:1, 
     mine:1, 
     block:1, 
     desc:"部署: 场上所有其他干员获得+2/+2", 
@@ -717,7 +718,7 @@ export const CARDS = [
         G.field.push(init_card_state(G, ctx, {...new_card}));
       }
     },
-    reinforce: 1,
+    reinforce: 2,
     reinforce_desc: "部署的干员费用+1",
   },
   
@@ -1050,32 +1051,31 @@ export const CARDS = [
     reinforce_desc: "造成3点伤害",
   },
 
-
-  {
-    name:"麦哲伦",
-    cost:3,
-    atk:4,
-    hp:2,
-    mine:2,
-    block:0,
-    desc:"部署/采掘: 使1个敌人攻击力-3",
-    illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
-    reinforce: 1,
-    onMine(G, ctx, self) {
-      let enemy = ctx.random.Shuffle(G.efield)[0];
-      if (enemy) {
-        enemy.atk -= 3;
-      }
-    },
-    onPlay(G, ctx, self) {
-      this.onMine(G, ctx, self);
-    },
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    },
-    reinforce_desc: "+2/+2",
-  },
+  // {
+  //   name:"麦哲伦",
+  //   cost:3,
+  //   atk:4,
+  //   hp:2,
+  //   mine:2,
+  //   block:0,
+  //   desc:"部署/采掘: 使1个敌人攻击力-3",
+  //   illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
+  //   reinforce: 1,
+  //   onMine(G, ctx, self) {
+  //     let enemy = ctx.random.Shuffle(G.efield)[0];
+  //     if (enemy) {
+  //       enemy.atk -= 3;
+  //     }
+  //   },
+  //   onPlay(G, ctx, self) {
+  //     this.onMine(G, ctx, self);
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   },
+  //   reinforce_desc: "+2/+2",
+  // },
   
   {
     name:"稀音",
@@ -1110,7 +1110,7 @@ export const CARDS = [
   
   {
     name:"塞雷娅",
-    cost:8,
+    cost:7,
     atk:3,
     hp:6,
     mine:2,
@@ -1611,7 +1611,7 @@ export const CARDS = [
   
   {
     name:"苏苏洛",
-    cost:5,
+    cost:4,
     atk:0,
     hp:2,
     mine:1,
@@ -1623,9 +1623,9 @@ export const CARDS = [
       G.score += 2 * G.materials.slice(0,3).sort()[0];
     },
     onReinforce(G, ctx) {
-      cure(G, ctx, 8);
+      cure(G, ctx, 6);
     },
-    reinforce_desc: "使1个干员获得+8生命值",
+    reinforce_desc: "使1个干员获得+6生命值",
   },
 
   {
@@ -1776,48 +1776,46 @@ export const CARDS = [
   },
   {
     name:"锡兰",
-    cost:4,
+    cost:3,
     atk:0,
     hp:3,
     mine:3,
     block:0,
-    desc: "休整: 如果至少有5个休整中的干员，则获得5分",
+    desc: "休整: 每有1个休整中的干员，就获得1分",
     illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
     reinforce: 2,
     onRest(G, ctx, self) {
       let num_rest_cards = get_num_rest_cards(G, ctx);
-      if (num_rest_cards >= 5) {
-        G.score += 5;
-      }
+      G.score += num_rest_cards;
     },
     onReinforce(G, ctx, self) {
       G.costs += 2;
     },
     reinforce_desc: "获得2点费用",
   },
-  {
-    name:"诗怀雅",
-    cost:4,
-    atk:4,
-    hp:5,
-    mine:1,
-    block:1,
-    desc: "休整: 触发场上1个干员的\"部署:\"效果(极境和安洁莉娜除外)",
-    illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
-    reinforce: 1,
-    onRest(G, ctx, self) {
-      let player = ctx.random.Shuffle(G.field.filter(x => (x.onPlay && !["极境", "安洁莉娜"].includes(x.name))))[0];
-      if (player) {
-        player.onPlay(G, ctx, player);
-        logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
-      }
-    },
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    },
-    reinforce_desc: "+2/+2",
-  },
+  // {
+  //   name:"诗怀雅",
+  //   cost:4,
+  //   atk:4,
+  //   hp:5,
+  //   mine:1,
+  //   block:1,
+  //   desc: "休整: 触发场上1个干员的\"部署:\"效果(极境和安洁莉娜除外)",
+  //   illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
+  //   reinforce: 1,
+  //   onRest(G, ctx, self) {
+  //     let player = ctx.random.Shuffle(G.field.filter(x => (x.onPlay && !["极境", "安洁莉娜"].includes(x.name))))[0];
+  //     if (player) {
+  //       player.onPlay(G, ctx, player);
+  //       logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
+  //     }
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   },
+  //   reinforce_desc: "+2/+2",
+  // },
   {
     name:"夜莺",
     cost:6,
@@ -1887,10 +1885,10 @@ export const CARDS = [
   
   {
     name:"断罪者",
-    cost:4,
-    atk:5,
-    hp:4,
-    mine:3,
+    cost:3,
+    atk:4,
+    hp:3,
+    mine:2,
     block:1,
     desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%96%AD%E7%BD%AA%E8%80%85_1.png",
@@ -2102,36 +2100,36 @@ export const CARDS = [
   },
   
   
-  {
-    name:"巫恋",
-    cost:4,
-    atk:6,
-    hp:3,
-    mine:1,
-    block:0,
-    desc:"采掘: 使其对位敌人攻防减半",
-    illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
-    reinforce: 2,
-    onMine(G, ctx, self) {
-      // let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
-      // if (actor) {
-      //   actor.action(G, ctx, actor);
-      //   logMsg(G, ctx, `触发 ${actor.name} 的行动效果`);
-      // }
-      let idx = G.field.indexOf(self);
-      if (~idx) {
-        let enemy = G.efield[idx];
-        if (enemy) {
-          enemy.atk /= 2;
-          enemy.hp /= 2;
-        }
-      }
-    },
-    onReinforce(G, ctx, self) {
-      G.costs += 2;
-    },
-    reinforce_desc: "获得2点费用",
-  },
+  // {
+  //   name:"巫恋",
+  //   cost:4,
+  //   atk:6,
+  //   hp:3,
+  //   mine:1,
+  //   block:0,
+  //   desc:"采掘: 使其对位敌人攻防减半",
+  //   illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
+  //   reinforce: 2,
+  //   onMine(G, ctx, self) {
+  //     // let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
+  //     // if (actor) {
+  //     //   actor.action(G, ctx, actor);
+  //     //   logMsg(G, ctx, `触发 ${actor.name} 的行动效果`);
+  //     // }
+  //     let idx = G.field.indexOf(self);
+  //     if (~idx) {
+  //       let enemy = G.efield[idx];
+  //       if (enemy) {
+  //         enemy.atk /= 2;
+  //         enemy.hp /= 2;
+  //       }
+  //     }
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     G.costs += 2;
+  //   },
+  //   reinforce_desc: "获得2点费用",
+  // },
   
   {
     name:"刻刀",
@@ -2159,22 +2157,22 @@ export const CARDS = [
   {
     name:"星熊",
     cost:6,
-    atk:1,
+    atk:2,
     hp:2,
-    mine:3,
+    mine:2,
     block:2,
-    desc: "部署: 每有1张手牌，就获得+1/+2",
+    desc: "部署: 每有1张手牌，就获得+6生命值",
     illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       let num_cards = G.hand.length;
-      self.atk += num_cards;
-      self.hp += 2 * num_cards;
+      self.hp += 6 * num_cards;
     },
     onReinforce(G, ctx, self) {
+      self.hp += 6;
       self.block += 1;
     },
-    reinforce_desc: "阻挡数+1",
+    reinforce_desc: "+0/+6，阻挡数+1",
   },
   {
     name:"惊蛰",
@@ -2255,52 +2253,72 @@ export const CARDS = [
     reinforce_desc: "将1张敌人牌加入手牌",
   },
   
-  // {
-  //   name:"W",
-  //   cost:6,
-  //   atk:6,
-  //   hp:7,
-  //   mine:3,
-  //   block:1,
-  //   desc: "行动: 将1张敌人牌加入手牌",
-  //   illust:"http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
-  //   action(G, ctx, self) {
-  //     let card = enemy2card(G, ctx);
-  //     for (let i=0; i<self.power; i++) {
-  //       reinforce_card(G, ctx, card);
-  //     }
-  //     G.hand.unshift(card);
-  //   },
-  //   reinforce: 1,
-  //   onReinforce(G, ctx, self) {
-  //     self.atk += 2;
-  //     self.hp += 3;
-  //   },
-  //   reinforce_desc: "+2/+3",
-  // },
-
- 
-   {
-    name:"猎蜂",
+  {
+    name:"W",
     cost:1,
-    atk:1,
-    hp:1,
-    mine:1,
+    atk:6,
+    hp:6,
+    mine:3,
     block:1,
-    desc: "战斗: 激怒目标",
-    illust:"http://prts.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E7%8C%8E%E8%9C%82_1.png",
-    reinforce: 1,
-
-    onFight(G, ctx, self, enemy) {
-      enemy.enraged = true;
+    desc: "部署: 翻开1张敌人牌",
+    illust:"http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
+    onPlay(G, ctx) {
+      drawEnemy(G, ctx);
     },
-
+    reinforce: 1,
     onReinforce(G, ctx, self) {
       self.atk += 3;
       self.hp += 3;
     },
     reinforce_desc: "+3/+3",
   },
+
+  {
+    name:"陨星",
+    cost:4,
+    atk:3,
+    hp:3,
+    mine:2,
+    block:0,
+    desc: "战斗: 同时对其攻击目标相邻的敌人造成伤害",
+    illust:"http://prts.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E9%99%A8%E6%98%9F_1.png",
+    onFight(G, ctx, self, enemy) {
+      let enemy_idx = G.efield.indexOf(enemy);
+      for (let e of [G.efield[enemy_idx-1], G.efield[enemy_idx+1]]) {
+        if (e) {
+          e.dmg += self.atk;
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+    },
+    reinforce_desc: "+2/+0",
+  },
+
+ 
+  //  {
+  //   name:"猎蜂",
+  //   cost:1,
+  //   atk:1,
+  //   hp:1,
+  //   mine:1,
+  //   block:1,
+  //   desc: "战斗: 激怒目标",
+  //   illust:"http://prts.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E7%8C%8E%E8%9C%82_1.png",
+  //   reinforce: 1,
+
+  //   onFight(G, ctx, self, enemy) {
+  //     enemy.enraged = true;
+  //   },
+
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 3;
+  //     self.hp += 3;
+  //   },
+  //   reinforce_desc: "+3/+3",
+  // },
 
   {
     name:"拉普兰德",
