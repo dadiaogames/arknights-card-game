@@ -811,7 +811,7 @@ export class Board extends React.Component {
       this.check_deck();
     };
     return {
-      deckName: get_deck_name(),
+      deckName: this.props.G.deck_names[idx],
       checkDeck,
       selectDeck: () => {this.select_deck(idx)},
     }
@@ -893,6 +893,7 @@ export class Board extends React.Component {
            this.setState({
              competition_mode: false,
              Deck: undefined,
+             tags: TAGS.map(x => ({...x})),
             });
          } 
       };

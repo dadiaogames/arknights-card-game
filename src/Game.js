@@ -767,9 +767,10 @@ function setup_competition_deck(G, ctx, Deck=[]) {
 function setup_deck_selection(G, ctx, num_shuffles) {
   _.times(num_shuffles, ctx.random.D4);
   G.deck_list = [];
+  G.deck_names = _.times(3, get_deck_name);
   let deck_generators = ctx.random.Shuffle([generate_deck, generate_deck, generate_deck_s2, generate_deck_s2]);
   for (let i=0; i<3; i++) {
-    G.deck_list.push(str2deck(deck_generators[i](get_deck_name())));
+    G.deck_list.push(str2deck(deck_generators[i](G.deck_names[i])));
   }
   G.num_upgrades = 15;
 }
