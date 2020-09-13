@@ -2105,7 +2105,7 @@ export const CARDS = [
   {
     name:"巫恋",
     cost:4,
-    atk:5,
+    atk:6,
     hp:3,
     mine:1,
     block:0,
