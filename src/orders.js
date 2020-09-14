@@ -15,19 +15,19 @@ function add_atk_hp(G, ctx, field_selected) {
     card = G.field[G.field.length - 1]; // EH: change this to "last"
     logMsg(G, ctx, "建议: 请选定场面上想加成的干员后使用该订单");
   }
-  card.atk += 3;
-  card.hp += 3;
+  card.atk += 2;
+  card.hp += 2;
 }
 
-function deal4dmg(G, ctx, field_selected, enemy_selected) {
+function deal3dmg(G, ctx, field_selected, enemy_selected) {
   let enemy = G.efield[enemy_selected];
   if (!enemy) {
     if (G.efield.length == 0) return;
     enemy = G.efield[G.efield.length - 1]; // EH: change this to "last"
     logMsg(G, ctx, "建议: 请选定目标敌人后使用该订单");
   }
-  enemy.dmg += 4;
-  logMsg(G, ctx, `${enemy.name} 受到4点伤害`);
+  enemy.dmg += 3;
+  logMsg(G, ctx, `${enemy.name} 受到3点伤害`);
 }
 
 function ready_order(G, ctx) {
@@ -84,7 +84,7 @@ export const ORDERS = [
     requirements: [3,0,0,0],
     score: 2,
     reward: 1,
-    desc: (<span style={{transform:"scale(0.8)"}}>{material_icons[2]}→{material_icons[0]}{material_icons[1]}</span>),
+    desc: (<span>{material_icons[2]}→{material_icons[0]}{material_icons[1]}</span>),
     cost: [0,0,1,0],
     effect(G, ctx) {
       G.materials[0] += 1;
@@ -95,7 +95,7 @@ export const ORDERS = [
     requirements: [0,3,0,0],
     score: 2,
     reward: 2,
-    desc: (<span style={{transform:"scale(0.8)"}}>{material_icons[0]}→{material_icons[1]}{material_icons[2]}</span>),
+    desc: (<span>{material_icons[0]}→{material_icons[1]}{material_icons[2]}</span>),
     cost: [1,0,0,0],
     effect(G, ctx) {
       G.materials[1] += 1;
@@ -107,7 +107,7 @@ export const ORDERS = [
     requirements: [0,0,3,0],
     score: 2,
     reward: 0,
-    desc: (<span style={{transform:"scale(0.8)"}}>{material_icons[1]}→{material_icons[0]}{material_icons[2]}</span>),
+    desc: (<span>{material_icons[1]}→{material_icons[0]}{material_icons[2]}</span>),
     cost: [0,1,0,0],
     effect(G, ctx) {
       G.materials[0] += 1;
@@ -219,53 +219,51 @@ export const ORDERS = [
   
 
   {
-    requirements: [3,0,0,0],
+    requirements: [1,1,1,0],
     score: 2,
-    reward: 1,
-    desc: (<span>{material_icons[2]}→+3/+3</span>),
-    cost: [0,0,1,0],
+    reward: 3,
+    desc: (<span>+2/+2</span>),
     effect: add_atk_hp,
   },
+  // {
+  //   requirements: [0,3,0,0],
+  //   score: 2,
+  //   reward: 2,
+  //   desc: (<span>{material_icons[0]}→+3/+3</span>),
+  //   cost: [1,0,0,0],
+  //   effect: add_atk_hp,
+  // },
+  // {
+  //   requirements: [0,0,3,0],
+  //   score: 2,
+  //   reward: 0,
+  //   desc: (<span>{material_icons[1]}→+3/+3</span>),
+  //   cost: [0,1,0,0],
+  //   effect: add_atk_hp,
+  // },
   {
-    requirements: [0,3,0,0],
+    requirements: [1,1,1,0],
     score: 2,
-    reward: 2,
-    desc: (<span>{material_icons[0]}→+3/+3</span>),
-    cost: [1,0,0,0],
-    effect: add_atk_hp,
+    reward: 3,
+    desc: (<span>3伤害</span>),
+    effect: deal3dmg,
   },
-  {
-    requirements: [0,0,3,0],
-    score: 2,
-    reward: 0,
-    desc: (<span>{material_icons[1]}→+3/+3</span>),
-    cost: [0,1,0,0],
-    effect: add_atk_hp,
-  },
-  {
-    requirements: [3,0,0,0],
-    score: 2,
-    reward: 1,
-    desc: (<span>{material_icons[2]} → 4伤害</span>),
-    cost: [0,0,1,0],
-    effect: deal4dmg,
-  },
-  {
-    requirements: [0,3,0,0],
-    score: 2,
-    reward: 2,
-    desc: (<span>{material_icons[0]} → 4伤害</span>),
-    cost: [1,0,0,0],
-    effect: deal4dmg,
-  },
-  {
-    requirements: [0,0,3,0],
-    score: 2,
-    reward: 0,
-    desc: (<span>{material_icons[1]} → 4伤害</span>),
-    cost: [0,1,0,0],
-    effect: deal4dmg,
-  },
+  // {
+  //   requirements: [0,3,0,0],
+  //   score: 2,
+  //   reward: 2,
+  //   desc: (<span>{material_icons[0]} → 4伤害</span>),
+  //   cost: [1,0,0,0],
+  //   effect: deal4dmg,
+  // },
+  // {
+  //   requirements: [0,0,3,0],
+  //   score: 2,
+  //   reward: 0,
+  //   desc: (<span>{material_icons[1]} → 4伤害</span>),
+  //   cost: [0,1,0,0],
+  //   effect: deal4dmg,
+  // },
   
 
   {
