@@ -230,7 +230,11 @@ export function refreshOrder(G, ctx) {
 }
 
 function sort_orders(G) {
-  G.orders = G.orders.sort((x,y)=>(x.requirements.indexOf(3)-y.requirements.indexOf(3)));
+  G.orders = G.orders.sort((x,y)=>{
+    if (y.advanced && !x.advanced) return -1;
+    if (!y.advanced && x.advanced) return 1;
+    return x.requirements.indexOf(3) - y.requirements.indexOf(3);
+  });
 }
 
 function sort_finished(G) {

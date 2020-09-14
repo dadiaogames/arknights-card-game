@@ -50,6 +50,7 @@ const advanced_orders = [{
     requirements: [1,1,1,0],
     score: 2,
     reward: 3,
+    advanced: true,
     desc: (<span>+2/+2</span>),
     effect: add_atk_hp,
   },
@@ -57,6 +58,7 @@ const advanced_orders = [{
     requirements: [1,1,1,0],
     score: 2,
     reward: 3,
+    advanced: true,
     desc: (<span>3伤害</span>),
     effect: deal3dmg,
   },
@@ -65,6 +67,7 @@ const advanced_orders = [{
     requirements: [1,1,1,0],
     score: 2,
     reward: 3,
+    advanced: true,
     desc: (<span>2分/{food_icons[0]}{food_icons[1]}{food_icons[2]}</span>),
     effect(G, ctx) {
       let colors = G.finished.reduce((acc,val)=>{
