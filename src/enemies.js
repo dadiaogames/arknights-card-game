@@ -189,18 +189,15 @@ export var ENEMIES = [
   {
     name: "酸液源石虫",
     illust: "http://prts.wiki/images/6/6b/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%85%B8%E6%B6%B2%E6%BA%90%E7%9F%B3%E8%99%AB%C2%B7%CE%B1.png",
-    atk: 1,
-    hp: 2,
-    desc: "替换, 入场/摧毁: 对所有干员造成1点伤害",
+    atk: -1,
+    hp: 4,
+    desc: "替换, 摧毁: 对所有干员造成1点伤害",
     is_elite: true,
-    onPlay(G, ctx, self) {
+    onOut(G, ctx, self) {
       for (let card of G.field) {
         card.dmg += 1;
       }
     },
-    onOut(G, ctx, self) {
-      self.onPlay(G, ctx, self);
-    }
   },
 
   {

@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { CARDS } from "./cards";
 import { ENEMIES } from "./enemies";
-import { ORDERS, material_icons } from "./orders";
+import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
 import { get_deck_name, generate_deck, generate_deck_s2 } from './DeckGenerator';
 import { arr2obj, PRNG } from "./utils";
@@ -224,11 +224,9 @@ function setValue(G, ctx, attr, val) {
   G[attr] = val;
 }
 
-function drawOrder(G, ctx) {
-  if (G.odeck.length > 0) {
-    move(G, ctx, "odeck", "orders");
-    sort_orders(G);
-  }
+export function refreshOrder(G, ctx) {
+  G.orders = ctx.random.Shuffle(G.odeck).slice(0, 6);
+  sort_orders(G);
 }
 
 function sort_orders(G) {
@@ -245,17 +243,17 @@ function finishOrder(G, ctx, idx) {
   if (payMaterials(G, ctx, order.requirements)) {
     G.materials[order.reward] += 1;
     G.score += order.score;
-    G.finished.push(G.orders.splice(idx, 1)[0]);
+    G.finished.push({...G.orders.splice(idx, 1)[0]});
     logMsg(G, ctx, "完成订单");
     sort_finished(G);
   }
 }
 
-function useOrder(G, ctx, idx) {
+function useOrder(G, ctx, idx, field_selected, enemy_selected) {
   let order = G.finished[idx];
 
   if (use(G, ctx, order) && ((order.cost == undefined) || (payMaterials(G, ctx, order.cost)))) {
-    order.effect(G, ctx);
+    order.effect(G, ctx, field_selected, enemy_selected);
   }
 }
 
@@ -612,9 +610,8 @@ function onScenarioBegin(G, ctx) {
     drawEnemy(G, ctx);
   }
 
-  for (let i=0; i<5; i++){
-    drawOrder(G, ctx);
-  }
+  refreshOrder(G, ctx);
+
   console.log("Setup finished");
   G.playing = true;
   ctx.events.endTurn(); // After set playing to true, end turn to call onTurnBegin effects
@@ -713,7 +710,7 @@ export function setup_scenario(G, ctx) {
     G.ediscard = [];
 
     G.orders = [];
-    G.finished = [];
+    G.finished = [default_order];
 
     G.picks = [];
 
@@ -852,7 +849,7 @@ export const AC = {
     reinforce,
     rest,
     setValue,
-    drawOrder,
+    refreshOrder,
     finishOrder,
     useOrder,
     harvest,
@@ -881,7 +878,7 @@ export const AC = {
 
         refresh(G, ctx);
         draw(G, ctx);
-        drawOrder(G, ctx);
+        refreshOrder(G, ctx);
         G.costs += 3;
         refresh_picks(G, ctx);
 
@@ -917,8 +914,8 @@ export const AC = {
 
         if (G.round_num == 4 && G.reinforceOnR4) {
           for (let enemy of [...G.edeck, ...G.efield]) {
-            enemy.atk += 6;
-            enemy.hp += 6;
+            enemy.atk += 5;
+            enemy.hp += 5;
           }
         }
 

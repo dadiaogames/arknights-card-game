@@ -197,9 +197,6 @@ export class Board extends React.Component {
       if ((current_standard_level >= 2) && [4,6,12].includes(new_tags.indexOf(tag))) {
         tag.selected = true;
       }
-      if ((current_standard_level >= 3) && [1].includes(new_tags.indexOf(tag))) {
-        tag.selected = true;
-      }
     }
 
     if (this.state.competition_mode) {
@@ -270,7 +267,7 @@ export class Board extends React.Component {
   }
 
   use_order() {
-    this.props.moves.useOrder(this.state.finished_selected);
+    this.props.moves.useOrder(this.state.finished_selected, this.state.field_selected, this.state.efield_selected);
     // this.set_animations("field", this.state.finished_selected, true);
     this.setState({finished_selected: -1});
     return {};

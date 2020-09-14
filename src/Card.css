@@ -90,7 +90,7 @@
 .order_effect, .finished_effect {
   top: 2%;
   left: 6%;
-  height: 30%;
+  height: 40%;
   width: 100%;
   text-align: center;
   font-size: 70%;
@@ -98,7 +98,7 @@
 }
 
 .order_effect {
-  top: 100%;
+  top: 90%;
 }
 
 .finished_effect {
