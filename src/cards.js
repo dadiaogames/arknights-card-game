@@ -1382,7 +1382,7 @@ export const CARDS = [
     mine:2,
     block:1,
     illust: "http://prts.wiki/images/4/45/%E7%AB%8B%E7%BB%98_%E6%96%AF%E5%8D%A1%E8%92%82_1.png",
-    reinforce: 2,
+    reinforce: 1,
     desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
     onPlay(G, ctx, self) {
       let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onPlay))[0];

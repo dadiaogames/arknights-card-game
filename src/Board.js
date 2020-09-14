@@ -188,7 +188,7 @@ export class Board extends React.Component {
       if ((current_standard_level >= 2) && [4,6,12].includes(new_tags.indexOf(tag))) {
         tag.selected = true;
       }
-      if ((current_standard_level >= 3) && [1,9,13].includes(new_tags.indexOf(tag))) {
+      if ((current_standard_level >= 3) && [1].includes(new_tags.indexOf(tag))) {
         tag.selected = true;
       }
     }
