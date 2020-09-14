@@ -177,6 +177,9 @@ export function mulligan(G, ctx, choices) {
     }
     G.deck = ctx.random.Shuffle([...G.deck, ...discarded]);
   }
+
+  // Add init here
+  G.hand = [...G.deck.filter(card => card.is_init), ...G.hand];
 }
 
 function play(G, ctx, idx) {
@@ -712,6 +715,8 @@ export function setup_scenario(G, ctx) {
     G.orders = [];
     G.finished = [];
 
+    G.picks = [];
+
     G.costs = 2; //On turn begin, gain 3, so it's 2 at setup
     G.materials = [1, 1, 1, 0]; //EH: it may not be a good idea to set materials in array, but whatever, do it at first
 
@@ -762,6 +767,28 @@ export function setup_scenario(G, ctx) {
 
 function setup_competition_deck(G, ctx, Deck=[]) {
   G.Deck = Deck;
+}
+
+export function pick(G, ctx, idx) {
+  let card = G.picks[idx];
+
+  if (card) {
+    if (payMaterials(G, ctx, card.price)) {
+      G.picks.splice(idx, 1);
+      G.hand.unshift(card);
+    }
+  }
+}
+
+function refresh_picks(G, ctx) {
+  G.picks = ctx.random.Shuffle(G.deck).slice(0, 5);
+  let add_price = (pick, idx) => {
+    let price = [0, 0, 0, 0];
+    let requirement = ctx.random.Die(3) - 1;
+    price[requirement] = Math.floor(idx / 2) + 1;
+    return {...pick, price};
+  }
+  G.picks = G.picks.map(add_price);
 }
 
 function setup_deck_selection(G, ctx, num_shuffles) {
@@ -841,6 +868,7 @@ export const AC = {
     select_deck,
     refresh_selections,
     upgrade,
+    pick,
   },
 
   turn: {
@@ -855,6 +883,7 @@ export const AC = {
         draw(G, ctx);
         drawOrder(G, ctx);
         G.costs += 3;
+        refresh_picks(G, ctx);
 
         G.onPlayCard = [];
         G.onCardMine = [];

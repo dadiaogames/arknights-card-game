@@ -42,6 +42,7 @@ export class Board extends React.Component {
     this.handle_deck_change = this.handle_deck_change.bind(this);
     this.handle_selection_clicked = this.handle_selection_clicked.bind(this) 
     this.handle_upgrade_clicked = this.handle_upgrade_clicked.bind(this);
+    this.handle_pick_clicked = this.handle_pick_clicked.bind(this);
 
     this.enemy_move = this.enemy_move.bind(this);
 
@@ -56,8 +57,10 @@ export class Board extends React.Component {
     this.process_finished_data = this.process_finished_data.bind(this);
     this.process_finished_state = this.process_finished_state.bind(this);
     this.process_selection_state = this.process_selection_state.bind(this);
-    this.process_upgrade_data = this.process_upgrade_data.bind(this)
-    this.process_upgrade_state = this.process_upgrade_state.bind(this)
+    this.process_upgrade_data = this.process_upgrade_data.bind(this);
+    this.process_upgrade_state = this.process_upgrade_state.bind(this);
+    this.process_pick_data = this.process_pick_data.bind(this);
+    this.process_pick_state = this.process_pick_state.bind(this);
 
     this.process_card_details = this.process_card_details.bind(this);
     this.process_enemy_details = this.process_enemy_details.bind(this);
@@ -114,6 +117,7 @@ export class Board extends React.Component {
       finished_selected: -1,
       selection_selected: -1,
       upgrade_selected: -1,
+      pick_selected: -1,
       hand_choices: [false, false, false, false, false],
 
       branch: {},
@@ -136,6 +140,8 @@ export class Board extends React.Component {
       deck_name: get_deck_name(),
       deck_data: CARDS.slice(0,10).map(x=>`3 ${x.name}`).join("\n"),
       preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),
+
+      finished_mode: "finished",
 
       seed: get_seed_name(),
 
@@ -162,6 +168,9 @@ export class Board extends React.Component {
         行动: this.use_order,
         一键收货: this.harvest_orders,
       },
+      pick: {
+        拿取: () => this.props.moves.pick(this.state.pick_selected),
+      }
     };
 
     this.log_select = () => ((this.props.G.messages[0].includes("选定")? this.props.moves.changeMsg : this.props.moves.logMsg));
@@ -317,6 +326,32 @@ export class Board extends React.Component {
   process_selection_state(card, idx) {
     return {
       selected: (this.state.selection_selected == idx),
+      upgraded: card.upgraded,
+    };
+  }
+
+  process_pick_data(card) {
+    let illust = this.get_illust_attr(card);
+    let requirements = [];
+    for (let i=0; i<3; i++) {
+      let icon = ICONS[Object.keys(ICONS)[i]];
+      let amount = card.price[i];
+      for (let j=0; j<amount; j++) {
+        requirements.push(icon);
+      }
+    }
+    let data = {
+      [illust]: card.illust,
+      atk: card.atk,
+      hp: card.hp,
+      price: requirements,
+    };
+    return data;
+  }
+
+  process_pick_state(card, idx) {
+    return {
+      selected: (this.state.pick_selected == idx),
       upgraded: card.upgraded,
     };
   }
@@ -513,7 +548,16 @@ export class Board extends React.Component {
     return () => {
       this.setState({
         selection_selected: idx,
-      })
+      });
+    }
+  }
+  handle_pick_clicked(idx) {
+    return () => {
+      this.setState({
+        pick_selected: idx,
+        checking: this.process_card_details(this.props.G.picks[idx]),
+      });
+      this.set_branch("pick");
     }
   }
   handle_upgrade_clicked(idx) {
@@ -1029,13 +1073,35 @@ export class Board extends React.Component {
       />
     );
 
-    let finished_cardrow = (
-      <CardRow 
-        cards = {this.props.G.finished.map(this.process_finished_data)}
-        states = {this.props.G.finished.map(this.process_finished_state)}
-        handleClick = {this.handle_finished_clicked}
-        additionalStyle = {{height: "25%", marginTop:"16%"}}
-      />
+    let finished_cardrow = (<CardRow 
+      cards = {this.props.G.finished.map(this.process_finished_data)}
+      states = {this.props.G.finished.map(this.process_finished_state)}
+      handleClick = {this.handle_finished_clicked}
+      additionalStyle = {{height: "25%"}}
+    />);
+    
+    let pick_cardrow = (<CardRow 
+      cards = {this.props.G.picks.map(this.process_pick_data)}
+      states = {this.props.G.picks.map(this.process_pick_state)}
+      handleClick = {this.handle_pick_clicked}
+      additionalStyle = {{height: "25%"}}
+    />);
+
+    let finished_pick_cardrow = (
+    <>
+      <Tabs 
+        onSelect={(idx)=>this.setState({finished_mode:["finished", "pick"][idx]})}
+        selectedIndex={["finished", "pick"].indexOf(this.state.finished_mode)}
+        style={{margin: "2%", marginTop: "3%", height: "8%",}}
+      >
+        <TabList>
+          <Tab>订单区</Tab>
+          <Tab>选牌区</Tab>
+        </TabList>
+      </Tabs>
+      {(this.state.finished_mode=="finished")?finished_cardrow:pick_cardrow}
+      
+    </>
     );
 
     return (
@@ -1050,7 +1116,7 @@ export class Board extends React.Component {
           handleClick = {this.handle_efield_clicked}
           additionalStyle = {{display: this.state.show_field?"":"none"}}
         />
-        {(this.state.show_field)? field_cardrow : finished_cardrow}
+        {(this.state.show_field)? field_cardrow : finished_pick_cardrow}
         <Controller 
           actions = {this.state.branch}
           checkCard = {(Object.keys(this.state.branch).length!=0)?this.wrap_controller_action(this.check_card):undefined}

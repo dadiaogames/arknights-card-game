@@ -115,12 +115,13 @@
   overflow: scroll;
 }
 
-.requirements {
+.requirements, .price {
   top: -2%;
   left: 2%;
-  height: 80%;
+  /* height: 80%; */
   width: 40%;
   text-align: center;
+  border: 1.5px solid black;
 }
 
 .score {

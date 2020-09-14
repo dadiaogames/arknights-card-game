@@ -17,6 +17,7 @@ export const Card = (props) => {
     atk: {},
     upgrade_name: {},
     cost: {},
+    price: {},
     cost_detailed: {},
   };
 
@@ -57,7 +58,8 @@ export const Card = (props) => {
   };
   if (props.cardState.upgraded) {
     additional_styles.cost.color = "#1E90FF";
-    additional_styles.cost_detailed.color = "#1E90FF";
+    additional_styles.price.color = "#1E90FF";
+    // additional_styles.cost_detailed.color = "#1E90FF";
   }
 
   let shaker = useShaker(props.cardState.shaking, props.cardState.setShaking, -30, -30, {duration:125}, props.cardState.onEnd);

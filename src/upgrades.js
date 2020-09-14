@@ -23,13 +23,27 @@ export const UPGRADES = [
       card.hp += 3;
     }
   },
+
   {
-    name: "-1费",
-    desc: "部署费用-1", // Write "获得"always
+    name: "-2费",
+    desc: "部署费用-2", // Write "获得"always
     effect(G, ctx, card) {
-      card.cost -= 1;
+      card.cost -= 2;
     }
   },
+
+  {
+    name: "起始",
+    desc: "\"对局开始时，将这张牌置入手牌\"",
+    effect(G, ctx, card) {
+      card.is_init = true;
+      if (typeof card.desc == "string") {
+        card.desc += "\n起始\n";
+      }
+    }
+  },
+
+
 
   // Init "onplay bonus" before
   {
@@ -73,13 +87,13 @@ export const UPGRADES = [
   },
 
   {
-    name: "3伤害",
-    desc: "部署奖励:\"造成3点伤害\"",
+    name: "4伤害",
+    desc: "部署奖励:\"造成4点伤害\"",
     effect(G, ctx, card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          deal_random_damage(G, ctx, 3);
+          deal_random_damage(G, ctx, 4);
         }
       });
     }

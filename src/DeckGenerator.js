@@ -446,13 +446,13 @@ export function generate_deck(deck_name) {
   let rng = new PRNG(deck_name);
 
   // Basic deck
-  deck = [...deck, ...deck_from_strategy(cost_vanguard, 4, rng)];
-  deck = [...deck, ...deck_from_strategy(draw_vanguard, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 6, rng)];
+  deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
 
   // Strategy deck
   let strategy = rng.choice(strategies);
-  deck = [...deck, ...deck_from_strategy(strategy, 15, rng)];
+  deck = [...deck, ...deck_from_strategy(strategy, 16, rng)];
 
   // Random cards
   let amount_add = 32 - deck.length;
@@ -468,8 +468,8 @@ export function generate_deck_s2(deck_name) {
   let rng = new PRNG(deck_name);
 
   // Basic deck
-  deck = [...deck, ...deck_from_strategy(cost_vanguard, 4, rng)];
-  deck = [...deck, ...deck_from_strategy(draw_vanguard, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 6, rng)];
+  deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
 
   // Strategy deck
