@@ -13,6 +13,16 @@ function DeckRepr(props) {
   </div>
 }
 
+function process_selected_desc(card) {
+  let desc = [card.desc];
+
+  if (card.onPlayBonus && (card.onPlayBonus.length > 0)) {
+    desc.push(` (${card.onPlayBonus.map(x => x.name).join(" ")})`);
+  }
+
+  return desc;
+}
+
 function introduce_competition_mode() {
   alert(`欢迎来到竞技模式！此模式适合对游戏规则有足够了解的玩家前来挑战;\n首先，从3套随机卡组中选择1套，作为本次竞技模式的参赛卡组;\n然后，对该卡组进行15次强化;\n接着，进行5次完整的对局，最后，取5次对局中成绩最好的3次对局，以该3局的平均成绩作为最终结果;\n对于一次对局的成绩，如果对局成功，则以该局的危机等级作为该局成绩; 如果该局失败，则成绩记为0;`);
 }
@@ -32,7 +42,7 @@ export function DeckUpgrade(props) {
     <CardRow cards={props.upgrades || []} states={props.upgradeStates || []} additionalStyle={{marginTop: "35%"}} handleClick={props.handleUpgradeClick}/>
     <div className="card-desc">{props.selectedUpgrade.desc? "获得"+props.selectedUpgrade.desc : ""}</div>
     <CardRow cards={props.cards || []} states={props.cardStates || []} handleClick={props.handleCardClick}/>
-    <div className="card-desc">{props.selectedCard && props.selectedCard.desc}</div>
+    <div className="card-desc">{props.selectedCard && process_selected_desc(props.selectedCard)}</div>
     <button className="deck-selection-button" style={{margin:"2%", padding:"3.5%"}} onClick={props.handleClick}>强化</button>
   </div>
 }

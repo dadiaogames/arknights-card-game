@@ -19,6 +19,10 @@ export const Card = (props) => {
     cost: {},
     price: {},
     cost_detailed: {},
+    order_effect: {},
+    finished_effect: {},
+    requirements: {},
+    score: {},
   };
 
   if (props.cardState.exhausted) {
@@ -46,6 +50,8 @@ export const Card = (props) => {
         if (attr.includes("illust")|| (attr == "upgrade_name")) {
           additional_styles[attr].border = selected_border;
         }
+        additional_styles.requirements.border = selected_border;
+        // additional_styles.score.border = selected_border;
       }
     }
   };
@@ -58,8 +64,14 @@ export const Card = (props) => {
   };
   if (props.cardState.upgraded) {
     additional_styles.cost.color = "#1E90FF";
-    additional_styles.price.color = "#1E90FF";
+    additional_styles.price.borderColor = "#1E90FF";
     // additional_styles.cost_detailed.color = "#1E90FF";
+  }
+  if (props.cardState.color >= 0) {
+    const color = props.cardState.color;
+    const order_colors = ["#00cd00", "#1e90ff", "rgb(229,131,8)"];
+    additional_styles.order_effect.borderColor = order_colors[color];
+    additional_styles.finished_effect.borderColor = order_colors[color];
   }
 
   let shaker = useShaker(props.cardState.shaking, props.cardState.setShaking, -30, -30, {duration:125}, props.cardState.onEnd);

@@ -526,8 +526,9 @@ export function cure(G, ctx, amount) {
 }
 
 export function get_rhine_order(G, ctx) {
-  let order = {...(ctx.random.Shuffle(G.ORDERS)[0])};
+  let order = {...(ctx.random.Shuffle(G.odeck)[0])};
   order.rhine = true;
+  order.color = undefined;
   G.finished.unshift(order);
   sort_finished(G);
 }
@@ -658,11 +659,12 @@ function setDecks(G, ctx, decks) {
 export function init_decks(deck, seed) {
   // let deck = str2deck(deck_data);
   // deck = deck.map(x=>({...x, reversed:true}));
+  let rng = new PRNG(seed);
+
   let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
   let edeck = get_enemies().concat(get_enemies());
-  let odeck = ORDERS.map((x,idx)=>({...x, order_id:idx}));
+  let odeck = ORDERS.map((x,idx)=>({...x, order_id:idx, color:rng.randRange(3)}));
 
-  let rng = new PRNG(seed);
   deck = rng.shuffle(deck);
   edeck = rng.shuffle(edeck);
   odeck = rng.shuffle(odeck);
@@ -757,7 +759,7 @@ export function setup_scenario(G, ctx) {
       }
     }
     G.EFFECTS = effects;
-    G.ORDERS = [...ORDERS];
+    // G.ORDERS = [...ORDERS];
 
     console.log("Scenario setup finished.");
 }

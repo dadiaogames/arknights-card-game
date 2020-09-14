@@ -95,6 +95,7 @@
   text-align: center;
   font-size: 70%;
   overflow-y: scroll;
+  border: 2px solid black;
 }
 
 .order_effect {

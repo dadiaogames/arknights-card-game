@@ -342,6 +342,7 @@ export class Board extends React.Component {
       atk: card.atk,
       hp: card.hp,
       price: requirements,
+      // upgraded: card.upgraded,
     };
     return data;
   }
@@ -427,6 +428,7 @@ export class Board extends React.Component {
     }
     return {
       o_illust: "https://ak.hypergryph.com/upload/images/20190228/32ddf0470a305376204d1312ca4720f9.jpg",
+      // o_illust: "https://ak.hypergryph.com/assets/index/images/ak/common/story/item_origin.png",
       requirements: requirements,
       score: card.score,
       reward: material_icons[card.reward],
@@ -438,6 +440,7 @@ export class Board extends React.Component {
     return {
       selected: (this.state.order_selected == this.props.G.orders.indexOf(card)),
       exhausted: card.exhausted, 
+      color: card.color,
     }
   }
 
@@ -452,6 +455,7 @@ export class Board extends React.Component {
     return {
       selected: (this.state.finished_selected == this.props.G.finished.indexOf(card)),
       exhausted: card.exhausted, 
+      color: card.color,
     }
   }
 

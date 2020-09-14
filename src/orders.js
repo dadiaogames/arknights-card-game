@@ -1,6 +1,7 @@
 import React from 'react';
+import _ from 'lodash';
 import { gainMaterials, payMaterials, logMsg, refreshOrder, payCost } from './Game';
-import { ICONS } from './icons';
+import { ICONS, food_icons } from './icons';
 
 export const order_illust = "https://ak.hypergryph.com/assets/index/images/ak/common/story/item_mortal_city.png";
 
@@ -45,7 +46,39 @@ export const default_order = {
     }
   }
 }
+const advanced_orders = [{
+    requirements: [1,1,1,0],
+    score: 2,
+    reward: 3,
+    desc: (<span>+2/+2</span>),
+    effect: add_atk_hp,
+  },
+  {
+    requirements: [1,1,1,0],
+    score: 2,
+    reward: 3,
+    desc: (<span>3伤害</span>),
+    effect: deal3dmg,
+  },
 
+  {
+    requirements: [1,1,1,0],
+    score: 2,
+    reward: 3,
+    desc: (<span>2分/{food_icons[0]}{food_icons[1]}{food_icons[2]}</span>),
+    effect(G, ctx) {
+      let colors = G.finished.reduce((acc,val)=>{
+        if(val.color >= 0) acc[val.color]+=1;
+        return acc;
+      }, [0,0,0]);
+      console.log(colors);
+      let times = _.min(colors);
+      console.log(times);
+      G.score += 2 * times;
+    },
+  },  
+];
+  
 export const ORDERS = [
   {
     requirements: [3,0,0,0],
@@ -218,14 +251,8 @@ export const ORDERS = [
   },
   
 
-  {
-    requirements: [1,1,1,0],
-    score: 2,
-    reward: 3,
-    desc: (<span>+2/+2</span>),
-    effect: add_atk_hp,
-  },
-  // {
+ 
+    // {
   //   requirements: [0,3,0,0],
   //   score: 2,
   //   reward: 2,
@@ -241,13 +268,7 @@ export const ORDERS = [
   //   cost: [0,1,0,0],
   //   effect: add_atk_hp,
   // },
-  {
-    requirements: [1,1,1,0],
-    score: 2,
-    reward: 3,
-    desc: (<span>3伤害</span>),
-    effect: deal3dmg,
-  },
+  
   // {
   //   requirements: [0,3,0,0],
   //   score: 2,
@@ -288,4 +309,6 @@ export const ORDERS = [
     effect: ready_order,
   },
 
+  ...advanced_orders,
+  ...advanced_orders,
 ];

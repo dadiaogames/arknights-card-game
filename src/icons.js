@@ -15,4 +15,11 @@ export const ICONS = {
 
   block: (<img src="http://img5.imgtn.bdimg.com/it/u=1153648212,1889048357&fm=26&gp=0.jpg" height={attr_icon_height} />),
 
-}
+};
+
+export const food_icons = [
+  <span style={{color:"#00cd00"}}>■</span>,
+  <span style={{color:"#1e90ff"}}>■</span>,
+  <span style={{color:"rgb(229,131,8)"}}>■</span>,
+  <span style={{color:"red"}}>■</span>,
+];
