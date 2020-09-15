@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy
+  clearField, drawEnemy, fully_restore
 } from './Game';
 import { material_icons } from './orders';
 
@@ -645,18 +645,20 @@ export const CARDS = [
   
   {
     name:"可颂", 
-    cost:6, 
-    atk:3, 
-    hp:12, 
-    mine:2, 
+    cost:3, 
+    atk:2, 
+    hp:6, 
+    mine:1, 
     block:2, 
-    desc:"采掘/战斗: 横置1个敌人", 
+    desc:"战斗: 横置目标，如果目标已经被横置，则将其摧毁", 
     illust:"http://prts.wiki/images/6/62/%E7%AB%8B%E7%BB%98_%E5%8F%AF%E9%A2%82_1.png",
-    onMine(G, ctx, self) {
-      exhaust_random_enemy(G, ctx);
-    },
-    onFight(G, ctx, self) {
-      exhaust_random_enemy(G, ctx);
+    onFight(G, ctx, self, enemy) {
+      if (enemy.exhausted) {
+        enemy.dmg += enemy.hp;
+      }
+      else {
+        enemy.exhausted = true;
+      }
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
@@ -785,30 +787,24 @@ export const CARDS = [
   //   reinforce_desc: "攻击力加成+3",
   // },
 
-  // {
-  //   name:"闪灵",
-  //   cost:4,
-  //   atk:4,
-  //   hp:2,
-  //   mine:2,
-  //   block:0,
-  //   desc: "采掘/战斗: 使1个干员获得+3/+3",
-  //   illust:"http://prts.wiki/images/e/e9/%E7%AB%8B%E7%BB%98_%E9%97%AA%E7%81%B5_1.png",
-  //   reinforce: 1,
-  //   onMine(G, ctx, self) {
-  //     // TODO: reconstruct this part, of course buffing an card needs a function
-  //     let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
-  //     if (card) {
-  //       card.atk += 3 + 2 * self.power;
-  //       card.hp += 3 + 2 * self.power;
-  //     }
-  //   },
-  //   onFight(G, ctx, self) {
-  //     this.onMine(G, ctx, self);
-  //     // It's okay to do this because "onFight"s are not on G.effects
-  //   },
-  //   reinforce_desc: "再获得+2/+2",
-  // },
+  {
+    name:"闪灵",
+    cost:3,
+    atk:0,
+    hp:3,
+    mine:2,
+    block:0,
+    desc: "行动: 完全治疗1个干员，如果治疗了至少4点伤害，则获得2分",
+    illust:"http://prts.wiki/images/e/e9/%E7%AB%8B%E7%BB%98_%E9%97%AA%E7%81%B5_1.png",
+    reinforce: 1,
+    action(G, ctx, self) {
+      fully_restore(G, ctx);
+      if (G.cured >= 4) {
+        G.score += 2 + self.power;
+      }
+    },
+    reinforce_desc: "再获得1分",
+  },
 
   {
     name:"空", 
@@ -969,9 +965,9 @@ export const CARDS = [
 
   {
     name:"伊芙利特",
-    cost:4,
-    atk:5,
-    hp:2,
+    cost:5,
+    atk:6,
+    hp:3,
     mine:1,
     block:0,
     desc:"采掘: 重置所有已完成的订单",
@@ -1343,6 +1339,52 @@ export const CARDS = [
     reinforce: 1,
     reinforce_desc: "伤害+4",
   },
+  
+  {
+    name:"酸糖", 
+    cost:4,
+    atk:6, 
+    hp:3, 
+    mine:1, 
+    block:0, 
+    desc:"行动: 本回合剩余时间内，每摧毁1个敌人，就获得2分", 
+    illust:"http://prts.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E9%85%B8%E7%B3%96_1.png",
+    action(G, ctx, self) {
+      G.onCardFight.push((G, ctx, card, enemy) => {
+        if (enemy.dmg >= enemy.hp) {
+          G.score += 2;
+        }
+      });
+    },
+    reinforce: 3,
+    onReinforce(G, ctx, self) {
+      this.action(G, ctx, self);
+    },
+    reinforce_desc: "触发1次\"行动\"效果",
+
+  },
+
+  {
+    name:"热水壶", 
+    cost:2,
+    atk:1, 
+    hp:1, 
+    mine:1, 
+    was_enemy: true,
+    desc:"部署: 立即获得目标生命+2，费用+1，然后弃牌堆里每有1个热水壶，就获得2分", 
+    illust:"http://prts.wiki/images/3/3d/%E6%94%B6%E8%97%8F%E5%93%81_177.png",
+    onPlay(G, ctx, self) {
+      self.hp += 2;
+      G.costs += 1;
+      G.score += 2 * G.discard.filter(x => (x.name == "热水壶")).length;
+    },
+    reinforce: 2,
+    onReinforce(G, ctx, self) {
+      G.hand.unshift(G.CARDS.find(x => (x.name == "热水壶")));
+    },
+    reinforce_desc: "将1张\"热水壶\"置入手牌",
+
+  },
 
   {
     name:"刻俄柏",
@@ -1583,6 +1625,25 @@ export const CARDS = [
     },
     reinforce_desc: "+1/+3",
   },
+  {
+    name:"棘刺",
+    cost:4,
+    atk:3,
+    hp:6,
+    mine:1,
+    block:1,
+    desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
+    illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%A3%98%E5%88%BA_1.png",
+    action(G, ctx, self) {
+      if (G.hand.length > 0) {
+        drop(G, ctx);
+        deal_random_damage(G, ctx, 3+self.power);
+        self.exhausted = false;
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "伤害+1",
+  },
 
   {
     name:"梓兰",
@@ -1695,28 +1756,28 @@ export const CARDS = [
     },
     reinforce_desc: "再强化1张",
   },
-  {
-    name:"古米",
-    cost:4,
-    atk:2,
-    hp:5,
-    mine:1,
-    block:2,
-    desc: "部署: 强化所有手牌1次",
-    illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
-    reinforce: 1,
-    onPlay(G, ctx, self) {
-      let cards = [...G.hand];
-      for (let card of cards) {
-        reinforce_card(G, ctx, card);
-      }
-    },
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    },
-    reinforce_desc: "+2/+2",
-  },
+  // {
+  //   name:"古米",
+  //   cost:4,
+  //   atk:2,
+  //   hp:5,
+  //   mine:1,
+  //   block:2,
+  //   desc: "部署: 强化所有手牌1次",
+  //   illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
+  //   reinforce: 1,
+  //   onPlay(G, ctx, self) {
+  //     let cards = [...G.hand];
+  //     for (let card of cards) {
+  //       reinforce_card(G, ctx, card);
+  //     }
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   },
+  //   reinforce_desc: "+2/+2",
+  // },
   // {
   //   name:"早露",
   //   cost:5,
@@ -2074,6 +2135,30 @@ export const CARDS = [
       G.score += 1;
     },
     reinforce_desc: "获得1分",
+  },
+
+  {
+    name:"赫拉格",
+    cost:6,
+    atk:5,
+    hp:8,
+    mine:2,
+    block:1,
+    desc: "超杀: 完全治疗自己并获得+2/+2",
+    illust:"http://prts.wiki/images/4/48/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E6%8B%89%E6%A0%BC_1.png",
+    reinforce: 1,
+    onFight(G, ctx, self, enemy) {
+      if (enemy.dmg > enemy.hp) {
+        self.dmg = 0;
+        self.atk += 2;
+        self.hp += 2;
+      }
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
   },
   {
     name:"波登可",

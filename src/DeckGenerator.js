@@ -308,7 +308,7 @@ const fullmoon = `铃兰 2 3
 刻刀 1 2`;
 
 // const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus, arise, champion];
-const strategies = [solve, penguin, highcost, rhine, angelina, karlan, ursus, rest, fullmoon];
+const strategies = [solve, penguin, highcost, rhine, angelina, karlan, ursus, fullmoon];
 
 const mini_sets = [' 风笛  白面鸮  温蒂  夜刀 ',
  ' 风笛  雷蛇  食铁兽  夜刀 ',

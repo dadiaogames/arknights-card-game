@@ -141,7 +141,7 @@ export class Board extends React.Component {
       deck_data: CARDS.slice(0,10).map(x=>`3 ${x.name}`).join("\n"),
       preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),
 
-      finished_mode: "finished",
+      show_finished: true,
 
       seed: get_seed_name(),
 
@@ -606,24 +606,34 @@ export class Board extends React.Component {
   handle_order_clicked(idx) {
     let card = this.props.G.orders[idx];
     return () => {
-      this.setState({
-        order_selected: idx,
-        checking: this.process_order_details(card),
-      });
-      this.set_branch("orders");
-      this.log_select()("选定订单");
+      if (this.state.order_selected == idx) {
+        this.finish_order();
+      }
+      else {
+        this.setState({
+          order_selected: idx,
+          checking: this.process_order_details(card),
+        });
+        this.set_branch("orders");
+        this.log_select()("选定订单");
+      }
     };
   }
 
   handle_finished_clicked(idx) {
     let card = this.props.G.finished[idx];
     return () => {
-      this.setState({
-        finished_selected: idx,
-        checking: this.process_order_details(card),
-      });
-      this.set_branch("finished");
-      this.log_select()("选定订单");
+      if (this.state.finished_selected == idx) {
+        this.use_order();
+      }
+      else {
+        this.setState({
+          finished_selected: idx,
+          checking: this.process_order_details(card),
+        });
+        this.set_branch("finished");
+        this.log_select()("选定订单");
+      }
     };
   }
 
@@ -1078,19 +1088,19 @@ export class Board extends React.Component {
       cards = {this.props.G.finished.map(this.process_finished_data)}
       states = {this.props.G.finished.map(this.process_finished_state)}
       handleClick = {this.handle_finished_clicked}
-      additionalStyle = {{height: "25%"}}
+      additionalStyle = {{height: "25%", marginTop: "15%"}}
     />);
     
     let pick_cardrow = (<CardRow 
       cards = {this.props.G.picks.map(this.process_pick_data)}
       states = {this.props.G.picks.map(this.process_pick_state)}
       handleClick = {this.handle_pick_clicked}
-      additionalStyle = {{height: "25%"}}
+      additionalStyle = {{height: "25%", marginTop: "15%"}}
     />);
 
     let finished_pick_cardrow = (
     <>
-      <Tabs 
+      {/* <Tabs 
         onSelect={(idx)=>this.setState({finished_mode:["finished", "pick"][idx]})}
         selectedIndex={["finished", "pick"].indexOf(this.state.finished_mode)}
         style={{margin: "2%", marginTop: "3%", height: "8%",}}
@@ -1099,9 +1109,8 @@ export class Board extends React.Component {
           <Tab>订单区</Tab>
           <Tab>选牌区</Tab>
         </TabList>
-      </Tabs>
-      {(this.state.finished_mode=="finished")?finished_cardrow:pick_cardrow}
-      
+      </Tabs> */}
+      {(this.state.show_finished)?finished_cardrow:pick_cardrow}
     </>
     );
 
@@ -1122,6 +1131,7 @@ export class Board extends React.Component {
           actions = {this.state.branch}
           checkCard = {(Object.keys(this.state.branch).length!=0)?this.wrap_controller_action(this.check_card):undefined}
         />
+        {(this.state.show_field)? "":<button className="pick-toggle-button" onClick={()=>this.setState({show_finished: !this.state.show_finished})}>{this.state.show_finished?"查看选牌区":"查看订单区"}</button>}
         {(this.state.show_field)? hand_cardrow : orders_cardrow}
         <Panel 
           variant = "player-panel"

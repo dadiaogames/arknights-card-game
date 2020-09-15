@@ -32,14 +32,14 @@ function deal3dmg(G, ctx, field_selected, enemy_selected) {
 }
 
 function ready_order(G, ctx) {
-  let order = ctx.random.Shuffle(G.finished.filter(x => x.exhausted))[0];
+  let order = ctx.random.Shuffle(G.finished.filter(x => x.exhausted && !x.ready_other_orders))[0];
   if (order) {
     order.exhausted = false;
   }
 }
 
 export const default_order = {
-  desc: "1费→刷新",
+  desc: "1费→刷新订单",
   effect(G, ctx){
     if (payCost(G, ctx, 1)) {
       refreshOrder(G, ctx);
@@ -54,14 +54,14 @@ const advanced_orders = [{
     desc: (<span>+2/+2</span>),
     effect: add_atk_hp,
   },
-  {
-    requirements: [1,1,1,0],
-    score: 2,
-    reward: 3,
-    advanced: true,
-    desc: (<span>3伤害</span>),
-    effect: deal3dmg,
-  },
+  // {
+  //   requirements: [1,1,1,0],
+  //   score: 2,
+  //   reward: 3,
+  //   advanced: true,
+  //   desc: (<span>3伤害</span>),
+  //   effect: deal3dmg,
+  // },
 
   {
     requirements: [1,1,1,0],
@@ -120,22 +120,20 @@ export const ORDERS = [
     requirements: [3,0,0,0],
     score: 2,
     reward: 1,
-    desc: (<span>{material_icons[2]}→{material_icons[1]}+{material_icons[1]}</span>),
+    desc: (<span>{material_icons[2]} → ? + ?</span>),
     cost: [0,0,1,0],
     effect(G, ctx) {
-      G.materials[0] += 1;
-      G.materials[1] += 1;
+      gainMaterials(G, ctx, 2);
     },
   },
   {
     requirements: [0,3,0,0],
     score: 2,
     reward: 2,
-    desc: (<span>{material_icons[0]}→{material_icons[2]}+{material_icons[2]}</span>),
+    desc: (<span>{material_icons[0]} → ? + ?</span>),
     cost: [1,0,0,0],
     effect(G, ctx) {
-      G.materials[1] += 1;
-      G.materials[2] += 1;
+      gainMaterials(G, ctx, 2);
     },
 
   },
@@ -143,11 +141,10 @@ export const ORDERS = [
     requirements: [0,0,3,0],
     score: 2,
     reward: 0,
-    desc: (<span>{material_icons[1]}→{material_icons[0]}+{material_icons[0]}</span>),
+    desc: (<span>{material_icons[1]} → ? + ?</span>),
     cost: [0,1,0,0],
     effect(G, ctx) {
-      G.materials[0] += 1;
-      G.materials[2] += 1;
+      gainMaterials(G, ctx, 2);
     },
   },
 
@@ -295,6 +292,7 @@ export const ORDERS = [
     score: 2,
     reward: 1,
     desc: (<span>重置1订单</span>),
+    ready_other_orders: true,
     effect: ready_order,
   },
   {
@@ -302,6 +300,7 @@ export const ORDERS = [
     score: 2,
     reward: 2,
     desc: (<span>重置1订单</span>),
+    ready_other_orders: true,
     effect: ready_order,
   },
   {
@@ -309,6 +308,7 @@ export const ORDERS = [
     score: 2,
     reward: 0,
     desc: (<span>重置1订单</span>),
+    ready_other_orders: true,
     effect: ready_order,
   },
 

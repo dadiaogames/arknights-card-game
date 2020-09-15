@@ -401,6 +401,9 @@ function fight(G, ctx, idx1, idx2) {
     if (card.onFight) {
       card.onFight(G, ctx, card, enemy);
     }
+    for (let f of G.onCardFight) {
+      f(G, ctx, card, enemy);
+    }
   }
 }
 
@@ -504,7 +507,7 @@ export function fully_restore(G, ctx) {
     }
   });
   let card = ranked_field_by_dmg[0];
-  card.cured = card.dmg;
+  G.cured = card.dmg;
   card.dmg = 0;
 }
 

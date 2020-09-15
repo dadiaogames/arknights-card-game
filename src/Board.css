@@ -39,3 +39,10 @@
   margin-left: 3%;
   padding: 3%;
 }
+
+.pick-toggle-button {
+  position: absolute;
+  top: 45%;
+  left: 60%;
+  font-size: 110%;
+}
