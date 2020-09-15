@@ -1628,16 +1628,16 @@ export const CARDS = [
   {
     name:"棘刺",
     cost:4,
-    atk:3,
-    hp:6,
+    atk:4,
+    hp:4,
     mine:1,
     block:1,
-    desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
+    desc:"行动: 弃1张牌，造成2点伤害，然后重置自己",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%A3%98%E5%88%BA_1.png",
     action(G, ctx, self) {
       if (G.hand.length > 0) {
         drop(G, ctx);
-        deal_random_damage(G, ctx, 3+self.power);
+        deal_random_damage(G, ctx, 2+self.power);
         self.exhausted = false;
       }
     },

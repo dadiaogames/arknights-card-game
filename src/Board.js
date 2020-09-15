@@ -554,11 +554,17 @@ export class Board extends React.Component {
   }
   handle_pick_clicked(idx) {
     return () => {
-      this.setState({
-        pick_selected: idx,
-        checking: this.process_card_details(this.props.G.picks[idx]),
-      });
-      this.set_branch("pick");
+      if (this.state.pick_selected == idx) {
+        this.props.moves.pick(idx);
+        this.setState({pick_selected: -1});
+      }
+      else{
+        this.setState({
+          pick_selected: idx,
+          checking: this.process_card_details(this.props.G.picks[idx]),
+        });
+        this.set_branch("pick");
+      }
     }
   }
   handle_upgrade_clicked(idx) {
