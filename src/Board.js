@@ -559,7 +559,8 @@ export class Board extends React.Component {
   }
   handle_pick_clicked(idx) {
     return () => {
-      if (this.state.pick_selected == idx) {
+      // if (this.state.pick_selected == idx) {
+      if (this.state.pick_selected == -2) {
         this.props.moves.pick(idx);
         this.setState({pick_selected: -1});
       }
