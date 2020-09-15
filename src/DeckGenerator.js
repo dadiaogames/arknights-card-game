@@ -31,10 +31,11 @@ const draw_vanguard = `芬 1 2
 
 const scorer = `阿米娅 0 2
 崖心 0 2
-阿消 0 1
 食铁兽 0 2
-铃兰 0 1
-苏苏洛 0 1`;
+酸糖 0 1
+闪灵 0 1
+阿消 0 1
+铃兰 0 1`;
 
 // const dubin_score = `杜宾 2 3
 // 推进之王 2 3
@@ -69,46 +70,47 @@ const scorer = `阿米娅 0 2
 
 const solve = `能天使 1 2
 煌 2 3
-黑 2 3
+棘刺 1 2
 陨星 1 2
-阿消 0 2
-食铁兽 0 2
+酸糖 1 2
+普罗旺斯 1 2
+灰喉 0 2
 克洛丝 2 3
-杰西卡 1 2
-蓝毒 2 3
-白金 2 3
+蓝毒 1 3
+白金 1 3
 末药 1 2
 宴 2 3
+孑 1 2
 巡林者 2 3
 陈 1 2
-红豆 2 3
-炎熔 2 3
+红豆 1 2
+炎熔 1 2
 刻俄柏 2 3
 刻刀 1 2
 白面鸮 1 2
 拉普兰德 1 2
 柏喙 1 2
 翎羽 1 2
-杜宾 0 2
+杜宾 1 3
 伊桑 0 1
+黑 0 1
 斯卡蒂 1 2`;
 
-const penguin =  `德克萨斯 3 4
-空 3 4
-莫斯提马 3 3
+const penguin =  `德克萨斯 2 3
+空 2 3
+莫斯提马 1 2
 皇帝 2 2
 波登可 1 2
+艾雅法拉 1 2
 阿消 1 2
 苏苏洛 0 2
 温蒂 1 2
-艾雅法拉 1 2
-调香师 1 2
-可颂 0 2
+可颂 1 2
 白面鸮 1 2
-阿米娅 0 2
+阿米娅 1 2
 拉普兰德 1 2
-梓兰 1 2
-坚雷 0 2
+梓兰 0 2
+坚雷 1 2
 夜刀 1 2`;
 
 const highcost = `风笛 3 3
@@ -126,28 +128,27 @@ const highcost = `风笛 3 3
 蓝毒 1 2
 银灰 1 2
 白面鸮 1 2
-巫恋 1 2
+赫拉格 1 2
+普罗旺斯 1 2
 坚雷 1 2
 夜刀 1 3`;
 
 const rhine = `赫默 2 3
 白面鸮 3 3
 苏苏洛 1 2
-梅尔 1 2
-稀音 2 3
+梅尔 2 3
+稀音 1 2
 伊芙利特 2 2
 塞雷娅 1 2
 米格鲁 2 3
 红 2 3
+史都华德 1 2
 巡林者 1 2
 银灰 1 2
-苏苏洛 1 2
+苏苏洛 0 2
 阿米娅 1 2
 艾雅法拉 0 2
 惊蛰 0 2
-阿消 1 2
-讯使 1 2
-梅尔 1 2
 陈 1 2
 斯卡蒂 1 2`;
 
@@ -167,15 +168,15 @@ const eyja = `艾雅法拉 1 2
 翎羽 0 2
 慕斯 1 2
 赫默 1 2
-梅尔 1 2
 伊芙利特 0 2
 梓兰 0 2`;
 
 const angelina = `安洁莉娜 3 3
+陈 3 3
+热水壶 3 4
 波登可 2 3
 芬 2 3
 推进之王 1 2
-陈 2 3
 翎羽 2 3
 极境 1 2
 末药 1 2
@@ -205,16 +206,13 @@ const karlan = `银灰 2 3
 
 const ursus = `凛冬 2 3
 真理 2 3
-古米 2 3
-早露 0 2
-慕斯 1 2
 桃金娘 1 2
 惊蛰 1 2
 推进之王 1 2
 陈 2 3
 斯卡蒂 2 3
 伊桑 1 2
-阿米娅 0 2
+阿米娅 1 2
 食铁兽 2 2
 炎熔 1 2
 黑角 0 2
@@ -308,42 +306,43 @@ const fullmoon = `铃兰 2 3
 刻刀 1 2`;
 
 // const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus, arise, champion];
-const strategies = [solve, penguin, highcost, rhine, angelina, karlan, ursus, fullmoon];
+const strategies = [solve, penguin, highcost, rhine, karlan, ursus, fullmoon];
 
 const mini_sets = [' 风笛  白面鸮  温蒂  夜刀 ',
  ' 风笛  雷蛇  食铁兽  夜刀 ',
- ' 赫默  12F  白面鸮  陈  惊蛰  惊蛰  坚雷 ',
+ ' 赫默  12F  白面鸮 ',
  ' 德克萨斯 德克萨斯 艾雅法拉 坚雷 空  空  温蒂 德克萨斯 坚雷 ',
  ' 空  空  温蒂  波登可 皇帝 空  空  温蒂 德克萨斯 坚雷',
  ' 刻刀  刻刀  刻俄柏  红  波登可 ',
  ' 孑  孑  宴  翎羽  白面鸮 ',
  ' 拉普兰德  白雪  白雪 ',
  ' 拉普兰德  能天使  刻俄柏 ',
- ' 白金  末药 煌 ',
+//  ' 白金  末药  煌 ',
  ' 守林人  守林人  夜莺 ',
  ' 霜叶  凯尔希  杜宾 ',
  ' 能天使 陨星 陨星 ',
  ' 能天使 炎熔 炎熔 ',
- ' 能天使  蓝毒  蓝毒  刻俄柏 陨星 ',
+//  ' 能天使  蓝毒  蓝毒  刻俄柏 陨星 ',
  ' 柏喙  翎羽 ',
- ' 白金  银灰  初雪 ',
- ' 末药  银灰  初雪 ',
+ ' 慕斯  银灰  赫默 初雪 ',
+//  ' 末药  银灰  初雪 ',
  ' 凯尔希  杜宾  天火 ',
- ' 年  米格鲁  米格鲁  蛇屠箱  芙蓉 末药',
+ ' 年  米格鲁  米格鲁 红 ',
  ' 梓兰  梓兰  能天使 ',
  ' 赫默  白面鸮  伊芙利特  艾雅法拉 ',
- ' 史都华德  赫默  稀音  梅尔  伊芙利特  塞雷娅 ',
+ ' 赫默  稀音  梅尔 梅尔 史都华德  伊芙利特  塞雷娅 ',
  ' 艾雅法拉  能天使  雷蛇  雷蛇 ',
- ' 温蒂  白面鸮  白面鸮  桃金娘 ',
+ ' 温蒂  白面鸮  桃金娘 ',
  ' 温蒂  白面鸮  食铁兽 ',
  ' 初雪  史都华德  赫默  白面鸮  崖心 ',
  ' 调香师  调香师  艾雅法拉  暴行   清流   断罪者 ',
- ' 清道夫  清道夫  能天使   清流   断罪者 ',
- ' 铃兰  推进之王  红  红  红 ',
+ ' 凯尔希 清流   断罪者 ',
+ ' 铃兰  推进之王  芬 芬 红 红 热水壶 ',
  ' 铃兰  安洁莉娜  极境  芬  推进之王  推进之王 ',
+ ' 安洁莉娜 陈 陈 刻刀 波登可 ',
  ' 真理   阿米娅  雷蛇  艾雅法拉 ',
- ' 普罗旺斯  灰喉  巡林者  白金  波登可 ',
- ' 苏苏洛  波登可 ',
+ ' 普罗旺斯  灰喉  巡林者 波登可 ',
+ ' 苏苏洛 赫默 史都华德 波登可 ',
  ' 锡兰  锡兰  夜莺 ',
  ' 拉普兰德  真理 ',
  ' 陈  真理 ',
@@ -352,7 +351,13 @@ const mini_sets = [' 风笛  白面鸮  温蒂  夜刀 ',
  ' 斯卡蒂  斯卡蒂 ',
  ' 凯尔希  凯尔希 ',
  ' 安赛尔  安赛尔 ',
- ' 伊桑  狮蝎  狮蝎 '].map(mini_set => mini_set.split(" ").filter(card => card != ""));
+ ' 米格鲁 米格鲁 玫兰莎 嘉维尔 ',
+ ' 伊桑  狮蝎  狮蝎 ',
+ ' 酸糖 酸糖 刻俄柏 陨星 蓝毒 能天使 刻刀 杜宾 翎羽 ',
+ ' 棘刺 调香师 ',
+ ' 闪灵 蛇屠箱 芙蓉 ',
+ ' 热水壶 热水壶 热水壶 ',
+].map(mini_set => mini_set.split(" ").filter(card => card != ""));
 
 
 function get_random_card(rng) {
@@ -429,7 +434,7 @@ function deck_from_strategy(strategy, amount, rng) {
 
 function deck_from_mini_sets(amount, rng) {
   let deck = [];
-  let sets = rng.shuffle(mini_sets);
+  let sets = rng.shuffle([...mini_sets, ...mini_sets]);
 
   for (let mini_set of sets) {
     deck = [...deck, ...mini_set];
@@ -441,7 +446,8 @@ function deck_from_mini_sets(amount, rng) {
   return rng.shuffle(deck).slice(0, amount);
 }
 
-export function generate_deck(deck_name) {
+
+export function generate_deck_s1(deck_name) {
   let deck = [];
   let rng = new PRNG(deck_name);
 
@@ -482,6 +488,12 @@ export function generate_deck_s2(deck_name) {
   }
 
   return deck2str(deck);
+}
+
+export function generate_deck(deck_name) {
+  let rng = new PRNG(deck_name);
+  let generator = (rng.random() > 0.5)? generate_deck_s1 : generate_deck_s2;
+  return generator(deck_name);
 }
 
 export function is_standard(deck_data) {

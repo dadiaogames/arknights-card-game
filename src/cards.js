@@ -473,7 +473,7 @@ export const CARDS = [
   
   {
     name:"杜宾", 
-    cost:4, 
+    cost:5, 
     atk:2, 
     hp:1, 
     mine:1, 
@@ -1370,6 +1370,7 @@ export const CARDS = [
     atk:1, 
     hp:1, 
     mine:1, 
+    block: 1,
     was_enemy: true,
     desc:"部署: 立即获得目标生命+2，费用+1，然后弃牌堆里每有1个热水壶，就获得2分", 
     illust:"http://prts.wiki/images/3/3d/%E6%94%B6%E8%97%8F%E5%93%81_177.png",
@@ -1380,9 +1381,10 @@ export const CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      G.hand.unshift(G.CARDS.find(x => (x.name == "热水壶")));
+      self.atk += 2;
+      self.hp += 2;
     },
-    reinforce_desc: "将1张\"热水壶\"置入手牌",
+    reinforce_desc: "+2/+2",
 
   },
 
@@ -1807,11 +1809,11 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc: "休整: 造成7点伤害",
+    desc: "休整: 造成3点伤害，每有1个休整中的干员，伤害就+2",
     illust:"http://prts.wiki/images/1/1f/%E7%AB%8B%E7%BB%98_%E5%AE%88%E6%9E%97%E4%BA%BA_1.png",
     reinforce: 1,
     onRest(G, ctx, self) {
-      deal_random_damage(G, ctx, 7 + 3 * self.power);
+      deal_random_damage(G, ctx, 3 + 2 * get_num_rest_cards(G, ctx) + 3 * self.power);
     },
     reinforce_desc: "伤害+3",
   },
@@ -2338,25 +2340,25 @@ export const CARDS = [
     reinforce_desc: "将1张敌人牌加入手牌",
   },
   
-  {
-    name:"W",
-    cost:1,
-    atk:6,
-    hp:6,
-    mine:3,
-    block:1,
-    desc: "部署: 翻开1张敌人牌",
-    illust:"http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
-    onPlay(G, ctx) {
-      drawEnemy(G, ctx);
-    },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 3;
-    },
-    reinforce_desc: "+3/+3",
-  },
+  // {
+  //   name:"W",
+  //   cost:1,
+  //   atk:6,
+  //   hp:6,
+  //   mine:3,
+  //   block:1,
+  //   desc: "部署: 翻开1张敌人牌",
+  //   illust:"http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
+  //   onPlay(G, ctx) {
+  //     drawEnemy(G, ctx);
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 3;
+  //     self.hp += 3;
+  //   },
+  //   reinforce_desc: "+3/+3",
+  // },
 
   {
     name:"陨星",
@@ -2375,7 +2377,7 @@ export const CARDS = [
         }
       }
     },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
       self.atk += 2;
     },

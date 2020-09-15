@@ -4,7 +4,7 @@ import { CARDS } from "./cards";
 import { ENEMIES } from "./enemies";
 import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
-import { get_deck_name, generate_deck, generate_deck_s2 } from './DeckGenerator';
+import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1 } from './DeckGenerator';
 import { arr2obj, PRNG } from "./utils";
 
 export function move(G, ctx, d1, d2, idx) {
@@ -801,7 +801,7 @@ function setup_deck_selection(G, ctx, num_shuffles) {
   _.times(num_shuffles, ctx.random.D4);
   G.deck_list = [];
   G.deck_names = _.times(3, get_deck_name);
-  let deck_generators = ctx.random.Shuffle([generate_deck, generate_deck, generate_deck_s2, generate_deck_s2]);
+  let deck_generators = [generate_deck_s2, generate_deck_s2, generate_deck_s1];
   for (let i=0; i<3; i++) {
     G.deck_list.push(str2deck(deck_generators[i](G.deck_names[i])));
   }

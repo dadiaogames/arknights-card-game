@@ -9,9 +9,9 @@ import { TagSelection, TagList, RiskLevel } from './TagSelection';
 import { DeckConstruction, DeckGeneration, Settings } from './DeckConstruction';
 import { TitleScreen } from './TitleScreen';
 import { DeckSelection, DeckUpgrade, Competition } from './Competition';
-import { get_deck_name, get_seed_name, generate_deck, is_standard } from './DeckGenerator';
+import { get_deck_name, get_seed_name, generate_deck, is_standard, generate_deck_s2 } from './DeckGenerator';
 import { str2deck, init_decks } from './Game';
-import { map_object, sleep } from './utils';
+import { map_object, sleep, PRNG } from './utils';
 import { CARDS, default_deck } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
 import { ICONS } from './icons';
@@ -536,12 +536,17 @@ export class Board extends React.Component {
   handle_hand_clicked(idx) {
     let card = this.props.G.hand[idx];
     return () => {
-      this.setState({
-        hand_selected: idx,
-        checking: this.process_card_details(card),
-      });
-      this.set_branch("hand");
-      this.log_select()("选定 "+card.name);
+      if (this.state.hand_selected == -2) { // Turn this feature on by changing that to idx
+        this.play_card();
+      }
+      else {
+        this.setState({
+          hand_selected: idx,
+          checking: this.process_card_details(card),
+        });
+        this.set_branch("hand");
+        this.log_select()("选定 "+card.name);
+      }
     };
   }
 
@@ -612,7 +617,8 @@ export class Board extends React.Component {
   handle_order_clicked(idx) {
     let card = this.props.G.orders[idx];
     return () => {
-      if (this.state.order_selected == idx) {
+      // if (this.state.order_selected == idx) {
+      if (this.state.order_selected == -2) {
         this.finish_order();
       }
       else {
@@ -704,7 +710,7 @@ export class Board extends React.Component {
 
   enter_game() {
     let deck = [];
-    let seed = this.state.seed;
+    let seed = this.state.deck_name;
     if (!this.state.competition_mode){
       let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
       deck = str2deck(deck_data);
