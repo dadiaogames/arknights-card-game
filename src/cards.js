@@ -1347,7 +1347,7 @@ export const CARDS = [
     hp:3, 
     mine:1, 
     block:0, 
-    desc:"行动: 本回合剩余时间内，每摧毁1个敌人，就获得2分", 
+    desc:"行动: 本回合剩余时间内，每有1个敌人被摧毁，就获得2分", 
     illust:"http://prts.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E9%85%B8%E7%B3%96_1.png",
     action(G, ctx, self) {
       G.onCardFight.push((G, ctx, card, enemy) => {
@@ -1634,12 +1634,12 @@ export const CARDS = [
     hp:4,
     mine:1,
     block:1,
-    desc:"行动: 弃1张牌，造成2点伤害，然后重置自己",
+    desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%A3%98%E5%88%BA_1.png",
     action(G, ctx, self) {
       if (G.hand.length > 0) {
         drop(G, ctx);
-        deal_random_damage(G, ctx, 2+self.power);
+        deal_random_damage(G, ctx, 3+self.power);
         self.exhausted = false;
       }
     },
