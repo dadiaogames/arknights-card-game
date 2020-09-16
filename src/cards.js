@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore
+  clearField, drawEnemy, fully_restore, insert_field
 } from './Game';
 import { material_icons, ready_order } from './orders';
 
@@ -380,7 +380,8 @@ export const CARDS = [
       G.deck = G.deck.slice(1);
       let idx = G.field.indexOf(self) + 1;
       if (new_card) {
-        G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
+        // G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
+        insert_field(G, ctx, new_card, idx);
       }
       if (new_card.name == "夜刀") {
         achieve(G, ctx, "特殊召唤", "使用风笛跳出夜刀", self);
@@ -722,7 +723,8 @@ export const CARDS = [
       let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(2+(self.power||0)))))[0];
       let idx = G.field.indexOf(self) + 1;
       if (new_card) {
-        G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
+        // G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
+        insert_field(G, ctx, new_card, idx);
       }
     },
     reinforce: 2,
@@ -1362,11 +1364,16 @@ export const CARDS = [
     desc:"行动: 本回合剩余时间内，每有1个敌人被摧毁，就获得2分", 
     illust:"http://prts.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E9%85%B8%E7%B3%96_1.png",
     action(G, ctx, self) {
-      G.onCardFight.push((G, ctx, card, enemy) => {
-        if (enemy.dmg >= enemy.hp) {
+      // G.onCardFight.push((G, ctx, card, enemy) => {
+      //   if (enemy.dmg >= enemy.hp) {
+      //     G.score += 2;
+      //   }
+      // });
+      G.onEnemyOut.push(
+        (G, ctx) => {
           G.score += 2;
         }
-      });
+      );
     },
     reinforce: 3,
     onReinforce(G, ctx, self) {
@@ -1491,7 +1498,8 @@ export const CARDS = [
         card.hp = 1;
         card.mine = 1;
         card.cost = 1;
-        G.field.push(init_card_state(G, ctx, card));
+        // G.field.push(init_card_state(G, ctx, card));
+        insert_field(G, ctx, card);
       }
     },
     reinforce: 1,

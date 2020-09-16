@@ -181,17 +181,27 @@ export function mulligan(G, ctx, choices) {
   G.hand = [...G.deck.filter(card => card.is_init), ...G.hand];
 }
 
+export function insert_field(G, ctx, card, idx) {
+  if (G.field.length <= 8) {
+    G.field.splice(idx || G.field.length, 0, init_card_state(G, ctx, {...card}));
+  }
+  else {
+    logMsg(G, ctx, "场上干员数已达到上限");
+  }
+}
+
 function play(G, ctx, idx) {
   let card = G.hand[idx]; //No need to verify at this stage
 
-  if (G.limit_hand_field && (G.field.length >= 6)) {
-    logMsg(G, ctx, "场上干员数已达到上限");
-    return;
-  }
+  // if (G.limit_hand_field && (G.field.length >= 6)) {
+  //   logMsg(G, ctx, "场上干员数已达到上限");
+  //   return;
+  // }
 
   if (payCost(G, ctx, card.cost)) {
-    move(G, ctx, "hand", "field", idx);
-    init_card_state(G, ctx, card);
+    // move(G, ctx, "hand", "field", idx);
+    // init_card_state(G, ctx, card);
+    insert_field(G, ctx, card);
     logMsg(G, ctx, `部署 ${card.name}`);
     for (let f of G.onPlayCard) {
       f(G, ctx, card);
@@ -598,6 +608,11 @@ function clearField(G, ctx, field="field") {
     let card = G[field][i];
     if (card.hp - card.dmg <= 0) {
       out(G, ctx, field, i);
+      if (field == "efield") {
+        for (let f of G.onEnemyOut) {
+          f(G, ctx);
+        }
+      }
     }
   }
 }
@@ -738,6 +753,7 @@ export function setup_scenario(G, ctx) {
     G.onCardAct = [];
     G.onCardReinforced = [];
     G.onUseOrder = [];
+    G.onEnemyOut = [];
 
     G.exhausted_enter = false;
     G.enemy_exhausted_enter = true;
@@ -898,6 +914,7 @@ export const AC = {
         G.onCardAct = [];
         G.onCardReinforced = [];
         G.onUseOrder = [];
+        G.onEnemyOut = []; // EH: reconstruct list init
 
         for (let card of [...G.hand, ...G.field, ...G.efield]) {
           card.ready_times = 0;
