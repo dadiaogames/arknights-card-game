@@ -376,9 +376,13 @@ export const CARDS = [
       //   logMsg(G, ctx, "场上干员数已达到上限");
       //   return;
       // }
-      let card = move(G, ctx, "deck", "field");
-      init_card_state(G, ctx, card);
-      if (card.name == "夜刀") {
+      let new_card = G.deck[0];
+      G.deck = G.deck.slice(1);
+      let idx = G.field.indexOf(self) + 1;
+      if (new_card) {
+        G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
+      }
+      if (new_card.name == "夜刀") {
         achieve(G, ctx, "特殊召唤", "使用风笛跳出夜刀", self);
       }
     },
@@ -716,8 +720,9 @@ export const CARDS = [
     illust:"http://prts.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E5%AE%89%E8%B5%9B%E5%B0%94_1.png",
     action(G, ctx, self) {
       let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(2+(self.power||0)))))[0];
+      let idx = G.field.indexOf(self) + 1;
       if (new_card) {
-        G.field.push(init_card_state(G, ctx, {...new_card}));
+        G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
       }
     },
     reinforce: 2,

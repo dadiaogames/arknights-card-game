@@ -8,8 +8,7 @@ import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1 } from
 import { arr2obj, PRNG } from "./utils";
 
 export function move(G, ctx, d1, d2, idx) {
-  let cd_idx = idx || 0;
-  let card = G[d1].splice(cd_idx, 1)[0];
+  let card = G[d1].splice(idx || 0, 1)[0];
   G[d2].push(card);
   return card;
 }
