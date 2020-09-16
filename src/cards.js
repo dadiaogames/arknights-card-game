@@ -7,7 +7,7 @@ import {
   get_num_rest_cards, generate_combined_card, achieve, drop,
   clearField, drawEnemy, fully_restore
 } from './Game';
-import { material_icons } from './orders';
+import { material_icons, ready_order } from './orders';
 
 export const CARDS = [
   {
@@ -881,13 +881,13 @@ export const CARDS = [
     name:"阿消", 
     cost:3, 
     atk:4, 
-    hp:4, 
+    hp:3, 
     mine:2, 
     block:1, 
-    desc:"行动: 消耗4点费用，获得6分", 
+    desc:"行动: 消耗3点费用，获得6分", 
     illust:"http://prts.wiki/images/c/c6/%E7%AB%8B%E7%BB%98_%E9%98%BF%E6%B6%88_1.png",
     action(G, ctx, self) {
-      if (payCost(G, ctx, 4 + 2 * self.power)) {
+      if (payCost(G, ctx, 3 + 2 * self.power)) {
         let delta = 6 + 3 * self.power;
         G.score += delta;
 
@@ -926,21 +926,21 @@ export const CARDS = [
   {
     name:"赫默",
     cost:3,
-    atk:2,
-    hp:2,
-    mine:2,
-    block:1,
-    desc:"部署: 获得2个已完成的订单",
+    atk:0,
+    hp:3,
+    mine:1,
+    block:0,
+    desc:"采掘: 重置2个订单",
     illust:"http://prts.wiki/images/7/7f/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E9%BB%98_1.png",
-    onPlay(G, ctx, self) {
-      get_rhine_order(G, ctx);
-      get_rhine_order(G, ctx);
+    onMine(G, ctx, self) {
+      ready_order(G, ctx);
+      ready_order(G, ctx);
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      get_rhine_order(G, ctx);
+      cure(G, ctx, 6);
     },
-    reinforce_desc: "获得1个已完成的订单",
+    reinforce_desc: "使1个干员获得+6生命值",
   },
   
   {
@@ -950,11 +950,11 @@ export const CARDS = [
     hp:3,
     mine:3,
     block:0,
-    desc:"行动: 重置1个干员，获得1个已完成的订单",
+    desc:"行动: 重置1个干员，重置1个订单",
     illust:"http://prts.wiki/images/a/ac/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9D%A2%E9%B8%AE_1.png",
     action(G, ctx, self) {
-      get_rhine_order(G, ctx);
       ready_random_card(G, ctx, self);
+      ready_order(G, ctx);
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
@@ -965,29 +965,36 @@ export const CARDS = [
 
   {
     name:"伊芙利特",
-    cost:5,
-    atk:6,
+    cost:4,
+    atk:4,
     hp:3,
-    mine:1,
+    mine:4,
     block:0,
-    desc:"采掘: 重置所有已完成的订单",
+    desc:"行动: 本回合剩余时间内，每使用1次订单，就造成3点伤害",
     illust:"http://prts.wiki/images/5/53/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E8%8A%99%E5%88%A9%E7%89%B9_1.png",
-    onMine(G, ctx, self) {
-      let count = G.finished.filter(x => x.exhausted).length;
-      for (let order of G.finished) {
-        order.exhausted = false;
-      }
+    // onMine(G, ctx, self) {
+    //   let count = G.finished.filter(x => x.exhausted).length;
+    //   for (let order of G.finished) {
+    //     order.exhausted = false;
+    //   }
 
-      if (count >= 10) {
-        achieve(G, ctx, "无敌的小火龙", "使用伊芙利特重置至少10个订单", self);
-      }
+    //   if (count >= 10) {
+    //     achieve(G, ctx, "无敌的小火龙", "使用伊芙利特重置至少10个订单", self);
+    //   }
 
+    // },
+    action(G, ctx) {
+      G.onUseOrder.push(
+        (G, ctx) => {
+          deal_random_damage(G, ctx, 3);
+        }
+      );
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 2;
+      self.mine += 3;
     },
-    reinforce_desc: "<+2>",
+    reinforce_desc: "<+3>",
   },
   
   // {
@@ -1576,14 +1583,14 @@ export const CARDS = [
     name:"崖心",
     cost:3,
     atk:4,
-    hp:4,
+    hp:3,
     mine:2,
     block:1,
-    desc:<span>行动: 消耗2个{material_icons[3]}，获得5分</span>,
+    desc:<span>行动: 消耗2个{material_icons[3]}，获得6分</span>,
     illust:"http://prts.wiki/images/a/a7/%E7%AB%8B%E7%BB%98_%E5%B4%96%E5%BF%83_1.png",
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [0,0,0,2])) {
-        G.score += 5 + self.power;
+        G.score += 6 + self.power;
       }
     },
     reinforce: 1,
@@ -1596,10 +1603,10 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:<span>行动: 每有1组{material_icons.slice(0,3)}，就获得1个{material_icons[3]}</span>,
+    desc:<span>行动: 获得1个{material_icons[3]}，然后每有1组{material_icons.slice(0,3)}，就再获得1个{material_icons[3]}</span>,
     illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%88%9D%E9%9B%AA_1.png",
     action(G, ctx, self) {
-      G.materials[3] += G.materials.slice(0,3).sort()[0];
+      G.materials[3] += 1 + G.materials.slice(0,3).sort()[0];
     },
     reinforce: 2,
     reinforce_desc: "获得2点费用",
@@ -1645,6 +1652,26 @@ export const CARDS = [
     },
     reinforce: 1,
     reinforce_desc: "伤害+1",
+  },
+  
+  {
+    name:"夜烟",
+    cost:3,
+    atk:3,
+    hp:2,
+    mine:6,
+    block:0,
+    desc:"采掘: 弃2张牌",
+    illust:"http://prts.wiki/images/a/a0/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E7%83%9F_1.png",
+    onMine(G, ctx) {
+      drop(G, ctx);
+      drop(G, ctx);
+    },
+    reinforce: 2,
+    reinforce_desc: "<+3>",
+    onReinforce(G, ctx, self) {
+      self.mine += 3;
+    }
   },
 
   {
@@ -1915,11 +1942,11 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "行动: 对1个干员造成4点伤害，并使其获得\"采掘/战斗: 获得4分\"",
+    desc: "行动: 对1个重置状态的干员造成4点伤害，并使其获得\"采掘/战斗: 获得4分\"",
     illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
     reinforce: 1,
     action(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.field.filter(x => (x!=self)))[0];
+      let card = ctx.random.Shuffle(G.field.filter(x => (x!=self && !x.exhausted)))[0];
       if (card) {
         card.dmg += 4;
         if (card.dmg >= card.hp) {
@@ -2006,14 +2033,14 @@ export const CARDS = [
     block:0,
     desc: "采掘: 摸2张牌",
     illust:"http://prts.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
-    reinforce: 3,
+    reinforce: 2,
     onMine(G, ctx, self) {
       draw(G, ctx);
       draw(G, ctx);
     },
-    reinforce_desc: "摸5张牌",
+    reinforce_desc: "摸3张牌",
     onReinforce(G, ctx) {
-      for (let i=0; i<5; i++) {
+      for (let i=0; i<3; i++) {
         draw(G, ctx);
       }
     }

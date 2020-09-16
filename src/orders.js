@@ -31,7 +31,7 @@ function deal3dmg(G, ctx, field_selected, enemy_selected) {
   logMsg(G, ctx, `${enemy.name} 受到3点伤害`);
 }
 
-function ready_order(G, ctx) {
+export function ready_order(G, ctx) {
   let order = ctx.random.Shuffle(G.finished.filter(x => x.exhausted && !x.ready_other_orders))[0];
   if (order) {
     order.exhausted = false;
@@ -68,7 +68,7 @@ const advanced_orders = [{
     score: 2,
     reward: 3,
     advanced: true,
-    desc: (<span>2分/{food_icons[0]}{food_icons[1]}{food_icons[2]}</span>),
+    desc: (<span>2分/每组{food_icons[0]}{food_icons[1]}{food_icons[2]}订单</span>),
     effect(G, ctx) {
       let colors = G.finished.reduce((acc,val)=>{
         if(val.color >= 0) acc[val.color]+=1;
@@ -120,20 +120,24 @@ export const ORDERS = [
     requirements: [3,0,0,0],
     score: 2,
     reward: 1,
-    desc: (<span>{material_icons[2]} → ? + ?</span>),
+    desc: (<span>1费→{material_icons[2]}{material_icons[2]}</span>),
     cost: [0,0,1,0],
     effect(G, ctx) {
-      gainMaterials(G, ctx, 2);
+      if (payCost(G, ctx, 1)) {
+        G.materials[2] += 2;
+      }
     },
   },
   {
     requirements: [0,3,0,0],
     score: 2,
     reward: 2,
-    desc: (<span>{material_icons[0]} → ? + ?</span>),
+    desc: (<span>1费→{material_icons[0]}{material_icons[0]}</span>),
     cost: [1,0,0,0],
     effect(G, ctx) {
-      gainMaterials(G, ctx, 2);
+      if (payCost(G, ctx, 1)) {
+        G.materials[0] += 2;
+      }
     },
 
   },
@@ -141,10 +145,12 @@ export const ORDERS = [
     requirements: [0,0,3,0],
     score: 2,
     reward: 0,
-    desc: (<span>{material_icons[1]} → ? + ?</span>),
+    desc: (<span>1费→{material_icons[1]}{material_icons[1]}</span>),
     cost: [0,1,0,0],
     effect(G, ctx) {
-      gainMaterials(G, ctx, 2);
+      if (payCost(G, ctx, 1)) {
+        G.materials[1] += 2;
+      }
     },
   },
 

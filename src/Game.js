@@ -258,6 +258,9 @@ function useOrder(G, ctx, idx, field_selected, enemy_selected) {
 
   if (use(G, ctx, order) && ((order.cost == undefined) || (payMaterials(G, ctx, order.cost)))) {
     order.effect(G, ctx, field_selected, enemy_selected);
+    for (let f of G.onUseOrder) {
+      f(G, ctx, order);
+    }
   }
 }
 
@@ -498,30 +501,28 @@ export function ready_random_card(G, ctx, self) {
 
 export function fully_restore(G, ctx) {
   // EH: find a "sorted" function instead of this way
-  let ranked_field_by_dmg = G.field.sort((x,y) => {
+  let card = [...G.field].sort((x,y) => {
     if (x.dmg != y.dmg) {
       return y.dmg - x.dmg;
     }
     else {
       return x.hp-y.hp;
     }
-  });
-  let card = ranked_field_by_dmg[0];
+  })[0];
   G.cured = card.dmg;
   card.dmg = 0;
 }
 
 export function cure(G, ctx, amount) {
   // EH: find a "sorted" function instead of this way
-  let ranked_field_by_dmg = G.field.sort((x,y) => {
+  let card = [...G.field].sort((x,y) => {
     if (x.dmg != y.dmg) {
       return y.dmg - x.dmg;
     }
     else {
       return x.hp-y.hp;
     }
-  });
-  let card = ranked_field_by_dmg[0];
+  })[0];
   if (card) {
     card.dmg -= amount;
     if (card.dmg < 0) {
@@ -737,6 +738,7 @@ export function setup_scenario(G, ctx) {
     G.onCardFight = [];
     G.onCardAct = [];
     G.onCardReinforced = [];
+    G.onUseOrder = [];
 
     G.exhausted_enter = false;
     G.enemy_exhausted_enter = true;
@@ -896,6 +898,7 @@ export const AC = {
         G.onCardFight = [];
         G.onCardAct = [];
         G.onCardReinforced = [];
+        G.onUseOrder = [];
 
         for (let card of [...G.hand, ...G.field, ...G.efield]) {
           card.ready_times = 0;
