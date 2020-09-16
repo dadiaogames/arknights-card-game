@@ -975,7 +975,7 @@ export const CARDS = [
     hp:3,
     mine:4,
     block:0,
-    desc:"行动: 本回合剩余时间内，每使用1次订单，就造成3点伤害",
+    desc:"行动: 本回合剩余时间内，每使用1次订单，就造成2点伤害",
     illust:"http://prts.wiki/images/5/53/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E8%8A%99%E5%88%A9%E7%89%B9_1.png",
     // onMine(G, ctx, self) {
     //   let count = G.finished.filter(x => x.exhausted).length;
@@ -991,7 +991,7 @@ export const CARDS = [
     action(G, ctx) {
       G.onUseOrder.push(
         (G, ctx) => {
-          deal_random_damage(G, ctx, 3);
+          deal_random_damage(G, ctx, 2);
         }
       );
     },

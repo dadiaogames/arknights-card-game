@@ -636,7 +636,8 @@ export class Board extends React.Component {
   handle_finished_clicked(idx) {
     let card = this.props.G.finished[idx];
     return () => {
-      if (this.state.finished_selected == idx) {
+      // if (this.state.finished_selected == idx) {
+      if (this.state.finished_selected == -2) {
         this.use_order();
       }
       else {
