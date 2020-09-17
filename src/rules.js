@@ -58,7 +58,7 @@ export const RULES = <div>
   <span>* 赤霄·绝影</span><br/>
   <span>* 企鹅物流</span><br/>
   <span>* 龙门消防局</span><br/>
-  <span>* 无敌的小火龙</span><br/>
+  {/* <span>* 无敌的小火龙</span><br/> */}
   <span>* 沸腾爆裂</span><br/>
   <span>* 真银斩</span><br/>
   <span>* 爆发剂·榴莲味</span><br/>

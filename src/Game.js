@@ -201,6 +201,7 @@ function play(G, ctx, idx) {
   if (payCost(G, ctx, card.cost)) {
     // move(G, ctx, "hand", "field", idx);
     // init_card_state(G, ctx, card);
+    G.hand.splice(idx, 1);
     insert_field(G, ctx, card);
     logMsg(G, ctx, `部署 ${card.name}`);
     for (let f of G.onPlayCard) {
