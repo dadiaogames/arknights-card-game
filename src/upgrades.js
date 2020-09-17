@@ -1,4 +1,5 @@
 import { gainMaterials, draw, deal_random_damage, reinforce_card, fully_restore, get_rhine_order, reinforce_hand, init_card_state } from './Game';
+import { ready_order } from './orders';
 
 export const UPGRADES = [
   {
@@ -159,30 +160,31 @@ export const UPGRADES = [
   // },
 
   {
-    name: "订单1",
-    desc: "部署奖励:\"获得1个已完成的订单\"",
+    name: "订单重置2",
+    desc: "部署奖励:\"重置2个订单\"",
     effect(G, ctx, card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          get_rhine_order(G, ctx);
+          ready_order(G, ctx);
+          ready_order(G, ctx);
         }
       });
     }
   },
 
-  {
-    name: "化解",
-    desc: "部署奖励:\"化解所有动乱值\"",
-    effect(G, ctx, card) {
-      card.onPlayBonus.push({
-        name: this.name,
-        effect(G, ctx, card) {
-          G.danger = 0;
-        }
-      });
-    }
-  },
+  // {
+  //   name: "化解",
+  //   desc: "部署奖励:\"化解所有动乱值\"",
+  //   effect(G, ctx, card) {
+  //     card.onPlayBonus.push({
+  //       name: this.name,
+  //       effect(G, ctx, card) {
+  //         G.danger = 0;
+  //       }
+  //     });
+  //   }
+  // },
 
   {
     name: "加倍",

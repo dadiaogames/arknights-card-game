@@ -166,7 +166,7 @@ export class Board extends React.Component {
       },
       finished: {
         行动: this.use_order,
-        一键收货: this.harvest_orders,
+        // 一键收货: this.harvest_orders,
       },
       pick: {
         拿取: () => this.props.moves.pick(this.state.pick_selected),
