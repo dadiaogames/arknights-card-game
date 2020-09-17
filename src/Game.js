@@ -183,8 +183,9 @@ export function mulligan(G, ctx, choices) {
 
 export function insert_field(G, ctx, card, idx) {
   if (G.field.length <= 8) {
-    G.field.splice(idx || G.field.length, 0, init_card_state(G, ctx, {...card}));
-    return true;
+    let played_card = init_card_state(G, ctx, {...card});
+    G.field.splice(idx || G.field.length, 0, played_card);
+    return played_card;
   }
   else {
     logMsg(G, ctx, "场上干员数已达到上限");
@@ -211,12 +212,12 @@ function play(G, ctx, idx) {
     for (let f of G.onPlayCard) {
       f(G, ctx, card);
     }
-    if (card.onPlay) {
-      card.onPlay(G, ctx, card);
+    if (inserted.onPlay) {
+      inserted.onPlay(G, ctx, inserted);
     }
-    if (card.onPlayBonus) {
-      for (let bonus of card.onPlayBonus) {
-        bonus.effect(G, ctx, card);
+    if (inserted.onPlayBonus) {
+      for (let bonus of inserted.onPlayBonus) {
+        bonus.effect(G, ctx, inserted);
       }
     }
   }
