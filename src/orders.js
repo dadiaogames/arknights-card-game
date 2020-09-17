@@ -121,7 +121,7 @@ export const ORDERS = [
     score: 2,
     reward: 1,
     desc: (<span>1费→{material_icons[2]}{material_icons[2]}</span>),
-    cost: [0,0,1,0],
+    // cost: [0,0,1,0],
     effect(G, ctx) {
       if (payCost(G, ctx, 1)) {
         G.materials[2] += 2;
@@ -133,7 +133,7 @@ export const ORDERS = [
     score: 2,
     reward: 2,
     desc: (<span>1费→{material_icons[0]}{material_icons[0]}</span>),
-    cost: [1,0,0,0],
+    // cost: [1,0,0,0],
     effect(G, ctx) {
       if (payCost(G, ctx, 1)) {
         G.materials[0] += 2;
@@ -146,7 +146,7 @@ export const ORDERS = [
     score: 2,
     reward: 0,
     desc: (<span>1费→{material_icons[1]}{material_icons[1]}</span>),
-    cost: [0,1,0,0],
+    // cost: [0,1,0,0],
     effect(G, ctx) {
       if (payCost(G, ctx, 1)) {
         G.materials[1] += 2;

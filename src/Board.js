@@ -419,7 +419,7 @@ export class Board extends React.Component {
   process_order_data(card) {
     //EH: reconstruct this
     let requirements = [];
-    for (let i=0; i<3; i++) {
+    for (let i=0; i<4; i++) {
       let icon = ICONS[Object.keys(ICONS)[i]];
       let amount = card.requirements[i];
       for (let j=0; j<amount; j++) {
@@ -429,10 +429,10 @@ export class Board extends React.Component {
     return {
       o_illust: "https://ak.hypergryph.com/upload/images/20190228/32ddf0470a305376204d1312ca4720f9.jpg",
       // o_illust: "https://ak.hypergryph.com/assets/index/images/ak/common/story/item_origin.png",
-      requirements: requirements,
       score: card.score,
       reward: material_icons[card.reward],
       order_effect: card.desc,
+      requirements: requirements, // Show requirements later for higher priority
     };
   }
 

@@ -184,9 +184,11 @@ export function mulligan(G, ctx, choices) {
 export function insert_field(G, ctx, card, idx) {
   if (G.field.length <= 8) {
     G.field.splice(idx || G.field.length, 0, init_card_state(G, ctx, {...card}));
+    return true;
   }
   else {
     logMsg(G, ctx, "场上干员数已达到上限");
+    return false;
   }
 }
 
@@ -202,8 +204,10 @@ function play(G, ctx, idx) {
     // move(G, ctx, "hand", "field", idx);
     // init_card_state(G, ctx, card);
     G.hand.splice(idx, 1);
-    insert_field(G, ctx, card);
-    logMsg(G, ctx, `部署 ${card.name}`);
+    let inserted = insert_field(G, ctx, card);
+    if (inserted) {
+      logMsg(G, ctx, `部署 ${card.name}`);
+    }
     for (let f of G.onPlayCard) {
       f(G, ctx, card);
     }
@@ -251,6 +255,17 @@ function sort_finished(G) {
   G.finished = G.finished.sort((x,y)=>(x.order_id-y.order_id));
 }
 
+function price_up(order) {
+  let new_requirements = order.requirements;
+  if (order.advanced) {
+    new_requirements[3] += 1;
+  }
+  else {
+    new_requirements = new_requirements.map(x => (x == 0)? 0 : x+1);
+  }
+  return {...order, requirements: new_requirements};
+}
+
 function finishOrder(G, ctx, idx) {
   let order = G.orders[idx];
 
@@ -260,6 +275,12 @@ function finishOrder(G, ctx, idx) {
     G.finished.push({...G.orders.splice(idx, 1)[0]});
     logMsg(G, ctx, "完成订单");
     sort_finished(G);
+
+    // let len = G.finished.length;
+    // if (len % 2 == 0 && len != 2) {
+    //   G.orders = G.orders.map(price_up);
+    //   G.odeck = G.odeck.map(price_up);
+    // }
   }
 }
 
