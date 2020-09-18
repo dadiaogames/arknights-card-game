@@ -766,30 +766,30 @@ export class Board extends React.Component {
         if (risk_level < 0 || this.props.G.rhodes_training_mode) {
           grade = good_grade;
         }
-        else if (risk_level >= 0 && risk_level < 2) {
+        else if (risk_level >= 0 && risk_level < 8) {
           grade = "C";
         }
-        else if (risk_level >= 2 && risk_level < 4) {
+        else if (risk_level >= 8 && risk_level < 16) {
           grade = "B";
         }
-        else if (risk_level >= 4 && risk_level < 8) {
+        else if (risk_level >= 16 && risk_level < 24) {
           grade = "A";
         }
-        else if (risk_level >= 8 && risk_level < 12) {
+        else if (risk_level >= 24 && risk_level < 32) {
           grade = "S";
         }
-        else if (risk_level >= 12 && risk_level < 16) {
+        else if (risk_level >= 32 && risk_level < 40) {
           grade = "SS";
         }
-        else if (risk_level >= 16 && risk_level < 22) {
+        else if (risk_level >= 40 && risk_level < 50) {
           grade = "SSS";
         }
-        else if (risk_level >= 22 && risk_level < 30) {
-          grade = "SSSS";
-        }
-        else if (risk_level >= 30 && risk_level < 50) {
-          grade = "SSSSS";
-        }
+        // else if (risk_level >= 22 && risk_level < 30) {
+        //   grade = "SSSS";
+        // }
+        // else if (risk_level >= 30 && risk_level < 50) {
+        //   grade = "SSSSS";
+        // }
         else {
           grade = "SSSSSS";
         }

@@ -38,7 +38,7 @@ export var ENEMIES = [
   {
     name: "猎犬",
     atk: 2,
-    hp: 2,
+    hp: 1,
     illust: "http://prts.wiki/images/3/3f/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%8C%8E%E7%8B%97.png",
     desc: "冲锋",
     onPlay(G, ctx, self) {
