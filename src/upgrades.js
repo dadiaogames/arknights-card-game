@@ -1,4 +1,4 @@
-import { gainMaterials, draw, deal_random_damage, reinforce_card, fully_restore, get_rhine_order, reinforce_hand, init_card_state } from './Game';
+import { gainMaterials, draw, deal_random_damage, reinforce_card, fully_restore, get_rhine_order, reinforce_hand, init_card_state, refresh_picks } from './Game';
 import { ready_order } from './orders';
 
 export const UPGRADES = [
@@ -55,6 +55,20 @@ export const UPGRADES = [
         name: this.name,
         effect(G, ctx, card) {
           G.score += 3;
+        }
+      });
+    }
+  },
+
+  {
+    name: "1分 刷新选牌",
+    desc: "部署奖励:\"获得1分并刷新选牌区\"",
+    effect(G, ctx, card) {
+      card.onPlayBonus.push({
+        name: this.name,
+        effect(G, ctx, card) {
+          G.score += 1;
+          refresh_picks(G, ctx);
         }
       });
     }

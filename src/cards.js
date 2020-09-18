@@ -1062,32 +1062,7 @@ export const CARDS = [
     reinforce_desc: "造成3点伤害",
   },
 
-  // {
-  //   name:"麦哲伦",
-  //   cost:3,
-  //   atk:4,
-  //   hp:2,
-  //   mine:2,
-  //   block:0,
-  //   desc:"部署/采掘: 使1个敌人攻击力-3",
-  //   illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
-  //   reinforce: 1,
-  //   onMine(G, ctx, self) {
-  //     let enemy = ctx.random.Shuffle(G.efield)[0];
-  //     if (enemy) {
-  //       enemy.atk -= 3;
-  //     }
-  //   },
-  //   onPlay(G, ctx, self) {
-  //     this.onMine(G, ctx, self);
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     self.atk += 2;
-  //     self.hp += 2;
-  //   },
-  //   reinforce_desc: "+2/+2",
-  // },
-  
+ 
   {
     name:"稀音",
     cost:2,
@@ -1714,6 +1689,26 @@ export const CARDS = [
     },
     reinforce_desc: "化解1点动乱值",
   },
+  
+  {
+    name:"麦哲伦",
+    cost:3,
+    atk:2,
+    hp:1,
+    mine:2,
+    block:0,
+    desc:"部署: 化解4点动乱值",
+    illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      G.danger -= 4;
+    },
+    onReinforce(G, ctx, self) {
+      self.mine += 3;
+    },
+    reinforce_desc: "<+3>",
+  },
+ 
   
   {
     name:"苏苏洛",
@@ -2421,7 +2416,7 @@ export const CARDS = [
         }
       }
     },
-    reinforce: 2,
+    reinforce: 1,
     onReinforce(G, ctx, self) {
       deal_random_damage(G, ctx, 3);
     },

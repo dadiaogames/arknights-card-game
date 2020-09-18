@@ -831,7 +831,7 @@ export function pick(G, ctx, idx) {
   }
 }
 
-function refresh_picks(G, ctx) {
+export function refresh_picks(G, ctx) {
   G.picks = ctx.random.Shuffle(G.deck).slice(0, 5);
   let add_price = (pick, idx) => {
     let price = [0, 0, 0, 0];
@@ -945,7 +945,7 @@ export const AC = {
           }
         }
 
-        if (G.enemy_grow) {
+        if (G.enemy_grow && G.round_num > 1) {
           for (let enemy of [...G.edeck, ...G.efield]) {
             enemy.atk += 1;
             enemy.hp += 1;
