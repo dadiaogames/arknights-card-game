@@ -38,6 +38,7 @@ export const CARDS = [
     onMine(G, ctx, self) {
       let delta = 1 + 2 * self.power;
       G.score += delta;
+      logMsg(G, ctx, `使用 阿米娅 获得${delta}分`);
 
       if (delta >= 15) {
         achieve(G, ctx, "女主角", "使用阿米娅获得15分以上", self);
@@ -909,11 +910,11 @@ export const CARDS = [
   
   {
     name:"铃兰", 
-    cost:3, 
+    cost:2, 
     atk:2, 
     hp:1, 
     mine:1, 
-    block:1, 
+    block:0, 
     desc:"部署: 本回合剩余时间内，每部署1个干员，就获得2分", 
     illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
     onPlay(G, ctx) {
@@ -926,7 +927,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       self.onPlay(G, ctx);
     },
-    reinforce: 3,
+    reinforce: 2,
     reinforce_desc: "触发1次\"部署\"效果",
   },
 
@@ -1264,7 +1265,9 @@ export const CARDS = [
       let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
       if (card) {
         card.exhausted = true;
-        G.score += Math.floor(card.atk / 2);
+        let delta = Math.floor(card.atk / 2);
+        G.score += delta;
+        logMsg(G, ctx, `使用 普罗旺斯 获得${delta}分`);
       }
     },
     reinforce: 2,
@@ -2271,9 +2274,10 @@ export const CARDS = [
     onPlay(G, ctx, self) {
       let damaged_enemy = ctx.random.Shuffle(G.efield.filter(x => (x.dmg > 0)))[0];
       if (damaged_enemy) {
-        let enemy_idx = G.efield.indexOf(damaged_enemy); // TODO: have a "list.remove()" funcion is better
-        G.efield.splice(enemy_idx, 1);
-        logMsg(G, ctx, `${damaged_enemy.name} 被摧毁`)
+        // let enemy_idx = G.efield.indexOf(damaged_enemy); // TODO: have a "list.remove()" funcion is better
+        // G.efield.splice(enemy_idx, 1);
+        // logMsg(G, ctx, `${damaged_enemy.name} 被摧毁`)
+        damaged_enemy.dmg = damaged_enemy.hp;
       }
     },
     onReinforce(G, ctx, self) {
@@ -2405,7 +2409,7 @@ export const CARDS = [
     cost:4,
     atk:3,
     hp:3,
-    mine:2,
+    mine:1,
     block:0,
     desc: "战斗: 同时对其攻击目标相邻的敌人造成伤害",
     illust:"http://prts.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E9%99%A8%E6%98%9F_1.png",
@@ -2419,9 +2423,9 @@ export const CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.atk += 2;
+      deal_random_damage(G, ctx, 3);
     },
-    reinforce_desc: "+2/+0",
+    reinforce_desc: "造成3点伤害",
   },
 
  

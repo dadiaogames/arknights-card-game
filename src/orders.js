@@ -16,6 +16,9 @@ function add_atk_hp(G, ctx, field_selected) {
     card = G.field[G.field.length - 1]; // EH: change this to "last"
     logMsg(G, ctx, "建议: 请选定场面上想加成的干员后使用该订单");
   }
+  else {
+    logMsg(G, ctx, `使 ${card.name} 获得+2/+2`);
+  }
   card.atk += 2;
   card.hp += 2;
 }
@@ -68,7 +71,7 @@ const advanced_orders = [{
     score: 2,
     reward: 3,
     advanced: true,
-    desc: (<span>2分/每组{food_icons[0]}{food_icons[1]}{food_icons[2]}订单</span>),
+    desc: (<span>获得2分/每组{food_icons[0]}{food_icons[1]}{food_icons[2]}订单</span>),
     effect(G, ctx) {
       let colors = G.finished.reduce((acc,val)=>{
         if(val.color >= 0) acc[val.color]+=1;
@@ -76,7 +79,6 @@ const advanced_orders = [{
       }, [0,0,0]);
       console.log(colors);
       let times = _.min(colors);
-      console.log(times);
       G.score += 2 * times;
     },
   },  

@@ -359,7 +359,7 @@ const mini_sets = [' 风笛  白面鸮  温蒂  夜刀 ',
  ' 棘刺 棘刺 调香师 芬 ',
  ' 闪灵 蛇屠箱 芙蓉 ',
  ' 阿 蛇屠箱 闪灵 ',
- ' 热水壶 热水壶 热水壶 ',
+ ' 热水壶 热水壶 热水壶 热水壶 ',
 ].map(mini_set => mini_set.split(" ").filter(card => card != ""));
 
 

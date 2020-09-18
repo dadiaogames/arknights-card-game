@@ -111,13 +111,11 @@ const tag_list = [
 
 
   {
-    src: "http://prts.wiki/images/6/6d/Enemy_eagent_1.png",
-    desc: "敌人无法被横置",
+    src: "http://prts.wiki/images/4/46/Global_forbidloc_2.png",
+    desc: "可同时部署的干员数-3",
     level: 2,
     effect(G, ctx){
-      for (let enemy of G.edeck) {
-        enemy.unyielding = true;
-      }
+      G.field_limit -= 3;
     }
   },
 
@@ -231,7 +229,7 @@ const tag_list = [
   {
     src: "http://prts.wiki/images/c/c1/Char_cdtime_2.png",
     desc: "干员以横置状态入场",
-    level: 5,
+    level: 10,
     effect(G, ctx){
       G.exhausted_enter = true;
     }

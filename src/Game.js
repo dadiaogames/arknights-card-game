@@ -182,7 +182,7 @@ export function mulligan(G, ctx, choices) {
 }
 
 export function insert_field(G, ctx, card, idx) {
-  if (G.field.length <= 8) {
+  if (G.field.length < G.field_limit) {
     let played_card = init_card_state(G, ctx, {...card});
     G.field.splice(idx || G.field.length, 0, played_card);
     return played_card;
@@ -208,16 +208,16 @@ function play(G, ctx, idx) {
     let inserted = insert_field(G, ctx, card);
     if (inserted) {
       logMsg(G, ctx, `部署 ${card.name}`);
-    }
-    for (let f of G.onPlayCard) {
-      f(G, ctx, card);
-    }
-    if (inserted.onPlay) {
-      inserted.onPlay(G, ctx, inserted);
-    }
-    if (inserted.onPlayBonus) {
-      for (let bonus of inserted.onPlayBonus) {
-        bonus.effect(G, ctx, inserted);
+      for (let f of G.onPlayCard) {
+        f(G, ctx, card);
+      }
+      if (inserted.onPlay) {
+        inserted.onPlay(G, ctx, inserted);
+      }
+      if (inserted.onPlayBonus) {
+        for (let bonus of inserted.onPlayBonus) {
+          bonus.effect(G, ctx, inserted);
+        }
       }
     }
   }
@@ -741,6 +741,16 @@ export function setup(ctx) {
     return G;
 }
 
+function setup_events(G, ctx) {   
+  G.onPlayCard = [];
+  G.onCardMine = [];
+  G.onCardFight = [];
+  G.onCardAct = [];
+  G.onCardReinforced = [];
+  G.onUseOrder = [];
+  G.onEnemyOut = [];
+}
+
 export function setup_scenario(G, ctx) {
     G.hand = [];
     G.field = [];
@@ -769,14 +779,9 @@ export function setup_scenario(G, ctx) {
     G.goal = 10;
     G.max_danger = 8;
     G.num_enemies_out = 2;
+    G.field_limit = 8;
 
-    G.onPlayCard = [];
-    G.onCardMine = [];
-    G.onCardFight = [];
-    G.onCardAct = [];
-    G.onCardReinforced = [];
-    G.onUseOrder = [];
-    G.onEnemyOut = [];
+    setup_events(G, ctx);
 
     G.exhausted_enter = false;
     G.enemy_exhausted_enter = true;
@@ -931,13 +936,7 @@ export const AC = {
         G.costs += 3;
         refresh_picks(G, ctx);
 
-        G.onPlayCard = [];
-        G.onCardMine = [];
-        G.onCardFight = [];
-        G.onCardAct = [];
-        G.onCardReinforced = [];
-        G.onUseOrder = [];
-        G.onEnemyOut = []; // EH: reconstruct list init
+        setup_events(G, ctx);
 
         for (let card of [...G.hand, ...G.field, ...G.efield]) {
           card.ready_times = 0;

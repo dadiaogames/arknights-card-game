@@ -712,7 +712,7 @@ export class Board extends React.Component {
 
   enter_game() {
     let deck = [];
-    let seed = this.state.deck_name;
+    let seed = this.state.seed;
     if (!this.state.competition_mode){
       let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
       deck = str2deck(deck_data);
