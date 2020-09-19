@@ -910,7 +910,7 @@ export const CARDS = [
   
   {
     name:"铃兰", 
-    cost:2, 
+    cost:3, 
     atk:2, 
     hp:1, 
     mine:1, 
@@ -1466,7 +1466,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc:"部署: 部署5个随机干员的1/1复制",
+    desc:"部署: 部署5个随机干员的1/1复制(无视场面上限)",
     illust:"http://prts.wiki/images/7/72/%E7%AB%8B%E7%BB%98_%E5%87%AF%E5%B0%94%E5%B8%8C_1.png",
     onPlay(G, ctx) {
       let cards = ctx.random.Shuffle(G.CARDS).slice(0, 20);
@@ -1986,9 +1986,9 @@ export const CARDS = [
   
   {
     name:"断罪者",
-    cost:3,
+    cost:5,
     atk:4,
-    hp:3,
+    hp:5,
     mine:2,
     block:1,
     desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
