@@ -13,7 +13,7 @@ export const ICONS = {
 
   mine: (<img src="https://dss1.bdstatic.com/6OF1bjeh1BF3odCf/it/u=1672017263,313384077&fm=74&app=80&f=JPEG&size=f121,121?sec=1880279984&t=807e81fe43f1078031ace9ef194ff68a" height={attr_icon_height} />),
 
-  block: (<img src="http://img5.imgtn.bdimg.com/it/u=1153648212,1889048357&fm=26&gp=0.jpg" height={attr_icon_height} />),
+  block: (<img src="https://s1.ax1x.com/2020/09/19/woEDMR.jpg" height={attr_icon_height} />),
 
 };
 
