@@ -1476,8 +1476,8 @@ export const CARDS = [
         card.hp = 1;
         card.mine = 1;
         card.cost = 1;
-        // G.field.push(init_card_state(G, ctx, card));
-        insert_field(G, ctx, card);
+        G.field.push(init_card_state(G, ctx, card));
+        // insert_field(G, ctx, card);
       }
     },
     reinforce: 1,
@@ -2267,7 +2267,7 @@ export const CARDS = [
     illust:"http://prts.wiki/images/5/51/%E7%AB%8B%E7%BB%98_%E5%88%BB%E5%88%80_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      let damaged_enemy = ctx.random.Shuffle(G.efield.filter(x => (x.dmg > 0)))[0];
+      let damaged_enemy = ctx.random.Shuffle(G.efield.filter(x => (x.dmg > 0 && x.dmg < x.hp)))[0];
       if (damaged_enemy) {
         // let enemy_idx = G.efield.indexOf(damaged_enemy); // TODO: have a "list.remove()" funcion is better
         // G.efield.splice(enemy_idx, 1);
