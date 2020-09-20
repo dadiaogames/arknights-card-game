@@ -112,10 +112,10 @@ const tag_list = [
 
   {
     src: "http://prts.wiki/images/4/46/Global_forbidloc_2.png",
-    desc: "可同时部署的干员数-3",
+    desc: "可同时部署的干员数-2",
     level: 2,
     effect(G, ctx){
-      G.field_limit -= 3;
+      G.field_limit -= 2;
     }
   },
 

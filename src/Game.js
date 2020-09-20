@@ -220,6 +220,10 @@ function play(G, ctx, idx) {
         }
       }
     }
+    else {
+      G.costs += card.cost;
+      G.hand.push(card);
+    }
   }
 }
 
@@ -240,7 +244,7 @@ function setValue(G, ctx, attr, val) {
 }
 
 export function refreshOrder(G, ctx) {
-  G.orders = ctx.random.Shuffle(G.odeck).slice(0, 6);
+  G.orders = ctx.random.Shuffle(G.odeck).slice(0, 7);
   sort_orders(G);
 }
 
@@ -513,7 +517,7 @@ export function exhaust_random_enemy(G, ctx) {
 
 export function ready_random_card(G, ctx, self) {
   let exhausted_cards = G.field.filter(x => (x.exhausted && (x != self)));
-  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "巫恋"].includes(x.name)));
+  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪"].includes(x.name)));
   if ((exhausted_cards.length != 0) && (prepared_cards.length == 0)) {
     logMsg(G, ctx, "干员们感到意外的疲惫，无法被重置");
   }

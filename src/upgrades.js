@@ -3,8 +3,8 @@ import { ready_order } from './orders';
 
 export const UPGRADES = [
   {
-    name: "+2/+0",
-    desc: "+2攻击力", // Write "获得"always
+    name: "+3/+0",
+    desc: "+3攻击力", // Write "获得"always
     effect(G, ctx, card) {
       card.atk += 2;
     }
@@ -34,6 +34,15 @@ export const UPGRADES = [
   },
 
   {
+    name: "阻挡数+2",
+    desc: "阻挡数+2",
+    effect(G, ctx, card) {
+      card.block = card.block || 0;
+      card.block += 2;
+    }
+  },
+
+  {
     name: "起始",
     desc: "\"对局开始时，将这张牌置入手牌\"",
     effect(G, ctx, card) {
@@ -48,31 +57,31 @@ export const UPGRADES = [
 
   // Init "onplay bonus" before
   {
-    name: "3分",
-    desc: "部署奖励:\"获得3分\"",
+    name: "4分",
+    desc: "部署奖励:\"获得4分\"",
     effect(G, ctx, card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          G.score += 3;
+          G.score += 4;
         }
       });
     }
   },
 
-  {
-    name: "1分 刷新选牌",
-    desc: "部署奖励:\"获得1分并刷新选牌区\"",
-    effect(G, ctx, card) {
-      card.onPlayBonus.push({
-        name: this.name,
-        effect(G, ctx, card) {
-          G.score += 1;
-          refresh_picks(G, ctx);
-        }
-      });
-    }
-  },
+  // {
+  //   name: "1分 刷新选牌",
+  //   desc: "部署奖励:\"获得1分并刷新选牌区\"",
+  //   effect(G, ctx, card) {
+  //     card.onPlayBonus.push({
+  //       name: this.name,
+  //       effect(G, ctx, card) {
+  //         G.score += 1;
+  //         refresh_picks(G, ctx);
+  //       }
+  //     });
+  //   }
+  // },
 
   {
     name: "2材料",

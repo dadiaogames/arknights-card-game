@@ -84,7 +84,7 @@ export const CARDS = [
     name:"芙兰卡", 
     cost:4, 
     atk:5, 
-    hp:5, 
+    hp:6, 
     mine:3, 
     block:1, 
     illust:"http://prts.wiki/images/6/6c/%E7%AB%8B%E7%BB%98_%E8%8A%99%E5%85%B0%E5%8D%A1_1.png",
@@ -176,8 +176,8 @@ export const CARDS = [
   {
     name:"夜刀",
     cost:12,
-    atk:15,
-    hp:15,
+    atk:16,
+    hp:16,
     mine:8,
     block:2,
     illust:"http://prts.wiki/images/a/ad/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E5%88%80_1.png",
@@ -591,7 +591,7 @@ export const CARDS = [
   
   {
     name:"星极", 
-    cost:5, 
+    cost:4, 
     atk:4, 
     hp:4, 
     mine:2, 
@@ -1063,40 +1063,40 @@ export const CARDS = [
   },
 
  
-  {
-    name:"稀音",
-    cost:2,
-    atk:3,
-    hp:2,
-    mine:2,
-    block:0,
-    desc:<span>部署: 获得1个已完成的订单，其能力为"{material_icons[0]}{material_icons[1]}{material_icons[2]}→获得4分"</span>,
-    illust:"http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E7%A8%80%E9%9F%B3_1.png",
-    reinforce: 1,
-    onPlay(G, ctx, self) {
-      let order = {}; // EH: Reconstruct this as this code is the same as Meier
-      let requirements = [1,1,1,0];
-      order.desc = <span>{material_icons[0]}{material_icons[1]}{material_icons[2]}→4分</span>;
-      order.effect = (G, ctx) => {
-        if (payMaterials(G, ctx, requirements)) {
-          G.score += 4;
-        }
-      };
-      G.finished.unshift(order);
-    },
-    onReinforce(G, ctx, self) {
-      self.hp += 2;
-      self.atk += 2;
-    },
-    reinforce_desc: "+2/+2",
-  },
+  // {
+  //   name:"稀音",
+  //   cost:2,
+  //   atk:3,
+  //   hp:2,
+  //   mine:2,
+  //   block:0,
+  //   desc:<span>部署: 获得1个已完成的订单，其能力为"{material_icons[0]}{material_icons[1]}{material_icons[2]}→获得4分"</span>,
+  //   illust:"http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E7%A8%80%E9%9F%B3_1.png",
+  //   reinforce: 1,
+  //   onPlay(G, ctx, self) {
+  //     let order = {}; // EH: Reconstruct this as this code is the same as Meier
+  //     let requirements = [1,1,1,0];
+  //     order.desc = <span>{material_icons[0]}{material_icons[1]}{material_icons[2]}→4分</span>;
+  //     order.effect = (G, ctx) => {
+  //       if (payMaterials(G, ctx, requirements)) {
+  //         G.score += 4;
+  //       }
+  //     };
+  //     G.finished.unshift(order);
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.hp += 2;
+  //     self.atk += 2;
+  //   },
+  //   reinforce_desc: "+2/+2",
+  // },
 
 
 
   
   {
     name:"塞雷娅",
-    cost:7,
+    cost:6,
     atk:3,
     hp:6,
     mine:2,
@@ -1234,9 +1234,9 @@ export const CARDS = [
     hp:3, 
     mine:2, 
     block:0, 
-    desc:"采掘: 横置场上的1个干员，然后该干员每有2点攻击力，就获得1分", 
+    desc:"采掘/战斗: 横置场上的1个干员，然后该干员每有2点攻击力，就获得1分", 
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
-    onMine(G, ctx, self) {
+    onMine(G, ctx) {
       let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
       if (card) {
         card.exhausted = true;
@@ -1245,8 +1245,11 @@ export const CARDS = [
         logMsg(G, ctx, `使用 普罗旺斯 获得${delta}分`);
       }
     },
+    onFight(G, ctx) {
+      this.onMine(G, ctx);
+    },
     reinforce: 2,
-    onReinforce(G, ctx, self) {
+    onReinforce(G, ctx) {
       G.score += 2;
     },
     reinforce_desc: "获得2分",
@@ -1284,7 +1287,7 @@ export const CARDS = [
     name:"煌",
     cost:6,
     atk:7,
-    hp:7,
+    hp:10,
     mine:2,
     block:1,
     desc:"超杀: 每造成2点额外伤害，就获得1分",
@@ -1295,8 +1298,8 @@ export const CARDS = [
         let score_gained = Math.floor(delta / 2);
         G.score += score_gained;
         logMsg(G, ctx, `使用 ${self.name} 获得${score_gained}分`);
-        if (score_gained >= 8) {
-          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少8分", self);
+        if (score_gained >= 7) {
+          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少7分", self);
         }
       }
     },
@@ -1308,29 +1311,29 @@ export const CARDS = [
     reinforce_desc: "+3/+1",
   },
   
-  {
-    name:"黑",
-    cost:4,
-    atk:5,
-    hp:3,
-    mine:1,
-    block:0,
-    desc:"超杀: 对其对位敌人造成5点伤害",
-    illust:"http://prts.wiki/images/7/7b/%E7%AB%8B%E7%BB%98_%E9%BB%91_1.png",
-    onFight(G, ctx, self, enemy) {
-      if (enemy.dmg > enemy.hp) {
-        let idx = G.field.indexOf(self);
-        if (~idx) {
-          let enemy = G.efield[idx];
-          if (enemy) {
-            enemy.dmg += 5 + 4 * self.power;
-          }
-        }
-      }
-    },
-    reinforce: 1,
-    reinforce_desc: "伤害+4",
-  },
+  // {
+  //   name:"黑",
+  //   cost:4,
+  //   atk:5,
+  //   hp:3,
+  //   mine:1,
+  //   block:0,
+  //   desc:"超杀: 对其对位敌人造成5点伤害",
+  //   illust:"http://prts.wiki/images/7/7b/%E7%AB%8B%E7%BB%98_%E9%BB%91_1.png",
+  //   onFight(G, ctx, self, enemy) {
+  //     if (enemy.dmg > enemy.hp) {
+  //       let idx = G.field.indexOf(self);
+  //       if (~idx) {
+  //         let enemy = G.efield[idx];
+  //         if (enemy) {
+  //           enemy.dmg += 5 + 4 * self.power;
+  //         }
+  //       }
+  //     }
+  //   },
+  //   reinforce: 1,
+  //   reinforce_desc: "伤害+4",
+  // },
   
   {
     name:"酸糖", 
@@ -1490,8 +1493,8 @@ export const CARDS = [
   {
     name:"暴行",
     cost:2,
-    atk:3,
-    hp:3,
+    atk:4,
+    hp:4,
     mine:1,
     block:1,
     desc:"部署/采掘: 将所有手牌替换为随机干员牌",
@@ -1537,8 +1540,8 @@ export const CARDS = [
 
   {
     name:"银灰",
-    cost:6,
-    atk:5,
+    cost:5,
+    atk:6,
     hp:6,
     mine:2,
     block:1,
@@ -1551,8 +1554,8 @@ export const CARDS = [
         self.use_count = self.use_count || 0;
         self.use_count += 1;
 
-        if (self.use_count >= 5) {
-          achieve(G, ctx, "真银斩", "一回合内使用银灰5次以上", self);
+        if (self.use_count >= 6) {
+          achieve(G, ctx, "真银斩", "一回合内使用银灰6次以上", self);
         }
       }
     },
@@ -1609,7 +1612,7 @@ export const CARDS = [
     name:"角峰",
     cost:4,
     atk:3,
-    hp:5,
+    hp:6,
     mine:1,
     block:2,
     desc:<span>部署: 每有1个{material_icons[3]}，就获得+1/+1</span>,
@@ -2331,7 +2334,7 @@ export const CARDS = [
     illust:"http://prts.wiki/images/1/10/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9B%AA_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
-      let miner = ctx.random.Shuffle(G.hand.filter(x => (x.onMine && !["白雪", "艾雅法拉", "雷蛇"].includes(x.name))))[0];
+      let miner = ctx.random.Shuffle(G.hand.filter(x => (x.onMine && !["白雪", "艾雅法拉"].includes(x.name))))[0];
       if (miner) {
         miner.onMine(G, ctx, self);
         logMsg(G, ctx, `触发 ${miner.name} 的采掘效果`);
