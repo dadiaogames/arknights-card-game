@@ -381,8 +381,8 @@ export const CARDS = [
       G.deck = G.deck.slice(1);
       let idx = G.field.indexOf(self) + 1;
       if (new_card) {
-        // G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
-        insert_field(G, ctx, new_card, idx);
+        G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
+        // insert_field(G, ctx, new_card, idx);
       }
       if (new_card.name == "夜刀") {
         achieve(G, ctx, "特殊召唤", "使用风笛跳出夜刀", self);
@@ -724,8 +724,8 @@ export const CARDS = [
       let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(2+(self.power||0)))))[0];
       let idx = G.field.indexOf(self) + 1;
       if (new_card) {
-        // G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
-        insert_field(G, ctx, new_card, idx);
+        G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
+        // insert_field(G, ctx, new_card, idx);
       }
     },
     reinforce: 2,
@@ -1707,9 +1707,9 @@ export const CARDS = [
       G.danger -= 4;
     },
     onReinforce(G, ctx, self) {
-      self.mine += 3;
+      self.mine += 1;
     },
-    reinforce_desc: "<+3>",
+    reinforce_desc: "<+1>",
   },
  
   
@@ -2207,7 +2207,7 @@ export const CARDS = [
     name:"波登可",
     cost:4,
     atk:4,
-    hp:2,
+    hp:3,
     mine:2,
     block:0,
     desc: "行动: 触发手牌中1个干员的\"部署:\"效果(极境除外)",
@@ -2310,12 +2310,12 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得5点费用</span>,
+    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得6点费用</span>,
     illust:"http://prts.wiki/images/9/9f/%E7%AB%8B%E7%BB%98_%E6%83%8A%E8%9B%B0_1.png",
     reinforce: 2,
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
-        G.costs += 5;
+        G.costs += 6;
       }
     },
     onReinforce(G, ctx, self) {
@@ -2330,11 +2330,11 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "采掘/战斗: 触发手牌中1个干员的采掘/战斗效果",
+    desc: "采掘/战斗: 触发手牌中1个干员的采掘/战斗效果(视为自己触发)",
     illust:"http://prts.wiki/images/1/10/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9B%AA_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
-      let miner = ctx.random.Shuffle(G.hand.filter(x => (x.onMine && !["白雪", "艾雅法拉"].includes(x.name))))[0];
+      let miner = ctx.random.Shuffle(G.hand.filter(x => (x.onMine && !["白雪"].includes(x.name))))[0];
       if (miner) {
         miner.onMine(G, ctx, self);
         logMsg(G, ctx, `触发 ${miner.name} 的采掘效果`);
@@ -2344,7 +2344,7 @@ export const CARDS = [
       }
     },
     onFight(G, ctx, self) {
-      let fighter = ctx.random.Shuffle(G.hand.filter(x => (x.onFight && !["白雪", "能天使", "雷蛇"].includes(x.name))))[0];
+      let fighter = ctx.random.Shuffle(G.hand.filter(x => (x.onFight && !["白雪"].includes(x.name))))[0];
       if (fighter) {
         fighter.onFight(G, ctx, self);
         logMsg(G, ctx, `触发 ${fighter.name} 的战斗效果`);
