@@ -1356,7 +1356,7 @@ export const CARDS = [
         }
       );
     },
-    reinforce: 3,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
       this.action(G, ctx, self);
     },
@@ -1515,7 +1515,7 @@ export const CARDS = [
 
   {
     name:"嘉维尔",
-    cost:3,
+    cost:2,
     atk:3,
     hp:2,
     mine:2,
@@ -1860,7 +1860,7 @@ export const CARDS = [
   },
   {
     name:"霜叶",
-    cost:4,
+    cost:3,
     atk:2,
     hp:4,
     mine:1,
@@ -1922,7 +1922,7 @@ export const CARDS = [
   // },
   {
     name:"夜莺",
-    cost:6,
+    cost:5,
     atk:0,
     hp:3,
     mine:3,
@@ -2062,7 +2062,7 @@ export const CARDS = [
 
   {
     name:"食铁兽",
-    cost:8,
+    cost:7,
     atk:6,
     hp:7,
     mine:3,
@@ -2207,7 +2207,7 @@ export const CARDS = [
     name:"波登可",
     cost:4,
     atk:4,
-    hp:3,
+    hp:2.5,
     mine:2,
     block:0,
     desc: "行动: 触发手牌中1个干员的\"部署:\"效果(极境除外)",
