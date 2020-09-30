@@ -149,7 +149,7 @@ export function init_card_state(G, ctx, card) {
 
 export function draw(G, ctx) {
   // First, check the limit
-  if (G.limit_hand_field && (G.hand.length >= 6)) {
+  if (G.limit_hand && (G.hand.length >= 6)) {
     logMsg(G, ctx, "手牌数已达到上限");
     return;
   }
@@ -244,7 +244,7 @@ function setValue(G, ctx, attr, val) {
 }
 
 export function refreshOrder(G, ctx) {
-  G.orders = ctx.random.Shuffle(G.odeck).slice(0, 7);
+  G.orders = ctx.random.Shuffle(G.odeck).slice(0, 8);
   sort_orders(G);
 }
 
@@ -984,8 +984,13 @@ export const AC = {
           clearField(G, ctx, "field"); // Add this to discard destroyed cards
           // EH: Maybe this can be reconstructed?
         }
+
         if (G.danger < 0) {
           G.danger = 0;
+        }
+
+        if (G.reduce_goal) {
+          G.goal -= 4;
         }
       }
     },

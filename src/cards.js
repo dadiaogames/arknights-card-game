@@ -67,7 +67,7 @@ export const CARDS = [
   {
     name: "玫兰莎",
     cost: 2,
-    atk: 3,
+    atk: 4,
     hp: 4,
     mine: 1,
     block: 1,
@@ -83,7 +83,7 @@ export const CARDS = [
   {
     name:"芙兰卡", 
     cost:4, 
-    atk:5, 
+    atk:6, 
     hp:6, 
     mine:3, 
     block:1, 
@@ -321,12 +321,12 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:1, 
-    desc:"采掘: 横置1个敌人，然后每有1个横置的敌人，就获得1点费用", 
+    desc:"采掘: 横置1个敌人，然后每有1个横置的敌人，就获得1点费用(最多4点)", 
     illust:"http://prts.wiki/images/f/fc/%E7%AB%8B%E7%BB%98_%E5%BE%B7%E5%85%8B%E8%90%A8%E6%96%AF_1.png",
     onMine(G, ctx, self) {
       exhaust_random_enemy(G, ctx);
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
-      G.costs += num_exhausted + self.power * 2;
+      G.costs += Math.min(num_exhausted, 4);
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
@@ -583,10 +583,10 @@ export const CARDS = [
       enemy.atk -= 5;
     },
     onReinforce(G, ctx, self) {
-      self.atk += 2;
+      self.atk += 3;
       self.hp += 3;
     },
-    reinforce_desc: "+2/+3",
+    reinforce_desc: "+3/+3",
   },
   
   {
@@ -594,7 +594,7 @@ export const CARDS = [
     cost:4, 
     atk:4, 
     hp:4, 
-    mine:2, 
+    mine:3, 
     block:1, 
     desc: <span>部署: 获得2个{material_icons[3]}</span>, 
     illust:"http://prts.wiki/images/b/bb/%E7%AB%8B%E7%BB%98_%E6%98%9F%E6%9E%81_1.png",
@@ -614,7 +614,7 @@ export const CARDS = [
     name:"蛇屠箱", 
     cost:3, 
     atk:2, 
-    hp:6, 
+    hp:8, 
     mine:1, 
     block:2, 
     desc:"行动: 获得+4生命值", 
@@ -834,31 +834,31 @@ export const CARDS = [
     reinforce_desc: "重置自己",
   },
 
-  {
-    name:"莫斯提马",
-    cost:4,
-    atk:6,
-    hp:3,
-    mine:2,
-    block:0,
-    desc:"采掘/战斗: 每有1个被横置的敌人，就获得1个材料",
-    illust:"http://prts.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
-    onMine(G, ctx, self) {
-      let num_exhausted = G.efield.filter(x=>x.exhausted).length;
-      gainMaterials(G, ctx, num_exhausted);
+  // {
+  //   name:"莫斯提马",
+  //   cost:4,
+  //   atk:6,
+  //   hp:3,
+  //   mine:2,
+  //   block:0,
+  //   desc:"采掘/战斗: 每有1个被横置的敌人，就获得1个材料",
+  //   illust:"http://prts.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
+  //   onMine(G, ctx, self) {
+  //     let num_exhausted = G.efield.filter(x=>x.exhausted).length;
+  //     gainMaterials(G, ctx, num_exhausted);
 
-    },
-    onFight(G, ctx, self) {
-      this.onMine(G, ctx, self);
-    },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 1;
-      self.mine += 1;
-    },
-    reinforce_desc: "+2/+1 <+1>",
-  },
+  //   },
+  //   onFight(G, ctx, self) {
+  //     this.onMine(G, ctx, self);
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 1;
+  //     self.mine += 1;
+  //   },
+  //   reinforce_desc: "+2/+1 <+1>",
+  // },
   
   {
     name:"皇帝",
@@ -1337,9 +1337,9 @@ export const CARDS = [
   
   {
     name:"酸糖", 
-    cost:4,
-    atk:6, 
-    hp:3, 
+    cost:3,
+    atk:5, 
+    hp:2, 
     mine:1, 
     block:0, 
     desc:"行动: 本回合剩余时间内，每有1个敌人被摧毁，就获得2分", 
@@ -1739,16 +1739,16 @@ export const CARDS = [
     hp:7,
     mine:2,
     block:1,
-    desc:"部署: 获得\"回合开始时: 消耗2点费用，如果费用不够则获得-5/-5\"",
+    desc:"部署: 获得\"回合开始时: 消耗2点费用\"",
     illust:"http://prts.wiki/images/3/37/%E7%AB%8B%E7%BB%98_%E5%AD%91_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       self.onTurnBegin = (G, ctx, self) => {
         let paid = payCost(G, ctx, 2);
-        if (!paid) {
-          self.atk -= 5;
-          self.hp -= 5;
-        }
+        // if (!paid) {
+        //   self.atk -= 5;
+        //   self.hp -= 5;
+        // }
       };
     },
     onReinforce(G, ctx, self) {
@@ -1763,9 +1763,9 @@ export const CARDS = [
   {
     name:"凛冬",
     cost:3,
-    atk:2,
+    atk:3,
     hp:3,
-    mine:1,
+    mine:2,
     block:1,
     desc: "采掘/战斗: 强化1张手牌",
     illust:"http://prts.wiki/images/6/6e/%E7%AB%8B%E7%BB%98_%E5%87%9B%E5%86%AC_1.png",
@@ -1777,10 +1777,10 @@ export const CARDS = [
       reinforce_hand(G, ctx);
     },
     onReinforce(G, ctx, self) {
-      self.atk += 2;
+      self.atk += 3;
       self.hp += 3;
     },
-    reinforce_desc: "+2/+3",
+    reinforce_desc: "+3/+3",
   },
   {
     name:"真理",
@@ -1860,9 +1860,9 @@ export const CARDS = [
   },
   {
     name:"霜叶",
-    cost:3,
+    cost:2,
     atk:2,
-    hp:4,
+    hp:3,
     mine:1,
     block:1,
     desc: "休整: 每有1个休整中的干员，就获得+1/+1",
@@ -2016,10 +2016,10 @@ export const CARDS = [
   },
   {
     name:"清流",
-    cost:3,
+    cost:2,
     atk:0,
-    hp:3,
-    mine:2,
+    hp:2,
+    mine:1,
     block:0,
     desc: "部署: 将弃牌堆中的所有牌返回手牌",
     illust:"http://prts.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
@@ -2086,17 +2086,17 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc: "部署: 获得+5/+5直到回合结束",
+    desc: "部署: 获得+6/+6直到回合结束",
     illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%AE%B4_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      self.atk += 5;
-      self.dmg -= 5;
+      self.atk += 6;
+      self.dmg -= 6;
 
       self.played = true;
       self.onTurnBegin = (G, ctx, self) => {
         if (self.played) {
-          self.atk -= 5;
+          self.atk -= 6;
           if (self.dmg < 0) {
             self.dmg = 0;
           }

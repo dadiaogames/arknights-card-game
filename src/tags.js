@@ -120,6 +120,15 @@ const tag_list = [
   },
 
   {
+    src: "http://prts.wiki/images/6/6c/Global_squadnum_2.png",
+    desc: "手牌上限调整为6",
+    level: 2,
+    effect(G, ctx){
+      G.limit_hand = true;
+    }
+  },
+
+  {
     src: "http://prts.wiki/images/f/f4/Enemy_reveng_spdmod_2.png",
     desc: "2回合后，每回合额外翻开1张敌人牌",
     level: 2,
@@ -169,6 +178,16 @@ const tag_list = [
       for (let order of G.odeck) {
         order.score -= 1;
       }
+    }
+  },
+
+  {
+    src: "http://prts.wiki/images/f/f9/Enemy_diaman_2.png",
+    desc: "胜利所需分数+24，每回合-4",
+    level: 3,
+    effect(G, ctx) {
+      G.goal += 28; // Because first turn gonna -4 too
+      G.reduce_goal = true;
     }
   },
 

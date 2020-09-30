@@ -1180,7 +1180,7 @@ export class Board extends React.Component {
         tags: this.choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),
-      "竞技模式(推荐)": this.enter_competition_mode, 
+      竞技模式: this.enter_competition_mode, 
       返回标题: () => this.change_board("title"),
     };
 
