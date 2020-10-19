@@ -46,3 +46,12 @@
   left: 60%;
   font-size: 110%;
 }
+
+
+.title-img {
+  position: absolute;
+  top: 3%;
+  left: 25%;
+  height: auto;
+  width: 50%;
+}

@@ -149,7 +149,7 @@ export function init_card_state(G, ctx, card) {
 
 export function draw(G, ctx) {
   // First, check the limit
-  if (G.limit_hand && (G.hand.length >= 6)) {
+  if (G.limit_hand && (G.hand.length >= 5)) {
     logMsg(G, ctx, "手牌数已达到上限");
     return;
   }
@@ -884,7 +884,7 @@ function upgrade(G, ctx, card_idx, upgrade_idx) {
   let card = G.selections[card_idx];
   let upgrade = G.upgrades[upgrade_idx];
   if (card && upgrade) {
-    upgrade.effect(G, ctx, card);
+    upgrade.effect(card);
     card.upgraded = true;
   }
   // To prevent double list bug
@@ -985,6 +985,11 @@ export const AC = {
           // EH: Maybe this can be reconstructed?
         }
 
+        if (G.limit_hand && G.hand.length > 5) {
+          G.discard = [...G.discard, ...G.hand.slice(5)];
+          G.hand = G.hand.slice(0, 5);
+        }
+
         if (G.danger < 0) {
           G.danger = 0;
         }
@@ -999,7 +1004,7 @@ export const AC = {
       clearField(G, ctx, "field");
     },
 
-    // moveLimit: 1000,    // I don't know why, when adding this line, the init hand size comes to 4
+    // moveLimit: 1000,    // I don't know why, when adding this line, the init hand size comes to 4, and this won't work for infinity loop as loop occurs in one move
 
   },
 

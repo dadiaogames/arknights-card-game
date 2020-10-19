@@ -15,6 +15,8 @@ export const ICONS = {
 
   block: (<img src="https://s1.ax1x.com/2020/09/19/woEDMR.jpg" height={attr_icon_height} />),
 
+  gold: (<img src="http://prts.wiki/images/b/b1/%E9%81%93%E5%85%B7_%E5%B8%A6%E6%A1%86_%E5%90%88%E7%BA%A6%E8%B5%8F%E9%87%91.png" height={attr_icon_height} />),
+
 };
 
 export const food_icons = [

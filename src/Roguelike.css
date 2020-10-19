@@ -1,0 +1,81 @@
+.central {
+  border: 1.5px solid gray;
+  width: 95%;
+  margin: 2%;
+  height: 75%;
+  margin-top: 10%;
+  overflow-y: scroll;
+}
+
+.refresh-picks, .refresh-shop {
+  font-size: 105%;
+  padding: 1%;
+  margin-left: 50%;
+  margin-top: 5%;
+}
+
+.refresh-shop {
+  margin-bottom: 5%;
+}
+
+.pick {
+  display: inline-block;
+
+  border: solid 2px gray;
+  width: 30%;
+  height: 50%;
+  margin: 1%;
+  margin-top: 5%;
+}
+
+.pick-button {
+  padding: 5%;
+  font-size: 105%;
+  width: 80%;
+  margin: 5%;
+}
+
+.skip-picks {
+  margin-top: 2%;
+  font-size: 105%;
+  padding: 2%;
+}
+
+.roguelike-tab {
+  font-size: 105%;
+  padding: 2%;
+  margin: 1%;
+  margin-bottom: 0%;
+}
+
+.gold-amount {
+  margin-left: 80%;
+  line-height: 180%;
+  font-size: 110%;
+}
+
+.gold-wrapper {
+  width: 95%;
+  margin: 2%;
+  border: 1px solid gray;
+  height: 8%;
+}
+
+.shop-item {
+  width: 30%;
+  height: 40%;
+  margin: 1%;
+
+  border: 2px solid gray;
+
+  display: inline-block;
+  vertical-align: top;
+  overflow-y: scroll;
+}
+
+.buy {
+  font-size: 102%;
+  width: 80%;
+  padding: 2%;
+  margin-bottom: 5%;
+}

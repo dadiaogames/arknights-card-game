@@ -34,8 +34,8 @@ function deal3dmg(G, ctx, field_selected, enemy_selected) {
   logMsg(G, ctx, `${enemy.name} 受到3点伤害`);
 }
 
-export function ready_order(G, ctx) {
-  let order = ctx.random.Shuffle(G.finished.filter(x => x.exhausted && !x.ready_other_orders))[0];
+export function ready_order(G, ctx, from_card) {
+  let order = ctx.random.Shuffle(G.finished.filter(x => x.exhausted && ((!x.ready_other_orders)||from_card)))[0];
   if (order) {
     order.exhausted = false;
   }

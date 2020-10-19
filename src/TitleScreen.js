@@ -12,3 +12,9 @@ export const TitleScreen = (props) => (
     <button className="title-screen-button" onClick={props.checkDeck}>干员图鉴</button><br/>
   </div>
 );
+
+export const ModeSelection = (props) => (
+  <div style={{textAlign: "center", marginTop:"45%"}}>
+    {Object.keys(props.actions).map(action => <><button className="mode-selection-button" onClick={props.actions[action]}>{action}</button><br/></>)}
+  </div>
+);

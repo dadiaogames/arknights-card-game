@@ -3,9 +3,9 @@ import { PRNG } from "./utils"
 it('Test the PRNG', () => {
   let rng = new PRNG("克洛丝");
   for (let i=0; i<10; i++) {
-    rng.random();
-    rng.randRange(10);
-    rng.choice([2,3,4]);
+    console.log(rng.random());
+    console.log(rng.randRange(10));
+    console.log(rng.choice([2,3,4]));
   }
 });
 // it('Test the PRNG', ()=>{

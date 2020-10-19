@@ -112,16 +112,16 @@ const tag_list = [
 
   {
     src: "http://prts.wiki/images/4/46/Global_forbidloc_2.png",
-    desc: "可同时部署的干员数-2",
+    desc: "可同时部署的干员数-3",
     level: 2,
     effect(G, ctx){
-      G.field_limit -= 2;
+      G.field_limit -= 3;
     }
   },
 
   {
     src: "http://prts.wiki/images/6/6c/Global_squadnum_2.png",
-    desc: "手牌上限调整为6",
+    desc: "手牌上限调整为5，且回合开始时自动弃掉多出的牌",
     level: 2,
     effect(G, ctx){
       G.limit_hand = true;

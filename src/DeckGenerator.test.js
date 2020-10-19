@@ -1,4 +1,4 @@
-import { get_deck_name, generate_deck, generate_deck_s2 } from './DeckGenerator';
+import { get_deck_name, generate_deck, generate_deck_s2, get_roguelike_pick } from './DeckGenerator';
 
 it("Test deck generator", () => {
   console.log("克洛丝");
@@ -10,5 +10,9 @@ it("Test deck generator", () => {
     let deck = generate_deck_s2(deck_name);
     console.log(deck_name);
     console.log(deck);
+  }
+  console.log("Get roguelike picks");
+  for (let i=0; i<3; i++) {
+    console.log(get_roguelike_pick());
   }
 });

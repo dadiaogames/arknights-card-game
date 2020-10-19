@@ -389,6 +389,18 @@ export function get_single_card(rng, name, count1, count2) {
   return [count, name];
 }
 
+export function get_roguelike_pick() {
+  let rng = new PRNG(Math.random());
+  let selection = rng.choice(mini_sets);
+  if (selection.length > 3) {
+    selection = selection.slice(0, 3);
+  }
+  else if (selection.length < 3) {
+    selection = rng.shuffle([...selection, ...selection]).slice(0, 3);
+  }
+  return selection;
+}
+
 function arr2deck(arr) {
   let deck = [];
 

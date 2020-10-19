@@ -29,10 +29,10 @@ function introduce_competition_mode() {
 
 export function DeckSelection(props) {
   return <div className="board" align="center">
-    <div className="deck-selection-title">欢迎来到竞技模式！<br/>请选择你的参赛卡组</div>
+    <div className="deck-selection-title">{props.welcome_title}<br/>请选择你的参赛卡组</div>
     {props.decks.map(deck => <DeckRepr {...deck} />)}
     <br/>
-    <button className="deck-selection-button" onClick={introduce_competition_mode}>竞技模式介绍</button>
+    <button className="deck-selection-button" onClick={props.introduce || introduce_competition_mode}>{props.introduce_title}</button>
     <button className="deck-selection-button" onClick={props.back}>返回</button>
   </div>
 }
@@ -43,7 +43,7 @@ export function DeckUpgrade(props) {
     <div className="card-desc">{props.selectedUpgrade.desc? "获得"+props.selectedUpgrade.desc : ""}</div>
     <CardRow cards={props.cards || []} states={props.cardStates || []} handleClick={props.handleCardClick}/>
     <div className="card-desc">{props.selectedCard && process_selected_desc(props.selectedCard)}</div>
-    <button className="deck-selection-button" style={{margin:"2%", padding:"3.5%"}} onClick={props.handleClick}>强化</button>
+    <button className="deck-selection-button" style={{margin:"2%", padding:"3.5%"}} onClick={props.handleClick}>升级</button>
   </div>
 }
 

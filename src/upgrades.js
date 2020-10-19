@@ -3,10 +3,10 @@ import { ready_order } from './orders';
 
 export const UPGRADES = [
   {
-    name: "+3/+0",
-    desc: "+3攻击力", // Write "获得"always
-    effect(G, ctx, card) {
-      card.atk += 2;
+    name: "+4/+0",
+    desc: "+4攻击力", // Write "获得"always
+    effect(card) {
+      card.atk += 4;
     }
   },
   // {
@@ -17,18 +17,18 @@ export const UPGRADES = [
   //   }
   // },
   {
-    name: "+1/+3",
-    desc: "+1/+3", // Write "获得"always
-    effect(G, ctx, card) {
+    name: "+1/+4",
+    desc: "+1/+4", // Write "获得"always
+    effect(card) {
       card.atk += 1;
-      card.hp += 3;
+      card.hp += 4;
     }
   },
 
   {
     name: "-2费",
     desc: "部署费用-2", // Write "获得"always
-    effect(G, ctx, card) {
+    effect(card) {
       card.cost -= 2;
     }
   },
@@ -36,7 +36,7 @@ export const UPGRADES = [
   {
     name: "阻挡数+2",
     desc: "阻挡数+2",
-    effect(G, ctx, card) {
+    effect(card) {
       card.block = card.block || 0;
       card.block += 2;
     }
@@ -45,10 +45,13 @@ export const UPGRADES = [
   {
     name: "起始",
     desc: "\"对局开始时，将这张牌置入手牌\"",
-    effect(G, ctx, card) {
+    effect(card) {
       card.is_init = true;
       if (typeof card.desc == "string") {
-        card.desc += "\n起始\n";
+        card.desc += " (起始)";
+      }
+      else {
+        card.desc = [card.desc, "(起始)"];
       }
     }
   },
@@ -57,13 +60,13 @@ export const UPGRADES = [
 
   // Init "onplay bonus" before
   {
-    name: "4分",
-    desc: "部署奖励:\"获得4分\"",
-    effect(G, ctx, card) {
+    name: "3分",
+    desc: "部署奖励:\"获得3分\"",
+    effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          G.score += 4;
+          G.score += 3;
         }
       });
     }
@@ -75,7 +78,7 @@ export const UPGRADES = [
   //   effect(G, ctx, card) {
   //     card.onPlayBonus.push({
   //       name: this.name,
-  //       effect(G, ctx, card) {
+  //       effect(card) {
   //         G.score += 1;
   //         refresh_picks(G, ctx);
   //       }
@@ -86,7 +89,7 @@ export const UPGRADES = [
   {
     name: "2材料",
     desc: "部署奖励:\"获得2个材料\"",
-    effect(G, ctx, card) {
+    effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
@@ -99,7 +102,7 @@ export const UPGRADES = [
   {
     name: "2张牌",
     desc: "部署奖励:\"摸2张牌\"",
-    effect(G, ctx, card) {
+    effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
@@ -113,7 +116,7 @@ export const UPGRADES = [
   {
     name: "4伤害",
     desc: "部署奖励:\"造成4点伤害\"",
-    effect(G, ctx, card) {
+    effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
@@ -126,7 +129,7 @@ export const UPGRADES = [
   {
     name: "强化1",
     desc: "部署奖励:\"强化自己1次\"",
-    effect(G, ctx, card) {
+    effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
@@ -139,7 +142,7 @@ export const UPGRADES = [
   {
     name: "手牌强化2",
     desc: "部署奖励:\"强化2张手牌\"",
-    effect(G, ctx, card) {
+    effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
@@ -152,8 +155,8 @@ export const UPGRADES = [
 
   {
     name: "2费干员",
-    desc: "部署奖励:\"部署1个费用为2的干员并使其生命值降为1\"",
-    effect(G, ctx, card) {
+    desc: "部署奖励:\"召唤1个费用为2的干员并使其生命值降为1\"",
+    effect(card) {
       // Maybe reconstruct this to call the skill of Ansel is better?
       card.onPlayBonus.push({
         name: this.name,
@@ -169,13 +172,53 @@ export const UPGRADES = [
   }
 },
 
+{
+    name: "凯尔希之力",
+    desc: "部署奖励:\"召唤1个自己的1/1复制\"",
+    effect(card) {
+      // Maybe reconstruct this to call the skill of Ansel is better?
+      card.onPlayBonus.push({
+        name: this.name,
+        effect(G, ctx, card) {
+          if (card) {
+            let new_card = G.CARDS.find(x => x.name == card.name);
+            new_card = init_card_state(G, ctx, {...new_card});
+            new_card.atk = 1;
+            new_card.hp = 1;
+            new_card.mine = 1;
+            new_card.cost = 1;
+            new_card.power = 0;
+            G.field.push(new_card);
+          }
+        }
+    });
+  }
+},
+
+{
+  name: "回响",
+  desc: "部署奖励:\"将1张自己的同名牌加入手牌\"",
+  effect(card) {
+    // Maybe reconstruct this to call the skill of Ansel is better?
+    card.onPlayBonus.push({
+      name: this.name,
+      effect(G, ctx, card) {
+        let new_card = G.CARDS.find(x => x.name == card.name);
+        if (new_card) {
+          G.hand.unshift(new_card);
+        }
+      }
+  });
+}
+},
+
   // {
   //   name: "完全治疗",
   //   desc: "部署奖励:\"完全治疗场上的1个干员\"",
   //   effect(G, ctx, card) {
   //     card.onPlayBonus.push({
   //       name: this.name,
-  //       effect(G, ctx, card) {
+  //       effect(card) {
   //         fully_restore(G, ctx);
   //       }
   //     });
@@ -183,14 +226,13 @@ export const UPGRADES = [
   // },
 
   {
-    name: "订单重置2",
-    desc: "部署奖励:\"重置2个订单\"",
-    effect(G, ctx, card) {
+    name: "订单1",
+    desc: "部署奖励:\"获得1个已完成的订单\"",
+    effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          ready_order(G, ctx);
-          ready_order(G, ctx);
+          G.finished.push({...ctx.random.Shuffle(G.odeck)[0]});
         }
       });
     }
@@ -202,7 +244,7 @@ export const UPGRADES = [
   //   effect(G, ctx, card) {
   //     card.onPlayBonus.push({
   //       name: this.name,
-  //       effect(G, ctx, card) {
+  //       effect(card) {
   //         G.danger = 0;
   //       }
   //     });
@@ -212,7 +254,7 @@ export const UPGRADES = [
   {
     name: "加倍",
     desc: "自己所有部署奖励的复制",
-    effect(G, ctx, card) {
+    effect(card) {
       card.onPlayBonus = [...card.onPlayBonus, ...card.onPlayBonus];
     }
   },

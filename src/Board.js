@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import { produce } from 'immer';
 import { Tabs, TabList, Tab } from 'react-tabs';
 import { useSpring, animated } from 'react-spring';
 import { Card, SCard, CardRow, CheckCard, SCardRow, TypeFilter } from './Card';
@@ -7,7 +8,7 @@ import { Controller, EnterGame } from './Controller';
 import { Panel, ScoreBoard, MaterialDisplay } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
 import { DeckConstruction, DeckGeneration, Settings } from './DeckConstruction';
-import { TitleScreen } from './TitleScreen';
+import { TitleScreen, ModeSelection } from './TitleScreen';
 import { DeckSelection, DeckUpgrade, Competition } from './Competition';
 import { get_deck_name, get_seed_name, generate_deck, is_standard, generate_deck_s2 } from './DeckGenerator';
 import { str2deck, init_decks } from './Game';
@@ -16,6 +17,7 @@ import { CARDS, default_deck } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
 import { ICONS } from './icons';
 import { TAGS } from './tags';
+import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop } from './Roguelike';
 import { RULES } from './rules';
 
 import './Board.css';
@@ -67,6 +69,7 @@ export class Board extends React.Component {
     this.process_order_details = this.process_order_details.bind(this);
 
     this.process_deck_data = this.process_deck_data.bind(this);
+    this.process_roguelike_deck_data = this.process_roguelike_deck_data.bind(this);
 
     this.set_animations = this.set_animations.bind(this);
     this.wrap_controller_action = this.wrap_controller_action.bind(this);
@@ -84,6 +87,7 @@ export class Board extends React.Component {
     this.harvest_orders = this.harvest_orders.bind(this);
 
     this.render_title_board = this.render_title_board.bind(this);
+    this.render_mode_selection_board = this.render_mode_selection_board.bind(this);
     this.render_rules_board = this.render_rules_board.bind(this);
     this.render_game_board = this.render_game_board.bind(this);
     this.render_tag_board = this.render_tag_board.bind(this);
@@ -95,11 +99,16 @@ export class Board extends React.Component {
     this.render_deck_selection_board = this.render_deck_selection_board.bind(this);
     this.render_deck_upgrade_board = this.render_deck_upgrade_board.bind(this);
     this.render_competition_board = this.render_competition_board.bind(this);
+    this.render_roguelike_deck_selection_board = this.render_roguelike_deck_selection_board.bind(this);
+    this.render_roguelike_board = this.render_roguelike_board.bind(this);
+    this.render_roguelike_result_board = this.render_roguelike_result_board.bind(this);
 
     this.enter_competition_mode = this.enter_competition_mode.bind(this);
     this.select_deck = this.select_deck.bind(this);
     this.upgrade_card = this.upgrade_card.bind(this);
     this.start_competition = this.start_competition.bind(this);
+
+    this.enter_roguelike_mode = this.enter_roguelike_mode.bind(this);
 
     this.change_board = this.change_board.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
@@ -108,6 +117,8 @@ export class Board extends React.Component {
     this.enter_game = this.enter_game.bind(this);
     this.check_deck = this.check_deck.bind(this);
     this.back = this.back.bind(this);
+
+    this.roguelike = map_object(action => (...args) => this.setState(action(this.state, ...args)), roguelike);
 
     this.state = {
       hand_selected: -1,
@@ -248,7 +259,7 @@ export class Board extends React.Component {
 
   use_act() {
     this.props.moves.act(this.state.field_selected);
-    // this.set_animations("field", this.state.field_selected, true);
+    this.set_animations("field", this.state.field_selected, true);
     this.setState({field_selected: -1});
     return {};
   }
@@ -490,7 +501,7 @@ export class Board extends React.Component {
           <br />
           <i>{card.quote||""}</i>
         </span>
-      ), // TODO: figure out why only string formatting does not work, I think it maybe because of JSX only accept string in html way instead of js way
+      ), // EH: figure out why only string formatting does not work, I think it maybe because of JSX only accept string in html way instead of js way
     }
   }
 
@@ -686,6 +697,7 @@ export class Board extends React.Component {
   change_board(new_board) {
     const BOARDS = {
       "title": this.render_title_board,
+      "modes": this.render_mode_selection_board,
       "rules": this.render_rules_board,
       "game": this.render_game_board,
       "tag": this.render_tag_board,
@@ -697,6 +709,9 @@ export class Board extends React.Component {
       "deck_selection": this.render_deck_selection_board,
       "deck_upgrade": this.render_deck_upgrade_board,
       "competition": this.render_competition_board,
+      "roguelike_deck_selection": this.render_roguelike_deck_selection_board,
+      "roguelike": this.render_roguelike_board,
+      "roguelike_result": this.render_roguelike_result_board,
     };
     this.setState({last_board: this.state.board})
     this.setState({board: BOARDS[new_board]});
@@ -713,13 +728,13 @@ export class Board extends React.Component {
   enter_game() {
     let deck = [];
     let seed = this.state.seed;
-    if (!this.state.competition_mode){
-      let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
-      deck = str2deck(deck_data);
-    }
-    else {
+    if (this.state.competition_mode){
       deck = this.state.Deck;
       seed += this.state.results.length;
+    }
+    else {
+      let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
+      deck = str2deck(deck_data);
     }
     // EH: it's better to setup each scenario in one function, and in backend
     this.props.moves.setDecks(init_decks(deck, seed));
@@ -814,8 +829,21 @@ export class Board extends React.Component {
 
   render_title_board() {
     return <div className="board">
+      <img src="https://s1.ax1x.com/2020/10/20/0z4han.gif" className="title-img"></img>
       <TitleScreen enterGame={()=>this.change_board("tag")} checkRule={()=>this.change_board("rules")} checkDeck={this.check_deck} />
     </div>;
+  }
+
+  render_mode_selection_board() {
+    const actions = {
+      // "常规模式": () => this.change_board("tag"),
+      "竞技模式": this.enter_competition_mode,
+      // "黑角的金针菇迷境": this.enter_roguelike_mode,
+      "返回": this.back,
+    };
+    return <div className="board">
+      <ModeSelection actions={actions} />
+    </div>
   }
 
   render_rules_board() {
@@ -885,6 +913,19 @@ export class Board extends React.Component {
       selectDeck: () => {this.select_deck(idx)},
     }
   }
+  
+  process_roguelike_deck_data(deck, idx) {
+    let checkDeck = () => {
+      this.setState({preview_deck: deck});
+      this.check_deck();
+    };
+    return {
+      deckName: this.state.deck_names[idx],
+      checkDeck,
+      selectDeck: () => {this.setState({Deck: this.state.deck_list[idx]});this.change_board("roguelike");},
+    }
+  }
+
 
   upgrade_card() {
     this.props.moves.upgrade(this.state.selection_selected, this.state.upgrade_selected); 
@@ -916,6 +957,12 @@ export class Board extends React.Component {
     this.props.moves.select_deck(idx);
     this.change_board("deck_upgrade");
   }
+  
+  enter_roguelike_mode() {
+    this.roguelike.setup_roguelike_mode();
+    this.roguelike.setup_deck_selection();
+    this.change_board("roguelike_deck_selection");
+  }
 
   render_deck_selection_board() {
     let back = () => {
@@ -923,7 +970,42 @@ export class Board extends React.Component {
       // Unlock all tags here? Because only one tag source shared between normal and competition mode
       this.setState({competition_mode: false})
     };
-    return <DeckSelection decks={this.props.G.deck_list.map(this.process_deck_data)} back={back} />
+    return <DeckSelection decks={this.props.G.deck_list.map(this.process_deck_data)} back={back} welcome_title="欢迎来到竞技模式!" introduce_title="竞技模式介绍" />
+  }
+
+  render_roguelike_deck_selection_board() {
+    let back = () => {
+      this.change_board("title");
+      this.setState({roguelike_mode: false})
+    };
+    return <DeckSelection decks={this.state.deck_list.map(this.process_roguelike_deck_data)} back={back} welcome_title="欢迎来到黑角的金针菇迷境!" introduce_title="集成战略模式介绍" introduce={introduce_roguelike_mode} />
+  }
+
+  render_roguelike_board() {
+    const check_cards = (idx) => {
+      this.setState({preview_deck: this.state.card_picks[idx]});
+      this.change_board("preview");
+    };
+    const pick_cards = (idx) => {
+      this.roguelike.pick_cards(idx);
+    };
+
+    const card_picks = this.state.card_picks? (<PickCards picks={this.state.card_picks} gold={this.state.gold} check_cards={check_cards} pick_cards={pick_cards} skip_picks={()=>this.roguelike.skip_pick()}/>) : (<FinishPick gold={this.state.gold} />);
+    const shop = <Shop gold={this.state.gold} shop_items={this.state.shop_items} />
+
+    const centrals = [card_picks, shop];
+    return <div className="board">
+      {centrals[this.state.central_idx]}
+      <RoguelikeTabs 
+        selections={["对战区", "选牌区", "诡意行商"]}
+        onSelect={(idx) => {this.setState({central_idx: idx})}}
+      />
+      {/* <p className="gold-amount">{ICONS.gold}: {this.state.gold}</p> */}
+    </div>
+  }
+
+  render_roguelike_result_board() {
+
   }
 
   render_deck_upgrade_board() {
@@ -1175,12 +1257,12 @@ export class Board extends React.Component {
     let risk_level = this.get_risk_level();
 
     let actions = {
-      进入游戏: () => {this.change_board("deck");},
+      进入游戏: () => this.change_board("deck"),
       快速设置: () => this.setState({
         tags: this.choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),
-      竞技模式: this.enter_competition_mode, 
+      其他游玩模式: () => this.change_board("modes"),
       返回标题: () => this.change_board("title"),
     };
 
