@@ -53,7 +53,7 @@ export const CARDS = [
     cost: 3,
     atk: 5,
     hp: 2,
-    mine: 1,
+    mine: 2,
     block: 0,
     illust: "http://prts.wiki/images/9/96/%E7%AB%8B%E7%BB%98_%E6%9D%B0%E8%A5%BF%E5%8D%A1_1.png",
     desc: "采掘: 造成3点伤害",
@@ -90,10 +90,10 @@ export const CARDS = [
     illust:"http://prts.wiki/images/6/6c/%E7%AB%8B%E7%BB%98_%E8%8A%99%E5%85%B0%E5%8D%A1_1.png",
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.atk += 5;
-      self.hp += 5;
+      self.atk += 6;
+      self.hp += 6;
     },
-    reinforce_desc: "+5/+5",
+    reinforce_desc: "+6/+6",
   },
 
   {
