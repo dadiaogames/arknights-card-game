@@ -244,7 +244,7 @@ function setValue(G, ctx, attr, val) {
 }
 
 export function refreshOrder(G, ctx) {
-  G.orders = ctx.random.Shuffle(G.odeck).slice(0, 8);
+  G.orders = ctx.random.Shuffle(G.odeck).slice(0, 7);
   sort_orders(G);
 }
 
