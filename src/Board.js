@@ -167,7 +167,7 @@ export class Board extends React.Component {
       },
       field: {
         采掘: this.use_mine,
-        战斗: this.use_fight,
+        // 战斗: this.use_fight,
       },
       efield: {
         战斗: this.use_fight,
