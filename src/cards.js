@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, insert_field
+  clearField, drawEnemy, fully_restore, insert_field, reduce_enemy_atk
 } from './Game';
 import { material_icons, ready_order } from './orders';
 
@@ -232,7 +232,9 @@ export const CARDS = [
     },
     action(G, ctx, self) {
       G.costs += 3 + 2 * self.power;
-      self.block -= 1;
+      if (self.block > 0) {
+        self.block -= 1;
+      }
     },
     reinforce: 2,
     reinforce_desc: "再获得2点费用",
@@ -1540,7 +1542,7 @@ export const CARDS = [
 
   {
     name:"嘉维尔",
-    cost:2,
+    cost:3,
     atk:3,
     hp:2,
     mine:2,
@@ -2111,7 +2113,7 @@ export const CARDS = [
     hp:1,
     mine:1,
     block:1,
-    desc: "摧毁: 部署\"格拉尼\"",
+    desc: "摧毁: 召唤\"格拉尼\"",
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%A0%BC%E6%8B%89%E5%B0%BC_1.png",
     reinforce: 1,
     onOut(G, ctx, self) {
@@ -2205,20 +2207,53 @@ export const CARDS = [
     },
     reinforce_desc: "<+1>",
   },
+  
   {
-    name:"红",
+    name:"砾",
     cost:1,
     atk:1,
     hp:1,
     mine:1,
     block:1,
-    desc: "部署: 获得1分",
+    illust: "http://prts.wiki/images/3/38/%E7%AB%8B%E7%BB%98_%E7%A0%BE_1.png",
+    reinforce: 1,
+    desc: "摧毁: 返回手牌",
+    // onPlay(G, ctx, self) {
+      // let time_points = [["采掘: ", "onMine"], ["战斗: ", "onFight"], ["行动: ", "action"], ["摧毁: ", "onOut"]];
+      // let time_point = ctx.random.Shuffle(time_points)[0];
+      // let effects = ctx.random.Shuffle(G.EFFECTS);
+      // let effect = effects[0];
+      // self.desc = time_point[0] + effect[0];
+      // self[time_point[1]] = effect[1];
+      // self.reinforce_desc = effects[1][0];
+      // self.onReinforce = effects[1][1];
+      // logMsg(G, ctx, `获得效果"${self.desc}"`);
+    // },
+    onOut(G, ctx, self) {
+      let gravel = G.CARDS.find(x => x.name == "砾");
+      G.hand.unshift({...gravel});
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+  {
+    name:"红",
+    cost:2,
+    atk:2,
+    hp:1,
+    mine:1,
+    block:1,
+    desc: "部署: 横置1个敌人",
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E7%BA%A2_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      G.score += 1;
+      // G.score += 1;
       // let num_reds = G.discard.filter(x => (x.name == "红")).length;
       // G.score += num_reds;
+      exhaust_random_enemy(G, ctx);
     },
     onReinforce(G, ctx, self) {
       G.score += 1;
@@ -2253,7 +2288,7 @@ export const CARDS = [
     name:"波登可",
     cost:4,
     atk:4,
-    hp:2.5,
+    hp:3,
     mine:2,
     block:0,
     desc: "行动: 触发手牌中1个干员的\"部署:\"效果(极境除外)",
@@ -2274,36 +2309,38 @@ export const CARDS = [
   },
   
   
-  // {
-  //   name:"巫恋",
-  //   cost:4,
-  //   atk:6,
-  //   hp:3,
-  //   mine:1,
-  //   block:0,
-  //   desc:"采掘: 使其对位敌人攻防减半",
-  //   illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
-  //   reinforce: 2,
-  //   onMine(G, ctx, self) {
-  //     // let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
-  //     // if (actor) {
-  //     //   actor.action(G, ctx, actor);
-  //     //   logMsg(G, ctx, `触发 ${actor.name} 的行动效果`);
-  //     // }
-  //     let idx = G.field.indexOf(self);
-  //     if (~idx) {
-  //       let enemy = G.efield[idx];
-  //       if (enemy) {
-  //         enemy.atk /= 2;
-  //         enemy.hp /= 2;
-  //       }
-  //     }
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     G.costs += 2;
-  //   },
-  //   reinforce_desc: "获得2点费用",
-  // },
+  {
+    name:"巫恋",
+    cost:4,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:0,
+    desc:"采掘: 使1个敌人获得-3攻击力，重复2次",
+    illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
+    reinforce: 2,
+    onMine(G, ctx, self) {
+      // let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
+      // if (actor) {
+      //   actor.action(G, ctx, actor);
+      //   logMsg(G, ctx, `触发 ${actor.name} 的行动效果`);
+      // }
+      // let idx = G.field.indexOf(self);
+      // if (~idx) {
+      //   let enemy = G.efield[idx];
+      //   if (enemy) {
+      //     enemy.atk /= 2;
+      //     enemy.hp /= 2;
+      //   }
+      // }
+      reduce_enemy_atk(G, ctx, 3);
+      reduce_enemy_atk(G, ctx, 3);
+    },
+    onReinforce(G, ctx, self) {
+      G.costs += 2;
+    },
+    reinforce_desc: "获得2点费用",
+  },
   
   {
     name:"刻刀",
@@ -2329,26 +2366,26 @@ export const CARDS = [
     },
     reinforce_desc: "造成3点伤害",
   },
-  {
-    name:"星熊",
-    cost:6,
-    atk:3,
-    hp:3,
-    mine:3,
-    block:3,
-    desc: "部署: 每有1张手牌，就获得+6生命值",
-    illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
-    reinforce: 1,
-    onPlay(G, ctx, self) {
-      let num_cards = G.hand.length;
-      self.hp += 6 * num_cards;
-    },
-    onReinforce(G, ctx, self) {
-      self.hp += 6;
-      self.block += 1;
-    },
-    reinforce_desc: "+0/+6，阻挡数+1",
-  },
+  // {
+  //   name:"星熊",
+  //   cost:6,
+  //   atk:3,
+  //   hp:3,
+  //   mine:3,
+  //   block:3,
+  //   desc: "部署: 每有1张手牌，就获得+6生命值",
+  //   illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
+  //   reinforce: 1,
+  //   onPlay(G, ctx, self) {
+  //     let num_cards = G.hand.length;
+  //     self.hp += 6 * num_cards;
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.hp += 6;
+  //     self.block += 1;
+  //   },
+  //   reinforce_desc: "+0/+6，阻挡数+1",
+  // },
   {
     name:"四月",
     cost:4,
@@ -2553,7 +2590,7 @@ export const CARDS = [
         achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰德部署5个德克萨斯", self);
       }
     },
-    reinforce_desc: "部署\"德克萨斯\"并将其沉默",
+    reinforce_desc: "召唤\"德克萨斯\"并将其沉默",
   },
 
   {
@@ -2609,7 +2646,7 @@ export const CARDS = [
   {
     name:"狮蝎",
     cost:3,
-    atk:5,
+    atk:4,
     hp:3,
     mine:2,
     block:0,
@@ -2651,8 +2688,6 @@ export const CARDS = [
     },
     reinforce_desc: "再强化1次",
   },
-
-  
   
   {
     name:"暗索",
@@ -2674,36 +2709,6 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
     }
-  },
-
-
-
-  {
-    name:"砾",
-    cost:1,
-    atk:1,
-    hp:1,
-    mine:1,
-    block:1,
-    illust: "http://prts.wiki/images/3/38/%E7%AB%8B%E7%BB%98_%E7%A0%BE_1.png",
-    reinforce: 1,
-    desc: "部署: 获得1个随机能力",
-    onPlay(G, ctx, self) {
-      let time_points = [["采掘: ", "onMine"], ["战斗: ", "onFight"], ["行动: ", "action"], ["摧毁: ", "onOut"]];
-      let time_point = ctx.random.Shuffle(time_points)[0];
-      let effects = ctx.random.Shuffle(G.EFFECTS);
-      let effect = effects[0];
-      self.desc = time_point[0] + effect[0];
-      self[time_point[1]] = effect[1];
-      self.reinforce_desc = effects[1][0];
-      self.onReinforce = effects[1][1];
-      logMsg(G, ctx, `获得效果"${self.desc}"`);
-    },
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    },
-    reinforce_desc: "+2/+2",
   },
 
   {
@@ -2730,60 +2735,60 @@ export const CARDS = [
 ];
 
 export const BORROWS = [
-  {
-    name:"陆逊",
-    cost:3,
-    atk:3,
-    hp:3,
-    mine:2,
-    block:0,
-    illust: "https://b-ssl.duitang.com/uploads/blog/201306/12/20130612021923_k3EJx.thumb.700_0.jpeg",
-    was_enemy: true,
-    reinforce: 1,
-    desc: "行动: 当你失去最后的手牌时，你可以摸一张牌",
-    action(G, ctx, self) {
-      if (G.hand.length == 0) {
-        draw(G, ctx);
-        self.exhausted = false;
-      }
-    },
-    reinforce_desc: "+2/+2",
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    }
-  },
+  // {
+  //   name:"陆逊",
+  //   cost:3,
+  //   atk:3,
+  //   hp:3,
+  //   mine:2,
+  //   block:0,
+  //   illust: "https://b-ssl.duitang.com/uploads/blog/201306/12/20130612021923_k3EJx.thumb.700_0.jpeg",
+  //   was_enemy: true,
+  //   reinforce: 1,
+  //   desc: "行动: 当你失去最后的手牌时，你可以摸一张牌",
+  //   action(G, ctx, self) {
+  //     if (G.hand.length == 0) {
+  //       draw(G, ctx);
+  //       self.exhausted = false;
+  //     }
+  //   },
+  //   reinforce_desc: "+2/+2",
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   }
+  // },
 
-  {
-    name:"凯露",
-    cost:10,
-    atk:3,
-    hp:2,
-    mine:2,
-    block:0,
-    illust: "https://img.moegirl.org/common/thumb/c/cb/Karyl.png/545px-Karyl.png",
-    reinforce: 1,
-    was_enemy: true,
-    desc: "行动: 使1个敌人变成\"凯露\"",
-    action(G, ctx, self) {
-      let enemy = ctx.random.Shuffle(G.efield.filter(x => (x.name != "凯露")))[0];
-      if (enemy) {
-        G.efield[G.efield.indexOf(enemy)] = {...self, exhausted: false};
-      }
-    },
-    reinforce_desc: "+2/+2",
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    }
-  },
+  // {
+  //   name:"凯露",
+  //   cost:10,
+  //   atk:3,
+  //   hp:2,
+  //   mine:2,
+  //   block:0,
+  //   illust: "https://img.moegirl.org/common/thumb/c/cb/Karyl.png/545px-Karyl.png",
+  //   reinforce: 1,
+  //   was_enemy: true,
+  //   desc: "行动: 使1个敌人变成\"凯露\"",
+  //   action(G, ctx, self) {
+  //     let enemy = ctx.random.Shuffle(G.efield.filter(x => (x.name != "凯露")))[0];
+  //     if (enemy) {
+  //       G.efield[G.efield.indexOf(enemy)] = {...self, exhausted: false};
+  //     }
+  //   },
+  //   reinforce_desc: "+2/+2",
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   }
+  // },
 
   {
     name:"青眼白龙",
-    cost:4,
+    cost:8,
     atk:3000,
-    hp:8,
-    mine:2,
+    hp:2500,
+    mine:4,
     block:1,
     illust: "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1495165458,392829716&fm=173&app=49&f=JPEG?w=544&h=544&s=B0A7DC140001EFF7589EB14603008098",
     was_enemy: true,
@@ -2803,31 +2808,31 @@ export const BORROWS = [
     }
   },
 
-  {
-    name:"尤格萨隆",
-    cost:10,
-    atk:1,
-    hp:1,
-    mine:1,
-    block:1,
-    illust: "https://bkimg.cdn.bcebos.com/pic/0b46f21fbe096b63f62413aab97b9044ebf81b4c06ba?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2UyNzI=,xp_5,yp_5",
-    reinforce: 1,
-    was_enemy: true,
-    desc: "战吼: 随机施放10个法术",
-    onPlay(G, ctx, self) {
-      for (let i=0; i<10; i++) {
-        let effect = ctx.random.Shuffle(G.EFFECTS)[0];
-        effect[1](G, ctx, self);
-        logMsg(G, ctx, "施放 "+effect[0]);
-      }
-    },
-    reinforce_desc: "随机施放1个法术",
-    onReinforce(G, ctx, self) {
-      let effect = ctx.random.Shuffle(G.EFFECTS)[0];
-      effect[1](G, ctx, self);
-      logMsg(G, ctx, "施放 "+effect[0]);
-    }
-  },
+  // {
+  //   name:"尤格萨隆",
+  //   cost:10,
+  //   atk:1,
+  //   hp:1,
+  //   mine:1,
+  //   block:1,
+  //   illust: "https://bkimg.cdn.bcebos.com/pic/0b46f21fbe096b63f62413aab97b9044ebf81b4c06ba?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2UyNzI=,xp_5,yp_5",
+  //   reinforce: 1,
+  //   was_enemy: true,
+  //   desc: "战吼: 随机施放10个法术",
+  //   onPlay(G, ctx, self) {
+  //     for (let i=0; i<10; i++) {
+  //       let effect = ctx.random.Shuffle(G.EFFECTS)[0];
+  //       effect[1](G, ctx, self);
+  //       logMsg(G, ctx, "施放 "+effect[0]);
+  //     }
+  //   },
+  //   reinforce_desc: "随机施放1个法术",
+  //   onReinforce(G, ctx, self) {
+  //     let effect = ctx.random.Shuffle(G.EFFECTS)[0];
+  //     effect[1](G, ctx, self);
+  //     logMsg(G, ctx, "施放 "+effect[0]);
+  //   }
+  // },
 
   {
     name:"火车王",

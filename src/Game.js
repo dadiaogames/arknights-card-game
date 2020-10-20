@@ -515,6 +515,13 @@ export function exhaust_random_enemy(G, ctx) {
   }
 }
 
+export function reduce_enemy_atk(G, ctx, amount) {
+  let reduced = ctx.random.Shuffle(G.efield)[0];
+  if (reduced) {
+    reduced.atk -= amount;
+  }
+}
+
 export function ready_random_card(G, ctx, self) {
   let exhausted_cards = G.field.filter(x => (x.exhausted && (x != self)));
   let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪"].includes(x.name)));
@@ -651,6 +658,13 @@ function refresh(G, ctx) {
 }
 
 function onScenarioBegin(G, ctx) {
+  //Setup edeck
+  for (let enemy of G.edeck) {
+    if (enemy.atk < 0) { // Not <= because some is 0
+      enemy.atk = 1;
+    }
+  }
+
   //SetUp
   for (let i=0; i<4; i++){
     draw(G, ctx);
@@ -710,7 +724,7 @@ export function init_decks(deck, seed) {
   // deck = deck.map(x=>({...x, reversed:true}));
   let rng = new PRNG(seed);
 
-  let get_enemies = () => (ENEMIES.map(x=>Object.assign({},x)));
+  let get_enemies = () => (ENEMIES.map(x=>({...x})));
   let edeck = get_enemies().concat(get_enemies());
   let odeck = ORDERS.map((x,idx)=>({...x, order_id:idx, color:rng.randRange(3)}));
 
@@ -799,7 +813,7 @@ export function setup_scenario(G, ctx) {
     G.round_num = 0;
 
     G.CARDS = CARDS.slice(0);
-    let banned_cards = ["砾", "可露希尔"];
+    let banned_cards = ["可露希尔"];
     G.CARDS = G.CARDS.filter(x => !banned_cards.includes(x.name));
     let effects = [];
     for (let c of CARDS.filter(x=>((typeof x.desc == "string") && (x.name != "可露希尔")))) {
