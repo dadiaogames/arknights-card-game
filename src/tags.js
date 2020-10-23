@@ -120,11 +120,11 @@ const tag_list = [
   },
 
   {
-    src: "http://prts.wiki/images/6/6c/Global_squadnum_2.png",
-    desc: "手牌上限调整为5，且回合开始时自动弃掉多出的牌",
+    src: "http://prts.wiki/images/c/c5/Global_skillrecovery_1.png",
+    desc: "对局开始时，不再获得初始材料",
     level: 2,
     effect(G, ctx){
-      G.limit_hand = true;
+      G.materials = [0,0,0,0];
     }
   },
 

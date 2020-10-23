@@ -422,10 +422,10 @@ export const CARDS = [
   
   {
     name:"推进之王", 
-    cost:4, 
+    cost:3, 
     atk:4, 
-    hp:3, 
-    mine:2, 
+    hp:2, 
+    mine:1, 
     block:1, 
     desc:"部署: 所有手牌的费用-1", 
     illust:"http://prts.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%8E%A8%E8%BF%9B%E4%B9%8B%E7%8E%8B_1.png",
