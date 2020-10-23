@@ -17,10 +17,10 @@ function add_atk_hp(G, ctx, field_selected) {
     logMsg(G, ctx, "建议: 请选定场面上想加成的干员后使用该订单");
   }
   else {
-    logMsg(G, ctx, `使 ${card.name} 获得+2/+2`);
+    logMsg(G, ctx, `使 ${card.name} 获得+2/+1`);
   }
   card.atk += 2;
-  card.hp += 2;
+  card.hp += 1;
 }
 
 function deal3dmg(G, ctx, field_selected, enemy_selected) {
@@ -35,7 +35,7 @@ function deal3dmg(G, ctx, field_selected, enemy_selected) {
 }
 
 export function ready_order(G, ctx, from_card) {
-  let order = ctx.random.Shuffle(G.finished.filter(x => x.exhausted && ((!x.ready_other_orders)||from_card)))[0];
+  let order = ctx.random.Shuffle(G.finished.filter(x => x.exhausted && ((!x.ready_other_orders)|| (from_card == true))))[0];
   if (order) {
     order.exhausted = false;
   }
@@ -54,7 +54,7 @@ const advanced_orders = [{
     score: 2,
     reward: 3,
     advanced: true,
-    desc: (<span>+2/+2</span>),
+    desc: (<span>+2/+1</span>),
     effect: add_atk_hp,
   },
   // {

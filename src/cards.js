@@ -2345,8 +2345,8 @@ export const CARDS = [
   {
     name:"刻刀",
     cost:3,
-    atk:2,
-    hp:1,
+    atk:3,
+    hp:2,
     mine:1,
     block:1,
     desc: "部署: 摧毁1个受到伤害的敌人",
@@ -2389,8 +2389,8 @@ export const CARDS = [
   {
     name:"四月",
     cost:4,
-    atk:5,
-    hp:3,
+    atk:3,
+    hp:1,
     mine:0,
     block:0,
     desc: "部署: 重置场上所有干员，并使被重置的干员采掘力变为0",

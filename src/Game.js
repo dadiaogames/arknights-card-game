@@ -340,23 +340,23 @@ export function switchEnemy(G, ctx) {
   let enemy = G.efield[len-1];
   let switcher = G.efield[len-2];
 
-  let surge = false;
-  if (len == 1) {
-    surge = true;
-  }
-  else if (switcher.is_elite) {
-    surge = true;
-  }
+  // let surge = false;
+  // if (len == 1) {
+  //   surge = true;
+  // }
+  // else if (switcher.is_elite) {
+  //   surge = true;
+  // }
 
-  if (surge) {
-    G.efield.pop();
-    drawEnemy(G, ctx);
-  }
-  else {
+  // if (surge) {
+  //   G.efield.pop();
+  //   drawEnemy(G, ctx);
+  // }
+  if (switcher) {
     G.efield.splice(len-2, 1);
   }
 
-  return surge;
+  return false;
 }
 
 export function enemy2card(G, ctx) {
