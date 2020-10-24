@@ -158,38 +158,36 @@ export const ORDERS = [
 
   {
     requirements: [3,0,0,0],
-    score: 2,
+    score: 3,
     reward: 2,
-    desc: (<span>{material_icons[1]}→{material_icons[3]}+1费</span>),
+    desc: (<span>{material_icons[1]}→{material_icons[3]}</span>),
     cost: [0,1,0,0],
     effect(G, ctx) {
         G.materials[3] += 1;
-        G.costs += 1;
+        // G.costs += 1;
     },
   },
   {
     requirements: [0,3,0,0],
-    score: 2,
+    score: 3,
     reward: 0,
-    desc: (<span>{material_icons[2]}→{material_icons[3]}+1费</span>),
-    // desc: (<span>{material_icons[2]} → {material_icons[3]} </span>),
+    desc: (<span>{material_icons[2]}→{material_icons[3]}</span>),
     cost: [0,0,1,0],
     effect(G, ctx) {
         G.materials[3] += 1;
-        G.costs += 1;
+        // G.costs += 1;
     },
 
   },
   {
     requirements: [0,0,3,0],
-    score: 2,
+    score: 3,
     reward: 1,
-    desc: (<span>{material_icons[0]}→{material_icons[3]}+1费</span>),
-    // desc: (<span>{material_icons[0]} → {material_icons[3]} </span>),
+    desc: (<span>{material_icons[0]}→{material_icons[3]}</span>),
     cost: [1,0,0,0],
     effect(G, ctx) {
         G.materials[3] += 1;
-        G.costs += 1;
+        // G.costs += 1;
     },
   },
 

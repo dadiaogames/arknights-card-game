@@ -2016,7 +2016,7 @@ export const CARDS = [
   
   {
     name:"断罪者",
-    cost:5,
+    cost:6,
     atk:4,
     hp:5,
     mine:2,
