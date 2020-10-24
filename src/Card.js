@@ -95,7 +95,7 @@ export const Card = (props) => {
         variants = {{top:"-50%", left:"-50%"}}
       />
       <animated.div style={{width: "100%", height: "100%", ...shaker}}>
-      {Object.keys(props.data).map((variant) => (
+      {Object.keys(props.data).filter(key => (props.data[key] != undefined)).map((variant) => (
         <Data
           variant = {variant}
           value = {props.data[variant]}

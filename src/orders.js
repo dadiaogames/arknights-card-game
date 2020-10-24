@@ -67,9 +67,9 @@ const advanced_orders = [{
   // },
 
   {
-    requirements: [1,1,1,0],
+    requirements: [0,0,0,3],
     score: 2,
-    reward: 3,
+    // reward: 3,
     advanced: true,
     desc: (<span>获得2分/每组{food_icons[0]}{food_icons[1]}{food_icons[2]}订单</span>),
     effect(G, ctx) {

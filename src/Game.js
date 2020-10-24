@@ -275,8 +275,10 @@ function finishOrder(G, ctx, idx) {
   let order = G.orders[idx];
 
   if (payMaterials(G, ctx, order.requirements)) {
-    G.materials[order.reward] += 1;
     G.score += order.score;
+    if (order.reward != undefined) {
+      G.materials[order.reward] += 1;
+    }
     G.finished.push({...G.orders.splice(idx, 1)[0]});
     logMsg(G, ctx, "完成订单");
     sort_finished(G);

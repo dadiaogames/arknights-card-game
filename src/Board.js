@@ -437,14 +437,20 @@ export class Board extends React.Component {
         requirements.push(icon);
       }
     }
-    return {
+
+    let order_data = {
       o_illust: "https://ak.hypergryph.com/upload/images/20190228/32ddf0470a305376204d1312ca4720f9.jpg",
       // o_illust: "https://ak.hypergryph.com/assets/index/images/ak/common/story/item_origin.png",
       score: card.score,
-      reward: material_icons[card.reward],
       order_effect: card.desc,
       requirements: requirements, // Show requirements later for higher priority
     };
+
+    if (card.reward != undefined) {
+      order_data.reward = material_icons[card.reward];
+    }
+
+    return order_data;
   }
 
   process_order_state(card) {
