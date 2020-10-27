@@ -68,7 +68,7 @@ const advanced_orders = [{
 
   {
     requirements: [0,0,0,3],
-    score: 2,
+    score: 3, // More score because steel is not that easy to obtain
     // reward: 3,
     advanced: true,
     desc: (<span>获得2分/每组{food_icons[0]}{food_icons[1]}{food_icons[2]}订单</span>),

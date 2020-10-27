@@ -216,6 +216,7 @@ export const CARDS = [
   },
 
   
+  // 超模就超模吧 桃金娘这么可爱 就不削了 按照模型 应该削到3费或者改成2/1 其实也没有 2费如果是4/2的话 桃金娘也没问题
   {
     name: "桃金娘",
     cost: 2,
@@ -2316,7 +2317,7 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:"采掘: 使1个敌人获得-3攻击力，重复2次",
+    desc:"采掘: 使2个敌人获得-4攻击力",
     illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
     reinforce: 2,
     onMine(G, ctx, self) {
@@ -2333,8 +2334,8 @@ export const CARDS = [
       //     enemy.hp /= 2;
       //   }
       // }
-      reduce_enemy_atk(G, ctx, 3);
-      reduce_enemy_atk(G, ctx, 3);
+      reduce_enemy_atk(G, ctx, 4);
+      reduce_enemy_atk(G, ctx, 4);
     },
     onReinforce(G, ctx, self) {
       G.costs += 2;
