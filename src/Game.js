@@ -716,9 +716,9 @@ function setDecks(G, ctx, decks) {
   Object.assign(G, decks);
   // To make sure each time also got different ctx.random results
   // EH: However, it's still better if I can adjust the seed of ctx
-  // for (let i=0; i<G.shuffle_times; i++) {
-  //   ctx.random.D4(); 
-  // }
+  for (let i=0; i<G.shuffle_times; i++) {
+    ctx.random.D4(); 
+  }
 }
 
 export function init_decks(deck, seed) {

@@ -298,16 +298,17 @@ export const CARDS = [
     name:"清道夫", 
     cost:3, 
     atk:4, 
-    hp:4, 
-    mine:1, 
+    hp:2, 
+    mine:2, 
     block:1, 
-    desc:"采掘/战斗: 摸1张牌", 
+    desc:"采掘: 摧毁场上1个重置状态的干员，并获得3点费用", 
     illust:"http://prts.wiki/images/3/3a/%E7%AB%8B%E7%BB%98_%E6%B8%85%E9%81%93%E5%A4%AB_1.png",
-    onMine(G, ctx) {
-      draw(G, ctx);
-    },
-    onFight(G, ctx) {
-      draw(G, ctx);
+    onMine(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.field.filter(x => !x.exhausted))[0];
+      if (card) {
+        G.field = G.field.filter(x => x != card);
+        G.costs += 3;
+      }
     },
     reinforce: 1,
     reinforce_desc: "+2/+2",
@@ -531,7 +532,7 @@ export const CARDS = [
   
   {
     name:"陈", 
-    cost:6, 
+    cost:5, 
     atk:4, 
     hp:4, 
     mine:2, 
@@ -617,13 +618,13 @@ export const CARDS = [
     name:"蛇屠箱", 
     cost:3, 
     atk:2, 
-    hp:8, 
-    mine:1, 
+    hp:6, 
+    mine:2, 
     block:2, 
-    desc:"行动: 获得+4生命值", 
+    desc:"行动: 获得+8生命值", 
     illust:"http://prts.wiki/images/c/c7/%E7%AB%8B%E7%BB%98_%E8%9B%87%E5%B1%A0%E7%AE%B1_1.png",
     action(G, ctx, self) {
-      self.hp += 4 + 4 * self.power;
+      self.hp += 8 + 4 * self.power;
     },
     reinforce: 1,
     reinforce_desc: "再获得+4生命值",
@@ -676,30 +677,30 @@ export const CARDS = [
     reinforce_desc: "+0/+10",
   },
 
-  {
-    name:"斑点", 
-    cost:5, 
-    atk:3, 
-    hp:15, 
-    mine:1, 
-    block:2, 
-    desc:"行动: 使自己和左右两侧干员获得+4生命值", 
-    illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
-    action(G, ctx, self) {
-      let self_idx = G.field.indexOf(self);
-      G.field.map((card, idx) => {
-        if ([self_idx-1, self_idx, self_idx+1].includes(idx)) {
-          card.hp += 4;
-        }
-      });
-    },
-    reinforce: 2,
-    reinforce_desc: "完全治疗自己并获得+2生命值",
-    onReinforce(G, ctx, self) {
-      self.dmg = 0;
-      self.hp += 2;
-    }
-  },
+  // {
+  //   name:"斑点", 
+  //   cost:5, 
+  //   atk:3, 
+  //   hp:15, 
+  //   mine:1, 
+  //   block:2, 
+  //   desc:"行动: 使自己和左右两侧干员获得+4生命值", 
+  //   illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
+  //   action(G, ctx, self) {
+  //     let self_idx = G.field.indexOf(self);
+  //     G.field.map((card, idx) => {
+  //       if ([self_idx-1, self_idx, self_idx+1].includes(idx)) {
+  //         card.hp += 4;
+  //       }
+  //     });
+  //   },
+  //   reinforce: 2,
+  //   reinforce_desc: "完全治疗自己并获得+2生命值",
+  //   onReinforce(G, ctx, self) {
+  //     self.dmg = 0;
+  //     self.hp += 2;
+  //   }
+  // },
   
   {
     name:"雷蛇", 
@@ -730,13 +731,16 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:0, 
-    desc:"行动: 使1个干员获得+5生命值", 
+    desc:"部署: 完全治疗1个干员", 
     illust:"http://prts.wiki/images/b/b9/%E7%AB%8B%E7%BB%98_%E8%8A%99%E8%93%89_1.png",
-    action(G, ctx, self) {
-      cure(G, ctx, 5 + 3 * self.power);
+    onPlay(G, ctx, self) {
+      fully_restore(G, ctx);
     },
     reinforce: 1,
-    reinforce_desc: "再获得+5生命值",
+    onReinforce(G, ctx, self) {
+      cure(G, ctx, 6);
+    },
+    reinforce_desc: "使1个干员获得+6生命值",
   },
 
   {
@@ -1123,14 +1127,14 @@ export const CARDS = [
 
   
   {
-    name:"塞雷娅",
+    name:"卡缇",
     cost:6,
     atk:3,
     hp:6,
     mine:2,
     block:3,
     desc:"部署: 每有1个已完成的订单，就获得+1/+2",
-    illust:"http://prts.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E5%A1%9E%E9%9B%B7%E5%A8%85_1.png",
+    illust:"http://prts.wiki/images/f/f6/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E7%BC%87_1.png",
     onPlay(G, ctx, self) {
       let num_finished = G.finished.length;
       self.atk += num_finished;
@@ -1257,10 +1261,10 @@ export const CARDS = [
 
   {
     name:"普罗旺斯", 
-    cost:3,
-    atk:5, 
+    cost:2,
+    atk:4, 
     hp:2, 
-    mine:2, 
+    mine:1, 
     block:0, 
     desc:"采掘/战斗: 横置场上的1个干员，然后该干员每有2点攻击力，就获得1分", 
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
@@ -1287,18 +1291,19 @@ export const CARDS = [
   {
     name:"灰喉", 
     cost:4,
-    atk:3, 
+    atk:2, 
     hp:1, 
     mine:1, 
     block:0, 
-    desc:"部署: 获得+12攻击力直到回合结束", 
+    desc:"部署: 获得+15攻击力直到回合结束", 
     illust:"http://prts.wiki/images/2/23/%E7%AB%8B%E7%BB%98_%E7%81%B0%E5%96%89_1.png",
     onPlay(G, ctx, self) {
-      self.atk += 12;
+      let delta = 15;
+      self.atk += delta;
       self.played = true;
       self.onTurnBegin = (G, ctx, self) => {
         if (self.played) {
-          self.atk -= 12;
+          self.atk -= delta;
           self.played = false;
         }
       }
@@ -1315,7 +1320,7 @@ export const CARDS = [
     name:"煌",
     cost:6,
     atk:7,
-    hp:10,
+    hp:9,
     mine:2,
     block:1,
     desc:"超杀: 每造成2点额外伤害，就获得1分",
@@ -1721,29 +1726,29 @@ export const CARDS = [
     reinforce_desc: "化解1点动乱值",
   },
   
-  {
-    name:"麦哲伦",
-    cost:3,
-    atk:2,
-    hp:1,
-    mine:2,
-    block:0,
-    desc:"部署: 化解5点动乱值",
-    illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
-    reinforce: 1,
-    onPlay(G, ctx, self) {
-      G.danger -= 5;
-    },
-    onReinforce(G, ctx, self) {
-      self.mine += 1;
-    },
-    reinforce_desc: "<+1>",
-  },
+  // {
+  //   name:"麦哲伦",
+  //   cost:3,
+  //   atk:2,
+  //   hp:1,
+  //   mine:2,
+  //   block:0,
+  //   desc:"部署: 化解5点动乱值",
+  //   illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
+  //   reinforce: 1,
+  //   onPlay(G, ctx, self) {
+  //     G.danger -= 5;
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.mine += 1;
+  //   },
+  //   reinforce_desc: "<+1>",
+  // },
  
   
   {
     name:"苏苏洛",
-    cost:4,
+    cost:5,
     atk:0,
     hp:2,
     mine:1,
@@ -1984,27 +1989,30 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "行动: 对1个重置状态的干员造成4点伤害，并使其获得\"采掘/战斗: 获得4分\"",
+    desc: "行动: 对1个重置状态的干员造成3点伤害，并获得3分",
     illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
     reinforce: 1,
     action(G, ctx, self) {
       let card = ctx.random.Shuffle(G.field.filter(x => (x!=self && !x.exhausted)))[0];
       if (card) {
-        card.dmg += 4;
+        card.dmg += 3;
+        G.score += 3;
         if (card.dmg >= card.hp) {
-          let card_idx = G.field.indexOf(card);
-          G.field.splice(card_idx, 1);
-          G.discard.push(card);
+          // let card_idx = G.field.indexOf(card);
+          // G.field.splice(card_idx, 1);
+          // G.discard.push(card);
+          G.field = G.field.filter(x => x != card);
+          G.discard = [card, ...G.discard];
         }
-        else {
-          card.onMine = (G, ctx) => {G.score += 4};
-          card.onFight = card.onMine;
-          card.desc = "采掘/战斗: 获得4分";
-        }
+        // else {
+          // card.onMine = (G, ctx) => {G.score += 4};
+          // card.onFight = card.onMine;
+          // card.desc = "采掘/战斗: 获得4分";
+          // G.score += 3;
+        // }
 
-        self.use_count = self.use_count || 0;
-        self.use_count += 1;
-        if (self.use_count >= 5) {
+        self.use_count = (self.use_count || 0) + 1;
+        if (self.use_count == 5) {
           achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿5次以上", self);
         }
       }
@@ -2163,45 +2171,53 @@ export const CARDS = [
     reinforce_desc: "+2/+2",
   },
   
-  {
-    name:"白金", 
-    cost:3, 
-    atk:4, 
-    hp:2, 
-    mine:1, 
-    block:0, 
-    desc:"采掘/战斗: 使1个干员获得+3攻击力", 
-    illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%87%91_1.png",
-    onMine(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.field.filter(x => x != self))[0];
-      if (card) {
-        card.atk += 3;
-      }
-    },
-    onFight(G, ctx, self) {
-      this.onMine(G, ctx, self);
-    },
-    reinforce: 1,
-    reinforce_desc: "+3/+1",
-    onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 1;
-    }
-  },
+  // {
+  //   name:"白金", 
+  //   cost:3, 
+  //   atk:4, 
+  //   hp:2, 
+  //   mine:1, 
+  //   block:0, 
+  //   desc:"采掘/战斗: 使1个干员获得+3攻击力", 
+  //   illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%87%91_1.png",
+  //   onMine(G, ctx, self) {
+  //     let card = ctx.random.Shuffle(G.field.filter(x => x != self))[0];
+  //     if (card) {
+  //       card.atk += 3;
+  //     }
+  //   },
+  //   onFight(G, ctx, self) {
+  //     this.onMine(G, ctx, self);
+  //   },
+  //   reinforce: 1,
+  //   reinforce_desc: "+3/+1",
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 3;
+  //     self.hp += 1;
+  //   }
+  // },
 
 
   {
     name:"远山",
     cost:3,
-    atk:3,
+    atk:4,
     hp:2,
     mine:2,
     block:0,
-    desc: "部署: 获得3个材料",
+    desc: "部署: 获得<+3>直到回合结束",
     illust:"http://prts.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      gainMaterials(G, ctx, 3);
+      // gainMaterials(G, ctx, 3);
+      self.mine += 3;
+      self.played = true;
+      self.onTurnBegin = (G, ctx, self) => {
+        if (self.played) {
+          self.mine -= 3;
+          self.played = false;
+        }
+      }
     },
     onReinforce(G, ctx, self) {
       self.mine += 1;
@@ -2261,12 +2277,59 @@ export const CARDS = [
     },
     reinforce_desc: "获得1分",
   },
+  
+  {
+    name:"杰克",
+    cost:1,
+    atk:1,
+    hp:1,
+    mine:1,
+    block:1,
+    desc: "摧毁: 将弃牌堆中1张有\"部署:\"效果的牌返回手牌",
+    illust:"http://prts.wiki/images/1/1d/%E7%AB%8B%E7%BB%98_%E6%9D%B0%E5%85%8B_1.png",
+    reinforce: 1,
+    onOut(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.discard).find(x => x.onPlay);
+      G.hand.unshift(card);
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+  
+  {
+    name:"森蚺",
+    cost:5,
+    atk:2,
+    hp:2,
+    mine:2,
+    block:1,
+    desc: "部署: 随机强化自己5次",
+    illust:"http://prts.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E6%A3%AE%E8%9A%BA_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      let cards = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce)).slice(0, 5);
+      for (let card of cards) {
+        if (self) {
+          card.onReinforce(G, ctx, self);
+        }
+      }
+      logMsg(G, ctx, `触发 ${cards.map(x => x.name).join(",")} 的强化效果`);
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
 
   {
     name:"赫拉格",
     cost:6,
     atk:5,
-    hp:8,
+    hp:6,
     mine:2,
     block:1,
     desc: "超杀: 完全治疗自己并获得+2/+2",
@@ -2289,7 +2352,7 @@ export const CARDS = [
     name:"波登可",
     cost:4,
     atk:4,
-    hp:3,
+    hp:2,
     mine:2,
     block:0,
     desc: "行动: 触发手牌中1个干员的\"部署:\"效果(极境除外)",
