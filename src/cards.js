@@ -144,7 +144,7 @@ export const CARDS = [
   {
     name: "巡林者",
     cost: 5,
-    atk: 8,
+    atk: 9,
     hp: 4,
     mine: 3,
     block: 0,
@@ -621,10 +621,10 @@ export const CARDS = [
     hp:6, 
     mine:2, 
     block:2, 
-    desc:"行动: 获得+8生命值", 
+    desc:"行动: 获得+6生命值", 
     illust:"http://prts.wiki/images/c/c7/%E7%AB%8B%E7%BB%98_%E8%9B%87%E5%B1%A0%E7%AE%B1_1.png",
     action(G, ctx, self) {
-      self.hp += 8 + 4 * self.power;
+      self.hp += 6 + 4 * self.power;
     },
     reinforce: 1,
     reinforce_desc: "再获得+4生命值",
@@ -724,24 +724,24 @@ export const CARDS = [
     reinforce_desc: "+0/+10",
   },
   
-  {
-    name:"芙蓉", 
-    cost:1, 
-    atk:0, 
-    hp:2, 
-    mine:1, 
-    block:0, 
-    desc:"部署: 完全治疗1个干员", 
-    illust:"http://prts.wiki/images/b/b9/%E7%AB%8B%E7%BB%98_%E8%8A%99%E8%93%89_1.png",
-    onPlay(G, ctx, self) {
-      fully_restore(G, ctx);
-    },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      cure(G, ctx, 6);
-    },
-    reinforce_desc: "使1个干员获得+6生命值",
-  },
+  // {
+  //   name:"芙蓉", 
+  //   cost:1, 
+  //   atk:0, 
+  //   hp:2, 
+  //   mine:1, 
+  //   block:0, 
+  //   desc:"部署: 完全治疗1个干员", 
+  //   illust:"http://prts.wiki/images/b/b9/%E7%AB%8B%E7%BB%98_%E8%8A%99%E8%93%89_1.png",
+  //   onPlay(G, ctx, self) {
+  //     fully_restore(G, ctx);
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     cure(G, ctx, 6);
+  //   },
+  //   reinforce_desc: "使1个干员获得+6生命值",
+  // },
 
   {
     name:"安赛尔", 
@@ -966,7 +966,7 @@ export const CARDS = [
   {
     name:"赫默",
     cost:3,
-    atk:0,
+    atk:4,
     hp:3,
     mine:1,
     block:0,
@@ -2055,7 +2055,7 @@ export const CARDS = [
     cost:3,
     atk:0,
     hp:2,
-    mine:2,
+    mine:1,
     block:0,
     desc: "部署: 将弃牌堆中的所有牌返回手牌",
     illust:"http://prts.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
