@@ -1,7 +1,25 @@
+button {
+  background-color: #555555;
+  border: none;
+  color: white;
+  box-shadow: 2.25px 2.25px 5px gray;
+}
+
+body {
+  /* background-image: url("https://s3.ax1x.com/2020/11/12/Bz5HxJ.png"); */
+  background-image: url("https://img.freepik.com/free-photo/old-gray-cement-wall-background_34552-324.jpg");
+  background-size: cover;
+}
+
+.primary {
+  background-color: #0098DC;
+  /* font-weight: bold; */
+}
+
 .board {
   height: 600px;
   width: 370px;
-  border: 2px solid;
+  border: 2.5px solid #a0a0a0;
   margin: 2%;
 
   position: relative;

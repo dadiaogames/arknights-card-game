@@ -143,6 +143,7 @@
 
 .illust_detailed, .r_illust_detailed, .eo_illust_detailed {
   border: 0px;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 img.illust {
