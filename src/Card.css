@@ -25,9 +25,16 @@
   border: 1px solid;
 }
 
+/* Data Addition */
+.cost, .mine, .block, .power, .atk, .hp, 
+.requirements, .reward, .score, .price,
+.cost_detailed, .order_effect, .finished_effect {
+  background-color: #f4f4f4;
+}
+
 .cost {
-  top: 2%;
-  left: 2%;
+  top: 0%;
+  left: 0%;
   height: 25%;
   width: 25%;
   text-align: center;
@@ -35,7 +42,7 @@
 
 .mine, .block, .power {
   top: -2%;
-  left: 2%;
+  left: 0%;
   height: 20%;
   width: 45%;
   text-align: center;
@@ -65,7 +72,7 @@
 
 .atk {
   top: 78%;
-  left: 8%;
+  left: 2%;
   height: 25%;
   width: 25%;
   text-align: center;
@@ -73,7 +80,7 @@
 
 .hp {
   top: 78%;
-  left: 76%;
+  left: 73%;
   height: 25%;
   width: 25%;
   text-align: center;
@@ -116,6 +123,14 @@
   overflow: scroll;
 }
 
+/* Detailed card addition */
+.cost_detailed, .desc {
+  border: none;
+  background-color: rgba(69, 69, 69, .87);
+  box-shadow: 0px 0px 1px grey;
+  color: white;
+}
+
 .requirements, .price {
   top: -2%;
   left: 2%;
@@ -135,11 +150,21 @@
 }
 
 .illust, .e_illust, .o_illust, .illust_detailed, .eo_illust_detailed, .r_illust, .r_illust_detailed, .upgrade_name {
-  width: 90%;
+  width: 88%;
   height: 90%;
-  margin: 10%;
+  margin: 5% 6% 5% 6%;
   overflow: hidden;
+
+  background-color: rgba(0, 0, 0, 0);
+
 }
+
+.illust, .r_illust{
+  /* background-color: #e0e0e0; */
+  /* background-image: url("https://www.transparenttextures.com/patterns/blu-stripes.png"); */
+}
+
+
 
 .illust_detailed, .r_illust_detailed, .eo_illust_detailed {
   border: 0px;

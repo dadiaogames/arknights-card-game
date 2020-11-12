@@ -20,8 +20,9 @@ import { TAGS } from './tags';
 import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop } from './Roguelike';
 import { RULES } from './rules';
 
-import './Board.css';
 import 'react-tabs/style/react-tabs.css';
+
+import './Board.css';
 
 const init_animations = {
   field: {},
@@ -328,6 +329,7 @@ export class Board extends React.Component {
     return {
       selected: (this.state.hand_selected == idx),
       upgraded: card.upgraded,
+      illust_variants: card.illust_variants,
     };
   }
   
@@ -362,6 +364,7 @@ export class Board extends React.Component {
     return {
       selected: (this.state.pick_selected == idx),
       upgraded: card.upgraded,
+      illust_variants: card.illust_variants,
     };
   }
 
@@ -401,6 +404,7 @@ export class Board extends React.Component {
       damaged: (card.dmg > 0),
       playing: this.state.animations.field[idx],
       setPlaying: (value) => this.set_animations("field", idx, value),
+      illust_variants: card.illust_variants,
     }
   }
 
@@ -893,7 +897,7 @@ export class Board extends React.Component {
       <SCardRow 
         cards = {this.props.G.hand.map(this.process_card_details)}
         handleClick = {this.handle_mulligan_clicked}
-        additionalStyles = {this.state.hand_choices.map(x => ({border: x?"3px solid blue":"2px solid"}))}
+        additionalStyles = {this.state.hand_choices.map(x => ({border: x?"3px solid #096dd9":"2px solid"}))}
       />
       <button 
         className="preview-button" 
@@ -1268,7 +1272,7 @@ export class Board extends React.Component {
         tags: this.choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),
-      其他游玩模式: () => this.change_board("modes"),
+      其他模式: () => this.change_board("modes"),
       返回标题: () => this.change_board("title"),
     };
 

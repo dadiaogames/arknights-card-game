@@ -16,6 +16,10 @@ body {
   /* font-weight: bold; */
 }
 
+.react-tabs__tab--selected {
+  background-color: #e7e7e7;
+}
+
 .board {
   height: 600px;
   width: 370px;

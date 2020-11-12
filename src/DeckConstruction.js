@@ -6,7 +6,6 @@ export const DeckConstruction = (props) => {
   return (
     <div className="deck-construction">
       <form>
-        请组出一套强力或欢乐的卡组
         <br/>
         当前卡组为&nbsp;{is_standard(props.value)?"标准卡组":"狂野卡组"}
         <br/>
@@ -71,7 +70,7 @@ export const DeckGeneration = (props) => {
         </button>
         
       <br/>
-      <p>给卡组取个好听的名字，然后系统会根据名字，生成一套卡组。</p>
+      {/* <p>给卡组取个好听的名字，然后系统会根据名字，生成一套卡组。</p> */}
     </div>
   );
 };

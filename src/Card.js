@@ -26,7 +26,7 @@ export const Card = (props) => {
   };
 
   if (props.cardState.exhausted) {
-    let exhausted_border = "1px solid red";
+    let exhausted_border = "1px solid #f5222d";
     for (let attr in additional_styles) {
       if (attr.includes("illust")) {
         additional_styles[attr].border = exhausted_border;
@@ -36,7 +36,7 @@ export const Card = (props) => {
   }
   if (props.cardState.selected) {
     if (props.cardState.exhausted) {
-      let selected_exhausted_border = "3px solid purple";
+      let selected_exhausted_border = "3px solid #9254de"; // Selected Exhausted Border
       for (let attr in additional_styles) {
         if (attr.includes("illust")) {
           additional_styles[attr].border = selected_exhausted_border;
@@ -45,7 +45,7 @@ export const Card = (props) => {
 
     }
     else {
-      let selected_border = "3px solid blue";
+      let selected_border = "3px solid #096dd9"; // Selected Border
       for (let attr in additional_styles) {
         if (attr.includes("illust")|| (attr == "upgrade_name")) {
           additional_styles[attr].border = selected_border;
@@ -73,6 +73,10 @@ export const Card = (props) => {
     additional_styles.order_effect.borderColor = order_colors[color];
     additional_styles.finished_effect.borderColor = order_colors[color];
   }
+  // if (props.cardState.left_more) {
+  //   additional_styles.illust.marginLeft = "-150%";
+  // }
+  // EH: Find a way to let some illust change pattern
 
   let shaker = useShaker(props.cardState.shaking, props.cardState.setShaking, -30, -30, {duration:125}, props.cardState.onEnd);
 

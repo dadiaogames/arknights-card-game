@@ -1,10 +1,16 @@
 .title-screen-button, .mode-selection-button {
   font-size: 105%;
   margin-top: 10%;
+  /* width: 30.9%;
+  height: 12.3%;
+  margin-top: 4.5%; */
   padding: 5%;
-  /* width: 45%; */
 }
 
 .mode-selection-button {
   width: 35%;
+}
+
+.title {
+  /* text-shadow: 1px 1px 2px grey; */
 }
