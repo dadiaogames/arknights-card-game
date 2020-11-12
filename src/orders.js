@@ -158,7 +158,7 @@ export const ORDERS = [
 
   {
     requirements: [3,0,0,0],
-    score: 3,
+    score: 4,
     reward: 2,
     desc: (<span>{material_icons[1]}→{material_icons[3]}</span>),
     cost: [0,1,0,0],
@@ -169,7 +169,7 @@ export const ORDERS = [
   },
   {
     requirements: [0,3,0,0],
-    score: 3,
+    score: 4,
     reward: 0,
     desc: (<span>{material_icons[2]}→{material_icons[3]}</span>),
     cost: [0,0,1,0],
@@ -181,7 +181,7 @@ export const ORDERS = [
   },
   {
     requirements: [0,0,3,0],
-    score: 3,
+    score: 4,
     reward: 1,
     desc: (<span>{material_icons[0]}→{material_icons[3]}</span>),
     cost: [1,0,0,0],

@@ -1,44 +1,61 @@
 import React from 'react';
 import './TagSelection.css';
 
-export const TagSelection = (props) => {
-  let tbody = [];
 
-  for (let i=0; i<props.tags.length; i+=3) {
-    let row = [];
-    let row_tags = props.tags.slice(i, i+3);
-    for (let tag of row_tags) {
-      let borderColor = "black";
-      if (tag.selected) {
-        borderColor = "red";
-      }
-      if (tag.locked) {
-        borderColor = "#1E90FF";
-      }
-      row.push(
-        <td 
-          onClick={props.handleClick(props.tags.indexOf(tag))}
-        >
-          <div className="tag">
-          <img 
-            className="tag-img" 
-            src={tag.src}
-            style={{
-            borderColor: borderColor,
-          }} 
-          ></img>
-          </div>
-        </td>
-      );
-    }
-    tbody.push(<tr>{row}</tr>);
+function Tag(props) {
+  let bg_color = "#c5c5c5";
+  if (props.selected) {
+    bg_color = "#0098dc";
   }
+  if (props.locked) {
+    bg_color = "#096dd9";
+  }
+
+  return <div className="tag" style={{backgroundColor: bg_color}} onClick={props.handleClick} >
+    <img className="tag-img" src={props.src} >
+    </img>
+  </div>
+}
+
+export const TagSelection = (props) => {
+  // let tbody = [];
+
+  // for (let i=0; i<props.tags.length; i+=3) {
+  //   let row = [];
+  //   let row_tags = props.tags.slice(i, i+3);
+  //   for (let tag of row_tags) {
+  //     let borderColor = "black";
+  //     if (tag.selected) {
+  //       borderColor = "red";
+  //     }
+  //     if (tag.locked) {
+  //       borderColor = "#1E90FF";
+  //     }
+  //     row.push(
+  //       <td 
+  //         onClick={props.handleClick(props.tags.indexOf(tag))}
+  //       >
+  //         <div className="tag">
+  //         <img 
+  //           className="tag-img" 
+  //           src={tag.src}
+  //           style={{
+  //           borderColor: borderColor,
+  //         }} 
+  //         ></img>
+  //         </div>
+  //       </td>
+  //     );
+  //   }
+  //   tbody.push(<tr>{row}</tr>);
+  // }
 
   return (
     <div className="tag-selection" >
-      <table>
+      {/* <table>
         <tbody>{tbody}</tbody>
-      </table>
+      </table> */}
+      {props.tags.map((tag, idx) => <Tag {...tag} handleClick={props.handleClick(idx)} />)}
     </div>
   );
 };
@@ -52,7 +69,7 @@ export const TagList = (props) => {
           marginTop: "1%",
         }}
       >
-        {props.selected_tags.map((tag) => (<li className="tag-desc" style={{color:(tag.level>=3)?"red":"black"}}>{tag.desc}</li>))}
+        {props.selected_tags.map((tag) => (<li className="tag-desc" style={{color:(tag.level>=3)?"#cf1322":"black"}}>{tag.desc}</li>))}
       </ul>
     </div>
   );

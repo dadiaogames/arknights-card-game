@@ -1300,7 +1300,7 @@ export class Board extends React.Component {
         <br/>
         <div 
           style={{
-            color: "red", 
+            color: "#cf1322", 
             marginLeft: "2%",
             marginTop: "-3%",
             display:(risk_level>=16)? "" : "none"
