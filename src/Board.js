@@ -1112,17 +1112,20 @@ export class Board extends React.Component {
         <button 
           className="player-panel-button"
           style={{
-            display: (this.props.G.stage=="enemy")? "none" : ""
+            display: (this.props.G.stage=="enemy" && !this.props.ctx.gameover)? "none" : ""
           }} 
           onClick={()=>{
+            if (this.props.ctx.gameover) {
+              this.end_game();
+            }
             this.props.moves.rest();
             this.props.moves.enemyInit();
             this.enemy_move(-this.props.G.num_enemies_out);
           }}
         >
-          结束回合{ICONS.endturn}
+          {this.props.ctx.gameover? <span>结束游戏{ICONS.endgame}</span>:<span>结束回合{ICONS.endturn}</span>}
         </button>
-        <button 
+        {/* <button 
           className="player-panel-button"
           style={{
             display: (this.props.ctx.gameover)? "" : "none"
@@ -1130,7 +1133,7 @@ export class Board extends React.Component {
           onClick={()=>{this.end_game();}}
         >
           结束游戏
-        </button>
+        </button> */}
       </p>
     </div>);
 
