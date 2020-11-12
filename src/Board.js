@@ -1107,7 +1107,7 @@ export class Board extends React.Component {
           className="player-panel-button"
           onClick={() => {this.setState({show_field: !this.state.show_field})}}
         >
-          {(this.state.show_field)? "查看订单" : "查看战场"}
+          {(this.state.show_field)? <span>{ICONS.order}查看订单</span> : <span>{ICONS.battlefield}查看战场</span>}
         </button>
         <button 
           className="player-panel-button"
@@ -1120,7 +1120,7 @@ export class Board extends React.Component {
             this.enemy_move(-this.props.G.num_enemies_out);
           }}
         >
-          结束回合
+          结束回合{ICONS.endturn}
         </button>
         <button 
           className="player-panel-button"

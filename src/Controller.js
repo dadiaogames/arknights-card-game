@@ -1,10 +1,25 @@
 import React from 'react';
 import './Controller.css';
+import { ICONS } from './icons';
 import { material_icons } from './orders';
+
+const actions_with_icon = {
+    采掘: ICONS.mineAction,
+    战斗: ICONS.fight,
+    行动: ICONS.action,
+    部署: ICONS.play,
+    查看: ICONS.check,
+    完成: ICONS.finish,
+    拿取: ICONS.pick,
+};
 
 function process_action(action) {
   if (action.includes("强化")) {
     return (<span>强化{material_icons[parseInt(action[2])]}</span>);
+  }
+
+  if (Object.keys(actions_with_icon).includes(action)) {
+    return (<span>{actions_with_icon[action]}{action}</span>)
   }
 
   return action;
@@ -18,7 +33,7 @@ export const Controller = (props) => {
           <button onClick={props.actions[action]} className="controller-button" >{process_action(action)}</button>
         )
       )}
-      <button className="controller-button" onClick={props.checkCard} style={{display:props.checkCard?"":"none"}}>查看</button>
+      <button className="controller-button" onClick={props.checkCard} style={{display:props.checkCard?"":"none"}}>{actions_with_icon.查看}查看</button>
     </div>
   );
 };

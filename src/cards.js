@@ -605,7 +605,7 @@ export const CARDS = [
     onPlay(G, ctx, self) {
       G.materials[3] += 2;
     },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
       self.atk += 2;
       self.hp += 2;
@@ -1602,10 +1602,10 @@ export const CARDS = [
       self.onFight = reinforce_skill;
     },
     reinforce: 1,
-    reinforce_desc: "+3/+3",
+    reinforce_desc: "+1/+4",
     onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 3;
+      self.atk += 1;
+      self.hp += 4;
     }
   },
 

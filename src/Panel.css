@@ -1,15 +1,20 @@
+/* .game-panel, .player-panel {
+  background-color: rgba(69,69,69,0.9);
+  color: white;
+} */
+
 .game-panel {
   height: 8%;
   border: 2px solid;
   text-align: center;
   margin: 2%;
   font-size: 90%;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
   position: relative;
 }
 
 .player-panel {
-  height: 10%;
+  height: 12%;
   border: 2px solid;
   text-align: center;
   margin: 2%;
