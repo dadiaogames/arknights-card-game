@@ -1572,6 +1572,43 @@ export const CARDS = [
   },
 
   {
+    name: "阿米娅-近卫",
+    cost: 6,
+    atk: 6,
+    hp: 6,
+    mine: 3,
+    block: 1,
+    illust: "https://s3.ax1x.com/2020/11/12/BvqDyQ.png",
+    // illust: "https://s3.ax1x.com/2020/11/12/BvbhqA.png",
+    desc: `行动: 造成6点伤害，重复2次，然后本回合剩余时间内，使用干员采掘时，获得1分，整场战斗限1次(采掘/战斗: 强化此技能)`,
+    // was_enemy: true,
+    onPlay(G, ctx, self) {
+      self.skill_power = 0;
+      let reinforce_skill = (G, ctx, self) => {
+        self.skill_power = (self.skill_power || 0) + 1;
+        self.desc = `行动: 造成6点伤害，重复${2+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+Math.floor(self.skill_power/2)}分，整场战斗限1次(采掘/战斗: 强化此技能)`;
+      };
+      self.action = (G, ctx, self) => {
+        for (let i=0; i<(2+self.skill_power); i++) {
+          deal_random_damage(G, ctx, 6);
+        }
+        G.onCardMine.push((G, ctx) => {G.score += 1 + Math.floor(self.skill_power / 2);});
+        self.action = undefined;
+        self.onMine = undefined;
+        self.onFight = undefined;
+      };
+      self.onMine = reinforce_skill;
+      self.onFight = reinforce_skill;
+    },
+    reinforce: 1,
+    reinforce_desc: "+3/+3",
+    onReinforce(G, ctx, self) {
+      self.atk += 3;
+      self.hp += 3;
+    }
+  },
+
+  {
     name:"银灰",
     cost:5,
     atk:6,

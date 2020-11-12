@@ -236,6 +236,9 @@ function mine(G, ctx, idx) {
     if (card.onMine) {
       card.onMine(G, ctx, card);
     }
+    for (let f of G.onCardMine) {
+      f(G, ctx, card);
+    }
   }
 }
 
