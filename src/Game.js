@@ -131,6 +131,16 @@ export function deal_random_damage(G, ctx, amount) {
   }
 }
 
+export function silent(card) {
+  card.onPlay = undefined;
+  card.onMine = undefined;
+  card.onFight = undefined;
+  card.action = undefined;
+  card.onRest = undefined;
+  card.onOut = undefined;
+  card.desc = "";
+}
+
 export function addTags(G, ctx, tags) {
   for (let t of tags) {
     t.effect(G, ctx);

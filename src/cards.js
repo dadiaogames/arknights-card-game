@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, insert_field, reduce_enemy_atk
+  clearField, drawEnemy, fully_restore, insert_field, reduce_enemy_atk, silent
 } from './Game';
 import { material_icons, ready_order } from './orders';
 
@@ -1586,7 +1586,7 @@ export const CARDS = [
       self.skill_power = 0;
       let reinforce_skill = (G, ctx, self) => {
         self.skill_power = (self.skill_power || 0) + 1;
-        self.desc = `行动: 造成6点伤害，重复${2+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+Math.floor(self.skill_power/2)}分，整场战斗限1次(采掘/战斗: 强化此能力)`;
+        self.desc = `行动: 造成6点伤害，重复${2+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+Math.floor(self.skill_power/2)}分，整场战斗限1次(采掘/战斗: 强化此技能)`;
       };
       self.action = (G, ctx, self) => {
         for (let i=0; i<(2+self.skill_power); i++) {
@@ -2495,7 +2495,7 @@ export const CARDS = [
     hp:1,
     mine:0,
     block:0,
-    desc: "部署: 重置场上所有干员，并使被重置的干员采掘力变为0",
+    desc: "部署: 重置场上所有干员，然后沉默所有被重置的干员并使其采掘力变为0",
     illust:"http://prts.wiki/images/2/2c/%E7%AB%8B%E7%BB%98_%E5%9B%9B%E6%9C%88_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -2503,6 +2503,7 @@ export const CARDS = [
         if (card.exhausted) {
           card.exhausted = false;
           card.mine = 0;
+          silent(card);
         }
       })
     },
