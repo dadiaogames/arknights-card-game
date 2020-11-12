@@ -131,7 +131,7 @@ export const CARDS = [
     cost: 5,
     atk: 6,
     hp: 4,
-    mine: 6,
+    mine: 5,
     block: 0,
     illust: "http://prts.wiki/images/6/61/%E7%AB%8B%E7%BB%98_12F_1.png",
     reinforce: 2,
@@ -1127,14 +1127,14 @@ export const CARDS = [
 
   
   {
-    name:"卡缇",
+    name:"斑点",
     cost:6,
     atk:3,
     hp:6,
     mine:2,
     block:3,
     desc:"部署: 每有1个已完成的订单，就获得+1/+2",
-    illust:"http://prts.wiki/images/f/f6/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E7%BC%87_1.png",
+    illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
     onPlay(G, ctx, self) {
       let num_finished = G.finished.length;
       self.atk += num_finished;
