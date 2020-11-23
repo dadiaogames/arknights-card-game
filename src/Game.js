@@ -578,8 +578,10 @@ export function fully_restore(G, ctx) {
       return x.hp-y.hp;
     }
   })[0];
-  G.cured = card.dmg;
+  let cured = card.dmg;
   card.dmg = 0;
+
+  return cured;
 }
 
 export function cure(G, ctx, amount) {

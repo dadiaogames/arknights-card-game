@@ -838,8 +838,8 @@ export const CARDS = [
     illust:"http://prts.wiki/images/e/e9/%E7%AB%8B%E7%BB%98_%E9%97%AA%E7%81%B5_1.png",
     reinforce: 1,
     action(G, ctx, self) {
-      fully_restore(G, ctx);
-      if (G.cured >= 4) {
+      let cured = fully_restore(G, ctx);
+      if (cured >= 4) {
         G.score += 2 + self.power;
       }
     },
@@ -2586,11 +2586,12 @@ export const CARDS = [
       drop(G, ctx);
       G.costs += 4;
     },
-    reinforce: 2,
-    reinforce_desc: "获得2点费用",
+    reinforce: 1,
+    reinforce_desc: "+2/+2",
     onReinforce(G, ctx, self) {
-      G.costs += 2;
-    },
+      self.atk += 2;
+      self.hp += 2;
+    }
   },{
     name:"泥岩",
     cost:5,
@@ -2656,9 +2657,10 @@ export const CARDS = [
       }
     },
     reinforce: 2,
-    reinforce_desc: "获得2点费用",
+    reinforce_desc: "召唤1个费用为2的干员",
     onReinforce(G, ctx, self) {
-      G.costs += 2;
+      let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==2)))[0];
+      summon(G, ctx, new_card, self);
     },
   },
   // {
