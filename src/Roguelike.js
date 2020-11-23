@@ -20,16 +20,19 @@ export function introduce_roguelike_mode() {
 }
 
 function setup_roguelike_mode(S) {
+  console.log("Roguelike mode reset");
   S.roguelike_mode = true;
 
   S.Deck = [];
 
-  S.gold = 100;
+  S.gold = 60;
 
   S.game_count = 1;
   S.level_required = 0;
 
   S.central_idx = 0;
+
+  S.dream_count = 0;
 
   reset_card_picks(S);
   reset_shop(S);
@@ -98,6 +101,7 @@ function enter_dream(S) {
     alert("已进入黑角梦境");
     S.Deck = _.times(10, () => heijiao_in_dream);
   }
+  S.gold = 5000;
 }
 
 export function get_gold_gained(risk_level, level_required) {
@@ -292,7 +296,7 @@ export function ResultLose(props) {
       胜败乃兵家常事<br/>
       大侠请重新来过
     </div>
-    <button className="endrun-btn">结束游戏</button>
+    <button className="endrun-btn" onClick={props.continue}>结束游戏</button>
   </div>
 }
 
@@ -309,7 +313,7 @@ export function FinalResult(props) {
 
 }
 
-export const roguelike = map_object(produce, {
+export const roguelike = {
   setup_roguelike_mode,
   set_difficulty,
   setup_deck_selection,
@@ -317,4 +321,5 @@ export const roguelike = map_object(produce, {
   skip_pick,
   enter_dream,
   continue_run,
-});
+  end_roguelike_mode,
+};

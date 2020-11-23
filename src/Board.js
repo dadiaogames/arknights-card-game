@@ -112,6 +112,7 @@ export class Board extends React.Component {
     this.start_competition = this.start_competition.bind(this);
 
     this.enter_roguelike_mode = this.enter_roguelike_mode.bind(this);
+    this.end_roguelike_mode = this.end_roguelike_mode.bind(this);
 
     this.change_board = this.change_board.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
@@ -121,7 +122,7 @@ export class Board extends React.Component {
     this.check_deck = this.check_deck.bind(this);
     this.back = this.back.bind(this);
 
-    this.roguelike = map_object(action => (...args) => this.setState(action(this.state, ...args)), roguelike);
+    this.roguelike = map_object(action => (...args) => this.setState(produce((S) => action(S, ...args))), roguelike);
 
     this.state = {
       hand_selected: -1,
@@ -790,6 +791,11 @@ export class Board extends React.Component {
     }
   }
 
+  end_roguelike_mode() {
+    this.roguelike.end_roguelike_mode();
+    this.enter_roguelike_mode();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     // console.log("updated");
     // Materials
@@ -1090,12 +1096,19 @@ export class Board extends React.Component {
       slam = {level_diff >= 4}
       grand_slam = {level_diff >= 8}
       continue = {() => {
+        let game_count = this.state.game_count;
         this.roguelike.continue_run();
-        this.change_board("roguelike");
+        if (game_count < 9) {
+          this.change_board("roguelike");
+        }
+        else {
+          this.change_board("roguelike_final_result");
+        }
       }}
     />
     let lose = <ResultLose
       game_count = {this.state.game_count}
+      continue = {this.end_roguelike_mode}
     />
     return this.state.won? win : lose;
   }
@@ -1109,6 +1122,7 @@ export class Board extends React.Component {
     return <FinalResult 
       difficulty = "整装待发"
       endgame = "结束游戏"
+      continue = {this.end_roguelike_mode}
     />;
   }
 
@@ -1369,7 +1383,7 @@ export class Board extends React.Component {
         tags: this.choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),
-      // Roguelike模式: () => this.enter_roguelike_mode(),
+      Roguelike模式: () => this.enter_roguelike_mode(),
       返回标题: () => this.change_board("title"),
     };
 

@@ -894,7 +894,7 @@ export const CARDS = [
   
   {
     name:"皇帝",
-    cost:4,
+    cost:5,
     atk:2,
     hp:2,
     mine:1,
@@ -1952,111 +1952,113 @@ export const CARDS = [
   //   },
   //   reinforce_desc: "造成3点伤害",
   // },
-  {
-    name:"守林人",
-    cost:4,
-    atk:5,
-    hp:3,
-    mine:2,
-    block:0,
-    desc: "休整: 造成3点伤害，每有1个休整中的干员，伤害就+2",
-    illust:"http://prts.wiki/images/1/1f/%E7%AB%8B%E7%BB%98_%E5%AE%88%E6%9E%97%E4%BA%BA_1.png",
-    reinforce: 1,
-    onRest(G, ctx, self) {
-      deal_random_damage(G, ctx, 3 + 2 * get_num_rest_cards(G, ctx) + 3 * self.power);
-    },
-    reinforce_desc: "伤害+3",
-  },
-  {
-    name:"霜叶",
-    cost:2,
-    atk:2,
-    hp:3,
-    mine:1,
-    block:1,
-    desc: "休整: 每有1个休整中的干员，就获得+1/+1",
-    illust:"http://prts.wiki/images/5/50/%E7%AB%8B%E7%BB%98_%E9%9C%9C%E5%8F%B6_1.png",
-    reinforce: 1,
-    onRest(G, ctx, self) {
-      let num_rest_cards = get_num_rest_cards(G, ctx);
-      self.atk += num_rest_cards;
-      self.hp += num_rest_cards;
-    },
-    onReinforce(G, ctx, self) {
-      self.block += 1;
-    },
-    reinforce_desc: "阻挡数+1",
-  },
-  {
-    name:"锡兰",
-    cost:3,
-    atk:0,
-    hp:3,
-    mine:3,
-    block:0,
-    desc: "休整: 每有1个休整中的干员，就获得1分",
-    illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
-    reinforce: 2,
-    onRest(G, ctx, self) {
-      let num_rest_cards = get_num_rest_cards(G, ctx);
-      G.score += num_rest_cards;
-    },
-    onReinforce(G, ctx, self) {
-      G.costs += 2;
-    },
-    reinforce_desc: "获得2点费用",
-  },
+
+  //休整一家暂时退休
   // {
-  //   name:"诗怀雅",
+  //   name:"守林人",
   //   cost:4,
-  //   atk:4,
-  //   hp:5,
-  //   mine:1,
-  //   block:1,
-  //   desc: "休整: 触发场上1个干员的\"部署:\"效果(极境和安洁莉娜除外)",
-  //   illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
+  //   atk:5,
+  //   hp:3,
+  //   mine:2,
+  //   block:0,
+  //   desc: "休整: 造成3点伤害，每有1个休整中的干员，伤害就+2",
+  //   illust:"http://prts.wiki/images/1/1f/%E7%AB%8B%E7%BB%98_%E5%AE%88%E6%9E%97%E4%BA%BA_1.png",
   //   reinforce: 1,
   //   onRest(G, ctx, self) {
-  //     let player = ctx.random.Shuffle(G.field.filter(x => (x.onPlay && !["极境", "安洁莉娜"].includes(x.name))))[0];
-  //     if (player) {
-  //       player.onPlay(G, ctx, player);
-  //       logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
-  //     }
+  //     deal_random_damage(G, ctx, 3 + 2 * get_num_rest_cards(G, ctx) + 3 * self.power);
+  //   },
+  //   reinforce_desc: "伤害+3",
+  // },
+  // {
+  //   name:"霜叶",
+  //   cost:2,
+  //   atk:2,
+  //   hp:3,
+  //   mine:1,
+  //   block:1,
+  //   desc: "休整: 每有1个休整中的干员，就获得+1/+1",
+  //   illust:"http://prts.wiki/images/5/50/%E7%AB%8B%E7%BB%98_%E9%9C%9C%E5%8F%B6_1.png",
+  //   reinforce: 1,
+  //   onRest(G, ctx, self) {
+  //     let num_rest_cards = get_num_rest_cards(G, ctx);
+  //     self.atk += num_rest_cards;
+  //     self.hp += num_rest_cards;
   //   },
   //   onReinforce(G, ctx, self) {
-  //     self.atk += 2;
-  //     self.hp += 2;
+  //     self.block += 1;
   //   },
-  //   reinforce_desc: "+2/+2",
+  //   reinforce_desc: "阻挡数+1",
   // },
-  {
-    name:"夜莺",
-    cost:5,
-    atk:0,
-    hp:3,
-    mine:3,
-    block:0,
-    desc: "休整: 触发场上所有干员的\"休整:\"效果",
-    illust:"http://prts.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E8%8E%BA_1.png",
-    onRest(G, ctx, self) {
-      if (~G.field.indexOf(self)) {
-        for (let card of G.field.map(x=>x)) {
-          if (card.onRest && (card.onRest != self.onRest)) {
-            card.onRest(G, ctx, card);
-          }
-        }
-      }
-    },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      let resters = G.deck.filter(x => x.onRest);
-      if (resters.length > 0) {
-        let card = ctx.random.Shuffle(resters)[0];
-        G.hand.unshift(Object.assign({}, card));
-      }
-    },
-    reinforce_desc: "检索1张有\"休整:\"效果的牌",
-  },
+  // {
+  //   name:"锡兰",
+  //   cost:3,
+  //   atk:0,
+  //   hp:3,
+  //   mine:3,
+  //   block:0,
+  //   desc: "休整: 每有1个休整中的干员，就获得1分",
+  //   illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
+  //   reinforce: 2,
+  //   onRest(G, ctx, self) {
+  //     let num_rest_cards = get_num_rest_cards(G, ctx);
+  //     G.score += num_rest_cards;
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     G.costs += 2;
+  //   },
+  //   reinforce_desc: "获得2点费用",
+  // },
+  // // {
+  // //   name:"诗怀雅",
+  // //   cost:4,
+  // //   atk:4,
+  // //   hp:5,
+  // //   mine:1,
+  // //   block:1,
+  // //   desc: "休整: 触发场上1个干员的\"部署:\"效果(极境和安洁莉娜除外)",
+  // //   illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
+  // //   reinforce: 1,
+  // //   onRest(G, ctx, self) {
+  // //     let player = ctx.random.Shuffle(G.field.filter(x => (x.onPlay && !["极境", "安洁莉娜"].includes(x.name))))[0];
+  // //     if (player) {
+  // //       player.onPlay(G, ctx, player);
+  // //       logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
+  // //     }
+  // //   },
+  // //   onReinforce(G, ctx, self) {
+  // //     self.atk += 2;
+  // //     self.hp += 2;
+  // //   },
+  // //   reinforce_desc: "+2/+2",
+  // // },
+  // {
+  //   name:"夜莺",
+  //   cost:5,
+  //   atk:0,
+  //   hp:3,
+  //   mine:3,
+  //   block:0,
+  //   desc: "休整: 触发场上所有干员的\"休整:\"效果",
+  //   illust:"http://prts.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E8%8E%BA_1.png",
+  //   onRest(G, ctx, self) {
+  //     if (~G.field.indexOf(self)) {
+  //       for (let card of G.field.map(x=>x)) {
+  //         if (card.onRest && (card.onRest != self.onRest)) {
+  //           card.onRest(G, ctx, card);
+  //         }
+  //       }
+  //     }
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     let resters = G.deck.filter(x => x.onRest);
+  //     if (resters.length > 0) {
+  //       let card = ctx.random.Shuffle(resters)[0];
+  //       G.hand.unshift(Object.assign({}, card));
+  //     }
+  //   },
+  //   reinforce_desc: "检索1张有\"休整:\"效果的牌",
+  // },
 
   {
     name:"阿",
@@ -2394,28 +2396,37 @@ export const CARDS = [
       }
       logMsg(G, ctx, `触发 ${cards.map(x => x.name).join(",")} 的强化效果`);
     },
+    // onReinforce(G, ctx, self) {
+    //   self.atk += 2;
+    //   self.hp += 2;
+    // },
+    // reinforce_desc: "+2/+2",
     onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
+      let card = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce))[0];
+      card.onReinforce(G, ctx, self);
+      if (card.name != "斯卡蒂") {
+        logMsg(G, ctx, `触发 ${card.name} 的强化效果 \"${card.reinforce_desc}\"`);}
     },
-    reinforce_desc: "+2/+2",
+    
+    reinforce_desc: "触发1个随机干员的强化效果",
+
   },
 
   {
     name:"赫拉格",
     cost:6,
-    atk:5,
-    hp:8,
+    atk:6,
+    hp:9,
     mine:2,
     block:1,
-    desc: "超杀: 每造成1点额外伤害，就获得+1/+2",
+    desc: "超杀: 每造成1点额外伤害，就获得+1攻击力并回复2点生命值",
     illust:"http://prts.wiki/images/4/48/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E6%8B%89%E6%A0%BC_1.png",
     reinforce: 1,
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {
         let excess = enemy.dmg - enemy.hp;
         self.atk += excess;
-        self.hp += excess * 2;
+        self.dmg = Math.max(self.dmg - excess * 2, 0);
       }
     },
     onReinforce(G, ctx, self) {
@@ -2427,7 +2438,7 @@ export const CARDS = [
   {
     name:"波登可",
     cost:4,
-    atk:4,
+    atk:2,
     hp:2,
     mine:2,
     block:0,
@@ -2528,8 +2539,8 @@ export const CARDS = [
   // },
   {
     name:"四月",
-    cost:4,
-    atk:3,
+    cost:3,
+    atk:2,
     hp:1,
     mine:0,
     block:0,
