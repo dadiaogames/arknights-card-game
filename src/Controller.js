@@ -1,6 +1,6 @@
 import React from 'react';
 import './Controller.css';
-import { ICONS } from './icons';
+import { ICONS, smaller_icons } from './icons';
 import { material_icons } from './orders';
 
 const actions_with_icon = {
@@ -15,7 +15,7 @@ const actions_with_icon = {
 
 function process_action(action) {
   if (action.includes("强化")) {
-    return (<span>强化{material_icons[parseInt(action[2])]}</span>);
+    return (<span>{smaller_icons[parseInt(action[2])]}强化</span>);
   }
 
   if (Object.keys(actions_with_icon).includes(action)) {

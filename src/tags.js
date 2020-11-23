@@ -42,7 +42,7 @@ const tag_list = [
     desc: "敌方牌库减少20%的牌",
     level: 1,
     effect(G, ctx) {
-      G.edeck = G.edeck.slice(0, G.edeck.length-4);
+      G.edeck = G.edeck.slice(4);
     }
   },
   // {
@@ -66,11 +66,11 @@ const tag_list = [
 
   {
     src: "http://prts.wiki/images/a/a0/Enemy_hp_2.png",
-    desc: "2回合后，所有敌人获得+4生命值",
+    desc: "回合开始时，所有敌人获得+2生命值",
     level: 2,
     // standard_level: 3,
     effect(G, ctx){
-      G.reinforceOnR3 = true;
+      G.enemy_HP_grow = true;
     }
   },
 
@@ -99,13 +99,14 @@ const tag_list = [
   // },
 
   {
-    src: "http://prts.wiki/images/c/cd/Global_tokencnt_2.png",
-    desc: "强化干员需要的材料数+1",
+    src: "http://prts.wiki/images/c/c7/Global_costrecovery_1.png",
+    desc: "强化干员需要消耗1点费用",
     level: 2,
     effect(G, ctx) {
-      for (let card of G.deck) {
-        card.reinforce += 1;
-      }
+      // for (let card of G.deck) {
+      //   card.reinforce += 1;
+      // }
+      G.reinforce_need_cost = true;
     }
   },
 
@@ -121,10 +122,13 @@ const tag_list = [
 
   {
     src: "http://prts.wiki/images/c/c5/Global_skillrecovery_1.png",
-    desc: "对局开始时，不再获得初始材料",
+    desc: "所有干员采掘力-1",
     level: 2,
     effect(G, ctx){
-      G.materials = [0,0,0,0];
+      for (let card of G.deck) {
+        card.mine -= 1;
+        card.mine = Math.max(0, card.mine);
+      }
     }
   },
 
@@ -182,12 +186,15 @@ const tag_list = [
   },
 
   {
-    src: "http://prts.wiki/images/f/f9/Enemy_diaman_2.png",
-    desc: "胜利所需分数+24，每回合-4",
+    src: "http://prts.wiki/images/e/ee/Char_atkatkspeed_1.png",
+    desc: "所有干员攻击力-2",
     level: 3,
     effect(G, ctx) {
-      G.goal += 28; // Because first turn gonna -4 too
-      G.reduce_goal = true;
+      // G.goal += 28; // Because first turn gonna -4 too
+      // G.reduce_goal = true;
+      for (let card of G.deck) {
+        card.atk -= 2;
+      }
     }
   },
 

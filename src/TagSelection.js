@@ -3,7 +3,8 @@ import './TagSelection.css';
 
 
 function Tag(props) {
-  let bg_color = "#c5c5c5";
+  // let bg_color = "#c5c5c5";
+  let bg_color = "#434343";
   if (props.selected) {
     bg_color = "#0098dc";
   }

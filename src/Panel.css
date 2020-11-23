@@ -5,7 +5,7 @@
 
 .game-panel {
   height: 8%;
-  border: 2px solid;
+  border: 2px solid #1f1f1f;
   text-align: center;
   margin: 2%;
   font-size: 90%;
@@ -15,7 +15,7 @@
 
 .player-panel {
   height: 12%;
-  border: 2px solid;
+  border: 2px solid #1f1f1f;
   text-align: center;
   margin: 2%;
 }

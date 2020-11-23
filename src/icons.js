@@ -18,7 +18,7 @@ export const ICONS = {
 
   block: (<img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/259/shield_1f6e1.png" height={attr_icon_height} />),
 
-  gold: (<img src="http://prts.wiki/images/b/b1/%E9%81%93%E5%85%B7_%E5%B8%A6%E6%A1%86_%E5%90%88%E7%BA%A6%E8%B5%8F%E9%87%91.png" height={attr_icon_height} />),
+  gold: (<img src="http://prts.wiki/images/b/b1/%E9%81%93%E5%85%B7_%E5%B8%A6%E6%A1%86_%E5%90%88%E7%BA%A6%E8%B5%8F%E9%87%91.png" style={{height: "1.1em"}} className="steel" />),
 
   order: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>,
 
@@ -49,3 +49,14 @@ export const food_icons = [
   <span style={{color:"rgb(229,131,8)"}}>■</span>,
   <span style={{color:"red"}}>■</span>,
 ];
+
+const smaller_height = '1.1em';
+export const smaller_icons = [
+  (<img src="http://prts.wiki/images/a/a8/%E9%81%93%E5%85%B7_%E5%B8%A6%E6%A1%86_%E6%89%AD%E8%BD%AC%E9%86%87.png" style={{height:smaller_height}} className="material" />),
+
+  (<img src="http://prts.wiki/images/7/7c/%E9%81%93%E5%85%B7_%E5%B8%A6%E6%A1%86_RMA70-12.png" style={{height:smaller_height}} className="material" />),
+
+  (<img src="http://prts.wiki/images/e/e7/%E9%81%93%E5%85%B7_%E5%B8%A6%E6%A1%86_%E7%A0%94%E7%A3%A8%E7%9F%B3.png" style={{height:smaller_height}} className="material" />),
+
+  (<img src="http://prts.wiki/images/7/76/%E9%81%93%E5%85%B7_%E5%B8%A6%E6%A1%86_D32%E9%92%A2.png" style={{height:smaller_height}} className="material steel" />),
+]

@@ -17,11 +17,10 @@ export const UPGRADES = [
   //   }
   // },
   {
-    name: "+1/+4",
-    desc: "+1/+4", // Write "获得"always
+    name: "+0/+6",
+    desc: "+6生命值", // Write "获得"always
     effect(card) {
-      card.atk += 1;
-      card.hp += 4;
+      card.hp += 6;
     }
   },
 
@@ -139,19 +138,19 @@ export const UPGRADES = [
     }
   },
 
-  {
-    name: "手牌强化2",
-    desc: "部署奖励:\"强化2张手牌\"",
-    effect(card) {
-      card.onPlayBonus.push({
-        name: this.name,
-        effect(G, ctx, card) {
-          reinforce_hand(G, ctx);
-          reinforce_hand(G, ctx);
-        }
-      });
-    }
-  },
+  // {
+  //   name: "手牌强化2",
+  //   desc: "部署奖励:\"强化2张手牌\"",
+  //   effect(card) {
+  //     card.onPlayBonus.push({
+  //       name: this.name,
+  //       effect(G, ctx, card) {
+  //         reinforce_hand(G, ctx);
+  //         reinforce_hand(G, ctx);
+  //       }
+  //     });
+  //   }
+  // },
 
   {
     name: "2费干员",
@@ -172,28 +171,28 @@ export const UPGRADES = [
   }
 },
 
-{
-    name: "凯尔希之力",
-    desc: "部署奖励:\"召唤1个自己的1/1复制\"",
-    effect(card) {
-      // Maybe reconstruct this to call the skill of Ansel is better?
-      card.onPlayBonus.push({
-        name: this.name,
-        effect(G, ctx, card) {
-          if (card) {
-            let new_card = G.CARDS.find(x => x.name == card.name);
-            new_card = init_card_state(G, ctx, {...new_card});
-            new_card.atk = 1;
-            new_card.hp = 1;
-            new_card.mine = 1;
-            new_card.cost = 1;
-            new_card.power = 0;
-            G.field.push(new_card);
-          }
-        }
-    });
-  }
-},
+// {
+//     name: "凯尔希之力",
+//     desc: "部署奖励:\"召唤1个自己的1/1复制\"",
+//     effect(card) {
+//       // Maybe reconstruct this to call the skill of Ansel is better?
+//       card.onPlayBonus.push({
+//         name: this.name,
+//         effect(G, ctx, card) {
+//           if (card) {
+//             let new_card = G.CARDS.find(x => x.name == card.name);
+//             new_card = init_card_state(G, ctx, {...new_card});
+//             new_card.atk = 1;
+//             new_card.hp = 1;
+//             new_card.mine = 1;
+//             new_card.cost = 1;
+//             new_card.power = 0;
+//             G.field.push(new_card);
+//           }
+//         }
+//     });
+//   }
+// },
 
 {
   name: "回响",

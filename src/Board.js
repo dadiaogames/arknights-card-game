@@ -17,7 +17,7 @@ import { CARDS, default_deck } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
 import { ICONS } from './icons';
 import { TAGS } from './tags';
-import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop } from './Roguelike';
+import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop, RoguelikeEntry, RoguelikeDeckSelection, Roguelike, ResultWin, ResultLose, FinalResult, get_gold_gained } from './Roguelike';
 import { RULES } from './rules';
 
 import 'react-tabs/style/react-tabs.css';
@@ -103,6 +103,8 @@ export class Board extends React.Component {
     this.render_roguelike_deck_selection_board = this.render_roguelike_deck_selection_board.bind(this);
     this.render_roguelike_board = this.render_roguelike_board.bind(this);
     this.render_roguelike_result_board = this.render_roguelike_result_board.bind(this);
+    this.render_roguelike_final_result_board = this.render_roguelike_final_result_board.bind(this);
+    this.render_roguelike_entry_board = this.render_roguelike_entry_board.bind(this);
 
     this.enter_competition_mode = this.enter_competition_mode.bind(this);
     this.select_deck = this.select_deck.bind(this);
@@ -141,7 +143,8 @@ export class Board extends React.Component {
       animations: {...init_animations},
 
       board: this.render_title_board, 
-      // board: this.render_competition_board,
+      // board: this.render_roguelike_final_result_board,
+      // DEFAULT
       last_board: this.render_title_board,
 
       tags: TAGS.map(x=>({...x})),
@@ -160,6 +163,8 @@ export class Board extends React.Component {
       checking: {},
 
       scenario_finished: false,
+
+      dream_count: 0,
     };
 
     this.branches = { 
@@ -343,6 +348,7 @@ export class Board extends React.Component {
   process_pick_data(card) {
     let illust = this.get_illust_attr(card);
     let requirements = [];
+    // EH: Reconstruct this, this is too procedure
     for (let i=0; i<3; i++) {
       let icon = ICONS[Object.keys(ICONS)[i]];
       let amount = card.price[i];
@@ -489,6 +495,7 @@ export class Board extends React.Component {
     return {
       [illust]: card.illust,
       cost_detailed: card.cost,
+      // TODO: get this in a seperate function
       desc: (
         <span>
           <span style={{fontSize:"120%"}}>
@@ -557,17 +564,17 @@ export class Board extends React.Component {
   handle_hand_clicked(idx) {
     let card = this.props.G.hand[idx];
     return () => {
-      if (this.state.hand_selected == -2) { // Turn this feature on by changing that to idx
-        this.play_card();
-      }
-      else {
+      // if (this.state.hand_selected == -2) { // Turn this feature on by changing that to idx
+      //   this.play_card();
+      // }
+      // else {
         this.setState({
           hand_selected: idx,
           checking: this.process_card_details(card),
         });
         this.set_branch("hand");
         this.log_select()("选定 "+card.name);
-      }
+      // }
     };
   }
 
@@ -704,6 +711,7 @@ export class Board extends React.Component {
 
   }
 
+  //CHANGE
   change_board(new_board) {
     const BOARDS = {
       "title": this.render_title_board,
@@ -721,7 +729,9 @@ export class Board extends React.Component {
       "competition": this.render_competition_board,
       "roguelike_deck_selection": this.render_roguelike_deck_selection_board,
       "roguelike": this.render_roguelike_board,
+      "roguelike_entry": this.render_roguelike_entry_board,
       "roguelike_result": this.render_roguelike_result_board,
+      "roguelike_final_result": this.render_roguelike_final_result_board,
     };
     this.setState({last_board: this.state.board})
     this.setState({board: BOARDS[new_board]});
@@ -738,16 +748,20 @@ export class Board extends React.Component {
   enter_game() {
     let deck = [];
     let seed = this.state.seed;
-    if (this.state.competition_mode){
+    if (this.state.competition_mode || this.state.roguelike_mode){
       deck = this.state.Deck;
-      seed += this.state.results.length;
+      seed += this.state.roguelike_mode? this.state.game_count : this.state.results.length;
     }
     else {
       let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
       deck = str2deck(deck_data);
     }
+
     // EH: it's better to setup each scenario in one function, and in backend
     this.props.moves.setDecks(init_decks(deck, seed));
+    if (this.state.roguelike_mode) {
+      // Setup other roguelike stuffs here
+    }
     this.props.moves.addTags(this.state.tags.filter(t => (t.selected || t.locked)));
     this.props.moves.onScenarioBegin();
     this.setState({hand_choices: [false, false, false, false, false]});
@@ -758,18 +772,26 @@ export class Board extends React.Component {
     this.props.reset();
     this.setState({
       scenario_finished: false,
-      seed: get_seed_name(),
     });
     
     if (this.state.competition_mode) {
       this.change_board("competition");
     }
+    else if (this.state.roguelike_mode) {
+      // Let results stuffs go to winning 
+      // Set finishing stuffs here
+
+      this.change_board("roguelike_result");
+      // this.roguelike.end_battle();
+    }
     else{
       this.change_board("tag");
+      this.setState({seed: get_seed_name()});
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // console.log("updated");
     // Materials
     for (let i=0; i<this.props.G.materials.length; i++) {
       let material_diff = this.props.G.materials[i] - prevProps.G.materials[i];
@@ -781,7 +803,12 @@ export class Board extends React.Component {
     // About result
     let result = this.props.ctx.gameover;
     if (result && !this.state.scenario_finished) {
-      this.setState({scenario_finished: true});
+      console.log("Get the result");
+      this.setState({
+        scenario_finished: true,
+        won: result.win,
+        level_achieved: this.get_risk_level(),
+      });
       let good_grade = "O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA";
 
       if (result.win) {
@@ -818,12 +845,16 @@ export class Board extends React.Component {
         else {
           grade = "SSSSSS";
         }
+        // console.log("Time to alert finish");
         // TODO: reconstruct this part, flat is better than nested
         let finish = this.props.G.rhodes_training_mode?"任务失败":"任务完成";
         alert(`${finish}\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n地图种子: ${this.state.seed}`);
+
         if (this.state.competition_mode) {
           this.setState({results: [...this.state.results, risk_level]});
         }
+
+
       }
 
       else {
@@ -833,6 +864,8 @@ export class Board extends React.Component {
           this.setState({results: [...this.state.results, 0]});
         }
       }
+        
+      
 
     }
   }
@@ -847,9 +880,9 @@ export class Board extends React.Component {
   render_mode_selection_board() {
     const actions = {
       // "常规模式": () => this.change_board("tag"),
-      "竞技模式": this.enter_competition_mode,
+      // "竞技模式": this.enter_competition_mode,
       // "黑角的金针菇迷境": this.enter_roguelike_mode,
-      "返回": this.back,
+      // "返回": this.back,
     };
     return <div className="board">
       <ModeSelection actions={actions} />
@@ -971,7 +1004,32 @@ export class Board extends React.Component {
   enter_roguelike_mode() {
     this.roguelike.setup_roguelike_mode();
     this.roguelike.setup_deck_selection();
+    this.change_board("roguelike_entry");
+  }
+
+  enter_difficulty(difficulty) {
+    this.roguelike.set_difficulty(difficulty);
     this.change_board("roguelike_deck_selection");
+  }
+
+  render_roguelike_entry_board() {
+    let difficulties = [
+      {
+        name: "欢乐云游",
+        handleClick: () => this.enter_difficulty("easy"),
+      },
+      {
+        name: "整装待发",
+        handleClick: () => this.enter_difficulty("medium"),
+      },
+      {
+        name: "苦难之路",
+        handleClick: () => this.enter_difficulty("hard"),
+      },
+    ];
+    return <RoguelikeEntry 
+      difficulties = {difficulties}
+    />;
   }
 
   render_deck_selection_board() {
@@ -988,7 +1046,8 @@ export class Board extends React.Component {
       this.change_board("title");
       this.setState({roguelike_mode: false})
     };
-    return <DeckSelection decks={this.state.deck_list.map(this.process_roguelike_deck_data)} back={back} welcome_title="欢迎来到黑角的金针菇迷境!" introduce_title="集成战略模式介绍" introduce={introduce_roguelike_mode} />
+    return <RoguelikeDeckSelection decks={this.state.deck_list.map(this.process_roguelike_deck_data)} />
+// introduce_title="集成战略模式介绍" introduce={introduce_roguelike_mode} 
   }
 
   render_roguelike_board() {
@@ -1003,7 +1062,14 @@ export class Board extends React.Component {
     const card_picks = this.state.card_picks? (<PickCards picks={this.state.card_picks} gold={this.state.gold} check_cards={check_cards} pick_cards={pick_cards} skip_picks={()=>this.roguelike.skip_pick()}/>) : (<FinishPick gold={this.state.gold} />);
     const shop = <Shop gold={this.state.gold} shop_items={this.state.shop_items} />
 
-    const centrals = [card_picks, shop];
+    const roguelike_main = <Roguelike 
+      enter_battle = {() => this.change_board("tag")}
+      enter_dream = {this.roguelike.enter_dream}
+      game_count = {this.state.game_count}
+    />;
+
+    const centrals = [roguelike_main, card_picks, shop];
+
     return <div className="board">
       {centrals[this.state.central_idx]}
       <RoguelikeTabs 
@@ -1015,7 +1081,35 @@ export class Board extends React.Component {
   }
 
   render_roguelike_result_board() {
-
+    let level_diff = this.state.level_achieved - this.state.level_required;
+    let win = <ResultWin 
+      game_count = {this.state.game_count}
+      level_required = {this.state.level_required}
+      level_achieved = {this.state.level_achieved}
+      gold_amount = {get_gold_gained(this.state.level_achieved, this.state.level_required)}
+      slam = {level_diff >= 4}
+      grand_slam = {level_diff >= 8}
+      continue = {() => {
+        this.roguelike.continue_run();
+        this.change_board("roguelike");
+      }}
+    />
+    let lose = <ResultLose
+      game_count = {this.state.game_count}
+    />
+    return this.state.won? win : lose;
+  }
+  
+  render_roguelike_final_result_board() {
+    let difficulty = {
+      easy: "欢乐云游",
+      medium: "整装待发",
+      hard: "苦难之路",
+    }[this.state.difficulty];
+    return <FinalResult 
+      difficulty = "整装待发"
+      endgame = "结束游戏"
+    />;
   }
 
   render_deck_upgrade_board() {
@@ -1123,7 +1217,7 @@ export class Board extends React.Component {
             this.enemy_move(-this.props.G.num_enemies_out);
           }}
         >
-          {this.props.ctx.gameover? <span>结束游戏{ICONS.endgame}</span>:<span>结束回合{ICONS.endturn}</span>}
+          {this.props.ctx.gameover? <span>{ICONS.endgame}结束游戏</span>:<span>{ICONS.endturn}结束回合</span>}
         </button>
         {/* <button 
           className="player-panel-button"
@@ -1153,7 +1247,7 @@ export class Board extends React.Component {
             top: "2%",
             left: "88%",
 
-            display: (this.state.competition_mode)?"none":"",
+            display: (this.state.competition_mode || this.state.roguelike_mode)?"none":"",
           }}
         >
         ⟳
@@ -1275,13 +1369,20 @@ export class Board extends React.Component {
         tags: this.choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),
-      其他模式: () => this.change_board("modes"),
+      // Roguelike模式: () => this.enter_roguelike_mode(),
       返回标题: () => this.change_board("title"),
     };
 
     if (this.state.competition_mode) {
       actions = {
         进入游戏: () => this.enter_game(),
+      }
+    }
+    if (this.state.roguelike_mode) {
+      actions = {};
+
+      if (risk_level >= this.state.level_required) {
+        actions.进入游戏 = () => this.enter_game();
       }
     }
 
@@ -1303,11 +1404,22 @@ export class Board extends React.Component {
             color: "#cf1322", 
             marginLeft: "2%",
             marginTop: "-3%",
-            display:(risk_level>=16)? "" : "none"
+            display:(risk_level>=16 && (!this.state.roguelike_mode))? "" : "none"
           }}
         >
           当前合约难度极大，请谨慎行动
         </div>
+        <div 
+          style={{
+            color: "#black", 
+            margin: "-1% 0% 3% 2%",
+            display:(this.state.roguelike_mode)? "" : "none",
+            fontSize: "105%",
+          }}
+        >
+          要求危机等级: {this.state.level_required}
+        </div>
+
         
         <EnterGame 
           actions = {actions}

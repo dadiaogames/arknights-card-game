@@ -11,7 +11,7 @@
   font-size: 105%;
   padding: 1%;
   margin-left: 50%;
-  margin-top: 5%;
+  margin-top: 1%;
 }
 
 .refresh-shop {
@@ -20,10 +20,11 @@
 
 .pick {
   display: inline-block;
+  vertical-align: top;
 
   border: solid 2px gray;
   width: 30%;
-  height: 50%;
+  height: 60%;
   margin: 1%;
   margin-top: 5%;
 }
@@ -48,34 +49,150 @@
   margin-bottom: 0%;
 }
 
-.gold-amount {
-  margin-left: 80%;
-  line-height: 180%;
-  font-size: 110%;
-}
-
 .gold-wrapper {
-  width: 95%;
+  float: right;
+  width: auto;
+  height: 7%;
   margin: 2%;
   border: 1px solid gray;
-  height: 8%;
+  font-size: 120%;
+  background-color: rgba(0, 0, 0, .55);
+}
+
+.shop-items {
+  display: flex;
+  /* border: 1px solid gray; */
+  flex-direction: column;
+  overflow-x: scroll;
+  margin: auto;
+  width: 98%;
+  height: 75%;
+
+}
+
+.shop-item-img-container {
+  height: 90%;
+  width: 25%; 
+  margin: auto;
+  border: 1px solid gray;
+}
+
+.shop-item-info {
+  width: 45%;
+  height: 90%;
+  border: 1px solid gray;
+  margin: auto;
+  font-size: 80%;
+}
+
+.shop-item-desc {
+  width: 98%;
+  margin: auto;
+  /* font-size: 70%; */
 }
 
 .shop-item {
-  width: 30%;
-  height: 40%;
-  margin: 1%;
+  flex-shrink: 0;
+  display: flex;
+  width: 98%;
+  height: 28%;
+  margin: 1% 1% 1% 1%;
 
   border: 2px solid gray;
 
-  display: inline-block;
   vertical-align: top;
   overflow-y: scroll;
 }
 
 .buy {
-  font-size: 102%;
-  width: 80%;
-  padding: 2%;
-  margin-bottom: 5%;
+  font-size: 105%;
+  width: 20%;
+  height: 50%;
+  margin: auto;
+}
+
+.heijiao-container-2 {
+  display: inline-block;
+  margin: 10% 2% 2% 2%;
+  width: 40%;
+  height: 65%;
+}
+
+.counter-container {
+  display: inline-block;
+  margin: 10% 2% 2% 2%;
+  vertical-align: top;
+  height: 65%;
+  width: 50%;
+}
+
+.battle-count-title {
+  margin-top: 40%;
+  font-size: 200%;
+  font-weight: 420;
+}
+
+.battle-count {
+  color: #4682B4;
+}
+
+.roguelike-operations {
+  display: flex;
+  margin: 2% 2% 2% 2%;
+  width: 95%;
+  height: 20%;
+}
+
+.roguelike-operation {
+  height: 60%;
+  width: 30%;
+  font-size: 100%;
+  margin: 5% 1% 2% 1%;
+}
+
+.finish-pick {
+  margin-top: 35%;
+  font-size: 150%;
+}
+
+.result-info {
+  margin-top: 15%;
+  font-size: 180%;
+  font-weight: 400;
+  line-height: 155%;
+}
+
+.result-quote {
+  font-size: 180%;
+  font-weight: 450;
+  color: #096dd9;
+  margin-top: 5%;
+  margin-bottom: 20%;
+}
+
+.gold-gained {
+  font-size: 500%;
+  color:#fa8c16;
+}
+
+.continue-btn, .endrun-btn {
+  width: 30%;
+  height: 10%;
+  font-size: 120%;
+  margin-top: 5%;
+}
+
+.endrun-btn {
+  width: auto;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+
+.ascension {
+  font-size: 200%;
+  font-weight: 500;
+  color: #ff7a45;
+  margin-top: 45%;
+  margin-left: 12%;
+  margin-bottom: 10%;
 }

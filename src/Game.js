@@ -503,8 +503,8 @@ export function reinforce(G, ctx, idx) {
   let requirements = [0,0,0,0];
   requirements[card.material] = card.reinforce;
 
-  if (G.harder_reinforce) {
-    let paid = payCost(G, ctx, 2);
+  if (G.reinforce_need_cost) {
+    let paid = payCost(G, ctx, 1);
     if (!paid) {
       return;
     }
@@ -875,6 +875,13 @@ export function refresh_picks(G, ctx) {
   G.picks = G.picks.map(add_price);
 }
 
+export function summon(G, ctx, card, self) {
+  let idx = G.field.indexOf(self) + 1;
+  if (card) {
+    G.field.splice(idx, 0, init_card_state(G, ctx, {...card}));
+  }
+}
+
 function setup_deck_selection(G, ctx, num_shuffles) {
   _.times(num_shuffles, ctx.random.D4);
   G.deck_list = [];
@@ -982,6 +989,12 @@ export const AC = {
           for (let enemy of [...G.edeck, ...G.efield]) {
             enemy.atk += 1;
             enemy.hp += 1;
+          }
+        }
+        
+        if (G.enemy_grow && G.round_num > 1) {
+          for (let enemy of [...G.edeck, ...G.efield]) {
+            enemy.hp += 2;
           }
         }
 
