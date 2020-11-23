@@ -41,6 +41,16 @@ export function ready_order(G, ctx, from_card) {
   }
 }
 
+function set_collection_order(G, ctx) {
+  let colors = G.finished.reduce((acc,val)=>{
+    if(val.color >= 0) acc[val.color]+=1;
+    return acc;
+  }, [0,0,0]);
+  console.log(colors);
+  let times = _.min(colors);
+  G.score += 2 * times;
+}
+
 export const default_order = {
   desc: "1费→刷新订单",
   effect(G, ctx){
@@ -65,59 +75,32 @@ const advanced_orders = [{
   //   desc: (<span>3伤害</span>),
   //   effect: deal3dmg,
   // },
+  
+  {
+    requirements: [1,1,1,0],
+    score: 2,
+    reward: 3,
+    desc: (<span>获得: 1费</span>),
+    advanced: true,
+    effect(G, ctx) {
+        G.costs += 1;
+    },
+  },
 
   {
-    requirements: [0,0,0,3],
-    score: 3, // More score because steel is not that easy to obtain
-    // reward: 3,
+    requirements: [1,1,1,0],
+    score: 1, 
+    // reward: 2,
     advanced: true,
-    desc: (<span>获得2分/每组{food_icons[0]}{food_icons[1]}{food_icons[2]}订单</span>),
-    effect(G, ctx) {
-      let colors = G.finished.reduce((acc,val)=>{
-        if(val.color >= 0) acc[val.color]+=1;
-        return acc;
-      }, [0,0,0]);
-      console.log(colors);
-      let times = _.min(colors);
-      G.score += 2 * times;
-    },
-  },  
+    desc: (<span>2分/每组{food_icons.slice(0,3)}订单</span>),
+    effect: set_collection_order,
+  },
+  
+    
 ];
   
 export const ORDERS = [
-  {
-    requirements: [3,0,0,0],
-    score: 2,
-    reward: 1,
-    desc: (<span>{material_icons[2]} → 2分</span>),
-    cost: [0,0,1,0],
-    effect(G, ctx) {
-        G.score += 2;
-    },
-  },
-  {
-    requirements: [0,3,0,0],
-    score: 2,
-    reward: 2,
-    desc: (<span>{material_icons[0]} → 2分</span>),
-    cost: [1,0,0,0],
-    effect(G, ctx) {
-        G.score += 2;
-    },
-
-  },
-  {
-    requirements: [0,0,3,0],
-    score: 2,
-    reward: 0,
-    desc: (<span>{material_icons[1]} → 2分</span>),
-    cost: [0,1,0,0],
-    effect(G, ctx) {
-        G.score += 2;
-    },
-  },
   
-
   {
     requirements: [3,0,0,0],
     score: 2,
@@ -224,37 +207,37 @@ export const ORDERS = [
     },
   },
 
-  {
-    requirements: [3,0,0,0],
-    score: 2,
-    reward: 1,
-    desc: (<span>{material_icons[2]} → 2费</span>),
-    cost: [0,0,1,0],
-    effect(G, ctx) {
-        G.costs += 2;
-    },
-  },
-  {
-    requirements: [0,3,0,0],
-    score: 2,
-    reward: 2,
-    desc: (<span>{material_icons[0]} → 2费</span>),
-    cost: [1,0,0,0],
-    effect(G, ctx) {
-        G.costs += 2;
-    },
+  // {
+  //   requirements: [3,0,0,0],
+  //   score: 2,
+  //   reward: 1,
+  //   desc: (<span>{material_icons[2]} → 2费</span>),
+  //   cost: [0,0,1,0],
+  //   effect(G, ctx) {
+  //       G.costs += 2;
+  //   },
+  // },
+  // {
+  //   requirements: [0,3,0,0],
+  //   score: 2,
+  //   reward: 2,
+  //   desc: (<span>{material_icons[0]} → 2费</span>),
+  //   cost: [1,0,0,0],
+  //   effect(G, ctx) {
+  //       G.costs += 2;
+  //   },
 
-  },
-  {
-    requirements: [0,0,3,0],
-    score: 2,
-    reward: 0,
-    desc: (<span>{material_icons[1]} → 2费</span>),
-    cost: [0,1,0,0],
-    effect(G, ctx) {
-        G.costs += 2;
-    },
-  },
+  // },
+  // {
+  //   requirements: [0,0,3,0],
+  //   score: 2,
+  //   reward: 0,
+  //   desc: (<span>{material_icons[1]} → 2费</span>),
+  //   cost: [0,1,0,0],
+  //   effect(G, ctx) {
+  //       G.costs += 2;
+  //   },
+  // },
   
 
  
@@ -292,32 +275,85 @@ export const ORDERS = [
   //   effect: deal4dmg,
   // },
   
-
   {
     requirements: [3,0,0,0],
     score: 2,
     reward: 1,
-    desc: (<span>重置1订单</span>),
-    ready_other_orders: true,
-    effect: ready_order,
+    desc: (<span>{material_icons[2]} → 2分</span>),
+    cost: [0,0,1,0],
+    effect(G, ctx) {
+        G.score += 2;
+    },
   },
   {
     requirements: [0,3,0,0],
     score: 2,
     reward: 2,
-    desc: (<span>重置1订单</span>),
-    ready_other_orders: true,
-    effect: ready_order,
+    desc: (<span>{material_icons[0]} → 2分</span>),
+    cost: [1,0,0,0],
+    effect(G, ctx) {
+        G.score += 2;
+    },
+
   },
   {
     requirements: [0,0,3,0],
     score: 2,
     reward: 0,
-    desc: (<span>重置1订单</span>),
-    ready_other_orders: true,
-    effect: ready_order,
+    desc: (<span>{material_icons[1]} → 2分</span>),
+    cost: [0,1,0,0],
+    effect(G, ctx) {
+        G.score += 2;
+    },
   },
+  
+  // {
+  //   requirements: [3,0,0,0],
+  //   score: 2,
+  //   reward: 1,
+  //   desc: (<span>重置1订单</span>),
+  //   ready_other_orders: true,
+  //   effect: ready_order,
+  // }, {
+  //   requirements: [0,3,0,0],
+  //   score: 2,
+  //   reward: 2,
+  //   desc: (<span>重置1订单</span>),
+  //   ready_other_orders: true,
+  //   effect: ready_order,
+  // }, {
+  //   requirements: [0,0,3,0],
+  //   score: 2,
+  //   reward: 0,
+  //   desc: (<span>重置1订单</span>),
+  //   ready_other_orders: true,
+  //   effect: ready_order,
+  // },
+
+  // // {
+  //   requirements: [3,0,0,0],
+  //   score: 2, 
+  //   reward: 2,
+  //   desc: (<span>2分/{food_icons[0]}{food_icons[1]}{food_icons[2]}</span>),
+  //   effect: set_collection_order,
+  // },
+  // {
+  //   requirements: [0,3,0,0],
+  //   score: 2, 
+  //   reward: 0,
+  //   desc: (<span>2分/{food_icons[0]}{food_icons[1]}{food_icons[2]}</span>),
+  //   effect: set_collection_order,
+  // }, 
+  // {
+  //   requirements: [0,0,3,0],
+  //   score: 2,
+  //   reward: 1,
+  //   desc: (<span>2分/{food_icons[0]}{food_icons[1]}{food_icons[2]}</span>),
+  //   effect: set_collection_order,
+  // },
+  
+  
 
   ...advanced_orders,
-  ...advanced_orders,
+  // ...advanced_orders,
 ];

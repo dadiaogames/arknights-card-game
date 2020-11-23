@@ -258,30 +258,42 @@ function setValue(G, ctx, attr, val) {
 
 export function refreshOrder(G, ctx) {
   G.orders = ctx.random.Shuffle(G.odeck).slice(0, 8);
-  sort_orders(G);
+  G.orders = sort_orders(G.orders);
 }
 
-function sort_orders(G) {
-  G.orders = G.orders.sort((x,y)=>{
+function sort_orders(orders) {
+  return orders.sort((x,y) => {
+    let price_y = _.sum(y.requirements);
+    let price_x = _.sum(x.requirements);
+    if (price_y != price_x) return price_x - price_y;
     if (y.advanced && !x.advanced) return -1;
     if (!y.advanced && x.advanced) return 1;
     return x.requirements.indexOf(3) - y.requirements.indexOf(3);
   });
 }
 
-function sort_finished(G) {
-  G.finished = G.finished.sort((x,y)=>(x.order_id-y.order_id));
-}
+// function sort_orders(G) {
+//   G.orders = G.orders.sort((x,y)=>{
+//     if (y.advanced && !x.advanced) return -1;
+//     if (!y.advanced && x.advanced) return 1;
+//     return x.requirements.indexOf(3) - y.requirements.indexOf(3);
+//   });
+// }
+
+// function sort_finished(G) {
+//   G.finished = G.finished.sort((x,y)=>(x.order_id-y.order_id));
+// }
 
 function price_up(order) {
-  let new_requirements = order.requirements;
-  if (order.advanced) {
-    new_requirements[3] += 1;
-  }
-  else {
-    new_requirements = new_requirements.map(x => (x == 0)? 0 : x+1);
-  }
-  return {...order, requirements: new_requirements};
+  // let new_requirements = order.requirements;
+  // if (order.advanced) {
+  //   new_requirements[3] += 1;
+  // }
+  // else {
+  //   new_requirements = new_requirements.map(x => (x == 0)? 0 : x+1);
+  // }
+  // return {...order, requirements: new_requirements};
+  order.requirements[3] += 1;
 }
 
 function finishOrder(G, ctx, idx) {
@@ -294,13 +306,12 @@ function finishOrder(G, ctx, idx) {
     }
     G.finished.push({...G.orders.splice(idx, 1)[0]});
     logMsg(G, ctx, "完成订单");
-    sort_finished(G);
+    // sort_orders(G);
 
-    // let len = G.finished.length;
-    // if (len % 2 == 0 && len != 2) {
-    //   G.orders = G.orders.map(price_up);
-    //   G.odeck = G.odeck.map(price_up);
-    // }
+    if (G.finished.length == 5) {
+      G.orders.map(price_up);
+      G.odeck.map(price_up);
+    }
   }
 }
 
@@ -596,7 +607,7 @@ export function get_rhine_order(G, ctx) {
   order.rhine = true;
   order.color = undefined;
   G.finished.unshift(order);
-  sort_finished(G);
+  // sort_finished(G);
 }
 
 function enemyInit(G, ctx) {

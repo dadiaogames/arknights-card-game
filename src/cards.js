@@ -2752,7 +2752,7 @@ export const CARDS = [
     cost:3,
     atk:3,
     hp:3,
-    mine:2,
+    mine:1,
     block:0,
     desc:"行动: 本回合剩余时间内，使用其他干员采掘时，重置自己",
     illust:"http://prts.wiki/images/1/1a/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E8%BE%BE_1.png",
