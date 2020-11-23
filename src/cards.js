@@ -2174,16 +2174,16 @@ export const CARDS = [
 
   {
     name:"食铁兽",
-    cost:7,
+    cost:6,
     atk:6,
     hp:5,
     mine:3,
     block:1,
-    desc: "行动: 获得6分",
+    desc: "行动: 获得5分",
     illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E9%A3%9F%E9%93%81%E5%85%BD_1.png",
     reinforce: 2,
     action(G, ctx) {
-      G.score += 6;
+      G.score += 5;
     },
     onReinforce(G, ctx, self) {
       G.score += 2;
@@ -2582,9 +2582,14 @@ export const CARDS = [
     desc:"采掘: 弃2张牌，获得4点费用",
     illust:"http://prts.wiki/images/2/2d/%E7%AB%8B%E7%BB%98_%E8%B4%BE%E7%BB%B4_1.png",
     onMine(G, ctx, self) {
-      drop(G, ctx);
-      drop(G, ctx);
-      G.costs += 4;
+      if (G.hand.length >= 2) {
+        drop(G, ctx);
+        drop(G, ctx);
+        G.costs += 4;
+      }
+      else {
+        logMsg(G, ctx, "手牌不足");
+      }
     },
     reinforce: 1,
     reinforce_desc: "+2/+2",
@@ -2642,10 +2647,11 @@ export const CARDS = [
     hp:3,
     mine:3,
     block:0,
-    desc:"行动: 弃2张牌，召唤1个费用为4的干员",
+    desc:"行动: 弃3张牌，召唤1个费用为4的干员",
     illust:"http://prts.wiki/images/e/e7/%E7%AB%8B%E7%BB%98_%E5%BE%AE%E9%A3%8E_1.png",
     action(G, ctx, self) {
-      if (G.hand.length >= 2) {
+      if (G.hand.length >= 3) {
+        drop(G, ctx);
         drop(G, ctx);
         drop(G, ctx);
         let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==4)))[0];
