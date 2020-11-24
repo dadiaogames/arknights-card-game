@@ -52,8 +52,8 @@ export const CARDS = [
       }
       else {
         logMsg(G, ctx, "只需要强化1次即可");
-        self.exhausted = false;
       }
+      self.exhausted = false;
     },
     reinforce: 2,
     reinforce_desc: "再获得1分",
@@ -130,11 +130,11 @@ export const CARDS = [
     mine: 3,
     block: 0,
     illust: "http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_%E5%8F%B2%E9%83%BD%E5%8D%8E%E5%BE%B7_1.png",
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 1;
+      self.mine += 2;
     },
-    reinforce_desc: "<+1>",
+    reinforce_desc: "<+2>",
   },
 
   {
@@ -147,9 +147,9 @@ export const CARDS = [
     illust: "http://prts.wiki/images/6/61/%E7%AB%8B%E7%BB%98_12F_1.png",
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 3;
+      self.mine += 2;
     },
-    reinforce_desc: "<+3>",
+    reinforce_desc: "<+2>",
   },
   
   {
@@ -334,9 +334,9 @@ export const CARDS = [
   
   {
     name:"德克萨斯", 
-    cost:3, 
+    cost:4, 
     atk:4, 
-    hp:2, 
+    hp:3, 
     mine:1, 
     block:1, 
     desc:"采掘: 横置1个敌人，然后每有1个横置的敌人，就获得1点费用(最多4点)", 
@@ -538,9 +538,9 @@ export const CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.mine += 3;
+      self.mine += 2;
     },
-    reinforce_desc: "<+3>",
+    reinforce_desc: "<+2>",
   },
 
   
@@ -624,7 +624,7 @@ export const CARDS = [
       }
       else {
         logMsg(G, ctx, "手牌不够");
-        self.exhausted = false;
+        // self.exhausted = false;
       }
     },
     reinforce: 2,
@@ -1186,10 +1186,10 @@ export const CARDS = [
   
   {
     name:"艾雅法拉",
-    cost:4,
-    atk:5,
+    cost:5,
+    atk:4,
     hp:3,
-    mine:2,
+    mine:3,
     block:0,
     desc:"采掘: 触发场上所有干员的\"采掘:\"效果",
     illust:"http://prts.wiki/images/c/c0/%E7%AB%8B%E7%BB%98_%E8%89%BE%E9%9B%85%E6%B3%95%E6%8B%89_1.png",
@@ -1215,8 +1215,8 @@ export const CARDS = [
 
   {
     name:"能天使", 
-    cost:4, 
-    atk:5, 
+    cost:5, 
+    atk:6, 
     hp:3, 
     mine:2, 
     block:0, 
@@ -1646,19 +1646,19 @@ export const CARDS = [
     mine: 3,
     block: 1,
     illust: "https://s3.ax1x.com/2020/11/12/BvqDyQ.png",
-    desc: `行动: 造成6点伤害，重复2次，然后本回合剩余时间内，使用干员采掘时，获得1分，整场战斗限1次(采掘/战斗: 强化此技能)`,
+    desc: `行动: 造成3点伤害，重复4次，然后本回合剩余时间内，使用干员采掘时，获得1分，整场战斗限1次(采掘/战斗: 强化此技能)`,
     // was_enemy: true,
     onPlay(G, ctx, self) {
       self.skill_power = 0;
       let reinforce_skill = (G, ctx, self) => {
         self.skill_power = (self.skill_power || 0) + 1;
-        self.desc = `行动: 造成6点伤害，重复${2+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+Math.floor(self.skill_power/2)}分，整场战斗限1次(采掘/战斗: 强化此技能)`;
+        self.desc = `行动: 造成3点伤害，重复${4+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+Math.floor(self.skill_power/3)}分，整场战斗限1次(采掘/战斗: 强化此技能)`;
       };
       self.action = (G, ctx, self) => {
-        for (let i=0; i<(2+self.skill_power); i++) {
-          deal_random_damage(G, ctx, 6);
+        for (let i=0; i<(4+self.skill_power); i++) {
+          deal_random_damage(G, ctx, 3);
         }
-        for (let j=0; j<(self.skill_power/2 + 1); j++) {
+        for (let j=0; j<(self.skill_power/3 + 1); j++) {
           G.onCardMine.push((G, ctx) => {
             G.score += 1;
           });
@@ -1904,17 +1904,17 @@ export const CARDS = [
   {
     name:"凛冬",
     cost:3,
-    atk:3,
+    atk:4,
     hp:3,
     mine:2,
     block:1,
-    desc: "战斗: 强化1张手牌，然后每有1张强化过的手牌，就获得1点费用",
+    desc: "行动: 强化1张手牌，然后每有1张强化过的手牌，就获得1点费用",
     illust:"http://prts.wiki/images/6/6e/%E7%AB%8B%E7%BB%98_%E5%87%9B%E5%86%AC_1.png",
     reinforce: 1,
     // onMine(G, ctx, self) {
     //   reinforce_hand(G, ctx);
     // },
-    onFight(G, ctx, self) {
+    action(G, ctx, self) {
       reinforce_hand(G, ctx);
       let num_reinforced = G.hand.filter(x => (x.power > 0)).length;
       G.costs += num_reinforced;
@@ -1928,9 +1928,9 @@ export const CARDS = [
   {
     name:"真理",
     cost:3,
-    atk:3,
+    atk:4,
     hp:2,
-    mine:2,
+    mine:3,
     block:0,
     desc: "行动: 强化2张手牌",
     illust:"http://prts.wiki/images/1/19/%E7%AB%8B%E7%BB%98_%E7%9C%9F%E7%90%86_1.png",
@@ -2342,7 +2342,7 @@ export const CARDS = [
     block:0,
     desc: "部署: 获得3个材料",
     illust:"http://prts.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
-    reinforce: 1,
+    reinforce: 2,
     onPlay(G, ctx, self) {
       gainMaterials(G, ctx, 3);
       // self.mine += 3;
@@ -2355,9 +2355,9 @@ export const CARDS = [
       // }
     },
     onReinforce(G, ctx, self) {
-      self.mine += 1;
+      self.mine += 2;
     },
-    reinforce_desc: "<+1>",
+    reinforce_desc: "<+2>",
   },
   
   {
@@ -2413,26 +2413,26 @@ export const CARDS = [
     reinforce_desc: "获得1分",
   },
   
-  {
-    name:"杰克",
-    cost:1,
-    atk:1,
-    hp:1,
-    mine:1,
-    block:1,
-    desc: "摧毁: 将弃牌堆中1张有\"部署:\"效果的牌返回手牌",
-    illust:"http://prts.wiki/images/1/1d/%E7%AB%8B%E7%BB%98_%E6%9D%B0%E5%85%8B_1.png",
-    reinforce: 1,
-    onOut(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.discard).find(x => x.onPlay);
-      G.hand.unshift(card);
-    },
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    },
-    reinforce_desc: "+2/+2",
-  },
+  // {
+  //   name:"杰克",
+  //   cost:1,
+  //   atk:1,
+  //   hp:1,
+  //   mine:1,
+  //   block:1,
+  //   desc: "摧毁: 将弃牌堆中1张有\"部署:\"效果的牌返回手牌",
+  //   illust:"http://prts.wiki/images/1/1d/%E7%AB%8B%E7%BB%98_%E6%9D%B0%E5%85%8B_1.png",
+  //   reinforce: 1,
+  //   onOut(G, ctx, self) {
+  //     let card = ctx.random.Shuffle(G.discard).find(x => x.onPlay);
+  //     G.hand.unshift(card);
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   },
+  //   reinforce_desc: "+2/+2",
+  // },
   
   {
     name:"森蚺",
@@ -2472,8 +2472,8 @@ export const CARDS = [
   {
     name:"赫拉格",
     cost:6,
-    atk:6,
-    hp:9,
+    atk:5,
+    hp:8,
     mine:2,
     block:1,
     desc: "超杀: 每造成1点额外伤害，就获得+1攻击力并治疗2点伤害",
