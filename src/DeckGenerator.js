@@ -22,9 +22,9 @@ const cost_vanguard =  `极境 1 2
 香草 1 2
 讯使 1 2
 桃金娘 1 2
-清道夫 0 1
-贾维 0 1
-惊蛰 0 1`;
+清道夫 0 2
+贾维 1 1
+惊蛰 1 1`;
 
 const draw_vanguard = `芬 1 2
 调香师 0 2
@@ -576,9 +576,9 @@ export function generate_deck_s2(deck_name) {
   let rng = new PRNG(deck_name);
 
   // Basic deck
-  deck = [...deck, ...deck_from_strategy(cost_vanguard, 6, rng)];
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 8, rng)];
   // deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(scorer, 3, rng)];
+  deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
 
   // Strategy deck
   deck = [...deck, ...deck_from_mini_sets(16, rng)];
