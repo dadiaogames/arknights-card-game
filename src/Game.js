@@ -157,6 +157,17 @@ export function init_card_state(G, ctx, card) {
   return card;
 }
 
+export function eliminate_field(G, ctx) {
+  let card = ctx.random.Shuffle(G.field.filter(x => !x.exhausted))[0];
+  if (card) {
+    G.field = G.field.filter(x => x != card);
+    if (card.onOut) {
+      card.onOut(G, ctx, card);
+    }
+  }
+  return card;
+}
+
 export function draw(G, ctx) {
   // First, check the limit
   if (G.limit_hand && (G.hand.length >= 5)) {
@@ -293,7 +304,12 @@ function price_up(order) {
   //   new_requirements = new_requirements.map(x => (x == 0)? 0 : x+1);
   // }
   // return {...order, requirements: new_requirements};
-  order.requirements[3] += 1;
+  if (order.advanced) {
+    order.requirements[3] += 1;
+  }
+  else {
+    order.requirements = order.requirements.map(x => (x==0)?0:x+1);
+  }
 }
 
 function finishOrder(G, ctx, idx) {
@@ -308,7 +324,7 @@ function finishOrder(G, ctx, idx) {
     logMsg(G, ctx, "完成订单");
     // sort_orders(G);
 
-    if (G.finished.length == 5) {
+    if ([5,8].includes(G.finished.length)) {
       G.orders.map(price_up);
       G.odeck.map(price_up);
     }
@@ -526,8 +542,20 @@ export function reinforce(G, ctx, idx) {
   }
 }
 
+export function choice(ctx, alist) {
+  return ctx.random.Shuffle(alist)[0];
+}
+
 export function reinforce_hand(G, ctx) {
   let card = ctx.random.Shuffle(G.hand)[0];
+
+  if (card) {
+    reinforce_card(G, ctx, card);
+  }
+}
+
+export function reinforce_field(G, ctx) {
+  let card = choice(ctx, G.field.filter(x => (!(x.exhausted||["诗怀雅"].includes(x.name)))));
 
   if (card) {
     reinforce_card(G, ctx, card);

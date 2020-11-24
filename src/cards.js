@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, insert_field, reduce_enemy_atk, silent, summon
+  clearField, drawEnemy, fully_restore, insert_field, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field
 } from './Game';
 import { material_icons, ready_order } from './orders';
 
@@ -304,9 +304,8 @@ export const CARDS = [
     desc:"采掘: 摧毁场上1个重置状态的干员，并获得3点费用", 
     illust:"http://prts.wiki/images/3/3a/%E7%AB%8B%E7%BB%98_%E6%B8%85%E9%81%93%E5%A4%AB_1.png",
     onMine(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.field.filter(x => !x.exhausted))[0];
+      let card = eliminate_field(G, ctx);
       if (card) {
-        G.field = G.field.filter(x => x != card);
         G.costs += 3;
       }
     },
@@ -1908,28 +1907,51 @@ export const CARDS = [
     },
     reinforce_desc: "再强化1张",
   },
-  // {
-  //   name:"古米",
-  //   cost:4,
-  //   atk:2,
-  //   hp:5,
-  //   mine:1,
-  //   block:2,
-  //   desc: "部署: 强化所有手牌1次",
-  //   illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
-  //   reinforce: 1,
-  //   onPlay(G, ctx, self) {
-  //     let cards = [...G.hand];
-  //     for (let card of cards) {
-  //       reinforce_card(G, ctx, card);
-  //     }
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     self.atk += 2;
-  //     self.hp += 2;
-  //   },
-  //   reinforce_desc: "+2/+2",
-  // },
+  {
+    name:"古米",
+    cost:4,
+    atk:3,
+    hp:6,
+    mine:2,
+    block:2,
+    desc: "采掘/战斗: 强化场上1个重置状态的干员",
+    illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      reinforce_field(G, ctx);
+    },
+    onFight(G, ctx, self) {
+      reinforce_field(G, ctx);
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 1;
+      self.hp += 3;
+    },
+    reinforce_desc: "+1/+3",
+  },
+
+  {
+    name:"诗怀雅",
+    cost:5,
+    atk:3,
+    hp:3,
+    mine:1,
+    block:1,
+    desc: "部署: 强化场上3个重置状态的干员",
+    illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      reinforce_field(G, ctx);
+      reinforce_field(G, ctx);
+      reinforce_field(G, ctx);
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+
   // {
   //   name:"早露",
   //   cost:5,
@@ -2283,19 +2305,19 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc: "部署: 获得<+3>直到回合结束",
+    desc: "部署: 获得3个材料",
     illust:"http://prts.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      // gainMaterials(G, ctx, 3);
-      self.mine += 3;
-      self.played = true;
-      self.onTurnBegin = (G, ctx, self) => {
-        if (self.played) {
-          self.mine -= 3;
-          self.played = false;
-        }
-      }
+      gainMaterials(G, ctx, 3);
+      // self.mine += 3;
+      // self.played = true;
+      // self.onTurnBegin = (G, ctx, self) => {
+      //   if (self.played) {
+      //     self.mine -= 3;
+      //     self.played = false;
+      //   }
+      // }
     },
     onReinforce(G, ctx, self) {
       self.mine += 1;
@@ -2419,7 +2441,7 @@ export const CARDS = [
     hp:9,
     mine:2,
     block:1,
-    desc: "超杀: 每造成1点额外伤害，就获得+1攻击力并回复2点生命值",
+    desc: "超杀: 每造成1点额外伤害，就获得+1攻击力并治疗2点伤害",
     illust:"http://prts.wiki/images/4/48/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E6%8B%89%E6%A0%BC_1.png",
     reinforce: 1,
     onFight(G, ctx, self, enemy) {
