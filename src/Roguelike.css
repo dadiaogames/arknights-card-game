@@ -170,6 +170,14 @@
   margin-bottom: 20%;
 }
 
+.slam {
+  font-size: 250%;
+  font-weight: 450;
+  color: #f5222d;
+  margin-top: 3%;
+  margin-left: 12%;
+}
+
 .gold-gained {
   font-size: 500%;
   color:#fa8c16;

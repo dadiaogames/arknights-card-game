@@ -96,6 +96,15 @@ const advanced_orders = [{
     effect: set_collection_order,
   },
   
+  {
+    requirements: [1,1,1,0],
+    score: 2,
+    reward: 3,
+    desc: (<span>重置1订单</span>),
+    advanced: true,
+    ready_other_orders: true,
+    effect: ready_order,
+  },
     
 ];
   

@@ -22,21 +22,23 @@ const cost_vanguard =  `极境 1 2
 香草 1 2
 讯使 1 2
 桃金娘 1 2
+清道夫 0 1
+贾维 0 1
 惊蛰 0 1`;
 
 const draw_vanguard = `芬 1 2
-清道夫 1 2
 调香师 0 2
 清流 0 1`;
 
-const scorer = `阿米娅 0 2
-崖心 0 2
+const scorer = `阿米娅 0 1
+崖心 0 1
 食铁兽 0 1
 酸糖 0 1
-阿消 0 2
-普罗旺斯 0 1
-铃兰 0 1
-苏苏洛 0 1`;
+阿消 0 1
+苏苏洛 0 1
+阿米娅-近卫 0 1
+赫默 0 1
+阿 0 1`;
 
 // const dubin_score = `杜宾 2 3
 // 推进之王 2 3
@@ -139,7 +141,7 @@ const rhine = `赫默 2 3
 苏苏洛 1 2
 梅尔 2 3
 稀音 1 2
-伊芙利特 2 2
+特米米 2 2
 塞雷娅 1 2
 米格鲁 2 3
 红 2 3
@@ -169,7 +171,7 @@ const eyja = `艾雅法拉 1 2
 翎羽 0 2
 慕斯 1 2
 赫默 1 2
-伊芙利特 0 2
+特米米 0 2
 梓兰 0 2`;
 
 const angelina = `安洁莉娜 3 3
@@ -353,7 +355,7 @@ const mini_sets = [
 
   //崖心刷钢流
   ' 初雪  史都华德  赫默  崖心 ',
-  // ' 温蒂 初雪 12F 崖心 ',
+  ' 星极 白面鸮 崖心 ',
 
   //经典断罪者套
   ' 调香师  调香师  艾雅法拉  清流   断罪者 ',
@@ -361,9 +363,8 @@ const mini_sets = [
   ' 安洁莉娜 凯尔希 凯尔希 安赛尔 清流 断罪者 ',
 
   //调香师单核
-  ' 微风 微风 调香师 ',
-  ' 棘刺 棘刺 调香师 ',
-  ' 贾维 贾维 调香师 阿消 泥岩 ',
+  ' 微风 微风 星极 调香师 ',
+  ' 棘刺 棘刺 星极 调香师 ',
 
   //铃兰小家族
   ' 铃兰 推进之王 推进之王 安洁莉娜 ',
@@ -381,17 +382,15 @@ const mini_sets = [
 
   //真理单核套路集合
   ' 凛冬 真理 ',
-  ' 拉普兰德 陈 真理 ',
-  ' 陈 食铁兽 真理 ',
-  ' 食铁兽 黑角 真理 ',
-  ' 伊桑 刻俄柏 真理 ',
+  ' 拉普兰德 陈 食铁兽 真理 ',
+  ' 伊桑 刻俄柏 芙兰卡 真理 ',
 
   //经典强化
-  ' 古米 诗怀雅 诗怀雅 ',
+  ' 古米 诗怀雅 ',
 
   //超杀
-  ' 安比尔 伊芙利特 伊芙利特 ',
-  ' 安比尔 煌 煌 ',
+  ' 安比尔 特米米 特米米 赫拉格 ',
+  ' 安比尔 煌 煌 赫拉格 ',
 
   //绝对解场
   ' 酸糖 拉普兰德 刻刀 ',
@@ -438,13 +437,13 @@ const mini_sets = [
   // ' 普罗旺斯  灰喉  巡林者 波登可 ',
   // ' 安洁莉娜 陈 陈  波登可 ',
   // ' 铃兰  安洁莉娜  极境  芬  推进之王  推进之王 ',
-  // ' 梅尔 赫默 白面鸮 伊芙利特  艾雅法拉 ',
+  // ' 梅尔 赫默 白面鸮 特米米  艾雅法拉 ',
   // ' 能天使 蓝毒 陨星 酸糖 ',
   // ' 霜叶  凯尔希  杜宾 ',
   // ' 守林人  守林人  夜莺 ',
   //  ' 末药  银灰  初雪 ',
   //  ' 梓兰  梓兰  能天使 ',
-  //  ' 赫默  稀音  梅尔 梅尔 史都华德  伊芙利特  塞雷娅 ',
+  //  ' 赫默  稀音  梅尔 梅尔 史都华德  特米米  塞雷娅 ',
   //  ' 温蒂  白面鸮  桃金娘 ',
   //  ' 白金  末药  煌 ',
   //' 拉普兰德  白雪  白雪 ',
@@ -577,15 +576,15 @@ export function generate_deck_s2(deck_name) {
   let rng = new PRNG(deck_name);
 
   // Basic deck
-  deck = [...deck, ...deck_from_strategy(cost_vanguard, 5, rng)];
-  deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 6, rng)];
+  // deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(scorer, 3, rng)];
 
   // Strategy deck
   deck = [...deck, ...deck_from_mini_sets(16, rng)];
 
   // Random cards
-  let amount_add = 32 - deck.length;
+  let amount_add = 36 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }
@@ -595,7 +594,8 @@ export function generate_deck_s2(deck_name) {
 
 export function generate_deck(deck_name) {
   let rng = new PRNG(deck_name);
-  let generator = (rng.random() > 0.05)? generate_deck_s2 : generate_deck_s1;
+  // let generator = (rng.random() > 0.05)? generate_deck_s2 : generate_deck_s1;
+  let generator = generate_deck_s2;
   return generator(deck_name);
 }
 

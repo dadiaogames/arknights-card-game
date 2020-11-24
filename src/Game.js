@@ -324,7 +324,7 @@ function finishOrder(G, ctx, idx) {
     logMsg(G, ctx, "完成订单");
     // sort_orders(G);
 
-    if ([5,8].includes(G.finished.length)) {
+    if ([4,7].includes(G.finished.length)) {
       G.orders.map(price_up);
       G.odeck.map(price_up);
     }
@@ -359,24 +359,22 @@ export function drawEnemy(G, ctx) {
     enemy.enraged = enemy.enraged || false;
     logMsg(G, ctx, `${enemy.name} 入场`);
     if (enemy.is_elite) {
-      let surge = switchEnemy(G, ctx);
-      if (enemy.onPlay && !surge) {
-        enemy.onPlay(G, ctx, enemy);
-      }
+      switchEnemy(G, ctx);
+      // if (enemy.onPlay && !surge) {
+      //   enemy.onPlay(G, ctx, enemy);
+      // }
     }
-    else {
-      if (enemy.onPlay) {
-        enemy.onPlay(G, ctx, enemy);
-      }
+    if (enemy.onPlay) {
+      enemy.onPlay(G, ctx, enemy);
     }
-    
+  
   }
 }
 
 export function switchEnemy(G, ctx) {
-  if (G.not_switch) {
-    return false;
-  }
+  // if (G.not_switch) {
+  //   return false;
+  // }
 
   let len = G.efield.length;
   let enemy = G.efield[len-1];
@@ -394,11 +392,15 @@ export function switchEnemy(G, ctx) {
   //   G.efield.pop();
   //   drawEnemy(G, ctx);
   // }
-  if (switcher) {
+  if (switcher && (!switcher.is_elite)) {
     G.efield.splice(len-2, 1);
   }
+  else {
+    enemy.atk = Math.max(enemy.atk - 2, 1);
+    enemy.hp = Math.max(enemy.hp - 2, 1);
+  }
 
-  return false;
+  // return false;
 }
 
 export function enemy2card(G, ctx) {
@@ -623,11 +625,11 @@ export function cure(G, ctx, amount) {
     }
   })[0];
   if (card) {
-    card.dmg -= amount;
-    if (card.dmg < 0) {
-      card.hp -= card.dmg;
-      card.dmg = 0;
-    }
+    card.dmg = Math.max(card.dmg - amount, 0);
+    // if (card.dmg < 0) {
+      // card.hp -= card.dmg;
+      // card.dmg = 0;
+    // }
   }
   return card;
 }
@@ -841,7 +843,8 @@ export function setup_scenario(G, ctx) {
     G.ediscard = [];
 
     G.orders = [];
-    G.finished = [default_order];
+    // G.finished = [default_order];
+    G.finished = [];
 
     G.picks = [];
 
