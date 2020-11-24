@@ -1033,7 +1033,7 @@ export const AC = {
           }
         }
         
-        if (G.enemy_grow && G.round_num > 1) {
+        if (G.enemy_hp_grow && G.round_num > 1) {
           for (let enemy of [...G.edeck, ...G.efield]) {
             enemy.hp += 2;
           }

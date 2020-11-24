@@ -70,7 +70,7 @@ const tag_list = [
     level: 2,
     // standard_level: 3,
     effect(G, ctx){
-      G.enemy_HP_grow = true;
+      G.enemy_hp_grow = true;
     }
   },
 

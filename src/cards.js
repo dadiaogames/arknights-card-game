@@ -507,17 +507,17 @@ export const CARDS = [
   
   {
     name:"天火", 
-    cost:5, 
-    atk:3, 
-    hp:2, 
+    cost:3, 
+    atk:2, 
+    hp:1, 
     mine:2, 
     block:0, 
-    desc:"部署: 场上所有其他干员获得<+2>", 
+    desc:"部署: 场上所有其他干员获得<+1>", 
     illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E5%A4%A9%E7%81%AB_1.png",
     onPlay(G, ctx, self) {
       for (let card of G.field) {
         if (card != self) {
-          card.mine += 2;
+          card.mine += 1;
         }
       }
     },
@@ -562,12 +562,12 @@ export const CARDS = [
     hp:4,
     mine:2,
     block:1,
-    desc: "采掘: 获得+3/+3",
+    desc: "采掘: 获得+2/+2",
     illust:"http://prts.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E6%9F%8F%E5%96%99_1.png",
-    reinforce: 1,
+    reinforce: 2,
     onMine(G, ctx, self) {
-      self.atk += 3 + 2 * self.power;
-      self.hp += 3 + 2 * self.power;
+      self.atk += 2 + 2 * self.power;
+      self.hp += 2 + 2 * self.power;
     },
     reinforce_desc: "再获得+2/+2",
   },
