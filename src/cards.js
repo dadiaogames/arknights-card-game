@@ -1731,24 +1731,24 @@ export const CARDS = [
     reinforce: 2,
     reinforce_desc: "再获得2分",
   },
-  {
-    name:"初雪",
-    cost:3,
-    atk:4,
-    hp:3,
-    mine:2,
-    block:0,
-    desc:<span>行动: 获得1个{material_icons[3]}，然后每有1组{material_icons.slice(0,3)}，就再获得1个{material_icons[3]}</span>,
-    illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%88%9D%E9%9B%AA_1.png",
-    action(G, ctx, self) {
-      G.materials[3] += 1 + G.materials.slice(0,3).sort()[0];
-    },
-    reinforce: 2,
-    reinforce_desc: "获得2点费用",
-    onReinforce(G, ctx, self) {
-      G.costs += 2;
-    },
-  },
+  // {
+  //   name:"初雪",
+  //   cost:3,
+  //   atk:4,
+  //   hp:3,
+  //   mine:2,
+  //   block:0,
+  //   desc:<span>行动: 获得1个{material_icons[3]}，然后每有1组{material_icons.slice(0,3)}，就再获得1个{material_icons[3]}</span>,
+  //   illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%88%9D%E9%9B%AA_1.png",
+  //   action(G, ctx, self) {
+  //     G.materials[3] += 1 + G.materials.slice(0,3).sort()[0];
+  //   },
+  //   reinforce: 2,
+  //   reinforce_desc: "获得2点费用",
+  //   onReinforce(G, ctx, self) {
+  //     G.costs += 2;
+  //   },
+  // },
   // {
   //   name:"角峰",
   //   cost:4,

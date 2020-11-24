@@ -354,7 +354,7 @@ const mini_sets = [
   ' 温蒂 白面鸮 白面鸮 食铁兽 ',
 
   //崖心刷钢流
-  ' 初雪  史都华德  赫默  崖心 ',
+  ' 星极  史都华德  赫默  崖心 ',
   ' 星极 白面鸮 崖心 ',
 
   //经典断罪者套
@@ -418,7 +418,7 @@ const mini_sets = [
   //柏喙小套路
   ' 柏喙  翎羽 ',
   //银灰小配合
-  ' 银灰  赫默 初雪 ',
+  ' 银灰  赫默 星极 ',
   //清道夫小配合
   ' 清道夫 砾 杰克 ',
   //闪灵小配合
@@ -451,7 +451,7 @@ const mini_sets = [
 
 
 function get_random_card(rng) {
-  let banned_cards = ["砾", "可露希尔"];
+  let banned_cards = ["可露希尔"];
   let card_pool = CARDS.filter(x => (!banned_cards.includes(x.name)));
   return rng.choice(card_pool).name;
 }
@@ -582,6 +582,15 @@ export function generate_deck_s2(deck_name) {
 
   // Strategy deck
   deck = [...deck, ...deck_from_mini_sets(16, rng)];
+
+  // No more than 3
+  let deck_dict = deck.reduce((acc, val) => ({...acc, [val]: (acc[val]+1)||1}), {})
+  for (let card in deck_dict) {
+    if (deck_dict[card] > 3) {
+      deck_dict[card] = 3;
+    }
+  }
+  deck = Object.keys(deck_dict).reduce((acc, val) => [...acc, ..._.times(deck_dict[val], ()=>val)], [])
 
   // Random cards
   let amount_add = 36 - deck.length;
