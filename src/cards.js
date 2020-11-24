@@ -2798,17 +2798,19 @@ export const CARDS = [
     desc:"行动: 本回合剩余时间内，使用其他干员采掘时，重置自己",
     illust:"http://prts.wiki/images/1/1a/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E8%BE%BE_1.png",
     action(G, ctx, self) {
-      let secret_key = ctx.random.D20();
-      self.secret_key = secret_key;
+      self.fever = true;
       G.onCardMine.push(
         (G, ctx, mcard) => {
           for (let card of G.field) {
-            if (card.secret_key == secret_key && card != mcard) {
+            if (card.fever && (!mcard.fever)) {
               card.exhausted = false;
             }
           }
         }
       );
+    },
+    onTurnBegin(G, ctx, self) {
+      self.fever = false;
     },
     reinforce: 1,
     reinforce_desc: "+1/+1",
