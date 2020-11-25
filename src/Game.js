@@ -13,9 +13,16 @@ export function move(G, ctx, d1, d2, idx) {
   return card;
 }
 
-export function payCost(G, ctx, cost) {
+export function payCost(G, ctx, cost, from_card) {
   if (G.costs >= cost) {
-    G.costs -= cost
+    G.costs -= cost;
+
+    if (from_card) {
+      for (let f of G.onPayCost) {
+        f(G, ctx, cost);
+      }
+    }
+
     return true;
   }
 
@@ -110,9 +117,9 @@ export function deal_damage(G, ctx, deck, idx, dmg) {
 
   if (card) {
     //cards with no damage may not have the damage attr
-    card.dmg = card.dmg || 0;
-    card.dmg += dmg;
-    logMsg(G, ctx, `${card.name} 受到${dmg}点伤害`);
+    let total_dmg = dmg + (card.vulnerable || 0);
+    card.dmg = (card.dmg || 0) + total_dmg;
+    logMsg(G, ctx, `${card.name} 受到${total_dmg}点伤害`);
 
     if (card.dmg >= card.hp) {
       // if (~G.efield.indexOf(card)) {
@@ -184,6 +191,12 @@ export function drop(G, ctx) {
   let idx = ctx.random.Die(G.hand.length) - 1;
   if (~idx) {
     G.hand.splice(idx, 1);
+
+    G.has_discarded = true;
+
+    for (let f of G.onDropCard) {
+      f(G, ctx);
+    }
   }
 }
 
@@ -202,11 +215,17 @@ export function mulligan(G, ctx, choices) {
   G.hand = [...G.deck.filter(card => card.is_init), ...G.hand];
 }
 
-export function insert_field(G, ctx, card, idx) {
+export function play_card(G, ctx, card) {
   if (G.field.length < G.field_limit) {
-    let played_card = init_card_state(G, ctx, {...card});
-    G.field.splice(idx || G.field.length, 0, played_card);
-    return played_card;
+    let inserted = init_card_state(G, ctx, {...card});
+    G.field = [...G.field, inserted];
+    if (inserted.onPlay) {
+      inserted.onPlay(G, ctx, inserted);
+    }
+    for (let bonus of (inserted.onPlayBonus || [])) {
+      bonus.effect(G, ctx, inserted);
+    }
+    return inserted;
   }
   else {
     logMsg(G, ctx, "场上干员数已达到上限");
@@ -226,19 +245,11 @@ function play(G, ctx, idx) {
     // move(G, ctx, "hand", "field", idx);
     // init_card_state(G, ctx, card);
     G.hand.splice(idx, 1);
-    let inserted = insert_field(G, ctx, card);
+    let inserted = play_card(G, ctx, card); // EH: What a strange abstraction, this should be changed
     if (inserted) {
       logMsg(G, ctx, `部署 ${card.name}`);
       for (let f of G.onPlayCard) {
-        f(G, ctx, card);
-      }
-      if (inserted.onPlay) {
-        inserted.onPlay(G, ctx, inserted);
-      }
-      if (inserted.onPlayBonus) {
-        for (let bonus of inserted.onPlayBonus) {
-          bonus.effect(G, ctx, inserted);
-        }
+        f(G, ctx, inserted, card);
       }
     }
     else {
@@ -578,9 +589,16 @@ export function reduce_enemy_atk(G, ctx, amount) {
   }
 }
 
+export function add_vulnerable(G, ctx, amount) {
+  let enemy = choice(ctx, G.efield);
+  if (enemy) {
+    enemy.vulnerable = (enemy.vulnerable || 0) + amount;
+  }
+}
+
 export function ready_random_card(G, ctx, self) {
   let exhausted_cards = G.field.filter(x => (x.exhausted && (x != self)));
-  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪"].includes(x.name)));
+  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪", "霜叶"].includes(x.name)));
   if ((exhausted_cards.length != 0) && (prepared_cards.length == 0)) {
     logMsg(G, ctx, "干员们感到意外的疲惫，无法被重置");
   }
@@ -823,8 +841,17 @@ function setup_events(G, ctx) {
   G.onCardFight = [];
   G.onCardAct = [];
   G.onCardReinforced = [];
+
+  G.onPayCost = [];
+  G.onDropCard = [];
+
   G.onUseOrder = [];
+
   G.onEnemyOut = [];
+}
+
+function setup_turn_states(G, ctx) {
+  G.has_discarded = false;
 }
 
 export function setup_scenario(G, ctx) {
@@ -1021,6 +1048,7 @@ export const AC = {
         refresh_picks(G, ctx);
 
         setup_events(G, ctx);
+        setup_turn_states(G, ctx);
 
         for (let card of [...G.hand, ...G.field, ...G.efield]) {
           card.ready_times = 0;

@@ -114,6 +114,8 @@ export class Board extends React.Component {
     this.enter_roguelike_mode = this.enter_roguelike_mode.bind(this);
     this.end_roguelike_mode = this.end_roguelike_mode.bind(this);
 
+    this.enter_daily_mode = this.enter_daily_mode.bind(this);
+
     this.change_board = this.change_board.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
     this.choose_standard_tags = this.choose_standard_tags.bind(this);
@@ -421,6 +423,7 @@ export class Board extends React.Component {
       [illust]: card.illust,
       atk: card.atk,
       hp: (card.hp - card.dmg),
+      vulnerable: card.vulnerable? ("↓" + card.vulnerable) : undefined,
       //cost: card.cost,
     };
   }
@@ -716,7 +719,7 @@ export class Board extends React.Component {
   change_board(new_board) {
     const BOARDS = {
       "title": this.render_title_board,
-      "modes": this.render_mode_selection_board,
+      "mode_selection": this.render_mode_selection_board,
       "rules": this.render_rules_board,
       "game": this.render_game_board,
       "tag": this.render_tag_board,
@@ -854,7 +857,7 @@ export class Board extends React.Component {
         // console.log("Time to alert finish");
         // TODO: reconstruct this part, flat is better than nested
         let finish = this.props.G.rhodes_training_mode?"任务失败":"任务完成";
-        alert(`${finish}\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n地图种子: ${this.state.seed}`);
+        alert(`${finish}\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n${this.state.daily_mode?`完成每日挑战: ${this.state.date}\n`:""}地图种子: ${this.state.seed}`);
 
         if (this.state.competition_mode) {
           this.setState({results: [...this.state.results, risk_level]});
@@ -886,9 +889,9 @@ export class Board extends React.Component {
   render_mode_selection_board() {
     const actions = {
       // "常规模式": () => this.change_board("tag"),
-      // "竞技模式": this.enter_competition_mode,
-      // "黑角的金针菇迷境": this.enter_roguelike_mode,
-      // "返回": this.back,
+      "每日挑战": this.enter_daily_mode,
+           // "Roguelike模式": this.enter_roguelike_mode,
+      "返回": this.back,
     };
     return <div className="board">
       <ModeSelection actions={actions} />
@@ -1011,6 +1014,11 @@ export class Board extends React.Component {
     this.roguelike.setup_roguelike_mode();
     this.roguelike.setup_deck_selection();
     this.change_board("roguelike_entry");
+  }
+  
+  enter_daily_mode() {
+    this.roguelike.enter_daily_mode();
+    this.change_board("tag");
   }
 
   enter_difficulty(difficulty) {
@@ -1383,7 +1391,7 @@ export class Board extends React.Component {
         tags: this.choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),
-      Roguelike模式: () => this.enter_roguelike_mode(),
+      其他模式: () => this.change_board('mode_selection'),
       返回标题: () => this.change_board("title"),
     };
 
@@ -1397,6 +1405,23 @@ export class Board extends React.Component {
 
       if (risk_level >= this.state.level_required) {
         actions.进入游戏 = () => this.enter_game();
+      }
+    }
+
+    if (this.state.daily_mode) {
+      let end_daily_mode = () => {
+          this.roguelike.end_daily_mode();
+          this.change_board("mode_selection");
+        };
+      actions = {
+        返回: end_daily_mode 
+      };
+
+      if (risk_level >= this.state.level_required) {
+        actions = {
+          进入游戏: () => this.change_board("deck"),
+          返回: end_daily_mode,
+        };
       }
     }
 
@@ -1418,7 +1443,7 @@ export class Board extends React.Component {
             color: "#cf1322", 
             marginLeft: "2%",
             marginTop: "-3%",
-            display:(risk_level>=16 && (!this.state.roguelike_mode))? "" : "none"
+            display:(risk_level>=16 && (!(this.state.roguelike_mode || this.state.daily_mode)))? "" : "none"
           }}
         >
           当前合约难度极大，请谨慎行动
@@ -1426,8 +1451,18 @@ export class Board extends React.Component {
         <div 
           style={{
             color: "#black", 
+            margin: "-1% 0% 1% 2%",
+            display:(this.state.daily_mode)? "" : "none",
+            fontSize: "105%",
+          }}
+        >
+          今天是: {this.state.date}
+        </div>
+        <div 
+          style={{
+            color: "#black", 
             margin: "-1% 0% 3% 2%",
-            display:(this.state.roguelike_mode)? "" : "none",
+            display:(this.state.roguelike_mode || this.state.daily_mode)? "" : "none",
             fontSize: "105%",
           }}
         >

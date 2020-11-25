@@ -19,9 +19,15 @@ export function introduce_roguelike_mode() {
   alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，在要求的危机等级下，完成该局对战，即可获得赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！\n`);
 }
 
+function reset_tags() {
+  return TAGS.map(x => ({...x}));
+}
+
 function setup_roguelike_mode(S) {
   console.log("Roguelike mode reset");
   S.roguelike_mode = true;
+
+  S.tags = reset_tags();
 
   S.Deck = [];
 
@@ -40,7 +46,64 @@ function setup_roguelike_mode(S) {
 
 function end_roguelike_mode(S) {
   S.roguelike_mode = false;
-  S.tags = TAGS.map(x => ({...x}));
+  S.tags = reset_tags();
+}
+
+function reduce_basic_tags(tags, rng) {
+  // return tags.filter((x,idx) => !rng.choice([[6,7,8],[9,10,11],[12,13,14]]).includes(idx));
+  return [...tags.slice(0,6), ...rng.shuffle(tags.slice(6)).slice(0,6).sort((t1,t2) => tags.indexOf(t1)-tags.indexOf(t2))];
+}
+
+function setup_normal_challenge(tags, rng) {
+  for (let t of tags) {
+    if (t.standard_level <= 2 || [0,3,4,6,12].includes(tags.indexOf(t))) {
+      t.locked = true;
+    }
+  }
+  let challenge_tag = rng.choice(tags.filter(x => x.challenge));
+  challenge_tag.locked = true;
+  let locked_tags = tags.filter(x => x.locked && [2,3].includes(x.level));
+  let other_tags = tags.filter(x => !x.locked && [2,3].includes(x.level));
+  other_tags = rng.shuffle(other_tags).slice(0,3);
+  return [...reduce_basic_tags(tags.slice(0,15), rng), ...locked_tags, ...other_tags];
+}
+
+function setup_exhausted_challenge(tags, rng) {
+  tags[0].locked = true;
+  tags[1].locked = true;
+  let final_tag = tags[tags.length-1];
+  final_tag.locked = true;
+  let basic_tags = tags.filter(x => x.level == 1);
+  let another_challenge_tag = rng.choice(tags.filter(x => x.level == 3));
+  another_challenge_tag.locked = true;
+  let advanced_tags = rng.shuffle(tags.filter(x => [2,3].includes(x.level) && x != another_challenge_tag)).slice(0,8);
+  return [...reduce_basic_tags(basic_tags, rng), another_challenge_tag, ...advanced_tags, final_tag];
+}
+
+function setup_daily_tags(S) {
+  let rng = new PRNG(S.date);
+  let tags = reset_tags();
+
+  if (rng.random() <= 0.6) {
+    S.tags = setup_normal_challenge(tags, rng);
+    S.level_required = 24;
+  }
+  else {
+    S.tags = setup_exhausted_challenge(tags, rng);
+    S.level_required = 18;
+  }
+}
+
+function enter_daily_mode(S) {
+  S.daily_mode = true;
+  S.date = Date().slice(0,15);
+  // S.date = Math.random();
+  setup_daily_tags(S);
+}
+
+function end_daily_mode(S) {
+  S.daily_mode = false;
+  S.tags = reset_tags();
 }
 
 function set_difficulty(S, difficulty) {
@@ -322,4 +385,7 @@ export const roguelike = {
   enter_dream,
   continue_run,
   end_roguelike_mode,
+
+  enter_daily_mode,
+  end_daily_mode,
 };

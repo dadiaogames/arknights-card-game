@@ -59,6 +59,7 @@ const tag_list = [
     src: "http://prts.wiki/images/9/99/Enemy_movespeed_2.png",
     desc: "2回合后，所有敌人获得\"冲锋\"",
     level: 2,
+    challenge: true,
     effect(G, ctx) {
       G.dashOnR3 = true;
     }
@@ -102,6 +103,7 @@ const tag_list = [
     src: "http://prts.wiki/images/c/c7/Global_costrecovery_1.png",
     desc: "强化干员需要消耗1点费用",
     level: 2,
+    challenge: true,
     effect(G, ctx) {
       // for (let card of G.deck) {
       //   card.reinforce += 1;
@@ -115,6 +117,7 @@ const tag_list = [
     src: "http://prts.wiki/images/4/46/Global_forbidloc_2.png",
     desc: "可同时部署的干员数-3",
     level: 2,
+    challenge: true,
     effect(G, ctx){
       G.field_limit -= 3;
     }
@@ -124,6 +127,7 @@ const tag_list = [
     src: "http://prts.wiki/images/c/c5/Global_skillrecovery_1.png",
     desc: "所有干员采掘力-1",
     level: 2,
+    challenge: true,
     effect(G, ctx){
       for (let card of G.deck) {
         card.mine -= 1;
@@ -189,6 +193,7 @@ const tag_list = [
     src: "http://prts.wiki/images/e/ee/Char_atkatkspeed_1.png",
     desc: "所有干员攻击力-2",
     level: 3,
+    challenge: true,
     effect(G, ctx) {
       // G.goal += 28; // Because first turn gonna -4 too
       // G.reduce_goal = true;
@@ -202,6 +207,7 @@ const tag_list = [
     src: "http://prts.wiki/images/0/06/Enemy_attackspeed_2.png",
     desc: "每回合额外翻开1张敌人牌",
     level: 3,
+    challenge: true,
     effect(G, ctx) {
       G.num_enemies_out += 1;
     }

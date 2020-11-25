@@ -54,7 +54,7 @@
   left: 55%;
 }
 
-.power {
+.power, .vulnerable {
   top: 25%;
   width: 35%;
   height: 18%;
@@ -64,8 +64,14 @@
 .cost_detailed {
   top: 3%;
   left: 5%;
+
   height: 15%;
   width: 15%;
+
+  /* height: auto;
+  width: auto;
+  padding: 0% .5% .5% .5%;
+   */
   text-align: center;
   font-size: 200%;
 }

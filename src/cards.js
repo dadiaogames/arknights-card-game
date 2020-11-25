@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, insert_field, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice
+  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card
 } from './Game';
 import { material_icons, ready_order } from './orders';
 
@@ -314,14 +314,13 @@ export const CARDS = [
     cost:3, 
     atk:5, 
     hp:2, 
-    mine:2, 
+    mine:1, 
     block:1, 
-    desc:"采掘: 摧毁场上1个重置状态的干员，并获得3点费用", 
+    desc:"采掘: 摧毁场上1个(重置状态的)干员，并获得4点费用", 
     illust:"http://prts.wiki/images/3/3a/%E7%AB%8B%E7%BB%98_%E6%B8%85%E9%81%93%E5%A4%AB_1.png",
     onMine(G, ctx, self) {
-      let card = eliminate_field(G, ctx);
-      if (card) {
-        G.costs += 3;
+      if (eliminate_field(G, ctx)) {
+        G.costs += 4;
       }
     },
     reinforce: 1,
@@ -778,8 +777,9 @@ export const CARDS = [
       let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(2+(self.power||0)))))[0];
       let idx = G.field.indexOf(self) + 1;
       if (new_card) {
-        G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
+        // G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
         // insert_field(G, ctx, new_card, idx);
+        summon(G, ctx, new_card, self);
       }
     },
     reinforce: 2,
@@ -793,10 +793,11 @@ export const CARDS = [
     hp:1, 
     mine:1, 
     block:1, 
-    desc:"部署: 使1个干员获得+3/+3", 
+    desc:"部署: 使1个(重置状态的)干员获得+3/+3", 
     illust:"http://prts.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E6%9C%AB%E8%8D%AF_1.png",
     onPlay(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
+      // let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
+      let card = choice(ctx, G.field.filter(x => x!=self).filter(x => !x.exhausted));
       if (card) {
         card.atk += 3;
         card.hp += 3;
@@ -809,6 +810,36 @@ export const CARDS = [
     reinforce_desc: "治疗1个干员的6点伤害",
 
   },
+  
+  // {
+  //   name:"Lancet-2", 
+  //   cost:3,
+  //   atk:0, 
+  //   hp:2, 
+  //   mine:1, 
+  //   block:0, 
+  //   desc:"部署: 本回合下一次部署干员时，会额外部署1次", 
+  //   was_enemy: true,
+  //   illust:"http://prts.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E6%9C%AB%E8%8D%AF_1.png",
+  //   onPlay(G, ctx, self) {
+  //     let play_again = () => {
+  //       let played = false;
+  //       return (G, ctx, card_played, card) => {
+  //         if (!played) {
+  //           play_card(G, ctx, card);
+  //           played = true;
+  //         }
+  //       }};
+  //     G.onPlayCard.push(
+  //       play_again(),
+  //     );
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     cure(G, ctx, 6);
+  //   },
+  //   reinforce_desc: "治疗1个干员的6点伤害",
+  // },
   
   // {
   //   name:"清流", 
@@ -949,7 +980,7 @@ export const CARDS = [
     desc:"行动: 消耗3点费用，获得6分", 
     illust:"http://prts.wiki/images/c/c6/%E7%AB%8B%E7%BB%98_%E9%98%BF%E6%B6%88_1.png",
     action(G, ctx, self) {
-      if (payCost(G, ctx, 3 + self.power)) {
+      if (payCost(G, ctx, 3 + self.power, true)) {
         let delta = 6 + 2 * self.power;
         G.score += delta;
 
@@ -966,12 +997,12 @@ export const CARDS = [
     name:"铃兰", 
     cost:3, 
     atk:2, 
-    hp:1, 
-    mine:1, 
+    hp:2, 
+    mine:2, 
     block:0, 
-    desc:"部署: 本回合剩余时间内，每部署1个干员，就获得2分", 
+    desc:"行动: 本回合剩余时间内，每部署1个干员，就获得2分", 
     illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
-    onPlay(G, ctx) {
+    action(G, ctx) {
       G.onPlayCard.push(
         (G, ctx) => {
           G.score += 2;
@@ -979,10 +1010,10 @@ export const CARDS = [
       );
     },
     onReinforce(G, ctx, self) {
-      self.onPlay(G, ctx);
+      this.action(G, ctx);
     },
-    reinforce: 2,
-    reinforce_desc: "触发1次\"部署\"效果",
+    reinforce: 3,
+    reinforce_desc: "触发1次\"行动:\"效果",
   },
 
   {
@@ -1099,37 +1130,37 @@ export const CARDS = [
   //   reinforce_desc: "+4/+2",
   // }, 
   
-  {
-    name:"梅尔",
-    cost:2,
-    atk:2,
-    hp:1,
-    mine:1,
-    block:1,
-    desc: "部署: 获得1个已完成的订单，其能力为\"?→造成5点伤害\"",
-    illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
-    reinforce: 1,
+  // {
+  //   name:"梅尔",
+  //   cost:2,
+  //   atk:2,
+  //   hp:1,
+  //   mine:1,
+  //   block:1,
+  //   desc: "部署: 获得1个已完成的订单，其能力为\"?→造成5点伤害\"",
+  //   illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
+  //   reinforce: 1,
 
-    onPlay(G, ctx) {
-      let order = {};
-      let material = ctx.random.Die(3) - 1;
-      let requirements = [0,0,0,0];
-      requirements[material] = 1;
-      order.desc = <span>{material_icons[material]}→5伤害</span>;
-      order.effect = (G,ctx) => {
-        if (payMaterials(G, ctx, requirements)) {
-          deal_random_damage(G, ctx, 5);
-        }
-      };
-      order.is_rhine = true;
-      G.finished.unshift(order);
-    },
+  //   onPlay(G, ctx) {
+  //     let order = {};
+  //     let material = ctx.random.Die(3) - 1;
+  //     let requirements = [0,0,0,0];
+  //     requirements[material] = 1;
+  //     order.desc = <span>{material_icons[material]}→5伤害</span>;
+  //     order.effect = (G,ctx) => {
+  //       if (payMaterials(G, ctx, requirements)) {
+  //         deal_random_damage(G, ctx, 5);
+  //       }
+  //     };
+  //     order.is_rhine = true;
+  //     G.finished.unshift(order);
+  //   },
     
-    onReinforce(G, ctx) {
-      deal_random_damage(G, ctx, 3);
-    },
-    reinforce_desc: "造成3点伤害",
-  },
+  //   onReinforce(G, ctx) {
+  //     deal_random_damage(G, ctx, 3);
+  //   },
+  //   reinforce_desc: "造成3点伤害",
+  // },
 
  
   // {
@@ -1159,6 +1190,50 @@ export const CARDS = [
   //   },
   //   reinforce_desc: "+2/+2",
   // },
+  
+  {
+    name:"摄影车",
+    cost:3,
+    atk:2,
+    hp:2,
+    mine:1,
+    block:1,
+    desc:"部署: 获得2个\"稀音\"",
+    was_enemy: true,
+    illust:"http://prts.wiki/images/d/d5/%E5%A4%B4%E5%83%8F_%E5%8F%AC%E5%94%A4%E7%89%A9_%E7%A7%BB%E5%8A%A8%E6%91%84%E5%BD%B1%E5%99%A8.png",
+    onPlay(G, ctx, self) {
+      let card = extra_cards.find(x => x.name == "稀音");
+      G.hand = [card, card, ...G.hand];
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      let card = extra_cards.find(x => x.name == "稀音");
+      G.hand = [card, ...G.hand];
+    },
+    reinforce_desc: "获得1个\"稀音\"",
+  },
+  
+  {
+    name:"机械水獭",
+    cost:3,
+    atk:2,
+    hp:2,
+    mine:1,
+    block:1,
+    desc:"部署: 获得2个\"梅尔\"",
+    was_enemy: true,
+    illust:"http://prts.wiki/images/1/13/%E5%A4%B4%E5%83%8F_%E5%8F%AC%E5%94%A4%E7%89%A9_%E6%9C%BA%E6%A2%B0%E6%B0%B4%E7%8D%AD.png",
+    onPlay(G, ctx, self) {
+      let card = extra_cards.find(x => x.name == "梅尔");
+      G.hand = [card.generator(ctx), card.generator(ctx), ...G.hand];
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      let card = extra_cards.find(x => x.name == "梅尔");
+      G.hand = [card.generator(ctx), ...G.hand];
+    },
+    reinforce_desc: "获得1个\"梅尔\"",
+  },
 
 
 
@@ -1296,34 +1371,36 @@ export const CARDS = [
     reinforce_desc: "检索1张有\"部署:\"效果的牌",
   },
 
-  // {
-  //   name:"普罗旺斯", 
-  //   cost:2,
-  //   atk:4, 
-  //   hp:2, 
-  //   mine:1, 
-  //   block:0, 
-  //   desc:"采掘/战斗: 横置场上的1个干员，然后该干员每有2点攻击力，就获得1分", 
-  //   illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
-  //   onMine(G, ctx) {
-  //     let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
-  //     if (card) {
-  //       card.exhausted = true;
-  //       let delta = Math.floor(card.atk / 2);
-  //       G.score += delta;
-  //       logMsg(G, ctx, `使用 普罗旺斯 获得${delta}分`);
-  //     }
-  //   },
-  //   onFight(G, ctx) {
-  //     this.onMine(G, ctx);
-  //   },
-  //   reinforce: 2,
-  //   onReinforce(G, ctx) {
-  //     G.score += 2;
-  //   },
-  //   reinforce_desc: "获得2分",
+  {
+    name:"普罗旺斯", 
+    cost:3,
+    atk:4, 
+    hp:3, 
+    mine:2, 
+    block:0, 
+    desc:"行动: 本回合剩余时间内，如果在使用干员能力时消耗了费用，则每消耗1点费用，就造成2点伤害", 
+    illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
+    action(G, ctx, self) {
+      // let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
+      // if (card) {
+      //   card.exhausted = true;
+      //   let delta = Math.floor(card.atk / 2);
+      //   G.score += delta;
+      //   logMsg(G, ctx, `使用 普罗旺斯 获得${delta}分`);
+      // }
+      let power = self.power;
+      G.onPayCost.push(
+        (G, ctx, amount) => {
+          for (let i=0; i<amount; i++) {
+            deal_random_damage(G, ctx, 2 + power);
+          }
+        }
+      );
+    },
+    reinforce: 2,
+    reinforce_desc: "伤害+1",
 
-  // },
+  },
   
   // {
   //   name:"灰喉", 
@@ -1380,6 +1457,60 @@ export const CARDS = [
     },
     reinforce_desc: "+3/+1",
   },
+
+  {
+    name:"断崖",
+    cost:4,
+    atk:6,
+    hp:4,
+    mine:2,
+    block:1,
+    desc:"超杀: 每造成1点额外伤害，就摸1张牌",
+    illust:"http://prts.wiki/images/1/1b/%E7%AB%8B%E7%BB%98_%E6%96%AD%E5%B4%96_1.png",
+    onFight(G, ctx, self, enemy) {
+      if (enemy.dmg > enemy.hp) {
+        let delta = enemy.dmg - enemy.hp;
+        for (let i=0; i<delta; i++) {
+          draw(G, ctx);
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+  {
+    name:"迷迭香",
+    cost:4,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:1,
+    desc:"超杀: 召唤2个随机干员的2/2复制",
+    illust:"https://s3.ax1x.com/2020/11/26/Ddxxbt.png",
+    onFight(G, ctx, self, enemy) {
+      if (enemy.dmg > enemy.hp) {
+        for (let i=0; i<2; i++) {
+          let card = ctx.random.Shuffle(G.CARDS)[0];
+          card = {...card};
+          card.atk = 2;
+          card.hp = 2;
+          card.mine = 1;
+          card.cost = 2;
+          summon(G, ctx, card, self);
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      deal_random_damage(G, ctx, 3);
+    },
+    reinforce_desc: "造成3点伤害",
+  },
+
   {
     name:"安比尔",
     cost:2,
@@ -1571,7 +1702,7 @@ export const CARDS = [
     block:0,
     desc:"部署: 召唤5个随机干员的1/1复制(无视场面上限)",
     illust:"http://prts.wiki/images/7/72/%E7%AB%8B%E7%BB%98_%E5%87%AF%E5%B0%94%E5%B8%8C_1.png",
-    onPlay(G, ctx) {
+    onPlay(G, ctx, self) {
       let cards = ctx.random.Shuffle(G.CARDS).slice(0, 20);
       for (let i=0; i<5; i++) {
         let card = {...cards[i]}; // Copy at this stage
@@ -1579,8 +1710,9 @@ export const CARDS = [
         card.hp = 1;
         card.mine = 1;
         card.cost = 1;
-        G.field.push(init_card_state(G, ctx, card));
+        // G.field.push(init_card_state(G, ctx, card));
         // insert_field(G, ctx, card);
+        summon(G, ctx, card, self);
       }
     },
     reinforce: 1,
@@ -1637,7 +1769,7 @@ export const CARDS = [
       this.onPlay(G, ctx);
     },
   },
-
+  
   {
     name: "阿米娅-近卫",
     cost: 6,
@@ -1683,7 +1815,7 @@ export const CARDS = [
   {
     name:"银灰",
     cost:5,
-    atk:6,
+    atk:5,
     hp:6,
     mine:2,
     block:1,
@@ -1732,6 +1864,29 @@ export const CARDS = [
     reinforce_desc: "再获得2分",
   },
   // {
+  //   name:"雪雉",
+  //   cost:3,
+  //   atk:4,
+  //   hp:3,
+  //   mine:2,
+  //   block:1,
+  //   desc:"部署/采掘/战斗: 清除弃牌堆中的2张牌，获得3分",
+  //   illust:"http://prts.wiki/images/8/89/%E7%AB%8B%E7%BB%98_%E9%9B%AA%E9%9B%89_1.png",
+  //   (G, ctx, self) {
+  //     // if (G.discard.length >= 4) {
+  //     //   G.discard = G.discard.slice(4);
+  //     //   G.score += 6 + 2 * self.power;
+  //     // }
+  //     // else {
+  //     //   logMsg(G, ctx, `弃牌堆中的牌数量不够(${G.discard.length}/4)`);
+  //     //   self.exhausted = false;
+  //     // }
+  //   },
+  //   reinforce: 2,
+  //   reinforce_desc: "再获得2分",
+  // },
+
+  // {
   //   name:"初雪",
   //   cost:3,
   //   atk:4,
@@ -1772,42 +1927,50 @@ export const CARDS = [
   {
     name:"棘刺",
     cost:4,
-    atk:4,
-    hp:4,
+    atk:3,
+    hp:6,
     mine:1,
     block:1,
-    desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
+    desc:"行动: 弃1张牌，造成3点伤害，然后重置自己(每回合限6次)",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%A3%98%E5%88%BA_1.png",
     action(G, ctx, self) {
-      if (G.hand.length > 0) {
+      if (G.hand.length > 0 && self.use_count > 0) {
         drop(G, ctx);
         deal_random_damage(G, ctx, 3+self.power);
         self.exhausted = false;
+        self.use_count -= 1;
       }
+      else {
+        logMsg(G, ctx, "手牌不足 或 使用次数已达到上限");
+      }
+    },
+    onTurnBegin(G, ctx, self) {
+      self.use_count = 6;
     },
     reinforce: 1,
     reinforce_desc: "伤害+1",
   },
   
-  // {
-  //   name:"夜烟",
-  //   cost:3,
-  //   atk:3,
-  //   hp:2,
-  //   mine:5,
-  //   block:0,
-  //   desc:"采掘: 弃2张牌",
-  //   illust:"http://prts.wiki/images/a/a0/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E7%83%9F_1.png",
-  //   onMine(G, ctx) {
-  //     drop(G, ctx);
-  //     drop(G, ctx);
-  //   },
-  //   reinforce: 2,
-  //   reinforce_desc: "<+3>",
-  //   onReinforce(G, ctx, self) {
-  //     self.mine += 3;
-  //   }
-  // },
+  {
+    name:"夜烟",
+    cost:3,
+    atk:4,
+    hp:2,
+    mine:3,
+    block:0,
+    desc:"采掘: 消耗2点费用，再获得3个材料",
+    illust:"http://prts.wiki/images/a/a0/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E7%83%9F_1.png",
+    onMine(G, ctx) {
+      if (payCost(G, ctx, 2, true)) {
+        gainMaterials(G, ctx, 3);
+      }
+    },
+    reinforce: 2,
+    reinforce_desc: "<+2>",
+    onReinforce(G, ctx, self) {
+      self.mine += 2;
+    }
+  },
 
   {
     name:"梓兰",
@@ -1949,7 +2112,7 @@ export const CARDS = [
     hp:6,
     mine:2,
     block:2,
-    desc: "采掘/战斗: 强化场上1个重置状态的干员",
+    desc: "采掘/战斗: 强化场上1个(重置状态的)干员",
     illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
@@ -1959,10 +2122,9 @@ export const CARDS = [
       reinforce_field(G, ctx);
     },
     onReinforce(G, ctx, self) {
-      self.atk += 1;
-      self.hp += 3;
+      self.hp += 6;
     },
-    reinforce_desc: "+1/+3",
+    reinforce_desc: "+0/+6",
   },
 
   {
@@ -1972,7 +2134,7 @@ export const CARDS = [
     hp:3,
     mine:1,
     block:1,
-    desc: "部署: 强化场上3个重置状态的干员",
+    desc: "部署: 强化场上3个(重置状态的)干员",
     illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -2026,26 +2188,33 @@ export const CARDS = [
   //   },
   //   reinforce_desc: "伤害+3",
   // },
-  // {
-  //   name:"霜叶",
-  //   cost:2,
-  //   atk:2,
-  //   hp:3,
-  //   mine:1,
-  //   block:1,
-  //   desc: "休整: 每有1个休整中的干员，就获得+1/+1",
-  //   illust:"http://prts.wiki/images/5/50/%E7%AB%8B%E7%BB%98_%E9%9C%9C%E5%8F%B6_1.png",
-  //   reinforce: 1,
-  //   onRest(G, ctx, self) {
-  //     let num_rest_cards = get_num_rest_cards(G, ctx);
-  //     self.atk += num_rest_cards;
-  //     self.hp += num_rest_cards;
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     self.block += 1;
-  //   },
-  //   reinforce_desc: "阻挡数+1",
-  // },
+  {
+    name:"霜叶",
+    cost:2,
+    atk:3,
+    hp:3,
+    mine:2,
+    block:1,
+    desc: "采掘: 将场上1个(重置状态的)干员返回手牌",
+    illust:"http://prts.wiki/images/5/50/%E7%AB%8B%E7%BB%98_%E9%9C%9C%E5%8F%B6_1.png",
+    reinforce: 1,
+    // onRest(G, ctx, self) {
+    //   let num_rest_cards = get_num_rest_cards(G, ctx);
+    //   self.atk += num_rest_cards;
+    //   self.hp += num_rest_cards;
+    // },
+    onMine(G, ctx, self) {
+      let card = choice(ctx, G.field.filter(x => !x.exhausted));
+      if (card) {
+        G.field = G.field.filter(x => x != card);
+        G.hand.unshift(card);
+      }
+    },
+    onReinforce(G, ctx, self) {
+      self.block += 1;
+    },
+    reinforce_desc: "阻挡数+1",
+  },
   // {
   //   name:"锡兰",
   //   cost:3,
@@ -2124,7 +2293,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "行动: 对1个重置状态的干员造成3点伤害，并获得3分",
+    desc: "行动: 对1个(重置状态的)干员造成3点伤害，并获得3分",
     illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
     reinforce: 1,
     action(G, ctx, self) {
@@ -2160,24 +2329,30 @@ export const CARDS = [
   
   {
     name:"断罪者",
-    cost:6,
-    atk:2,
-    hp:2,
-    mine:1,
+    cost:4,
+    atk:5,
+    hp:3,
+    mine:2,
     block:1,
-    desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
+    desc: "行动: 本回合剩余时间内，每弃掉1张手牌，就获得1分",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%96%AD%E7%BD%AA%E8%80%85_1.png",
     reinforce: 1,
     action(G, ctx, self) {
-      let num_cards = G.hand.length;
-      G.discard = [...G.discard, ...G.hand]; // EH: reconstruct the discard
-      G.hand = [];
-      G.score += num_cards;
-      logMsg(G, ctx, `使用 断罪者 获得${num_cards}分`);
+      // let num_cards = G.hand.length;
+      // G.discard = [...G.discard, ...G.hand]; // EH: reconstruct the discard
+      // G.hand = [];
+      // G.score += num_cards;
+      // logMsg(G, ctx, `使用 断罪者 获得${num_cards}分`);
 
-      if (num_cards >= 17) {
-        achieve(G, ctx, "17张牌你能秒我", "使用断罪者弃掉至少17张手牌", self);
-      }
+      // if (num_cards >= 17) {
+      //   achieve(G, ctx, "17张牌你能秒我", "使用断罪者弃掉至少17张手牌", self);
+      // }
+
+      G.onDropCard.push(
+        (G, ctx) => {
+          G.score += 1;
+        }
+      );
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
@@ -2306,31 +2481,28 @@ export const CARDS = [
     reinforce_desc: "+2/+2",
   },
   
-  // {
-  //   name:"白金", 
-  //   cost:3, 
-  //   atk:4, 
-  //   hp:2, 
-  //   mine:1, 
-  //   block:0, 
-  //   desc:"采掘/战斗: 使1个干员获得+3攻击力", 
-  //   illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%87%91_1.png",
-  //   onMine(G, ctx, self) {
-  //     let card = ctx.random.Shuffle(G.field.filter(x => x != self))[0];
-  //     if (card) {
-  //       card.atk += 3;
-  //     }
-  //   },
-  //   onFight(G, ctx, self) {
-  //     this.onMine(G, ctx, self);
-  //   },
-  //   reinforce: 1,
-  //   reinforce_desc: "+3/+1",
-  //   onReinforce(G, ctx, self) {
-  //     self.atk += 3;
-  //     self.hp += 1;
-  //   }
-  // },
+  {
+    name:"月见夜", 
+    cost:3, 
+    atk:3, 
+    hp:3, 
+    mine:1, 
+    block:1, 
+    desc:"部署: 如果你在本回合弃过手牌，则获得+3/+3", 
+    illust:"http://prts.wiki/images/0/02/%E7%AB%8B%E7%BB%98_%E6%9C%88%E8%A7%81%E5%A4%9C_1.png",
+    onPlay(G, ctx, self) {
+      if (G.has_discarded) {
+        self.atk += 3;
+        self.hp += 3;
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "+2/+2",
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    }
+  },
 
 
   {
@@ -2523,7 +2695,7 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:"采掘: 使2个敌人获得-4攻击力",
+    desc:"采掘: 使2个敌人获得易伤2",
     illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
     reinforce: 2,
     onMine(G, ctx, self) {
@@ -2540,8 +2712,10 @@ export const CARDS = [
       //     enemy.hp /= 2;
       //   }
       // }
-      reduce_enemy_atk(G, ctx, 4);
-      reduce_enemy_atk(G, ctx, 4);
+      // reduce_enemy_atk(G, ctx, 4);
+      // reduce_enemy_atk(G, ctx, 4);
+      add_vulnerable(G, ctx, 2);
+      add_vulnerable(G, ctx, 2);
     },
     onReinforce(G, ctx, self) {
       G.costs += 2;
@@ -2680,10 +2854,9 @@ export const CARDS = [
       G.costs = 0;
     },
     reinforce: 1,
-    reinforce_desc: "+3/+3",
+    reinforce_desc: "阻挡数+1",
     onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 3;
+      self.block += 1;
     },
   },
   // {
@@ -2788,14 +2961,17 @@ export const CARDS = [
   },{
     name:"史尔特尔",
     cost:4,
-    atk:7,
+    atk:6,
     hp:3,
     mine:1,
     block:1,
-    desc:"战斗: 攻击其对位敌人时，消耗1点费用，重置自己",
+    desc:"超杀: 消耗1点费用，重置自己",
     illust:"http://prts.wiki/images/0/0c/%E7%AB%8B%E7%BB%98_%E5%8F%B2%E5%B0%94%E7%89%B9%E5%B0%94_1.png",
     onFight(G, ctx, self, enemy) {
-      if (G.field.indexOf(self) == G.efield.indexOf(enemy) && payCost(G, ctx, 1)) {
+      // if (G.field.indexOf(self) == G.efield.indexOf(enemy) && payCost(G, ctx, 1)) {
+      //   self.exhausted = false;
+      // }
+      if (enemy.dmg > enemy.hp && payCost(G, ctx, 1, true)) {
         self.exhausted = false;
       }
     },
@@ -2831,12 +3007,11 @@ export const CARDS = [
       hp:2,
       mine:1,
       block:0,
-      desc:"采掘: 摧毁场上1个重置状态的干员，并造成6点伤害",
+      desc:"采掘: 摧毁场上1个(重置状态的)干员，并造成6点伤害",
       illust:"http://prts.wiki/images/8/87/%E7%AB%8B%E7%BB%98_%E7%A9%BA%E7%88%86_1.png",
       onMine(G, ctx, self) {
-        let card = eliminate_field(G, ctx);
-        if (card) {
-          deal_random_damage(G, ctx, 6);
+        if (eliminate_field(G, ctx)) {
+          deal_random_damage(G, ctx, 6 + 4 * self.power);
         }
       },
       action(G, ctx, self) {
@@ -2851,10 +3026,10 @@ export const CARDS = [
         }
       },
       reinforce: 1,
-      reinforce_desc: "造成3点伤害",
-      onReinforce(G, ctx, self) {
-        deal_random_damage(G, ctx, 3);
-      },
+      reinforce_desc: "伤害+4",
+      // onReinforce(G, ctx, self) {
+      //   deal_random_damage(G, ctx, 3);
+      // },
     },
 
   {
@@ -2929,17 +3104,21 @@ export const CARDS = [
 
   {
     name:"伊桑",
-    cost:3,
-    atk:1,
-    hp:1,
+    cost:2,
+    atk:2,
+    hp:2,
     mine:1,
     block:0,
-    desc: "部署: 变成场上1个干员的复制",
+    desc: "行动: 变成手牌中1个干员的复制",
     illust:"http://prts.wiki/images/e/e0/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E6%A1%91_1.png",
-    reinforce: 1,
-    onPlay(G, ctx, self) {
-      if (G.field.length > 1){
-        G.field[G.field.length-1] = Object.assign({}, ctx.random.Shuffle(G.field.slice(0,G.field.length-1))[0]);
+    reinforce: 3,
+    action(G, ctx, self) {
+      // if (G.field.length > 1){
+      //   G.field[G.field.length-1] = Object.assign({}, ctx.random.Shuffle(G.field.slice(0,G.field.length-1))[0]);
+      // }
+      let card = choice(ctx, G.hand);
+      if (card) {
+        Object.assign(self, card);
       }
     },
     onReinforce(G, ctx, self) {
@@ -3376,6 +3555,56 @@ export const heijiao_in_dream =  {
       G.costs += 2;
     },
     reinforce_desc: "获得2点费用",
-  };
+};
+
+export const extra_cards = [
+  {
+    name:"稀音",
+    cost:0,
+    atk:1,
+    hp:1,
+    mine:1,
+    block:1,
+    desc:"",
+    illust:"http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E7%A8%80%E9%9F%B3_1.png",
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.hp += 2;
+      self.atk += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+  {
+    name: "梅尔",
+    generator(ctx) {
+      let material = ctx.random.Die(3) - 1;
+      return {
+          name:"梅尔",
+          cost:1,
+          atk:3,
+          hp:2,
+          mine:1,
+          block:1,
+          desc: <span>行动: 消耗1个{material_icons[material]}，造成6点伤害</span>,
+          illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
+          reinforce: 1,
+      
+          action(G, ctx) {
+            let requirements = [0,0,0,0];
+            requirements[material] = 1;
+            if (payMaterials(G, ctx, requirements)) {
+                deal_random_damage(G, ctx, 6);
+            }
+          },
+          
+          onReinforce(G, ctx) {
+            deal_random_damage(G, ctx, 3);
+          },
+          reinforce_desc: "造成3点伤害",
+        };
+    }
+  },
+    
+];
 
 export const default_deck = CARDS.map(x => `1 ${x.name}`).join("\n");
