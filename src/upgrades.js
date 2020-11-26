@@ -1,4 +1,4 @@
-import { gainMaterials, draw, deal_random_damage, reinforce_card, fully_restore, get_rhine_order, reinforce_hand, init_card_state, refresh_picks } from './Game';
+import { gainMaterials, draw, deal_random_damage, reinforce_card, fully_restore, get_rhine_order, reinforce_hand, init_card_state, refresh_picks, summon } from './Game';
 import { ready_order } from './orders';
 
 export const UPGRADES = [
@@ -171,6 +171,23 @@ export const UPGRADES = [
   }
 },
 
+{
+  name: "迷迭香之力",
+  desc: "部署奖励:\"召唤1个随机干员的2/2复制\"",
+  effect(card) {
+    card.onPlayBonus.push(
+      (G, ctx, self) => {
+        let card = ctx.random.Shuffle(G.CARDS)[0];
+        card = {...card};
+        card.atk = 2;
+        card.hp = 2;
+        card.mine = 1;
+        card.cost = 2;
+        summon(G, ctx, card, self);
+    });
+  }
+},
+
 // {
 //     name: "凯尔希之力",
 //     desc: "部署奖励:\"召唤1个自己的1/1复制\"",
@@ -224,18 +241,18 @@ export const UPGRADES = [
   //   }
   // },
 
-  {
-    name: "订单1",
-    desc: "部署奖励:\"获得1个已完成的订单\"",
-    effect(card) {
-      card.onPlayBonus.push({
-        name: this.name,
-        effect(G, ctx, card) {
-          G.finished.push({...ctx.random.Shuffle(G.odeck)[0]});
-        }
-      });
-    }
-  },
+  // {
+  //   name: "订单1",
+  //   desc: "部署奖励:\"获得1个已完成的订单\"",
+  //   effect(card) {
+  //     card.onPlayBonus.push({
+  //       name: this.name,
+  //       effect(G, ctx, card) {
+  //         G.finished.push({...ctx.random.Shuffle(G.odeck)[0]});
+  //       }
+  //     });
+  //   }
+  // },
 
   // {
   //   name: "化解",

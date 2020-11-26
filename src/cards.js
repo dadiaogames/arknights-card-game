@@ -9,6 +9,20 @@ import {
 } from './Game';
 import { material_icons, ready_order } from './orders';
 
+export function init_card(card) {
+  return {
+    name: "card",
+    block: 0,
+    dmg: 0,
+    power: 0,
+    // material: rng.randRange(3),
+
+    onPlayBonus: [],
+
+    ...card,
+  };
+}
+
 export const CARDS = [
   {
     name: "克洛丝",
@@ -1376,9 +1390,9 @@ export const CARDS = [
     cost:3,
     atk:4, 
     hp:3, 
-    mine:2, 
+    mine:1, 
     block:0, 
-    desc:"行动: 本回合剩余时间内，每使用干员消耗1点费用，就造成2点伤害", 
+    desc:"行动: 本回合剩余时间内，每使用干员消耗1点费用，就造成3点伤害", 
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
     action(G, ctx, self) {
       // let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
@@ -1392,7 +1406,7 @@ export const CARDS = [
       G.onPayCost.push(
         (G, ctx, amount) => {
           for (let i=0; i<amount; i++) {
-            deal_random_damage(G, ctx, 2 + power);
+            deal_random_damage(G, ctx, 3 + power);
           }
         }
       );
@@ -1947,7 +1961,7 @@ export const CARDS = [
     onTurnBegin(G, ctx, self) {
       self.use_count = 6;
     },
-    reinforce: 1,
+    reinforce: 2,
     reinforce_desc: "伤害+1",
   },
   
@@ -2695,9 +2709,9 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:"采掘: 使2个敌人获得易伤2",
+    desc:"采掘: 使1个敌人获得易伤2，重复2次",
     illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
-    reinforce: 2,
+    reinforce: 1,
     onMine(G, ctx, self) {
       // let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
       // if (actor) {
@@ -2714,13 +2728,14 @@ export const CARDS = [
       // }
       // reduce_enemy_atk(G, ctx, 4);
       // reduce_enemy_atk(G, ctx, 4);
-      add_vulnerable(G, ctx, 2);
-      add_vulnerable(G, ctx, 2);
+      for (let i=0; i<2+self.power; i++) {
+        add_vulnerable(G, ctx, 2);
+      }
     },
-    onReinforce(G, ctx, self) {
-      G.costs += 2;
-    },
-    reinforce_desc: "获得2点费用",
+    // onReinforce(G, ctx, self) {
+    //   G.costs += 2;
+    // },
+    reinforce_desc: "再重复1次",
   },
   
   {
@@ -3377,7 +3392,7 @@ export const CARDS = [
     }
   },
 
-];
+].map(init_card);
 
 export const BORROWS = [
   // {
@@ -3532,7 +3547,7 @@ export const BORROWS = [
     }
   },
 
-];
+].map(init_card);
 
 export const heijiao_in_dream =  {
     name:"黑角",
@@ -3605,6 +3620,6 @@ export const extra_cards = [
     }
   },
     
-];
+].map(init_card);
 
 export const default_deck = CARDS.map(x => `1 ${x.name}`).join("\n");

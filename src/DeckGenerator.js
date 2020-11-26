@@ -22,7 +22,7 @@ const cost_vanguard =  `极境 1 2
 香草 1 2
 讯使 1 2
 桃金娘 1 2
-清道夫 0 2
+清道夫 1 1
 贾维 1 1
 惊蛰 1 1`;
 
@@ -35,7 +35,6 @@ const scorer = `阿米娅 0 1
 食铁兽 0 1
 酸糖 0 1
 阿消 0 1
-苏苏洛 0 1
 阿米娅-近卫 0 1
 赫默 0 1
 阿 0 1`;
@@ -496,6 +495,9 @@ export function get_roguelike_pick() {
   else if (selection.length < 3) {
     selection = rng.shuffle([...selection, ...selection]).slice(0, 3);
   }
+
+  selection = selection.map(select_one_card(rng));
+
   return selection;
 }
 
@@ -584,6 +586,8 @@ export function generate_deck_s1(deck_name) {
   return deck2str(deck);
 }
 
+export const select_one_card = rng => x => x.includes("|")? rng.choice(x.split("|")):x;
+
 export function generate_deck_s2(deck_name) {
   let deck = [];
   let rng = new PRNG(deck_name);
@@ -598,7 +602,7 @@ export function generate_deck_s2(deck_name) {
 
   // Let diff goes
   // console.log("deck before", deck);
-  deck = deck.map(x => x.includes("|")? rng.choice(x.split("|")):x);
+  deck = deck.map(select_one_card(rng));
   // console.log("deck after", deck);
 
   // No more than 3

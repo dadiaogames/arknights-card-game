@@ -77,6 +77,11 @@ export function payMaterials(G, ctx, requirements) {
 function use(G, ctx, card) {
   if (!card.exhausted) {
     card.exhausted = true;
+
+    for (let f of G.onUseCard) {
+      f(G, ctx, card);
+    }
+
     return true;
   }
 
@@ -838,6 +843,7 @@ export function setup(ctx) {
 
 function setup_events(G, ctx) {   
   G.onPlayCard = [];
+  G.onUseCard = [];
   G.onCardMine = [];
   G.onCardFight = [];
   G.onCardAct = [];
@@ -855,6 +861,14 @@ function setup_turn_states(G, ctx) {
   G.has_discarded = false;
 }
 
+function setupRoguelikeBattle(G, ctx, relics) {
+  G.relics = relics.map(x => ({...x}));
+
+  for (let r of G.relics) {
+    r.onBattleBegin && r.onBattleBegin(G, ctx, r);
+  }
+}
+
 export function setup_scenario(G, ctx) {
     G.hand = [];
     G.field = [];
@@ -865,6 +879,7 @@ export function setup_scenario(G, ctx) {
     // G.odeck = ctx.random.Shuffle(ORDERS.map((x,idx)=>({...x, order_id:idx})));
     G.edeck = [];
     G.odeck = [];
+    G.relics = [];
     
     G.efield = [];
     G.discard = [];
@@ -903,7 +918,7 @@ export function setup_scenario(G, ctx) {
     let banned_cards = ["可露希尔"];
     G.CARDS = G.CARDS.filter(x => !banned_cards.includes(x.name));
     let effects = [];
-    for (let c of CARDS.filter(x=>((typeof x.desc == "string") && (x.name != "可露希尔")))) {
+    for (let c of CARDS.filter(x=>((typeof x.desc == "string")))) {
       let desc = c.desc.split(":").slice(1).join("");
       if (c.onPlay) {
         effects.push([desc, c.onPlay]);
@@ -1057,6 +1072,7 @@ export const AC = {
     refresh_selections,
     upgrade,
     pick,
+    setupRoguelikeBattle,
   },
 
   turn: {
@@ -1076,7 +1092,7 @@ export const AC = {
         setup_events(G, ctx);
         setup_turn_states(G, ctx);
 
-        for (let card of [...G.hand, ...G.field, ...G.efield]) {
+        for (let card of [...G.hand, ...G.field, ...G.efield, ...G.relics]) {
           card.ready_times = 0;
           if (card.onTurnBegin) {
             card.onTurnBegin(G, ctx, card);

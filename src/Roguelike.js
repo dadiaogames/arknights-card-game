@@ -14,9 +14,10 @@ import './Competition.css';
 import { ICONS } from './icons';
 import { CARDS, heijiao_in_dream } from './cards';
 import { UPGRADES } from './upgrades';
+import { RELICS } from './relics';
 
 export function introduce_roguelike_mode() {
-  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金；\n如果比要求等级高4级，则会达成“满贯”，额外获得50赏金；`);
+  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金；\n如果比要求等级高4级，则会达成“满贯”，额外获得40赏金；\n如果比要求等级高8级，则会达成“大满贯”，额外获得100赏金！`);
 }
 
 function reset_tags() {
@@ -27,13 +28,15 @@ function setup_roguelike_mode(S) {
   console.log("Roguelike mode reset");
   S.roguelike_mode = true;
 
+  S.rng = new PRNG(S.seed || Date());
+
   S.tags = reset_tags();
+  S.RELICS = RELICS.map(x => ({...x}));
 
   S.Deck = [];
-
-  S.gold = 60;
-
   S.relics = [];
+  S.gold = 80;
+
 
   S.game_count = 1;
   S.level_required = 0;
@@ -122,6 +125,15 @@ function set_difficulty(S, difficulty) {
     S.levels = [15, 18, 21, 24, 30, 36, 42, 48, 60];
   }
 
+  if (["medium", "hard"].includes(difficulty)) {
+    S.tags[S.tags.length-1].locked = true;
+  }
+
+  if (["hard"].includes(difficulty)) {
+    S.tags[0].locked = true;
+    S.tags[1].locked = true;
+  }
+
   S.level_required = S.levels[0];
 }
 
@@ -130,7 +142,7 @@ function preprocess_roguelike_card(card) {
 }
 
 function setup_deck_selection(S) {
-  let rng = new PRNG(Date());
+  let rng = S.rng;
   S.deck_names = _.times(3, ()=>rng.choice(CARDS.map(x=>x.name))).map(x => x + "·黑角");
   S.deck_list = S.deck_names.map(generate_roguelike_deck).map(str2deck); // TODO: change the generator
   S.deck_list.map(deck => deck.map(preprocess_roguelike_card))
@@ -145,36 +157,39 @@ function reset_card_picks(S) {
 }
 
 function get_shop_item(S) {
-  let rng = new PRNG(Math.random());
+  // let rng = new PRNG(Math.random());
+  // let rng = S.rng;
 
-  let item_type = rng.randRange(10);
-  console.log(item_type, "item type");
+  let item_type = S.rng.randRange(10);
+  // console.log(item_type, "item type");
 
   if (item_type <= 6) {
-    return get_upgrade(S, rng);
+    // TODO: change this to relic
+    return get_relic(S);
   }
-  else if (item_type <= 8) {
-    return get_reinforced_card(S, rng);
+  else if (item_type <= 9) {
+    // TODO: change this to upgrade
+    return get_upgrade(S);
   }
   else{
-    return delete_card(S, rng);
+    return delete_card(S);
   }
 
 }
 
-function get_upgrade(S, rng) {
+function get_upgrade(S) {
   let shop_item = {};
 
   // Get upgrade
-  let upgrade = rng.choice(UPGRADES);
+  let upgrade = S.rng.choice(UPGRADES);
   shop_item.name = "升级: " + upgrade.name;
-  shop_item.price = rng.randRange(20) + 20;
-  console.log("This deck", S.Deck);
-  shop_item.indexes = rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
+  shop_item.price = S.rng.randRange(30) + 20;
+  // console.log("This deck", S.Deck);
+  shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "获得 " + upgrade.desc;
   shop_item.onBought = (S, idx) => {
     let card = S.Deck[idx];
-    console.log("Upgrade on ", card.name, "with ", upgrade.desc)
+    // console.log("Upgrade on ", card.name, "with ", upgrade.desc)
     if (card) {
       upgrade.effect(card);
     }
@@ -234,12 +249,38 @@ function get_reinforced_card(S, rng) {
   return shop_item;
 }
 
-function delete_card(S, rng) {
+function get_relic(S) {
+  let shop_item = {};
+  let relic = S.rng.choice(RELICS);
+
+  shop_item.name = relic.name;
+  shop_item.desc = relic.desc;
+  shop_item.price = 40 + S.rng.randRange(30);
+  shop_item.src = relic.illust;
+
+  shop_item.onBought = (S) => {
+    let bought = {...relic};
+    console.log("Bought relic ", bought.name);
+
+    for (let r of S.relics) {
+      r.onBuyRelic && r.onBuyRelic(S, bought, r);
+    }
+
+    S.relics.unshift(bought);
+    if (bought.onBought) {
+      bought.onBought(S);
+    }
+  }
+
+  return shop_item;
+}
+
+function delete_card(S) {
   let shop_item = {};
 
   shop_item.name = "删1张牌";
-  shop_item.price = 10 + rng.randRange(10);
-  shop_item.indexes = rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
+  shop_item.price = 10 + S.rng.randRange(10);
+  shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "";
   shop_item.onBought = (S, card_idx) => {
     console.log("The index:", card_idx);
@@ -268,12 +309,14 @@ function buy(S, idx) {
   let item_idx = S.current_item_idx;
   if (payGold(S, item.price)) {
     S.shop_items = S.shop_items.filter((x,idx) => idx != item_idx);
-    if (idx) {
+    if (idx != undefined) {
+      console.log("The indexes are:", S.current_item.indexes.map(x=>x));
+      console.log("The selected index is:", idx);
+      console.log("The chosen index is:", S.current_item.indexes[idx]);
       let card_idx = S.current_item.indexes[idx];
       item.onBought(S, card_idx);
     }
     else {
-      S.relics.unshift(item);
       item.onBought(S);
     }
   }
@@ -291,13 +334,21 @@ function refresh_shop(S) {
 
 // EH: Actually it's better to set all formats the same, but Deck selection is done on board
 function pick_cards(S, idx) {
-  S.Deck = [...S.Deck, ...S.card_picks[idx]];
+  S.Deck = [...S.card_picks[idx], ...S.Deck];
   S.card_picks = undefined;
+
+  for (let r of S.relics) {
+    r.onPickCards && r.onPickCards(S);
+  }
 }
 
 function skip_pick(S) {
   S.card_picks = undefined;
   S.gold += 10;
+
+  for (let r of S.relics) {
+    r.onSkipPick && r.onSkipPick(S);
+  }
 }
 
 function enter_dream(S) {
@@ -305,6 +356,7 @@ function enter_dream(S) {
   if (S.dream_count == 9) {
     alert("已进入黑角梦境");
     S.Deck = _.times(10, () => heijiao_in_dream);
+    S.relics = [...S.RELICS];
   }
   S.gold = 5000;
 }
@@ -318,10 +370,10 @@ export function get_gold_gained(risk_level, level_required) {
     // For slam, don't store them in variables, instead, calculate it on time
     // So do plenty of other things
     if (level_diff >= 4) {
-      gold_gained += 50;
+      gold_gained += 40;
     }
     if (level_diff >= 8) {
-      gold_gained += 50;
+      gold_gained += 60;
     }
 
     return gold_gained;
@@ -346,6 +398,14 @@ function continue_run(S) {
 
   S.level_required = S.levels[S.game_count - 1];
 }
+
+export function random_upgrade(S) {
+  let card = S.rng.choice(S.Deck);
+  let upgrade = S.rng.choice(UPGRADES);
+  upgrade.effect(card);
+  console.log(card.name, " is upgraded with ", upgrade.name);
+}
+
 
 export function RoguelikeDeckSelection(props) {
   return <div className="board" align="center">

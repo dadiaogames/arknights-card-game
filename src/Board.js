@@ -776,6 +776,7 @@ export class Board extends React.Component {
     this.props.moves.setDecks(init_decks(deck, seed));
     if (this.state.roguelike_mode) {
       // Setup other roguelike stuffs here
+      this.props.moves.setupRoguelikeBattle(this.state.relics);
     }
     this.props.moves.addTags(this.state.tags.filter(t => (t.selected || t.locked)));
     this.props.moves.onScenarioBegin();
@@ -1124,7 +1125,8 @@ export class Board extends React.Component {
   }
 
   render_roguelike_shop_board() {
-    let cards = this.state.Deck.filter((x,idx) => this.state.current_item.indexes.includes(idx) && (idx < this.state.Deck.length));
+    // let cards = this.state.Deck.filter((x,idx) => this.state.current_item.indexes.includes(idx) && (idx < this.state.Deck.length));
+    let cards = this.state.current_item.indexes.map(idx => this.state.Deck[idx]).filter(x => x != undefined);
     let selected_card = cards[this.state.shop_selected];
     // console.log(cards);
     return (<div className="board" style={{position:"relative"}} >

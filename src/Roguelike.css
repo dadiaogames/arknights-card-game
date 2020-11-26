@@ -104,6 +104,11 @@
   border: 1px solid gray;
 }
 
+.shop-item-img {
+  height: 100%;
+  width: 100%;
+}
+
 .shop-item-info {
   width: 45%;
   height: 90%;
