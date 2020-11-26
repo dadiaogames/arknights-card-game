@@ -11,7 +11,7 @@ import { DeckConstruction, DeckGeneration, Settings } from './DeckConstruction';
 import { TitleScreen, ModeSelection } from './TitleScreen';
 import { DeckSelection, DeckUpgrade, Competition } from './Competition';
 import { get_deck_name, get_seed_name, generate_deck, is_standard, generate_deck_s2 } from './DeckGenerator';
-import { str2deck, init_decks } from './Game';
+import { str2deck, init_decks, get_desc } from './Game';
 import { map_object, sleep, PRNG } from './utils';
 import { CARDS, default_deck } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
@@ -102,6 +102,7 @@ export class Board extends React.Component {
     this.render_competition_board = this.render_competition_board.bind(this);
     this.render_roguelike_deck_selection_board = this.render_roguelike_deck_selection_board.bind(this);
     this.render_roguelike_board = this.render_roguelike_board.bind(this);
+    this.render_roguelike_shop_board = this.render_roguelike_shop_board.bind(this);
     this.render_roguelike_result_board = this.render_roguelike_result_board.bind(this);
     this.render_roguelike_final_result_board = this.render_roguelike_final_result_board.bind(this);
     this.render_roguelike_entry_board = this.render_roguelike_entry_board.bind(this);
@@ -113,10 +114,12 @@ export class Board extends React.Component {
 
     this.enter_roguelike_mode = this.enter_roguelike_mode.bind(this);
     this.end_roguelike_mode = this.end_roguelike_mode.bind(this);
+    this.buy_item = this.buy_item.bind(this);
 
     this.enter_daily_mode = this.enter_daily_mode.bind(this);
 
     this.change_board = this.change_board.bind(this);
+    this.reset_preview_deck = this.reset_preview_deck.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
     this.choose_standard_tags = this.choose_standard_tags.bind(this);
     this.get_risk_level = this.get_risk_level.bind(this);
@@ -135,6 +138,7 @@ export class Board extends React.Component {
       selection_selected: -1,
       upgrade_selected: -1,
       pick_selected: -1,
+      shop_selected: -1,
       hand_choices: [false, false, false, false, false],
 
       branch: {},
@@ -318,6 +322,12 @@ export class Board extends React.Component {
     animations[cardrow][idx] = value;
     this.setState({animations});
   }
+
+  reset_preview_deck() {
+    this.setState({
+      preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),
+    });
+  }
   
   process_hand_data(card) {
     let illust = this.get_illust_attr(card);
@@ -499,30 +509,30 @@ export class Board extends React.Component {
     return {
       [illust]: card.illust,
       cost_detailed: card.cost,
-      // TODO: get this in a seperate function
-      desc: (
-        <span>
-          <span style={{fontSize:"120%"}}>
-            {card.atk}/{card.hp} &nbsp;
-            {ICONS.mine}{card.mine} &nbsp;
-            {(card.block>0)? (<span>{ICONS.block}{card.block}</span>) : ""}
-          </span>
-          <br/>
-          {card.desc||""}
-          <br/>
-          <span style={{
-            display: (card.onPlayBonus && card.onPlayBonus.length > 0)?"":"none"
-          }}>
-            <i>
-            部署奖励: {card.onPlayBonus && card.onPlayBonus.reduce((acc, val) => (acc + val.name + " "), "")}
-            </i>
-            <br/>
-          </span>
-          ({_.times(card.reinforce, ()=>material_icons[card.material])}: {card.reinforce_desc||""})
-          <br />
-          <i>{card.quote||""}</i>
-        </span>
-      ), // EH: figure out why only string formatting does not work, I think it maybe because of JSX only accept string in html way instead of js way
+      desc: get_desc(card),
+      // desc: (
+      //   <span>
+      //     <span style={{fontSize:"120%"}}>
+      //       {card.atk}/{card.hp} &nbsp;
+      //       {ICONS.mine}{card.mine} &nbsp;
+      //       {(card.block>0)? (<span>{ICONS.block}{card.block}</span>) : ""}
+      //     </span>
+      //     <br/>
+      //     {card.desc||""}
+      //     <br/>
+      //     <span style={{
+      //       display: (card.onPlayBonus && card.onPlayBonus.length > 0)?"":"none"
+      //     }}>
+      //       <i>
+      //       部署奖励: {card.onPlayBonus && card.onPlayBonus.reduce((acc, val) => (acc + val.name + " "), "")}
+      //       </i>
+      //       <br/>
+      //     </span>
+      //     ({_.times(card.reinforce, ()=>material_icons[card.material])}: {card.reinforce_desc||""})
+      //     <br />
+      //     <i>{card.quote||""}</i>
+      //   </span>
+      // ), // EH: figure out why only string formatting does not work, I think it maybe because of JSX only accept string in html way instead of js way
     }
   }
 
@@ -734,6 +744,7 @@ export class Board extends React.Component {
       "roguelike_deck_selection": this.render_roguelike_deck_selection_board,
       "roguelike": this.render_roguelike_board,
       "roguelike_entry": this.render_roguelike_entry_board,
+      "roguelike_shop": this.render_roguelike_shop_board,
       "roguelike_result": this.render_roguelike_result_board,
       "roguelike_final_result": this.render_roguelike_final_result_board,
     };
@@ -882,7 +893,7 @@ export class Board extends React.Component {
   render_title_board() {
     return <div className="board">
       <img src="https://s1.ax1x.com/2020/10/20/0z4han.gif" className="title-img"></img>
-      <TitleScreen enterGame={()=>this.change_board("tag")} checkRule={()=>this.change_board("rules")} checkDeck={this.check_deck} />
+      <TitleScreen enterGame={()=>this.change_board("tag")} checkRule={()=>this.change_board("rules")} checkDeck={() => {this.reset_preview_deck();this.check_deck();}} />
     </div>;
   }
 
@@ -974,7 +985,7 @@ export class Board extends React.Component {
     return {
       deckName: this.state.deck_names[idx],
       checkDeck,
-      selectDeck: () => {this.setState({Deck: this.state.deck_list[idx]});this.change_board("roguelike");},
+      selectDeck: () => {this.roguelike.select_deck(deck);this.change_board("roguelike");},
     }
   }
 
@@ -1026,6 +1037,23 @@ export class Board extends React.Component {
     this.change_board("roguelike_deck_selection");
   }
 
+  buy_item(idx) {
+    return () => {
+      let item = this.state.shop_items[idx];
+      this.setState({
+        current_item: item,
+        current_item_idx: idx,
+      });
+
+      if (item.indexes) {
+        this.change_board("roguelike_shop");
+      }
+      else {
+        this.roguelike.buy();
+      }
+    };
+  }
+
   render_roguelike_entry_board() {
     let difficulties = [
       {
@@ -1074,12 +1102,13 @@ export class Board extends React.Component {
     };
 
     const card_picks = this.state.card_picks? (<PickCards picks={this.state.card_picks} gold={this.state.gold} check_cards={check_cards} pick_cards={pick_cards} skip_picks={()=>this.roguelike.skip_pick()}/>) : (<FinishPick gold={this.state.gold} />);
-    const shop = <Shop gold={this.state.gold} shop_items={this.state.shop_items} />
+    const shop = <Shop gold={this.state.gold} shop_items={this.state.shop_items} buy={this.buy_item} refresh_shop={this.roguelike.refresh_shop} />
 
     const roguelike_main = <Roguelike 
       enter_battle = {() => this.change_board("tag")}
       enter_dream = {this.roguelike.enter_dream}
       game_count = {this.state.game_count}
+      check_deck = {() => {this.setState({preview_deck:this.state.Deck});this.change_board("preview");}}
     />;
 
     const centrals = [roguelike_main, card_picks, shop];
@@ -1092,6 +1121,34 @@ export class Board extends React.Component {
       />
       {/* <p className="gold-amount">{ICONS.gold}: {this.state.gold}</p> */}
     </div>
+  }
+
+  render_roguelike_shop_board() {
+    let cards = this.state.Deck.filter((x,idx) => this.state.current_item.indexes.includes(idx) && (idx < this.state.Deck.length));
+    let selected_card = cards[this.state.shop_selected];
+    // console.log(cards);
+    return (<div className="board" style={{position:"relative"}} >
+      <div style={{marginTop: "38.2%", marginLeft: "2%"}}>{this.state.current_item.desc}</div>
+      <CardRow 
+        cards = {cards.map(this.process_hand_data)}
+        handleClick = {(idx)=>()=>this.setState({shop_selected: idx})}
+        states = {this.state.current_item.indexes.map((x,idx) => ({selected: (idx==this.state.shop_selected)}))}
+        additionalStyle = {{marginTop: "5%"}}
+      />
+      <div style={{margin:"5% 2% 5% 2%", width:"95%", height:"30%", overflowY:"hidden"}}>
+        {selected_card && get_desc(selected_card)}
+      </div>
+      <button 
+        className="preview-button" 
+        onClick={() => {
+          this.roguelike.buy(this.state.shop_selected);
+          this.back();
+        }}
+      >
+        确认购买({ICONS.gold}{this.state.current_item.price})
+      </button>
+      <button className="preview-button" onClick={this.back}>返回</button>
+    </div>);
   }
 
   render_roguelike_result_board() {
@@ -1391,7 +1448,9 @@ export class Board extends React.Component {
         tags: this.choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),
-      其他模式: () => this.change_board('mode_selection'),
+      // 其他模式: () => this.change_board('mode_selection'),
+      每日挑战: this.enter_daily_mode,
+      肉鸽模式: this.enter_roguelike_mode,
       返回标题: () => this.change_board("title"),
     };
 
@@ -1411,10 +1470,10 @@ export class Board extends React.Component {
     if (this.state.daily_mode) {
       let end_daily_mode = () => {
           this.roguelike.end_daily_mode();
-          this.change_board("mode_selection");
+          this.change_board("tag");
         };
       actions = {
-        返回: end_daily_mode 
+        返回: end_daily_mode ,
       };
 
       if (risk_level >= this.state.level_required) {
@@ -1497,8 +1556,9 @@ export class Board extends React.Component {
         this.check_deck();
       }}
       checkCards = {() => {
-        this.setState({
-          preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),});
+        // this.setState({
+          // preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),});
+        this.reset_preview_deck();
         this.check_deck();
       }}
     />)

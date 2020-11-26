@@ -1378,7 +1378,7 @@ export const CARDS = [
     hp:3, 
     mine:2, 
     block:0, 
-    desc:"行动: 本回合剩余时间内，如果在使用干员能力时消耗了费用，则每消耗1点费用，就造成2点伤害", 
+    desc:"行动: 本回合剩余时间内，每使用干员消耗1点费用，就造成2点伤害", 
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
     action(G, ctx, self) {
       // let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];

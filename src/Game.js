@@ -6,6 +6,7 @@ import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
 import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1 } from './DeckGenerator';
 import { arr2obj, PRNG } from "./utils";
+import { ICONS } from "./icons";
 
 export function move(G, ctx, d1, d2, idx) {
   let card = G[d1].splice(idx || 0, 1)[0];
@@ -996,6 +997,31 @@ function upgrade(G, ctx, card_idx, upgrade_idx) {
   }
   // To prevent double list bug
   G.Deck = G.selections;
+}
+
+
+export function get_desc(card) {
+  return  <span>
+    <span style={{fontSize:"120%"}}>
+      {card.atk}/{card.hp} &nbsp;
+      {ICONS.mine}{card.mine} &nbsp;
+      {(card.block>0)? (<span>{ICONS.block}{card.block}</span>) : ""}
+    </span>
+    <br/>
+    {card.desc||""}
+    <br/>
+    <span style={{
+      display: (card.onPlayBonus && card.onPlayBonus.length > 0)?"":"none"
+    }}>
+      <i>
+      部署奖励: {card.onPlayBonus && card.onPlayBonus.reduce((acc, val) => (acc + val.name + " "), "")}
+      </i>
+      <br/>
+    </span>
+    ({_.times(card.reinforce, ()=>material_icons[card.material])}: {card.reinforce_desc||""})
+    <br />
+    <i>{card.quote||""}</i>
+  </span>;
 }
 
 export const AC = {

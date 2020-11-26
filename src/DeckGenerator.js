@@ -40,6 +40,22 @@ const scorer = `阿米娅 0 1
 赫默 0 1
 阿 0 1`;
 
+const miner =  `史都华德 0 1
+夜烟 0 1
+远山 0 1
+12F 0 1`;
+
+const shooter = `杰西卡 0 1
+棘刺 0 1
+刻刀 0 1
+拉普兰德 0 1
+史尔特尔 0 1`;
+
+const defender = `米格鲁 1 1
+蛇屠箱 0 1
+年 0 1
+摄影车 0 1`;
+
 // const dubin_score = `杜宾 2 3
 // 推进之王 2 3
 // 天火 1 2
@@ -602,6 +618,27 @@ export function generate_deck_s2(deck_name) {
 
   return deck2str(deck);
 }
+
+export function generate_roguelike_deck(deck_name) {
+  let deck = ["黑角", "极境"];
+  let rng = new PRNG(deck_name);
+
+  // Basic deck
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(defender, 1, rng)];
+
+  // Random cards
+  let amount_add = 12 - deck.length;
+  for (let i=0; i<amount_add; i++) {
+    deck.push(get_random_card(rng));
+  }
+
+  return deck2str(deck);
+}
+
 
 export function generate_deck(deck_name) {
   let rng = new PRNG(deck_name);

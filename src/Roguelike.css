@@ -7,6 +7,33 @@
   overflow-y: scroll;
 }
 
+.entry {
+  margin-top: 25%;
+  font-size: 125%;
+}
+
+.difficulty-selection {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10%;
+  width: 30%;
+  height: 40%;
+}
+
+.difficulty-button {
+  margin-top: 5%;
+  margin-bottom: 10%;
+  font-size: 105%;
+  height: 30%;
+}
+
+.introduce-button {
+  margin-top: 10%;
+  margin-left: 20%;
+  font-size: 100%;
+  padding: 1%;
+}
+
 .refresh-picks, .refresh-shop {
   font-size: 105%;
   padding: 1%;
@@ -83,6 +110,7 @@
   border: 1px solid gray;
   margin: auto;
   font-size: 80%;
+  overflow-y: hidden;
 }
 
 .shop-item-desc {
@@ -101,7 +129,7 @@
   border: 2px solid gray;
 
   vertical-align: top;
-  overflow-y: scroll;
+  /* overflow-y: hidden; */
 }
 
 .buy {

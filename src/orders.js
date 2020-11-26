@@ -46,7 +46,7 @@ function set_collection_order(G, ctx) {
     if(val.color >= 0) acc[val.color]+=1;
     return acc;
   }, [0,0,0]);
-  console.log(colors);
+  // console.log(colors);
   let times = _.min(colors);
   G.score += 2 * times;
 }

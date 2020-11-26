@@ -24,7 +24,7 @@ export function arr2obj(arr) {
 
 export class PRNG {
   constructor(seed) {
-    this.seed = seed;
+    this.seed = seed || 0;
 
     this.val = 0.0;
     if (typeof seed == "string"){

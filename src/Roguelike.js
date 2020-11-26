@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { produce } from 'immer';
-import { get_deck_name, generate_deck_s2, get_roguelike_pick } from './DeckGenerator';
+import { get_deck_name, generate_deck_s2, get_roguelike_pick, generate_roguelike_deck } from './DeckGenerator';
 import { str2deck } from './Game';
 import { map_object, PRNG } from './utils';
 import { TAGS } from './tags';
@@ -16,7 +16,7 @@ import { CARDS, heijiao_in_dream } from './cards';
 import { UPGRADES } from './upgrades';
 
 export function introduce_roguelike_mode() {
-  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，在要求的危机等级下，完成该局对战，即可获得赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！\n`);
+  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金；\n如果比要求等级高4级，则会达成“满贯”，额外获得50赏金；`);
 }
 
 function reset_tags() {
@@ -33,6 +33,8 @@ function setup_roguelike_mode(S) {
 
   S.gold = 60;
 
+  S.relics = [];
+
   S.game_count = 1;
   S.level_required = 0;
 
@@ -41,6 +43,11 @@ function setup_roguelike_mode(S) {
   S.dream_count = 0;
 
   reset_card_picks(S);
+  // reset_shop(S);
+}
+
+function select_deck(S, deck) {
+  S.Deck = deck;
   reset_shop(S);
 }
 
@@ -76,7 +83,7 @@ function setup_exhausted_challenge(tags, rng) {
   let basic_tags = tags.filter(x => x.level == 1);
   let another_challenge_tag = rng.choice(tags.filter(x => x.level == 3));
   another_challenge_tag.locked = true;
-  let advanced_tags = rng.shuffle(tags.filter(x => [2,3].includes(x.level) && x != another_challenge_tag)).slice(0,8);
+  let advanced_tags = rng.shuffle(tags.filter(x => [2,3].includes(x.level) && x != another_challenge_tag)).slice(0,5);
   return [...reduce_basic_tags(basic_tags, rng), another_challenge_tag, ...advanced_tags, final_tag];
 }
 
@@ -118,9 +125,15 @@ function set_difficulty(S, difficulty) {
   S.level_required = S.levels[0];
 }
 
+function preprocess_roguelike_card(card) {
+  card.onPlayBonus = [];
+}
+
 function setup_deck_selection(S) {
-  S.deck_names = _.times(3, get_deck_name).map(x => x + "·黑角");
-  S.deck_list = S.deck_names.map(generate_deck_s2).map(str2deck); // TODO: change the generator
+  let rng = new PRNG(Date());
+  S.deck_names = _.times(3, ()=>rng.choice(CARDS.map(x=>x.name))).map(x => x + "·黑角");
+  S.deck_list = S.deck_names.map(generate_roguelike_deck).map(str2deck); // TODO: change the generator
+  S.deck_list.map(deck => deck.map(preprocess_roguelike_card))
 }
 
 function get_pick() {
@@ -131,20 +144,149 @@ function reset_card_picks(S) {
   S.card_picks = _.times(3, get_pick);
 }
 
-function get_shop_item() {
+function get_shop_item(S) {
+  let rng = new PRNG(Math.random());
+
+  let item_type = rng.randRange(10);
+  console.log(item_type, "item type");
+
+  if (item_type <= 6) {
+    return get_upgrade(S, rng);
+  }
+  else if (item_type <= 8) {
+    return get_reinforced_card(S, rng);
+  }
+  else{
+    return delete_card(S, rng);
+  }
+
+}
+
+function get_upgrade(S, rng) {
   let shop_item = {};
-  let rng = new PRNG(Math.random()); // It seems like set seed in PRNG setup does not work, it is so wired.
 
   // Get upgrade
   let upgrade = rng.choice(UPGRADES);
   shop_item.name = "升级: " + upgrade.name;
-  shop_item.price = 20;
+  shop_item.price = rng.randRange(20) + 20;
+  console.log("This deck", S.Deck);
+  shop_item.indexes = rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
+  shop_item.desc = "获得 " + upgrade.desc;
+  shop_item.onBought = (S, idx) => {
+    let card = S.Deck[idx];
+    console.log("Upgrade on ", card.name, "with ", upgrade.desc)
+    if (card) {
+      upgrade.effect(card);
+    }
+    card.upgraded = true;
+  };
 
   return shop_item;
 }
 
+// function get_reinforceupgrade(S, rng) {
+//   let shop_item = {};
+
+//   // Get upgrade
+//   let upgrade = rng.choice(UPGRADES);
+//   shop_item.name = "升级: " + upgrade.name;
+//   shop_item.price = rng.randRange(20) + 20;
+//   console.log("This deck", S.Deck);
+//   shop_item.indexes = rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
+//   shop_item.desc = "获得 " + upgrade.desc;
+//   shop_item.onBought = (S, idx) => {
+//     let card = S.Deck[idx];
+//     console.log("Upgrade on ", card.name, "with ", upgrade.desc)
+//     if (card) {
+//       upgrade.effect(card);
+//     }
+//     card.upgraded = true;
+//   };
+
+//   return shop_item;
+// }
+
+function get_reinforced_card(S, rng) {
+  let shop_item = {};
+
+  // Get card
+  let card = {
+    ...rng.choice(CARDS),
+    material: rng.randRange(3),
+    upgraded: true,
+    onPlayBonus: [], // EH: this should be abstracted instead of write here again
+  };
+  let reinforce_time = rng.randRange(2) + 1;
+
+  shop_item.name = card.name + "(强化" + reinforce_time + ")";
+  shop_item.price = rng.randRange(20) + 20 + (30+rng.randRange(20)) * (reinforce_time - 1);
+  shop_item.desc = card.desc;
+
+  let reinforce_once = UPGRADES.find(x => x.name == "强化1");
+  for (let i=0; i<reinforce_time; i++) {
+    reinforce_once.effect(card);
+  }
+
+  shop_item.onBought = (S) => {
+    S.Deck.unshift(card);
+  };
+
+  return shop_item;
+}
+
+function delete_card(S, rng) {
+  let shop_item = {};
+
+  shop_item.name = "删1张牌";
+  shop_item.price = 10 + rng.randRange(10);
+  shop_item.indexes = rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
+  shop_item.desc = "";
+  shop_item.onBought = (S, card_idx) => {
+    console.log("The index:", card_idx);
+    console.log("Before delete", S.Deck.length, S.Deck);
+    S.Deck = S.Deck.filter((x,idx) => (idx != card_idx));
+    console.log("After delete", S.Deck.length, S.Deck);
+  }
+
+  return shop_item;
+}
+
+
+function payGold(S, amount) {
+  if (S.gold >= amount) {
+    S.gold -= amount;
+    return true;
+  }
+  else {
+    alert("剩余赏金不够");
+    return false;
+  }
+}
+
+function buy(S, idx) {
+  let item = S.current_item;
+  let item_idx = S.current_item_idx;
+  if (payGold(S, item.price)) {
+    S.shop_items = S.shop_items.filter((x,idx) => idx != item_idx);
+    if (idx) {
+      let card_idx = S.current_item.indexes[idx];
+      item.onBought(S, card_idx);
+    }
+    else {
+      S.relics.unshift(item);
+      item.onBought(S);
+    }
+  }
+}
+
 function reset_shop(S) {
-  S.shop_items = _.times(6, get_shop_item);
+  S.shop_items = _.times(6, ()=>get_shop_item(S));
+}
+
+function refresh_shop(S) {
+  if (payGold(S, 10)) {
+    reset_shop(S);
+  }
 }
 
 // EH: Actually it's better to set all formats the same, but Deck selection is done on board
@@ -274,9 +416,9 @@ export function Shop(props) {
   return <div className="central" align="center">
     <GoldAmount gold={props.gold} />
     <div className="shop-items">    
-      {props.shop_items.map((item, idx) => <ShopItem {...item} buy={() => props.buy(idx)} />)}
+      {props.shop_items.map((item, idx) => <ShopItem {...item} buy={props.buy(idx)} />)}
     </div>
-    <button className="refresh-shop" onClick={props.refresh_shop}>刷新商店(10{ICONS.gold})</button>
+    <button className="refresh-shop" onClick={props.refresh_shop}>刷新商店({ICONS.gold}10)</button>
   </div>
 
 }
@@ -309,8 +451,8 @@ export function RoguelikeTabs(props) {
 }
 
 export function RoguelikeEntry(props) {
-  return <div className="board">
-    <div className="entry">欢迎来到集成战略模式“黑角的金针菇迷境”！<br/>请选择难度</div>
+  return <div className="board" align="center">
+    <div className="entry">欢迎来到集成战略模式<br/>“黑角的金针菇迷境”<br/>请选择难度</div>
     <div className="difficulty-selection">
       {props.difficulties.map(selection => <button className="difficulty-button" onClick={selection.handleClick}>{selection.name}</button>)}
     </div>
@@ -380,9 +522,15 @@ export const roguelike = {
   setup_roguelike_mode,
   set_difficulty,
   setup_deck_selection,
+  select_deck,
+
   pick_cards,
   skip_pick,
   enter_dream,
+  buy,
+  reset_shop,
+  refresh_shop,
+
   continue_run,
   end_roguelike_mode,
 
