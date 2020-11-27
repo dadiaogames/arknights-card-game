@@ -15,8 +15,9 @@ export const RELICS = [
   },
   {
     name: "乌萨斯列巴",
-    desc: "跳过选牌时,随机强化1个干员",
+    desc: "跳过选牌时,随机强化2个干员",
     onSkipPick(S) {
+      random_upgrade(S);
       random_upgrade(S);
     }
   },
@@ -159,11 +160,11 @@ export const RELICS = [
   },
   {
     name:"米格鲁的饼干", 
-    desc:"所有阻挡数至少为2的,阻挡数+1",
+    desc:"所有阻挡数至少为2的,阻挡数+2",
     onBattleBegin(G, ctx) {
       G.deck.map(x => {
         if (x.block >= 2) {
-          x.block += 1;
+          x.block += 2;
         }
       });
     }
@@ -181,13 +182,13 @@ export const RELICS = [
   },
   {
     name:"铁卫-推进", 
-    desc:" 阻挡数多于2的,阻挡数-1,但是+2/+2",
+    desc:" 阻挡数多于2的,阻挡数-1,但是+3/+3",
     onBattleBegin(G, ctx) {
       G.deck.map(x => {
         if (x.block >= 2) {
           x.block -= 1;
-          x.atk += 2;
-          x.hp += 2;
+          x.atk += 3;
+          x.hp += 3;
         }
       });
     }
