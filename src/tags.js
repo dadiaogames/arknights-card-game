@@ -238,7 +238,7 @@ const tag_list = [
   
   
   {
-    src: "http://prts.wiki/images/d/d3/Enemy_def_1.png",
+    src: "http://prts.wiki/images/6/6c/Enemy_attackradius_1.png",
     desc: "胜利所需分数+10",
     level: 3,
     standard_level: 2,

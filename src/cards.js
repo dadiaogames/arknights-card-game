@@ -3580,14 +3580,15 @@ export const extra_cards = [
     hp:1,
     mine:1,
     block:1,
+    material:3,
     desc:"",
     illust:"http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E7%A8%80%E9%9F%B3_1.png",
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.hp += 2;
-      self.atk += 2;
+      self.hp += 3;
+      self.atk += 3;
     },
-    reinforce_desc: "+2/+2",
+    reinforce_desc: "+3/+3",
   },
   {
     name: "梅尔",
@@ -3600,6 +3601,7 @@ export const extra_cards = [
           hp:2,
           mine:1,
           block:1,
+          material:3,
           desc: <span>行动: 消耗1个{material_icons[material]}，造成6点伤害</span>,
           illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
           reinforce: 1,
@@ -3613,9 +3615,9 @@ export const extra_cards = [
           },
           
           onReinforce(G, ctx) {
-            deal_random_damage(G, ctx, 3);
+            deal_random_damage(G, ctx, 5);
           },
-          reinforce_desc: "造成3点伤害",
+          reinforce_desc: "造成5点伤害",
         };
     }
   },

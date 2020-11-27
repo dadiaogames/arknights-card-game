@@ -11,7 +11,7 @@ import { DeckConstruction, DeckGeneration, Settings } from './DeckConstruction';
 import { TitleScreen, ModeSelection } from './TitleScreen';
 import { DeckSelection, DeckUpgrade, Competition } from './Competition';
 import { get_deck_name, get_seed_name, generate_deck, is_standard, generate_deck_s2 } from './DeckGenerator';
-import { str2deck, init_decks, get_desc } from './Game';
+import { str2deck, init_decks, get_desc, get_blocker } from './Game';
 import { map_object, sleep, PRNG } from './utils';
 import { CARDS, default_deck } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
@@ -206,7 +206,7 @@ export class Board extends React.Component {
     return () => {
       let new_tags = this.state.tags;
       new_tags[idx].selected = !new_tags[idx].selected;
-      this.setState({tags: new_tags});
+      this.setState({tags: new_tags, just_selected: new_tags[idx]});
     };
   }
 
@@ -437,7 +437,8 @@ export class Board extends React.Component {
       hp: (card.hp - card.dmg),
       vulnerable: card.vulnerable? ("↓" + card.vulnerable) : undefined,
       //cost: card.cost,
-    };
+      blocked: get_blocker(this.props.G, this.props.ctx, card)? ICONS.block : undefined,
+    }; 
   }
 
   process_efield_state(card, idx) {
@@ -968,7 +969,7 @@ export class Board extends React.Component {
     return (<div className="board" style={{position:"relative"}} >
       <span style={{position:"absolute", top:"10%", left:"3%"}}>请选择要重调的手牌</span>
       <SCardRow 
-        cards = {this.props.G.hand.map(this.process_card_details)}
+        cards = {this.props.G.hand.slice(0,5).map(this.process_card_details)}
         handleClick = {this.handle_mulligan_clicked}
         additionalStyles = {this.state.hand_choices.map(x => ({border: x?"3px solid #096dd9":"2px solid"}))}
       />
@@ -1514,6 +1515,7 @@ export class Board extends React.Component {
         />
         <TagList 
           selected_tags = {this.state.tags.filter(t => (t.selected || t.locked))}
+          just_selected = {this.state.just_selected}
         />
         <RiskLevel 
           risk_level = {risk_level}

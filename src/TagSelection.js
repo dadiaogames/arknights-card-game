@@ -70,7 +70,16 @@ export const TagList = (props) => {
           marginTop: "1%",
         }}
       >
-        {props.selected_tags.map((tag) => (<li className="tag-desc" style={{color:(tag.level>=3)?"#cf1322":"black"}}>{tag.desc}</li>))}
+        {props.selected_tags.map((tag) => (
+          <li 
+            className="tag-desc"
+            style={{
+              color: (props.just_selected == tag)? "#096dd9" : "black",
+            }}
+          >
+            {tag.desc}
+          </li>
+        ))}
       </ul>
     </div>
   );

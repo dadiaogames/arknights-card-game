@@ -155,6 +155,15 @@
   font-size: 135%;
 }
 
+.blocked {
+  top: 2%;
+  left: 75%;
+  height: 25%;
+  width: 25%;
+  text-align: center;
+  font-size: 120%;
+}
+
 .illust, .e_illust, .o_illust, .illust_detailed, .eo_illust_detailed, .r_illust, .r_illust_detailed, .upgrade_name {
   width: 88%;
   height: 90%;

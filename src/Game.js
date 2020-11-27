@@ -210,7 +210,7 @@ export function drop(G, ctx) {
 
 export function mulligan(G, ctx, choices) {
   let discarded = G.hand.filter((x, idx) => choices[idx]);
-  G.hand = G.hand.filter((x, idx) => !choices[idx]);
+  G.hand = [...G.hand.slice(0,5).filter((x, idx) => !choices[idx]), ...G.hand.slice(5)];
   if (G.hand.length < 5) {
     let num_draw = 5 - G.hand.length; // What a tricky feature of js
     for (let i = 0; i < num_draw; i++) {

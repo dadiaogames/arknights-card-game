@@ -36,6 +36,10 @@
   overflow-y: scroll;
 }
 
+.just-selected {
+  color: #096dd9;
+}
+
 .risk-level {
   display: inline-block;
   margin: 2%;

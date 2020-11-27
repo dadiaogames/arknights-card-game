@@ -30,7 +30,7 @@ function setup_roguelike_mode(S) {
 
   S.rng = new PRNG(S.seed || Date());
 
-  S.tags = reset_tags();
+  init_tags(S);
   S.RELICS = RELICS.map(x => ({...x}));
 
   S.Deck = [];
@@ -57,6 +57,21 @@ function select_deck(S, deck) {
 function end_roguelike_mode(S) {
   S.roguelike_mode = false;
   S.tags = reset_tags();
+}
+
+function move_on(S) {
+  S.game_count += 1;
+  S.tags.splice(S.tags.length-1, 0, ...S.remained_tags.slice(0,2));
+  S.remained_tags = S.remained_tags.slice(2);
+}
+
+function init_tags(S) {
+  let tags = reset_tags();
+  let init_tags = [...tags.slice(0,6), ...tags.filter((x,idx) => [6,7,9,10,12,13].includes(idx))];
+  let remained_tags = S.rng.shuffle(tags.filter(t => !init_tags.includes(t)));
+  let final_tag = tags[tags.length - 1];
+  S.tags = [...init_tags, ...remained_tags.slice(0,2), final_tag];
+  S.remained_tags = remained_tags.slice(2);
 }
 
 function reduce_basic_tags(tags, rng) {
@@ -148,26 +163,26 @@ function setup_deck_selection(S) {
   S.deck_list.map(deck => deck.map(preprocess_roguelike_card))
 }
 
-function get_pick() {
-  return get_roguelike_pick().map(card => CARDS.find(x => x.name == card)).filter(card => card != undefined);
+function get_pick(S) {
+  return get_roguelike_pick().map(card => CARDS.find(x => x.name == card)).filter(card => card != undefined).map(card => ({...card, material:S.rng.randRange(3)})); // EH: Let material not be local solution, but global solution
 }
 
 function reset_card_picks(S) {
-  S.card_picks = _.times(3, get_pick);
+  S.card_picks = _.times(3, ()=>get_pick(S));
 }
 
 function get_shop_item(S) {
   // let rng = new PRNG(Math.random());
   // let rng = S.rng;
 
-  let item_type = S.rng.randRange(10);
+  let item_type = S.rng.randRange(100);
   // console.log(item_type, "item type");
 
-  if (item_type <= 6) {
+  if (item_type <= 60) {
     // TODO: change this to relic
     return get_relic(S);
   }
-  else if (item_type <= 9) {
+  else if (item_type <= 95) {
     // TODO: change this to upgrade
     return get_upgrade(S);
   }
@@ -183,7 +198,7 @@ function get_upgrade(S) {
   // Get upgrade
   let upgrade = S.rng.choice(UPGRADES);
   shop_item.name = "升级: " + upgrade.name;
-  shop_item.price = S.rng.randRange(20) + 10;
+  shop_item.price = S.rng.randRange(20) + 15;
   // console.log("This deck", S.Deck);
   shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "获得 " + upgrade.desc;
@@ -256,7 +271,7 @@ function get_relic(S) {
 
   shop_item.name = relic.name;
   shop_item.desc = relic.desc;
-  shop_item.price = 20 + S.rng.randRange(30);
+  shop_item.price = 30 + S.rng.randRange(30);
   shop_item.src = relic.illust;
 
   shop_item.onBought = (S) => {
@@ -392,13 +407,16 @@ function continue_run(S) {
   }
 
   // TODO: Reconstruct this part, into moveOn()
-  S.game_count += 1;
+  // S.game_count += 1;
+  move_on(S)
 
   if ((S.level_achieved - S.level_required) >= 4) {
-    S.game_count += 1;
+    // S.game_count += 1;
+    move_on(S)
   }
   if ((S.level_achieved - S.level_required) >= 8) {
-    S.game_count += 1;
+    // S.game_count += 1;
+    move_on(S)
   }
   S.game_count = Math.min(S.game_count, 9);
 
@@ -409,7 +427,7 @@ export function random_upgrade(S) {
   let card = S.rng.choice(S.Deck);
   let upgrade = S.rng.choice(UPGRADES);
   upgrade.effect(card);
-  alert(card.name, " is upgraded with ", upgrade.name);
+  alert(`${card.name} is upgraded with ${upgrade.name}`);
 }
 
 
