@@ -170,11 +170,11 @@ export const RELICS = [
   },
   {
     name:"断杖-咏唱", 
-    desc:"所有采掘力至少为3的,<+1>",
+    desc:"所有采掘力至少为3的,<+2>",
     onBattleBegin(G, ctx) {
       G.deck.map(x => {
         if (x.mine >= 3) {
-          x.mine += 1;
+          x.mine += 2;
         }
       });
     }
@@ -194,22 +194,22 @@ export const RELICS = [
   },
   {
     name:"辉煌工匠包", 
-    desc:" 所有干员 +2攻 <-1>",
+    desc:" 所有干员 +3攻 <-1>",
     onBattleBegin(G, ctx) {
       G.deck.map(x => {
-        x.atk += 2;
+        x.atk += 3;
         x.mine = Math.max(x.mine - 1, 0);
       });
     }
   },
   {
     name:"左半边椰子壳", 
-    desc:" 所有干员+1费,+3/+3",
+    desc:" 所有干员+1费,+4/+4",
     onBattleBegin(G, ctx) {
       G.deck.map(x => {
         x.cost += 1;
-        x.atk += 3;
-        x.hp += 3;
+        x.atk += 4;
+        x.hp += 4;
       });
     }
   },
@@ -225,9 +225,9 @@ export const RELICS = [
   },
   {
     name:"摩根队长佳酿", 
-    desc:"起始获得1个钢",
+    desc:"起始获得2个钢",
     onBattleBegin(G, ctx) {
-      G.materials[3] += 1;
+      G.materials[3] += 2;
     }
   },
   {

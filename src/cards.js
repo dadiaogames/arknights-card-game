@@ -667,9 +667,9 @@ export const CARDS = [
 
   {
     name:"年", 
-    cost:3, 
-    atk:2, 
-    hp:6, 
+    cost:4, 
+    atk:3, 
+    hp:9, 
     mine:1, 
     block:2, 
     desc:"部署: 场上所有其他干员阻挡数+1", 

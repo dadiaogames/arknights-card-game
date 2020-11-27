@@ -22,7 +22,6 @@ const cost_vanguard =  `极境 1 2
 香草 1 2
 讯使 1 2
 桃金娘 1 2
-清道夫 1 1
 贾维 1 1
 惊蛰 1 1`;
 
@@ -39,21 +38,21 @@ const scorer = `阿米娅 0 1
 赫默 0 1
 阿 0 1`;
 
-const miner =  `史都华德 0 1
+const miner =  `史都华德 1 1
 夜烟 0 1
-远山 0 1
-12F 0 1`;
+远山 1 1
+炎熔 1 1`;
 
-const shooter = `杰西卡 0 1
-棘刺 0 1
-刻刀 0 1
+const shooter = `棘刺 0 1
+机械水獭 0 1
+陈 0 1
 拉普兰德 0 1
 史尔特尔 0 1`;
 
 const defender = `米格鲁 1 1
 蛇屠箱 0 1
 年 0 1
-摄影车 0 1`;
+摄影车 1 1`;
 
 // const dubin_score = `杜宾 2 3
 // 推进之王 2 3
