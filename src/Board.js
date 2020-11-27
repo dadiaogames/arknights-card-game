@@ -68,6 +68,7 @@ export class Board extends React.Component {
     this.process_card_details = this.process_card_details.bind(this);
     this.process_enemy_details = this.process_enemy_details.bind(this);
     this.process_order_details = this.process_order_details.bind(this);
+    this.process_relic_details = this.process_relic_details.bind(this);
 
     this.process_deck_data = this.process_deck_data.bind(this);
     this.process_roguelike_deck_data = this.process_roguelike_deck_data.bind(this);
@@ -95,6 +96,7 @@ export class Board extends React.Component {
     this.render_deck_board = this.render_deck_board.bind(this);
     this.render_card_board = this.render_card_board.bind(this);
     this.render_preview_board = this.render_preview_board.bind(this);
+    this.render_relic_board = this.render_relic_board.bind(this);
     this.render_mulligan_board = this.render_mulligan_board.bind(this);
     this.render_setting_board = this.render_setting_board.bind(this);
     this.render_deck_selection_board = this.render_deck_selection_board.bind(this);
@@ -500,7 +502,23 @@ export class Board extends React.Component {
     }
   }
 
+  process_relic_details(relic) {
+    return {
+      eo_illust_detailed: relic.illust,
+      desc: relic.desc,
+    };
+  }
 
+  render_relic_board() {
+    return (<div className="board" >
+      <SCardRow 
+        cards = {this.state.relics.map(this.process_relic_details)}
+      />
+      <button className="preview-button" onClick={this.back}>
+        返回
+      </button>
+    </div>);
+  }
   process_card_details(card) {
     let illust = card.was_enemy?"eo_illust_detailed":"illust_detailed";
     if (card.reversed) {
@@ -736,6 +754,7 @@ export class Board extends React.Component {
       "deck": this.render_deck_board,
       "card": this.render_card_board,
       "preview": this.render_preview_board,
+      "relic": this.render_relic_board,
       "mulligan": this.render_mulligan_board,
       "settings": this.render_setting_board,
       "deck_selection": this.render_deck_selection_board,
@@ -1110,6 +1129,7 @@ export class Board extends React.Component {
       enter_dream = {this.roguelike.enter_dream}
       game_count = {this.state.game_count}
       check_deck = {() => {this.setState({preview_deck:this.state.Deck});this.change_board("preview");}}
+      check_relics = {() => {this.change_board("relic");}}
     />;
 
     const centrals = [roguelike_main, card_picks, shop];
@@ -1187,7 +1207,7 @@ export class Board extends React.Component {
       hard: "苦难之路",
     }[this.state.difficulty];
     return <FinalResult 
-      difficulty = "整装待发"
+      difficulty = {difficulty}
       endgame = "结束游戏"
       continue = {this.end_roguelike_mode}
     />;

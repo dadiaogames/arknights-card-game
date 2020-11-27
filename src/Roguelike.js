@@ -17,7 +17,7 @@ import { UPGRADES } from './upgrades';
 import { RELICS } from './relics';
 
 export function introduce_roguelike_mode() {
-  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金；\n如果比要求等级高4级，则会达成“满贯”，额外获得40赏金；\n如果比要求等级高8级，则会达成“大满贯”，额外获得100赏金！`);
+  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金；\n如果比要求等级高4级，则会达成“满贯”，额外获得50赏金；\n如果比要求等级高8级，则会达成“大满贯”，额外获得120赏金！`);
 }
 
 function reset_tags() {
@@ -187,6 +187,7 @@ function get_upgrade(S) {
   // console.log("This deck", S.Deck);
   shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "获得 " + upgrade.desc;
+  shop_item.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/259/up-arrow_2b06.png";
   shop_item.onBought = (S, idx) => {
     let card = S.Deck[idx];
     // console.log("Upgrade on ", card.name, "with ", upgrade.desc)
@@ -362,18 +363,18 @@ function enter_dream(S) {
 }
 
 export function get_gold_gained(risk_level, level_required) {
-   let gold_gained = 30;
+   let gold_gained = 20;
 
     let level_diff = risk_level - level_required;
-    gold_gained += Math.min(level_diff * 10, 100);
+    gold_gained += level_diff * 10;
 
     // For slam, don't store them in variables, instead, calculate it on time
     // So do plenty of other things
     if (level_diff >= 4) {
-      gold_gained += 40;
+      gold_gained += 50;
     }
     if (level_diff >= 8) {
-      gold_gained += 60;
+      gold_gained += 70;
     }
 
     return gold_gained;
@@ -390,7 +391,12 @@ function continue_run(S) {
     S.gold += get_gold_gained(S.level_achieved, S.level_required);
   }
 
+  // TODO: Reconstruct this part, into moveOn()
   S.game_count += 1;
+
+  if ((S.level_achieved - S.level_required) >= 4) {
+    S.game_count += 1;
+  }
   if ((S.level_achieved - S.level_required) >= 8) {
     S.game_count += 1;
   }
