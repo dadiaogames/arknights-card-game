@@ -3556,6 +3556,7 @@ export const heijiao_in_dream =  {
     hp:8,
     mine:4,
     block:2,
+    onPlayBonus: [],
     desc:"部署: 获得5000分",
     illust:"http://prts.wiki/images/a/ac/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9D%A2%E9%B8%AE_1.png",
     onPlay(G, ctx) {

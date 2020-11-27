@@ -66,7 +66,10 @@ export const RELICS = [
     desc: "达成满贯以上时，随机获得1个藏品",
     onBattleEnd(S){
       if ((S.level_achieved - S.level_required) >= 4) {
-        S.relics.unshift({...S.rng.choice(S.RELICS)});
+        let relic = S.rng.choice(S.RELICS);
+        console.log(relic.name);
+        S.relics.unshift({...relic});
+        alert("通过 手工小包 获得 "+relic.name);
       }
     }
   },
@@ -77,13 +80,15 @@ export const RELICS = [
       S.gold += 10;
     }
   },
-  {
-    name:"一份演讲稿", 
-    desc:"购买藏品时,随机升级1个干员",
-    onBuyRelic(S, relic) {
-      random_upgrade(S);
-    }
-  },
+  // {
+  //   name:"一份演讲稿", 
+  //   desc:"购买藏品时,有概率随机升级1个干员",
+  //   onBuyRelic(S, relic) {
+  //     if (S.rng.random() <= 0.5) {
+  //       random_upgrade(S);
+  //     }
+  //   }
+  // },
   {
     name:"迷迭香之拥", 
     desc:"购买藏品时,有小概率获得1个其复制",
@@ -124,10 +129,10 @@ export const RELICS = [
     onTurnBegin(G, ctx, self) {
       G.onUseCard.push(
         (G, ctx, card) => {
-          // console.log(G.relics.map(x=>({...x})));
+          console.log(G.relics.map(x=>({...x})));
           let gas = G.relics.find(x => x.name == "香草沙士汽水" && (!x.used));
-          // console.log({...gas});
-          if (gas) {
+          console.log({...gas});
+          if (gas && ~G.field.indexOf(card) && card.exhausted) {
             card.exhausted = false;
             gas.used = true;
           }
@@ -227,10 +232,11 @@ export const RELICS = [
   },
   {
     name:"“坏家伙”来了！", 
-    desc:"起始获得1个随机的强化2干员加入手牌",
+    desc:"起始获得1个随机的强化3干员加入手牌",
     onBattleBegin(G, ctx) { 
       let reinforce = UPGRADES.find(x => x.name == "强化1");
       let card = choice(ctx, G.CARDS);
+      reinforce.effect(card);
       reinforce.effect(card);
       reinforce.effect(card);
       G.hand.unshift(card);
@@ -290,7 +296,9 @@ export const RELICS = [
       S.relics = S.relics.slice(1);
       for (let i=0; i<2; i++) {
         let relic = S.rng.choice(S.RELICS);
-        S.relics.unshift({...relic});      }
+        S.relics.unshift({...relic});      
+      }
+      alert(`获得 ${S.relics[0].name} ${S.relics[1].name}`);
     }
   },
 ].map(init_relic);

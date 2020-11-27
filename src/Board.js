@@ -849,6 +849,7 @@ export class Board extends React.Component {
         scenario_finished: true,
         won: result.win,
         level_achieved: this.get_risk_level(),
+        extra_gain: this.props.G.extra_gain,
       });
       let good_grade = "O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA";
 

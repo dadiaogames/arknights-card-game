@@ -881,7 +881,6 @@ export function setup_scenario(G, ctx) {
     // G.odeck = ctx.random.Shuffle(ORDERS.map((x,idx)=>({...x, order_id:idx})));
     G.edeck = [];
     G.odeck = [];
-    G.relics = [];
     
     G.efield = [];
     G.discard = [];
@@ -902,6 +901,9 @@ export function setup_scenario(G, ctx) {
     G.max_danger = 8;
     G.num_enemies_out = 2;
     G.field_limit = 8;
+
+    G.relics = [];
+    G.extra_gain = 0;
 
     setup_events(G, ctx);
 

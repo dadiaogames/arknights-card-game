@@ -35,7 +35,7 @@ function setup_roguelike_mode(S) {
 
   S.Deck = [];
   S.relics = [];
-  S.gold = 80;
+  S.gold = 100;
 
 
   S.game_count = 1;
@@ -198,7 +198,7 @@ function get_upgrade(S) {
   // Get upgrade
   let upgrade = S.rng.choice(UPGRADES);
   shop_item.name = "升级: " + upgrade.name;
-  shop_item.price = S.rng.randRange(20) + 15;
+  shop_item.price = S.rng.randRange(20) + 10;
   // console.log("This deck", S.Deck);
   shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "获得 " + upgrade.desc;
@@ -271,7 +271,7 @@ function get_relic(S) {
 
   shop_item.name = relic.name;
   shop_item.desc = relic.desc;
-  shop_item.price = 30 + S.rng.randRange(30);
+  shop_item.price = 20 + S.rng.randRange(30);
   shop_item.src = relic.illust;
 
   shop_item.onBought = (S) => {
@@ -404,6 +404,10 @@ function continue_run(S) {
 
   if (S.won) {
     S.gold += get_gold_gained(S.level_achieved, S.level_required);
+  }
+
+  for (let r of [...S.relics]) {
+    r.onBattleEnd && r.onBattleEnd(S, r);
   }
 
   // TODO: Reconstruct this part, into moveOn()
