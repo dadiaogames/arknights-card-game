@@ -78,8 +78,10 @@ function use(G, ctx, card) {
   if (!card.exhausted) {
     card.exhausted = true;
 
-    for (let f of G.onUseCard) {
-      f(G, ctx, card);
+    if (G.stage == "player") {
+      for (let f of G.onUseCard) {
+        f(G, ctx, card);
+      }
     }
 
     return true;
