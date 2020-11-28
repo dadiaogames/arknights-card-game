@@ -2148,7 +2148,7 @@ export const CARDS = [
     hp:3,
     mine:1,
     block:1,
-    desc: "部署: 强化场上3个(重置状态的)干员",
+    desc: "部署: 强化场上1个(重置状态的)干员，重复3次",
     illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -2502,13 +2502,16 @@ export const CARDS = [
     hp:3, 
     mine:1, 
     block:1, 
-    desc:"部署: 如果你在本回合弃过手牌，则获得+3/+3", 
+    desc:"采掘/战斗: 如果你在本回合弃过手牌，则获得+3/+3", 
     illust:"http://prts.wiki/images/0/02/%E7%AB%8B%E7%BB%98_%E6%9C%88%E8%A7%81%E5%A4%9C_1.png",
-    onPlay(G, ctx, self) {
+    onMine(G, ctx, self) {
       if (G.has_discarded) {
         self.atk += 3;
         self.hp += 3;
       }
+    },
+    onFight(G, ctx, self) {
+      this.onMine(G, ctx, self);
     },
     reinforce: 1,
     reinforce_desc: "+2/+2",
