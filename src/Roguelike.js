@@ -513,7 +513,9 @@ export function Shop(props) {
 
 export function Roguelike(props) {
   return <div className="central">
-    <div className="heijiao-container-2"></div>
+    <div className="heijiao-container-2">
+      <img src="http://prts.wiki/images/d/dc/%E7%AB%8B%E7%BB%98_%E9%BB%91%E8%A7%92_1.png" className="heijiao-img-2" />
+    </div>
     <div className="counter-container" align="center">
       <div className="battle-count-title" >第<span className="battle-count">{props.game_count || 1}</span>/<span onClick={props.enter_dream}>9</span>战</div>
     </div>

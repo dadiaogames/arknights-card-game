@@ -151,6 +151,13 @@
   height: 65%;
 }
 
+.heijiao-img-2 {
+  height: 100%;
+  width: auto;
+  margin-left: -35%;
+
+}
+
 .counter-container {
   display: inline-block;
   margin: 10% 2% 2% 2%;
