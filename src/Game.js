@@ -7,6 +7,7 @@ import { UPGRADES } from './upgrades';
 import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1 } from './DeckGenerator';
 import { arr2obj, PRNG } from "./utils";
 import { ICONS } from "./icons";
+import { ALTER_ARTS } from "./alters";
 
 export function move(G, ctx, d1, d2, idx) {
   let card = G[d1].splice(idx || 0, 1)[0];
@@ -768,6 +769,14 @@ function onScenarioBegin(G, ctx) {
 export function str2deck(deck_data) {
   let card_dict = arr2obj(CARDS);
   let deck = [];
+  let rng = new PRNG(deck_data);
+  let alter_art = (rng.random() <= 0.5);
+  if (alter_art) {
+    console.log("Got some alter!");
+  }
+  else {
+    console.log("No alter here.");
+  }
 
   let cards = deck_data.split("\n");
   for (let i=0; i<cards.length; i++) {
@@ -779,10 +788,35 @@ export function str2deck(deck_data) {
 
       if (target_card) {
         //init card state here
-        target_card.material = i % 3;
         for (let j=0; j<amount; j++) {
-            deck.push(Object.assign({}, target_card));
+            let new_card = {
+              ...target_card,
+              material: i % 3,
+            };
+
+            if (alter_art) {
+              let altered = ALTER_ARTS[new_card.name];
+              if (altered) {
+                new_card.old_illust = new_card.illust;
+                new_card.illust = altered;
+                new_card.was_enemy = true;
+                new_card.name += "(异画)";
+              }
+            }
+
+            deck.push(new_card);
         }
+      }
+    }
+  }
+
+  // Limit alter art
+  if (alter_art) {
+    for (let card of deck) {
+      if (card.old_illust && rng.random() <= 0.33) {
+        card.illust = card.old_illust;
+        card.was_enemy = false;
+        card.name = card.name.slice(0, card.name.length-4);
       }
     }
   }
