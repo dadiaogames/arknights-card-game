@@ -76,9 +76,9 @@ export const RELICS = [
   },
   {
     name:"奇怪的$墨镜", 
-    desc:"购买藏品后,获得10赏金",
+    desc:"购买藏品后,获得6赏金",
     onBuyRelic(S, relic) {
-      S.gold += 10;
+      S.gold += 6;
     }
   },
   // {
