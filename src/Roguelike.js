@@ -198,7 +198,7 @@ function get_upgrade(S) {
   // Get upgrade
   let upgrade = S.rng.choice(UPGRADES);
   shop_item.name = "升级: " + upgrade.name;
-  shop_item.price = S.rng.randRange(20) + 10;
+  shop_item.price = S.rng.randRange(10) + 15;
   // console.log("This deck", S.Deck);
   shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "获得 " + upgrade.desc;
@@ -271,7 +271,7 @@ function get_relic(S) {
 
   shop_item.name = relic.name;
   shop_item.desc = relic.desc;
-  shop_item.price = 20 + S.rng.randRange(30);
+  shop_item.price = 30 + S.rng.randRange(20);
   shop_item.src = relic.illust;
 
   shop_item.onBought = (S) => {
