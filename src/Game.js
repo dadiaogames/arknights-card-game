@@ -770,7 +770,7 @@ export function str2deck(deck_data) {
   let card_dict = arr2obj(CARDS);
   let deck = [];
   let rng = new PRNG(deck_data);
-  let alter_art = (rng.random() <= 0.5);
+  let alter_art = (rng.random() <= 0.33);
   if (alter_art) {
     console.log("Got some alter!");
   }
