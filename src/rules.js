@@ -4,7 +4,10 @@ import { ORDERS, material_icons } from './orders';
 import { ICONS } from './icons';
 
 export const RULES = <div>
-  <h3>明日方舟: 采掘行动 游戏规则</h3>
+  <h2>明日方舟: 采掘行动 游戏规则</h2>
+  <br/><br/>
+  <a href="https://www.bilibili.com/video/BV1554y167ax
+">2分钟视频教学(B站)</a>
   <br/><br/>
   游戏目标: 获得10分；
   <br/><br/>
