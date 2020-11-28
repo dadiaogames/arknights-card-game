@@ -961,16 +961,16 @@ export const CARDS = [
   
   {
     name:"皇帝",
-    cost:5,
+    cost:3,
     atk:2,
     hp:2,
     mine:1,
     block:1,
-    desc:"部署: 每有1个被横置的敌人，就获得2分",
+    desc:"部署: 每有1个被横置的敌人，就获得1分",
     illust:"https://s1.ax1x.com/2020/08/10/abktzR.png",
     onPlay(G, ctx, self) {
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
-      G.score += 2 * num_exhausted;
+      G.score += num_exhausted;
       if (num_exhausted >= 6) {
         achieve(G, ctx, "企鹅物流", "场上有至少6个敌人被横置时部署皇帝", self);
       }
