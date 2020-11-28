@@ -231,7 +231,7 @@ export function play_card(G, ctx, card) {
       inserted.onPlay(G, ctx, inserted);
     }
     for (let bonus of (inserted.onPlayBonus || [])) {
-      bonus.effect(G, ctx, inserted);
+      bonus && bonus.effect(G, ctx, inserted);
     }
     return inserted;
   }

@@ -176,7 +176,9 @@ export const UPGRADES = [
   desc: "部署奖励:\"召唤1个随机干员的2/2复制\"",
   effect(card) {
     card.onPlayBonus.push(
-      (G, ctx, self) => {
+      {
+        name: this.name,
+        effect (G, ctx, self) {
         let card = ctx.random.Shuffle(G.CARDS)[0];
         card = {...card};
         card.atk = 2;
@@ -184,7 +186,7 @@ export const UPGRADES = [
         card.mine = 1;
         card.cost = 2;
         summon(G, ctx, card, self);
-    });
+    }});
   }
 },
 
@@ -271,7 +273,9 @@ export const UPGRADES = [
     name: "加倍",
     desc: "自己所有部署奖励的复制",
     effect(card) {
-      card.onPlayBonus = [...card.onPlayBonus, ...card.onPlayBonus];
+      if (card.onPlayBonus) {
+        card.onPlayBonus = [...card.onPlayBonus, ...card.onPlayBonus];
+      }
     }
   },
   
