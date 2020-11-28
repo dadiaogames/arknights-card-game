@@ -1093,6 +1093,7 @@ export class Board extends React.Component {
     ];
     return <RoguelikeEntry 
       difficulties = {difficulties}
+      back = {() => {this.roguelike.end_roguelike_mode();this.change_board("tag");}}
     />;
   }
 

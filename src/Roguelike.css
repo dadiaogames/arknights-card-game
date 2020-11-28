@@ -27,11 +27,15 @@
   height: 30%;
 }
 
-.introduce-button {
+.introduce-button, .back-button {
   margin-top: 10%;
   margin-left: 20%;
-  font-size: 100%;
-  padding: 1%;
+  font-size: 105%;
+  padding: 3%;
+}
+
+.introduce-button {
+  margin-left: 5%;
 }
 
 .refresh-picks, .refresh-shop {

@@ -67,10 +67,10 @@ function move_on(S) {
 
 function init_tags(S) {
   let tags = reset_tags();
-  let init_tags = [...tags.slice(0,6), ...tags.filter((x,idx) => [6,7,9,10,12,13].includes(idx))];
-  let remained_tags = S.rng.shuffle(tags.filter(t => !init_tags.includes(t)));
   let final_tag = tags[tags.length - 1];
-  S.tags = [...init_tags, ...remained_tags.slice(0,2), final_tag];
+  let init_tags = [...tags.slice(0,6), ...tags.filter((x,idx) => [6,7,9,10,12,13].includes(idx)), final_tag];
+  let remained_tags = S.rng.shuffle(tags.filter(t => !init_tags.includes(t)));
+  S.tags = [...init_tags.slice(0,init_tags.length-1), ...remained_tags.slice(0,2), final_tag];
   S.remained_tags = remained_tags.slice(2);
 }
 
@@ -546,6 +546,7 @@ export function RoguelikeEntry(props) {
     <div className="difficulty-selection">
       {props.difficulties.map(selection => <button className="difficulty-button" onClick={selection.handleClick}>{selection.name}</button>)}
     </div>
+    <button className="introduce-button" onClick={props.back}>返回</button>
     <button className="introduce-button" onClick={introduce_roguelike_mode}>集成战略模式介绍</button>
   </div>
 }
