@@ -289,7 +289,7 @@ export const CARDS = [
   {
     name:"讯使", 
     cost:3, 
-    atk:2, 
+    atk:3, 
     hp:4, 
     mine:1, 
     block:1, 
