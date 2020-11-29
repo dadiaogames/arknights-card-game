@@ -186,7 +186,7 @@ export function eliminate_field(G, ctx) {
 
 export function draw(G, ctx) {
   // First, check the limit
-  if (G.hand.length >= 10) {
+  if (G.hand.length >= 12) {
     logMsg(G, ctx, "手牌数已达到上限");
     return;
   }
