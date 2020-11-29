@@ -2109,7 +2109,7 @@ export const CARDS = [
     hp:2,
     mine:3,
     block:0,
-    desc: "行动: 强化2张手牌",
+    desc: "行动: 强化1张手牌，重复2次",
     illust:"http://prts.wiki/images/1/19/%E7%AB%8B%E7%BB%98_%E7%9C%9F%E7%90%86_1.png",
     reinforce: 2,
     action(G, ctx, self) {
@@ -2117,7 +2117,7 @@ export const CARDS = [
         reinforce_hand(G, ctx);
       }
     },
-    reinforce_desc: "再强化1张",
+    reinforce_desc: "再重复1次",
   },
   {
     name:"古米",
@@ -2357,6 +2357,7 @@ export const CARDS = [
       G.hand = [];
       G.score += num_cards;
       logMsg(G, ctx, `使用 断罪者 获得${num_cards}分`);
+      G.has_discarded = true;
 
       if (num_cards >= 17) {
         achieve(G, ctx, "17张牌你能秒我", "使用断罪者弃掉至少17张手牌", self);
@@ -2712,7 +2713,7 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:"采掘: 使1个敌人获得易伤2，重复2次",
+    desc:"采掘: 使1个敌人获得易伤2，重复3次",
     illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
@@ -2731,7 +2732,7 @@ export const CARDS = [
       // }
       // reduce_enemy_atk(G, ctx, 4);
       // reduce_enemy_atk(G, ctx, 4);
-      for (let i=0; i<2+self.power; i++) {
+      for (let i=0; i<3+self.power; i++) {
         add_vulnerable(G, ctx, 2);
       }
     },
@@ -3074,7 +3075,7 @@ export const CARDS = [
     onTurnBegin(G, ctx, self) {
       self.fever = false;
     },
-    reinforce: 1,
+    reinforce: 2,
     reinforce_desc: "+1/+1",
     onReinforce(G, ctx, self) {
       self.atk += 1;
