@@ -2344,29 +2344,29 @@ export const CARDS = [
   {
     name:"断罪者",
     cost:4,
-    atk:5,
+    atk:4,
     hp:3,
     mine:2,
     block:1,
-    desc: "行动: 本回合剩余时间内，每弃掉1张手牌，就获得1分",
+    desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%96%AD%E7%BD%AA%E8%80%85_1.png",
     reinforce: 1,
     action(G, ctx, self) {
-      // let num_cards = G.hand.length;
-      // G.discard = [...G.discard, ...G.hand]; // EH: reconstruct the discard
-      // G.hand = [];
-      // G.score += num_cards;
-      // logMsg(G, ctx, `使用 断罪者 获得${num_cards}分`);
+      let num_cards = G.hand.length;
+      G.discard = [...G.discard, ...G.hand]; // EH: reconstruct the discard
+      G.hand = [];
+      G.score += num_cards;
+      logMsg(G, ctx, `使用 断罪者 获得${num_cards}分`);
 
-      // if (num_cards >= 17) {
-      //   achieve(G, ctx, "17张牌你能秒我", "使用断罪者弃掉至少17张手牌", self);
-      // }
+      if (num_cards >= 17) {
+        achieve(G, ctx, "17张牌你能秒我", "使用断罪者弃掉至少17张手牌", self);
+      }
 
-      G.onDropCard.push(
-        (G, ctx) => {
-          G.score += 1;
-        }
-      );
+      // G.onDropCard.push(
+      //   (G, ctx) => {
+      //     G.score += 1;
+      //   }
+      // );
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
