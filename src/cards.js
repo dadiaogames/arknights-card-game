@@ -45,7 +45,7 @@ export const CARDS = [
     cost: 3,
     atk: 4,
     hp: 2,
-    mine: 2,
+    mine: 3,
     block: 0,
     illust: "http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E9%98%BF%E7%B1%B3%E5%A8%85_1.png",
     desc: "采掘: 获得1分",
