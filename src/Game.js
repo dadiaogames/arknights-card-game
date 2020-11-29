@@ -377,7 +377,7 @@ export function drawEnemy(G, ctx) {
     enemy.exhausted = G.enemy_exhausted_enter;
     enemy.dmg = 0;
     enemy.enraged = enemy.enraged || false;
-    logMsg(G, ctx, `${enemy.name} 入场`);
+    logMsg(G, ctx, `${enemy.name} 入场(还剩${G.edeck.length}张)`);
     if (enemy.is_elite) {
       switchEnemy(G, ctx);
       // if (enemy.onPlay && !surge) {
