@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { choice, deal_random_damage, gainMaterials } from './Game';
+import { choice, deal_random_damage, draw, gainMaterials, init_card_state, summon } from './Game';
 import { random_upgrade } from './Roguelike';
 import { UPGRADES } from './upgrades';
 import { relic_images, relic_names } from './assets';
@@ -13,12 +13,71 @@ export const RELICS = [
   //     S.gold += 10;
   //   }
   // },
+  {
+    name: "乌萨斯列巴",
+    desc: "回合开始时，额外摸2张牌",
+    onTurnBegin(G, ctx){
+      draw(G, ctx);
+      draw(G, ctx);
+    }
+  },{
+    name: "锈刃-处决",
+    desc: "部署2费及以下的干员时，造成4点伤害",
+    onTurnBegin(G, ctx){
+      G.onPlayCard.push((G, ctx, card) => {
+        if (card.cost <= 2) {
+          deal_random_damage(G, ctx, 4);
+        }
+      });
+    }
+  },{
+    name: "荒地龙舌兰",
+    desc: "每回合少获得1点费用，但获得3个钢",
+    onTurnBegin(G, ctx){
+      G.costs -= 1;
+      G.materials[3] += 3;
+    }
+  },{
+    name: "一份演讲稿",
+    desc: "对局开始时，召唤1个2费干员",
+    onBattleBegin(G, ctx){
+      let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==2)))[0];
+      // summon(G, ctx, new_card, {});
+      G.field.push(init_card_state(G, ctx, new_card));
+    }
+  },
+  {
+    name: "人事部密信",
+    desc: "回合开始时，召唤1个随机干员的1/1复制",
+    onTurnBegin(G, ctx){
+      let new_card = ctx.random.Shuffle(G.CARDS)[0];
+      // summon(G, ctx, new_card, {});
+      let played_card = init_card_state(G, ctx, {...new_card,
+        atk: 1,
+        hp: 1,
+        mine: 1,
+        cost: 1,
+      });
+      played_card.exhausted = false;
+      G.field.push(played_card);
+    }
+  },
+  
+  {
+    name: "地区行动方案",
+    desc: "起始获得额外1组材料",
+    onBattleBegin(G, ctx){
+      for (let i=0; i<3; i++) {
+        G.materials[i] += 1;
+      }
+    }
+  },
   // {
-  //   name: "乌萨斯列巴",
-  //   desc: "跳过选牌时,随机强化2个干员",
-  //   onSkipPick(S) {
-  //     random_upgrade(S);
-  //     random_upgrade(S);
+  //   desc: "回合开始时，如果场上干员数达到了上限，则获得5分",
+  //   onTurnBegin(G, ctx){
+  //     if (G.field.length == G.field_limit) {
+  //       G.score += 5;
+  //     }
   //   }
   // },
   {
@@ -30,19 +89,20 @@ export const RELICS = [
   },
   {
     name:"风干大蕉果", 
-    desc:"选牌时,里面的1个干员获得强化2",
+    desc:"选牌时,里面的1个干员获得强化3",
     onPickCards(S) {
       let card = S.rng.choice(S.Deck.slice(0,3));
       let reinforce = UPGRADES.find(x => x.name == "强化1");
+      reinforce.effect(card);
       reinforce.effect(card);
       reinforce.effect(card);
     }
   },
   {
     name:"古旧钱币", 
-    desc:"每次对战结束时,额外获得8赏金",
+    desc:"每次对战结束时,额外获得10赏金",
     onBattleEnd(S) {
-      S.gold += 8;
+      S.gold += 10;
     }
   },
   {
@@ -148,16 +208,16 @@ export const RELICS = [
       G.score += 3 * G.danger;
     }
   },
-  {
-    name:"断杖-织法者", 
-    desc:"回合开始时,敌人数量每多我方1个,就获得1个钢",
-    onTurnBegin(G, ctx) {
-      let diff = G.efield.length - G.field.length;
-      if (diff > 0) {
-        G.materials[3] += diff;
-      }
-    }
-  },
+  // {
+  //   name:"断杖-织法者", 
+  //   desc:"回合开始时,敌人数量每多我方1个,就获得1个钢",
+  //   onTurnBegin(G, ctx) {
+  //     let diff = G.efield.length - G.field.length;
+  //     if (diff > 0) {
+  //       G.materials[3] += diff;
+  //     }
+  //   }
+  // },
   {
     name:"米格鲁的饼干", 
     desc:"所有阻挡数至少为2的,阻挡数+2",
@@ -267,17 +327,17 @@ export const RELICS = [
       );
     }
   },
-  {
-    name:"锈刃-无人之境", 
-    desc:"所有干员获得 部署:获得1分",
-    onTurnBegin(G, ctx) {
-      G.onPlayCard.push(
-        (G, ctx) => {
-          G.score += 1;
-        }
-      );
-    }
-  },
+  // {
+  //   name:"锈刃-无人之境", 
+  //   desc:"所有干员获得 部署:获得1分",
+  //   onTurnBegin(G, ctx) {
+  //     G.onPlayCard.push(
+  //       (G, ctx) => {
+  //         G.score += 1;
+  //       }
+  //     );
+  //   }
+  // },
   {
     name:"热水壶", 
     desc:"购买时变成手里一个藏品的复制",
@@ -291,7 +351,7 @@ export const RELICS = [
   },
   {
     name:"全息粉粉沙盒", 
-    desc:"变成2个随机藏品",
+    desc:"购买时变成2个随机藏品",
     onBought(S) {
       let self = S.relics[0];
       S.relics = S.relics.slice(1);
