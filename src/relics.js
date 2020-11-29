@@ -6,21 +6,21 @@ import { UPGRADES } from './upgrades';
 import { relic_images, relic_names } from './assets';
 
 export const RELICS = [
-  {
-    name: "可露希尔的怜悯",
-    desc: "跳过选牌时,额外获得10赏金",
-    onSkipPick(S) {
-      S.gold += 10;
-    }
-  },
-  {
-    name: "乌萨斯列巴",
-    desc: "跳过选牌时,随机强化2个干员",
-    onSkipPick(S) {
-      random_upgrade(S);
-      random_upgrade(S);
-    }
-  },
+  // {
+  //   name: "可露希尔的怜悯",
+  //   desc: "跳过选牌时,额外获得10赏金",
+  //   onSkipPick(S) {
+  //     S.gold += 10;
+  //   }
+  // },
+  // {
+  //   name: "乌萨斯列巴",
+  //   desc: "跳过选牌时,随机强化2个干员",
+  //   onSkipPick(S) {
+  //     random_upgrade(S);
+  //     random_upgrade(S);
+  //   }
+  // },
   {
     name: "综合园艺成果",
     desc: "对战开始时,牌组里每有4张牌,就获得1分",
