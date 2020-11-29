@@ -298,6 +298,7 @@ function delete_card(S) {
   shop_item.price = 10 + S.rng.randRange(10);
   shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "";
+  shop_item.illust = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/foot_dark-skin-tone_1f9b6-1f3ff_1f3ff.png";
   shop_item.onBought = (S, card_idx) => {
     console.log("The index:", card_idx);
     console.log("Before delete", S.Deck.length, S.Deck);
