@@ -68,7 +68,8 @@ function move_on(S) {
 function init_tags(S) {
   let tags = reset_tags();
   let final_tag = tags[tags.length - 1];
-  let init_tags = [...tags.slice(0,6), ...tags.filter((x,idx) => [6,7,9,10,12,13].includes(idx)), final_tag];
+  // let init_tags = [...tags.slice(0,6), ...tags.filter((x,idx) => [6,7,9,10,12,13].includes(idx)), final_tag];
+  let init_tags = [...tags.slice(0,15), final_tag];
   let remained_tags = S.rng.shuffle(tags.filter(t => !init_tags.includes(t)));
   S.tags = [...init_tags.slice(0,init_tags.length-1), ...remained_tags.slice(0,2), final_tag];
   S.remained_tags = remained_tags.slice(2);

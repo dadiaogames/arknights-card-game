@@ -20,7 +20,15 @@ export const RELICS = [
       draw(G, ctx);
       draw(G, ctx);
     }
-  },{
+  },
+  {
+    name: "超高级沙发",
+    desc: "可同时部署人数+1",
+    onTurnBegin(G, ctx){
+      G.field_limit += 1;
+    }
+  },
+  {
     name: "锈刃-处决",
     desc: "部署2费及以下的干员时，造成4点伤害",
     onTurnBegin(G, ctx){
@@ -80,13 +88,13 @@ export const RELICS = [
   //     }
   //   }
   // },
-  {
-    name: "综合园艺成果",
-    desc: "对战开始时,牌组里每有4张牌,就获得1分",
-    onBattleBegin(G, ctx) {
-      G.score += Math.floor(G.deck.length / 4);
-    }
-  },
+  // {
+  //   name: "综合园艺成果",
+  //   desc: "对战开始时,牌组里每有4张牌,就获得1分",
+  //   onBattleBegin(G, ctx) {
+  //     G.score += Math.floor(G.deck.length / 4);
+  //   }
+  // },
   {
     name:"风干大蕉果", 
     desc:"选牌时,里面的1个干员获得强化3",
