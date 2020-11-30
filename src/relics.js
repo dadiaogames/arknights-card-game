@@ -24,7 +24,7 @@ export const RELICS = [
   {
     name: "超高级沙发",
     desc: "可同时部署人数+1",
-    onTurnBegin(G, ctx){
+    onBattleBegin(G, ctx){
       G.field_limit += 1;
     }
   },

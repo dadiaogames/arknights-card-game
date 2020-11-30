@@ -1605,17 +1605,19 @@ export const CARDS = [
   {
     name:"热水壶", 
     cost:2,
-    atk:1, 
-    hp:1, 
-    mine:1, 
+    atk:3, 
+    hp:3, 
+    mine:2, 
     block: 1,
     was_enemy: true,
-    desc:"部署: 立即获得目标生命+2，费用+1，然后弃牌堆里每有1个热水壶，就获得2分", 
+    desc:"部署: 变成1个随机干员", 
     illust:"http://prts.wiki/images/3/3d/%E6%94%B6%E8%97%8F%E5%93%81_177.png",
     onPlay(G, ctx, self) {
-      self.hp += 2;
-      G.costs += 1;
-      G.score += 2 * G.discard.filter(x => (x.name == "热水壶")).length;
+      // self.hp += 2;
+      // G.costs += 1;
+      // G.score += 2 * G.discard.filter(x => (x.name == "热水壶")).length;
+      let card = choice(ctx, G.CARDS);
+      Object.assign(self, {...card, atk:self.atk, hp:self.hp, mine:self.mine, block:self.block, was_enemy:false})
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {

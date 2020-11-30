@@ -17,7 +17,7 @@ function add_atk_hp(G, ctx, field_selected) {
     logMsg(G, ctx, "建议: 请选定场面上想加成的干员后使用该订单");
   }
   else {
-    logMsg(G, ctx, `使 ${card.name} 获得11/+1`);
+    logMsg(G, ctx, `使 ${card.name} 获得+1/+1`);
   }
   card.atk += 1;
   card.hp += 1;
