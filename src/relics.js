@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { choice, deal_random_damage, draw, gainMaterials, init_card_state, logMsg, summon } from './Game';
+import { choice, deal_random_damage, draw, gainMaterials, init_card_state, logMsg, reinforce_hand, summon } from './Game';
 import { random_upgrade } from './Roguelike';
 import { UPGRADES } from './upgrades';
 import { relic_images, relic_names } from './assets';
@@ -70,6 +70,14 @@ export const RELICS = [
       G.field.push(played_card);
     }
   },
+  {
+    name: "生命之水",
+    desc: "回合开始时，强化1张手牌",
+    onTurnBegin(G, ctx) {
+      reinforce_hand(G, ctx);
+    }
+  },
+
   
   {
     name: "地区行动方案",
