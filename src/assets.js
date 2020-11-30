@@ -1,3 +1,12 @@
+export const result_images = [
+  ["https://s3.ax1x.com/2020/12/01/DWcVIO.jpg", 75358644],
+  // ["https://s3.ax1x.com/2020/12/01/DWcVIO.jpg", 75358644],
+  // ["https://s3.ax1x.com/2020/12/01/DWceiD.jpg", 75576391],
+];
+
+// export const lose_image = "https://s3.ax1x.com/2020/12/01/DWcmJe.png";
+export const lose_image = "http://prts.wiki/images/3/3d/%E6%94%B6%E8%97%8F%E5%93%81_177.png";
+
 export const relic_images = [
   'http://prts.wiki/images/c/cf/%E6%94%B6%E8%97%8F%E5%93%81_1.png',
   'http://prts.wiki/images/7/72/%E6%94%B6%E8%97%8F%E5%93%81_2.png',

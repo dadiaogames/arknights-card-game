@@ -152,7 +152,7 @@ export class Board extends React.Component {
       animations: {...init_animations},
 
       board: this.render_title_board, 
-      // board: this.render_roguelike_final_result_board,
+      // board: this.render_roguelike_result_board,
       // DEFAULT
       last_board: this.render_title_board,
 
@@ -1213,6 +1213,7 @@ export class Board extends React.Component {
       difficulty = {difficulty}
       endgame = "结束游戏"
       continue = {this.end_roguelike_mode}
+      rng = {this.state.rng || new PRNG(Math.random())}
     />;
   }
 

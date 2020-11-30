@@ -56,13 +56,13 @@ export const RELICS = [
   },
   {
     name: "人事部密信",
-    desc: "回合开始时，召唤1个随机干员的1/1复制",
+    desc: "回合开始时，召唤1个随机干员的1/2复制",
     onTurnBegin(G, ctx){
       let new_card = ctx.random.Shuffle(G.CARDS)[0];
       // summon(G, ctx, new_card, {});
       let played_card = init_card_state(G, ctx, {...new_card,
         atk: 1,
-        hp: 1,
+        hp: 2,
         mine: 1,
         cost: 1,
       });

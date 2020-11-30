@@ -15,6 +15,7 @@ import { ICONS } from './icons';
 import { CARDS, heijiao_in_dream } from './cards';
 import { UPGRADES } from './upgrades';
 import { RELICS } from './relics';
+import { lose_image, result_images } from './assets';
 
 export function introduce_roguelike_mode() {
   alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金；\n如果比要求等级高4级，则会达成“满贯”，额外获得50赏金；\n如果比要求等级高8级，则会达成“大满贯”，额外获得120赏金！`);
@@ -592,20 +593,29 @@ export function ResultLose(props) {
     </div>
     <div className="result-quote">
       胜败乃兵家常事<br/>
-      大侠请重新来过
+      博士请重新来过
+    </div>
+    <div className="lose-img-container">
+      <img src={lose_image} className="lose-img"></img>
     </div>
     <button className="endrun-btn" onClick={props.continue}>结束游戏</button>
   </div>
 }
 
 export function FinalResult(props) {
+  let [src, p_id] = props.rng.choice(result_images);
   return <div className="board" align="center">
     <div className="result-info">
       <div className="ascension">通关！</div>
       完成难度: {props.difficulty}
     </div>
+    <div className="result-img-container">
+      <img className="result-img" src={src} />
+    </div>
+    <div className="result-win-quote">面对天灾，<br/>我们甚至秀得飞起</div>
     {/* TODO: Add show deck and show relics */}
   <button className="endrun-btn" onClick={props.continue}>{props.endgame}</button>
+  <div className="illust-info">图片p站id: {p_id}</div>
   </div>
 
 

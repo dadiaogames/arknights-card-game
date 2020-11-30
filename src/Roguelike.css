@@ -200,18 +200,48 @@
 }
 
 .result-info {
-  margin-top: 15%;
+  margin-top: 10%;
   font-size: 180%;
   font-weight: 400;
   line-height: 155%;
 }
 
-.result-quote {
+.result-quote, .result-win-quote {
   font-size: 180%;
   font-weight: 450;
   color: #096dd9;
   margin-top: 5%;
-  margin-bottom: 20%;
+  margin-bottom: 5%;
+}
+
+.lose-img-container {
+  height: 35%;
+  width: 98%;
+}
+
+.lose-img {
+  /* width: 100%; */
+  /* height: auto; */
+  height: 100%;
+  width: auto;
+}
+
+.result-img-container {
+  height: 38.1%;
+  width: 98%;
+  overflow: hidden;
+}
+
+.result-img {
+  height: 100%;
+  width: auto;
+}
+
+.result-win-quote {
+  color: #fa541c;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  font-size: 160%;
 }
 
 .slam {
@@ -238,13 +268,20 @@
   width: auto;
   padding-left: 4%;
   padding-right: 4%;
+  margin-top: 0%;
 }
 
 .ascension {
   font-size: 200%;
   font-weight: 500;
   color: #ff7a45;
-  margin-top: 45%;
+  margin-top: 10%;
   margin-left: 12%;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
+}
+
+.illust-info {
+  color: gray;
+  font-size: 80%;
+  margin-top: 5%;
 }
