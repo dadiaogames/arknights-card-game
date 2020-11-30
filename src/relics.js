@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { choice, deal_random_damage, draw, gainMaterials, init_card_state, summon } from './Game';
+import { choice, deal_random_damage, draw, gainMaterials, init_card_state, logMsg, summon } from './Game';
 import { random_upgrade } from './Roguelike';
 import { UPGRADES } from './upgrades';
 import { relic_images, relic_names } from './assets';
@@ -78,6 +78,20 @@ export const RELICS = [
       for (let i=0; i<3; i++) {
         G.materials[i] += 1;
       }
+    }
+  },
+  {
+    name: "一杯昏睡红茶",
+    desc: "部署干员时，有概率额外触发1次“部署:”效果",
+    onTurnBegin(G, ctx) {
+      G.onPlayCard.push(
+        (G, ctx, card) => {
+          if (ctx.random.D4() == 1) {
+            card.onPlay(G, ctx, card);
+            logMsg(G, ctx, `额外触发1次 ${card.name} 的部署效果`);
+          }
+        }
+      );
     }
   },
   // {
