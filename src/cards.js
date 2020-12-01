@@ -1070,6 +1070,27 @@ export const CARDS = [
     reinforce_desc: "获得2点费用",
   },
 
+  // {
+  //   name:"伊芙利特",
+  //   cost:4,
+  //   atk:4,
+  //   hp:3,
+  //   mine:4,
+  //   block:0,
+  //   desc: "行动: 重置所有订单",
+  //   illust:"",
+  //   action(G, ctx) {
+  //     for (let order of G.finished) {
+  //       order.exhausted = false;
+  //     }
+  //   },
+  //   reinforce: 1,
+  //   reinforce_desc: "",
+  //   onReinforce(G, ctx, self){},
+
+
+  // },
+
   {
     name:"特米米",
     cost:4,

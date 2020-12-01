@@ -1003,7 +1003,9 @@ export function refresh_picks(G, ctx) {
 export function summon(G, ctx, card, self) {
   let idx = G.field.indexOf(self) + 1;
   if (card) {
-    G.field.splice(idx, 0, init_card_state(G, ctx, {...card}));
+    let new_card = init_card_state(G, ctx, {...card});
+    G.field.splice(idx, 0, new_card);
+    new_card.exhausted = false;
   }
 }
 
