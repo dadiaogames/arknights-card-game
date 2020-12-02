@@ -1409,8 +1409,8 @@ export const CARDS = [
   {
     name:"普罗旺斯", 
     cost:3,
-    atk:4, 
-    hp:3, 
+    atk:5, 
+    hp:2, 
     mine:1, 
     block:0, 
     desc:"行动: 本回合剩余时间内，每使用干员消耗1点费用，就造成3点伤害", 
@@ -1737,7 +1737,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc:"部署: 召唤5个随机干员的1/1复制(无视场面上限)",
+    desc:"部署: 召唤5个随机干员的1/1复制",
     illust:"http://prts.wiki/images/7/72/%E7%AB%8B%E7%BB%98_%E5%87%AF%E5%B0%94%E5%B8%8C_1.png",
     onPlay(G, ctx, self) {
       let cards = ctx.random.Shuffle(G.CARDS).slice(0, 20);
@@ -1968,7 +1968,7 @@ export const CARDS = [
     hp:6,
     mine:1,
     block:1,
-    desc:"行动: 弃1张牌，造成3点伤害，然后重置自己(每回合限6次)",
+    desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%A3%98%E5%88%BA_1.png",
     action(G, ctx, self) {
       if (G.hand.length > 0 && self.use_count > 0) {
@@ -1982,7 +1982,7 @@ export const CARDS = [
       }
     },
     onTurnBegin(G, ctx, self) {
-      self.use_count = 6;
+      self.use_count = 20;
     },
     reinforce: 2,
     reinforce_desc: "伤害+1",
@@ -2767,9 +2767,9 @@ export const CARDS = [
   
   {
     name:"刻刀",
-    cost:3,
-    atk:3,
-    hp:2,
+    cost:2,
+    atk:2,
+    hp:1,
     mine:1,
     block:1,
     desc: "部署: 摧毁1个受到伤害的敌人",
