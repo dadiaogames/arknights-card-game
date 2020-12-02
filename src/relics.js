@@ -206,9 +206,10 @@ export const RELICS = [
   },
   {
     name:"压缩糖砖", 
-    desc:"胜利所需分数-2",
+    desc:"胜利所需分数-2(最低为6)",
     onBattleBegin(G, ctx) {
       G.goal -= 2;
+      G.goal = Math.max(G.goal, 6);
     }
   },
   {

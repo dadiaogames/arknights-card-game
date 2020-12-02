@@ -13,7 +13,7 @@ function add_atk_hp(G, ctx, field_selected) {
   let card = G.field[field_selected];
   if (!card) {
     if (G.field.length == 0) return;
-    card = G.field[G.field.length - 1]; // EH: change this to "last"
+    card = G.field[0];
     logMsg(G, ctx, "建议: 请选定场面上想加成的干员后使用该订单");
   }
   else {
