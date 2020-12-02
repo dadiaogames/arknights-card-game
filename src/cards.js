@@ -69,8 +69,8 @@ export const CARDS = [
       }
       self.exhausted = false;
     },
-    reinforce: 2,
-    reinforce_desc: "再获得1分",
+    reinforce: 3,
+    reinforce_desc: "再获得2分",
   },
 
   {
@@ -1297,7 +1297,7 @@ export const CARDS = [
   {
     name:"艾雅法拉",
     cost:4,
-    atk:3,
+    atk:4,
     hp:3,
     mine:3,
     block:0,
