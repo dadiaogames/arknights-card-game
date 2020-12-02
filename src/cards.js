@@ -480,7 +480,7 @@ export const CARDS = [
     cost: 3,
     atk: 4,
     hp: 2,
-    mine: 2,
+    mine: 3,
     block: 0,
     desc: "战斗: 获得1个材料",
     illust:"http://prts.wiki/images/8/80/%E7%AB%8B%E7%BB%98_%E7%82%8E%E7%86%94_1.png",
@@ -590,12 +590,12 @@ export const CARDS = [
     hp:4,
     mine:2,
     block:1,
-    desc: "采掘: 获得+2/+2",
+    desc: "采掘: 获得+3/+3",
     illust:"http://prts.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E6%9F%8F%E5%96%99_1.png",
     reinforce: 2,
     onMine(G, ctx, self) {
-      self.atk += 2 + 2 * self.power;
-      self.hp += 2 + 2 * self.power;
+      self.atk += 3 + 2 * self.power;
+      self.hp += 3 + 2 * self.power;
     },
     reinforce_desc: "再获得+2/+2",
   },
@@ -1296,8 +1296,8 @@ export const CARDS = [
   
   {
     name:"艾雅法拉",
-    cost:5,
-    atk:4,
+    cost:4,
+    atk:3,
     hp:3,
     mine:3,
     block:0,
@@ -1325,10 +1325,10 @@ export const CARDS = [
 
   {
     name:"能天使", 
-    cost:5, 
-    atk:6, 
+    cost:4, 
+    atk:5, 
     hp:3, 
-    mine:2, 
+    mine:1, 
     block:0, 
     desc:"战斗: 触发场上所有干员的\"战斗:\"效果", 
     illust:"http://prts.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
@@ -1995,7 +1995,7 @@ export const CARDS = [
     hp:2,
     mine:3,
     block:0,
-    desc:"采掘: 消耗2点费用，再获得3个材料",
+    desc:"采掘: 消耗2点费用，额外获得3个材料",
     illust:"http://prts.wiki/images/a/a0/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E7%83%9F_1.png",
     onMine(G, ctx) {
       if (payCost(G, ctx, 2, true)) {
@@ -2519,31 +2519,31 @@ export const CARDS = [
     reinforce_desc: "+2/+2",
   },
   
-  {
-    name:"月见夜", 
-    cost:3, 
-    atk:3, 
-    hp:3, 
-    mine:1, 
-    block:1, 
-    desc:"采掘/战斗: 如果你在本回合弃过手牌，则获得+3/+3", 
-    illust:"http://prts.wiki/images/0/02/%E7%AB%8B%E7%BB%98_%E6%9C%88%E8%A7%81%E5%A4%9C_1.png",
-    onMine(G, ctx, self) {
-      if (G.has_discarded) {
-        self.atk += 3;
-        self.hp += 3;
-      }
-    },
-    onFight(G, ctx, self) {
-      this.onMine(G, ctx, self);
-    },
-    reinforce: 1,
-    reinforce_desc: "+2/+2",
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    }
-  },
+  // {
+  //   name:"月见夜", 
+  //   cost:3, 
+  //   atk:3, 
+  //   hp:3, 
+  //   mine:1, 
+  //   block:1, 
+  //   desc:"采掘/战斗: 如果你在本回合弃过手牌，则获得+3/+3", 
+  //   illust:"http://prts.wiki/images/0/02/%E7%AB%8B%E7%BB%98_%E6%9C%88%E8%A7%81%E5%A4%9C_1.png",
+  //   onMine(G, ctx, self) {
+  //     if (G.has_discarded) {
+  //       self.atk += 3;
+  //       self.hp += 3;
+  //     }
+  //   },
+  //   onFight(G, ctx, self) {
+  //     this.onMine(G, ctx, self);
+  //   },
+  //   reinforce: 1,
+  //   reinforce_desc: "+2/+2",
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   }
+  // },
 
 
   {
