@@ -138,6 +138,10 @@ function set_difficulty(S, difficulty) {
 
   S.levels = [12, 14, 16, 18, 22, 26, 30, 34, 45];
 
+  if (difficulty == "easy") {
+    S.levels = [8, 10, 12, 14, 18, 22, 26, 30, 40];
+  }
+
   if (difficulty == "hard") {
     S.levels = [15, 18, 21, 24, 30, 36, 42, 48, 60];
   }
