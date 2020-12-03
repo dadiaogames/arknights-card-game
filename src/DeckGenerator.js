@@ -43,11 +43,12 @@ const miner =  `史都华德 1 1
 远山 1 1
 炎熔 1 1`;
 
-const shooter = `棘刺 0 1
+const shooter = `棘刺 1 1
 机械水獭 0 1
-陈 0 1
+陈 1 1
+银灰 1 1
 拉普兰德 0 1
-史尔特尔 0 1`;
+史尔特尔 1 1`;
 
 const defender = `米格鲁 1 1
 蛇屠箱 0 1

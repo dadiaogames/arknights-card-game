@@ -1865,8 +1865,8 @@ export const CARDS = [
         self.use_count = self.use_count || 0;
         self.use_count += 1;
 
-        if (self.use_count >= 6) {
-          achieve(G, ctx, "真银斩", "一回合内使用银灰6次以上", self);
+        if (self.use_count >= 8) {
+          achieve(G, ctx, "真银斩", "一回合内使用银灰8次以上", self);
         }
       }
     },
