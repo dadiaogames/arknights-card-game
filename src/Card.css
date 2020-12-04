@@ -126,7 +126,7 @@
   width: 90%;
   text-align: center;
   font-size: 80%;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 /* Detailed card addition */
