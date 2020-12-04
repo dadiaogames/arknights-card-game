@@ -83,7 +83,7 @@ function reduce_basic_tags(tags, rng) {
 
 function setup_normal_challenge(tags, rng) {
   for (let t of tags) {
-    if (t.standard_level <= 2 || [0,3,4,6,12].includes(tags.indexOf(t))) {
+    if (t.standard_level <= 2 || [0,3,4,6,9].includes(tags.indexOf(t))) {
       t.locked = true;
     }
   }
@@ -92,7 +92,7 @@ function setup_normal_challenge(tags, rng) {
   let locked_tags = tags.filter(x => x.locked && [2,3].includes(x.level));
   let other_tags = tags.filter(x => !x.locked && [2,3].includes(x.level));
   other_tags = rng.shuffle(other_tags).slice(0,3);
-  return [...reduce_basic_tags(tags.slice(0,15), rng), ...locked_tags, ...other_tags];
+  return [...tags.slice(0,12), ...locked_tags, ...other_tags];
 }
 
 function setup_exhausted_challenge(tags, rng) {
@@ -104,7 +104,7 @@ function setup_exhausted_challenge(tags, rng) {
   let another_challenge_tag = rng.choice(tags.filter(x => x.level == 3));
   another_challenge_tag.locked = true;
   let advanced_tags = rng.shuffle(tags.filter(x => [2,3].includes(x.level) && x != another_challenge_tag)).slice(0,5);
-  return [...reduce_basic_tags(basic_tags, rng), another_challenge_tag, ...advanced_tags, final_tag];
+  return [...basic_tags, another_challenge_tag, ...advanced_tags, final_tag];
 }
 
 function setup_daily_tags(S) {
