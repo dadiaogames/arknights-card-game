@@ -1273,26 +1273,26 @@ export const CARDS = [
 
 
   
-  {
-    name:"斑点",
-    cost:6,
-    atk:3,
-    hp:6,
-    mine:2,
-    block:3,
-    desc:"部署: 每有1个已完成的订单，就获得+1/+2",
-    illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
-    onPlay(G, ctx, self) {
-      let num_finished = G.finished.length;
-      self.atk += num_finished;
-      self.hp += 2 * num_finished;
-    },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.block += 1;
-    },
-    reinforce_desc: "阻挡数+1",
-  },
+  // {
+  //   name:"斑点",
+  //   cost:6,
+  //   atk:3,
+  //   hp:6,
+  //   mine:2,
+  //   block:3,
+  //   desc:"部署: 每有1个已完成的订单，就获得+1/+2",
+  //   illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
+  //   onPlay(G, ctx, self) {
+  //     let num_finished = G.finished.length;
+  //     self.atk += num_finished;
+  //     self.hp += 2 * num_finished;
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     self.block += 1;
+  //   },
+  //   reinforce_desc: "阻挡数+1",
+  // },
   
   {
     name:"艾雅法拉",

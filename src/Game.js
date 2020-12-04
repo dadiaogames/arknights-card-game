@@ -89,6 +89,9 @@ function use(G, ctx, card) {
   }
 
   else {
+    if (G.stage == "player") {
+      logMsg(G, ctx, "该卡已被横置(已使用过)，无法使用");
+    }
     return false;
   }
 }
@@ -492,6 +495,7 @@ export function generate_combined_card(G, ctx) {
 function fight(G, ctx, idx1, idx2) {
   if (idx1 < 0 || idx1 >= G.field.length || idx2 < 0 || idx2 >= G.efield.length) {
     console.log("invalid move");
+    logMsg(G, ctx, "请先选定场上干员后，再点击敌人和\"战斗\"");
     return;
   }
 
