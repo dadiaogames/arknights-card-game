@@ -659,7 +659,7 @@ export function is_standard(deck_data) {
   if (names.length != unique_names.length) {
     return false;
   }
-  let banned_cards = ["可露希尔", "砾"];
+  let banned_cards = ["可露希尔"];
   for (let card of banned_cards) {
     if (names.includes(card)) {
       return false;

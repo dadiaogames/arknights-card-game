@@ -2127,10 +2127,10 @@ export const CARDS = [
   },
   {
     name:"真理",
-    cost:3,
-    atk:4,
+    cost:2,
+    atk:2,
     hp:2,
-    mine:3,
+    mine:2,
     block:0,
     desc: "行动: 强化1张手牌，重复2次",
     illust:"http://prts.wiki/images/1/19/%E7%AB%8B%E7%BB%98_%E7%9C%9F%E7%90%86_1.png",
@@ -3169,25 +3169,33 @@ export const CARDS = [
     reinforce_desc: "将1张敌人牌加入手牌",
   },
   
-  // {
-  //   name:"W",
-  //   cost:1,
-  //   atk:6,
-  //   hp:6,
-  //   mine:3,
-  //   block:1,
-  //   desc: "部署: 翻开1张敌人牌",
-  //   illust:"http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
-  //   onPlay(G, ctx) {
-  //     drawEnemy(G, ctx);
-  //   },
-  //   reinforce: 1,
-  //   onReinforce(G, ctx, self) {
-  //     self.atk += 3;
-  //     self.hp += 3;
-  //   },
-  //   reinforce_desc: "+3/+3",
-  // },
+  {
+    name:"W",
+    cost:4,
+    atk:6,
+    hp:3,
+    mine:1,
+    block:0,
+    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，造成5点伤害，重复3次</span>,
+
+    illust:"http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
+    // onPlay(G, ctx) {
+    //   drawEnemy(G, ctx);
+    // },
+    action(G, ctx, self) {
+      if (payMaterials(G, ctx, [1,1,1,0])) {
+        for (let i=0; i<(3+self.power); i++) {
+          deal_random_damage(G, ctx, 5);
+        }
+      }
+    },
+    reinforce: 2,
+    // onReinforce(G, ctx, self) {
+      // self.atk += 3;
+      // self.hp += 3;
+    // },
+    reinforce_desc: "再重复1次",
+  },
 
   {
     name:"陨星",

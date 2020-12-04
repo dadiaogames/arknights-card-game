@@ -17,9 +17,9 @@ function add_atk_hp(G, ctx, field_selected) {
     logMsg(G, ctx, "建议: 请选定场面上想加成的干员后使用该订单");
   }
   else {
-    logMsg(G, ctx, `使 ${card.name} 获得+1/+1`);
+    logMsg(G, ctx, `使 ${card.name} 获得+2/+1`);
   }
-  card.atk += 1;
+  card.atk += 2;
   card.hp += 1;
 }
 
@@ -64,7 +64,7 @@ const advanced_orders = [{
     score: 2,
     reward: 3,
     advanced: true,
-    desc: (<span>+1/+1</span>),
+    desc: (<span>+2/+1</span>),
     effect: add_atk_hp,
   },
   // {
