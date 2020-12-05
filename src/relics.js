@@ -51,7 +51,7 @@ export const RELICS = [
     onBattleBegin(G, ctx){
       let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==2)))[0];
       // summon(G, ctx, new_card, {});
-      G.field.push(init_card_state(G, ctx, new_card));
+      G.field.push(init_card_state(G, ctx, {...new_card, hp:new_card.hp+1}));
     }
   },
   {

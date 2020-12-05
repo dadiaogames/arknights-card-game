@@ -382,8 +382,8 @@ export const CARDS = [
         G.costs += delta;
         logMsg(G, ctx, `使用 ${self.name} 获得${delta}点费用`);
 
-        if (delta >= 6) {
-          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少6点费用", self);
+        if (delta >= 8) {
+          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少8点费用", self);
         }
       }
     },
@@ -971,8 +971,8 @@ export const CARDS = [
     onPlay(G, ctx, self) {
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
       G.score += num_exhausted;
-      if (num_exhausted >= 6) {
-        achieve(G, ctx, "企鹅物流", "场上有至少6个敌人被横置时部署皇帝", self);
+      if (num_exhausted >= 8) {
+        achieve(G, ctx, "企鹅物流", "场上有至少8个敌人被横置时部署皇帝", self);
       }
     },
     reinforce: 1,
@@ -998,8 +998,8 @@ export const CARDS = [
         let delta = 6 + 2 * self.power;
         G.score += delta;
 
-        if (delta >= 12) {
-          achieve(G, ctx, "龙门消防局", "使用阿消获得至少12分", self);
+        if (delta >= 16) {
+          achieve(G, ctx, "龙门消防局", "使用阿消获得至少16分", self);
         }
       }
     },
@@ -1233,7 +1233,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc:"部署: 获得2个\"稀音\"",
+    desc:"部署: 获得2个召唤物\"稀音\"",
     was_enemy: true,
     illust:"http://prts.wiki/images/d/d5/%E5%A4%B4%E5%83%8F_%E5%8F%AC%E5%94%A4%E7%89%A9_%E7%A7%BB%E5%8A%A8%E6%91%84%E5%BD%B1%E5%99%A8.png",
     onPlay(G, ctx, self) {
@@ -1255,7 +1255,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc:"部署: 获得2个\"梅尔\"",
+    desc:"部署: 获得2个召唤物\"梅尔\"",
     was_enemy: true,
     illust:"http://prts.wiki/images/1/13/%E5%A4%B4%E5%83%8F_%E5%8F%AC%E5%94%A4%E7%89%A9_%E6%9C%BA%E6%A2%B0%E6%B0%B4%E7%8D%AD.png",
     onPlay(G, ctx, self) {
@@ -1480,8 +1480,8 @@ export const CARDS = [
         let score_gained = Math.floor(delta / 2);
         G.score += score_gained;
         logMsg(G, ctx, `使用 ${self.name} 获得${score_gained}分`);
-        if (score_gained >= 7) {
-          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少7分", self);
+        if (score_gained >= 12) {
+          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少12分", self);
         }
       }
     },
@@ -2353,8 +2353,8 @@ export const CARDS = [
         // }
 
         self.use_count = (self.use_count || 0) + 1;
-        if (self.use_count == 5) {
-          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿5次以上", self);
+        if (self.use_count == 8) {
+          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿8次以上", self);
         }
       }
     },
@@ -3026,9 +3026,9 @@ export const CARDS = [
   },{
     name:"流星",
     cost:2,
-    atk:2,
-    hp:1,
-    mine:1,
+    atk:4,
+    hp:2,
+    mine:0,
     block:0,
     desc:"部署: 造成5点伤害",
     illust:"http://prts.wiki/images/b/be/%E7%AB%8B%E7%BB%98_%E6%B5%81%E6%98%9F_1.png",
