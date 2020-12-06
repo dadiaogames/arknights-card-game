@@ -99,12 +99,13 @@ export const UPGRADES = [
   },
 
   {
-    name: "2张牌",
-    desc: "部署奖励:\"摸2张牌\"",
+    name: "3张牌",
+    desc: "部署奖励:\"摸3张牌\"",
     effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
+          draw(G, ctx);
           draw(G, ctx);
           draw(G, ctx);
         }
@@ -154,7 +155,7 @@ export const UPGRADES = [
 
   {
     name: "2费干员",
-    desc: "部署奖励:\"召唤1个费用为2的干员并使其生命值降为1\"",
+    desc: "部署奖励:\"召唤1个2费干员\"",
     effect(card) {
       // Maybe reconstruct this to call the skill of Ansel is better?
       card.onPlayBonus.push({
@@ -163,7 +164,7 @@ export const UPGRADES = [
           let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==2)))[0];
           if (new_card) {
             new_card = init_card_state(G, ctx, {...new_card});
-            new_card.hp = 1;
+            // new_card.hp = 1;
             G.field.push(new_card);
           }
         }
@@ -221,7 +222,11 @@ export const UPGRADES = [
     card.onPlayBonus.push({
       name: this.name,
       effect(G, ctx, card) {
-        let new_card = G.CARDS.find(x => x.name == card.name);
+        let name = card.name;
+        if (name.includes("异画")) {
+          name = name.slice(0, name.length-4);
+        }
+        let new_card = G.CARDS.find(x => x.name == name);
         if (new_card) {
           G.hand.unshift(new_card);
         }
