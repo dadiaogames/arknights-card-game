@@ -1326,7 +1326,7 @@ export const CARDS = [
   {
     name:"能天使", 
     cost:4, 
-    atk:5, 
+    atk:6, 
     hp:3, 
     mine:1, 
     block:0, 
@@ -1354,8 +1354,8 @@ export const CARDS = [
   {
     name:"温蒂", 
     cost:6, 
-    atk:5, 
-    hp:3, 
+    atk:4, 
+    hp:6, 
     mine:2, 
     block:1, 
     desc:"行动: 触发场上所有干员的\"行动:\"效果", 
