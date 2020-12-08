@@ -534,14 +534,14 @@ export const CARDS = [
   }, 
   
   {
-    name:"天火", 
+    name:"杜林", 
     cost:3, 
     atk:2, 
     hp:1, 
     mine:2, 
     block:0, 
     desc:"部署: 场上所有其他干员获得<+1>", 
-    illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E5%A4%A9%E7%81%AB_1.png",
+    illust:"http://prts.wiki/images/f/f7/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E6%9E%97_1.png",
     onPlay(G, ctx, self) {
       for (let card of G.field) {
         if (card != self) {
@@ -1092,14 +1092,14 @@ export const CARDS = [
   // },
 
   {
-    name:"特米米",
+    name:"天火",
     cost:4,
     atk:6,
     hp:3,
     mine:3,
     block:0,
     desc: "超杀: 每造成2点额外伤害，就获得1个材料",
-    illust:"http://prts.wiki/images/0/0a/%E7%AB%8B%E7%BB%98_%E7%89%B9%E7%B1%B3%E7%B1%B3_1.png",
+    illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E5%A4%A9%E7%81%AB_1.png",
     // onMine(G, ctx, self) {
     //   let count = G.finished.filter(x => x.exhausted).length;
     //   for (let order of G.finished) {
