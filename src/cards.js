@@ -7,6 +7,7 @@ import {
   get_num_rest_cards, generate_combined_card, achieve, drop,
   clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card
 } from './Game';
+import { classes } from './DeckGenerator';
 import { material_icons, ready_order } from './orders';
 
 export function init_card(card) {
@@ -22,6 +23,7 @@ export function init_card(card) {
     ...card,
   };
 }
+
 
 export const CARDS = [
   {
@@ -206,9 +208,9 @@ export const CARDS = [
   {
     name:"夜刀",
     cost:12,
-    atk:16,
-    hp:16,
-    mine:8,
+    atk:18,
+    hp:18,
+    mine:9,
     block:2,
     illust:"http://prts.wiki/images/a/ad/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E5%88%80_1.png",
     reinforce: 1,
@@ -665,6 +667,32 @@ export const CARDS = [
     reinforce_desc: "再获得+4生命值",
   },
 
+{
+    name:"斑点", 
+    cost:4, 
+    atk:2, 
+    hp:10, 
+    mine:2, 
+    block:2, 
+    desc:"行动: 完全治疗自己", 
+    illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
+    action(G, ctx, self) {
+      // let self_idx = G.field.indexOf(self);
+      // G.field.map((card, idx) => {
+      //   if ([self_idx-1, self_idx, self_idx+1].includes(idx)) {
+      //     card.hp += 4;
+      //   }
+      // });
+      self.dmg = 0;
+    },
+    reinforce: 1,
+    reinforce_desc: "+0/+6",
+    onReinforce(G, ctx, self) {
+      self.hp += 6;
+    }
+  },
+
+
   {
     name:"年", 
     cost:4, 
@@ -712,31 +740,7 @@ export const CARDS = [
     reinforce_desc: "+0/+10",
   },
 
-  // {
-  //   name:"斑点", 
-  //   cost:5, 
-  //   atk:3, 
-  //   hp:15, 
-  //   mine:1, 
-  //   block:2, 
-  //   desc:"行动: 使自己和左右两侧干员获得+4生命值", 
-  //   illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
-  //   action(G, ctx, self) {
-  //     let self_idx = G.field.indexOf(self);
-  //     G.field.map((card, idx) => {
-  //       if ([self_idx-1, self_idx, self_idx+1].includes(idx)) {
-  //         card.hp += 4;
-  //       }
-  //     });
-  //   },
-  //   reinforce: 2,
-  //   reinforce_desc: "完全治疗自己并获得+2生命值",
-  //   onReinforce(G, ctx, self) {
-  //     self.dmg = 0;
-  //     self.hp += 2;
-  //   }
-  // },
-  
+    
   {
     name:"雷蛇", 
     cost:6, 
@@ -1137,7 +1141,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       self.atk += 3;
     },
-    reinforce_desc: "+3攻击力",
+    reinforce_desc: "+3/+0",
   },
   
   // {
@@ -3078,9 +3082,9 @@ export const CARDS = [
     name:"卡达",
     cost:3,
     atk:3,
-    hp:3,
+    hp:4,
     mine:1,
-    block:0,
+    block:1,
     desc:"行动: 本回合剩余时间内，使用其他干员采掘时，重置自己",
     illust:"http://prts.wiki/images/1/1a/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E8%BE%BE_1.png",
     action(G, ctx, self) {
@@ -3635,8 +3639,8 @@ export const extra_cards = [
           cost:1,
           atk:3,
           hp:2,
-          mine:1,
-          block:1,
+          mine:2,
+          block:0,
           material:3,
           desc: <span>行动: 消耗1个{material_icons[material]}，造成6点伤害</span>,
           illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
@@ -3659,5 +3663,68 @@ export const extra_cards = [
   },
     
 ].map(init_card);
+
+export const default_filter = x => x;
+
+const type_filter = (type_,deck) => classes[type_].map(name => deck.find(card => card.name == name)).filter(card => card);
+
+export const FILTERS = [
+  
+  {
+    illust: "http://prts.wiki/images/thumb/8/82/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E5%85%88%E9%94%8B_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E5%85%88%E9%94%8B_%E5%A4%A7%E5%9B%BE.png",
+    f(deck) {
+      return type_filter("producers", deck);
+    }
+  },
+
+  {
+    illust: "http://prts.wiki/images/thumb/d/d1/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E7%8B%99%E5%87%BB_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E7%8B%99%E5%87%BB_%E5%A4%A7%E5%9B%BE.png",
+    f(deck) {
+      return type_filter("solvers", deck);
+    }
+  },
+  {
+    illust: "http://prts.wiki/images/thumb/4/4d/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E6%9C%AF%E5%B8%88_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E6%9C%AF%E5%B8%88_%E5%A4%A7%E5%9B%BE.png",
+    f(deck) {
+      return type_filter("miners", deck);
+    }
+  },
+
+  {
+    illust: "http://prts.wiki/images/thumb/a/a9/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E8%BF%91%E5%8D%AB_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E8%BF%91%E5%8D%AB_%E5%A4%A7%E5%9B%BE.png",
+    f(deck) {
+      return type_filter("standers", deck);
+    }
+  },
+
+  {
+    illust: "http://prts.wiki/images/thumb/6/6f/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E9%87%8D%E8%A3%85_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E9%87%8D%E8%A3%85_%E5%A4%A7%E5%9B%BE.png",
+    f(deck) {
+      return type_filter("defenders", deck);
+    }
+  },
+
+  {
+    illust: "http://prts.wiki/images/thumb/f/f0/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E8%BE%85%E5%8A%A9_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E8%BE%85%E5%8A%A9_%E5%A4%A7%E5%9B%BE.png",
+    f(deck) {
+      return type_filter("supporters", deck);
+    }
+  },
+
+  {
+    illust: "http://prts.wiki/images/thumb/2/2a/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E7%89%B9%E7%A7%8D_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E7%89%B9%E7%A7%8D_%E5%A4%A7%E5%9B%BE.png",
+    f(deck) {
+      return type_filter("scorers", deck);
+    }
+  },
+
+  {
+    illust: "https://s3.ax1x.com/2020/12/08/r9iiyq.png",
+    f(deck) {
+      return type_filter("randomizers", deck);
+    }
+  },
+
+];
 
 export const default_deck = CARDS.map(x => `1 ${x.name}`).join("\n");

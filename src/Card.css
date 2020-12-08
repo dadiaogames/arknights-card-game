@@ -277,8 +277,31 @@ img.r_illust_detailed {
   margin-top: 5%;
 }
 
+.type-filter-container {
+  font-size: 150%;
+  height: 20%;
+  width: 61.8%;
+  margin-left: 10%;
+
+  display: inline-flex;
+  vertical-align: top;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+
+  /* border: 1px solid; */
+}
+
 .type-filter {
-  font-size: 110%;
-  height: 3%;
-  overflow-x: scroll;
+  height: 38%;
+  width: 20%;
+  /* height: 30px; */
+  /* width: 30px; */
+
+  /* border: 3px solid grey; */
+}
+
+.type-filter-img {
+  height: 100%;
+  width: 100%;
 }

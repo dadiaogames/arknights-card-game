@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { produce } from 'immer';
 import { Tabs, TabList, Tab } from 'react-tabs';
 import { useSpring, animated } from 'react-spring';
-import { Card, SCard, CardRow, CheckCard, SCardRow, TypeFilter } from './Card';
+import { Card, SCard, CardRow, CheckCard, SCardRow, TypeFilterContainer } from './Card';
 import { Controller, EnterGame } from './Controller';
 import { Panel, ScoreBoard, MaterialDisplay } from './Panel';
 import { TagSelection, TagList, RiskLevel } from './TagSelection';
@@ -13,7 +13,7 @@ import { DeckSelection, DeckUpgrade, Competition } from './Competition';
 import { get_deck_name, get_seed_name, generate_deck, is_standard, generate_deck_s2 } from './DeckGenerator';
 import { str2deck, init_decks, get_desc, get_blocker } from './Game';
 import { map_object, sleep, PRNG } from './utils';
-import { CARDS, default_deck } from './cards';
+import { CARDS, default_deck, default_filter, FILTERS } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
 import { ICONS } from './icons';
 import { TAGS } from './tags';
@@ -142,6 +142,7 @@ export class Board extends React.Component {
       pick_selected: -1,
       shop_selected: -1,
       hand_choices: [false, false, false, false, false],
+      preview_filter: default_filter,
 
       branch: {},
       show_field: true,
@@ -528,6 +529,7 @@ export class Board extends React.Component {
     return {
       [illust]: card.illust,
       cost_detailed: card.cost,
+      // name: card.name,
       desc: get_desc(card),
       // desc: (
       //   <span>
@@ -770,6 +772,11 @@ export class Board extends React.Component {
     };
     this.setState({last_board: this.state.board})
     this.setState({board: BOARDS[new_board]});
+
+    // Other onBoardSet functions go here
+    if (new_board == "preview") {
+      this.setState({preview_filter: default_filter});
+    }
   }
 
   check_deck() {
@@ -957,11 +964,25 @@ export class Board extends React.Component {
   render_preview_board() {
     return (<div className="board" >
       <SCardRow 
-        cards = {this.state.preview_deck.map(this.process_card_details)}
+        cards = {this.state.preview_filter(this.state.preview_deck).map(this.process_card_details)}
       />
       <button className="preview-button" onClick={this.back}>
         返回
       </button>
+      <TypeFilterContainer 
+        filters = {FILTERS.map(filter_ => ({
+          ...filter_,
+          selected: this.state.preview_filter == filter_.f,
+          handleClick: () => {
+            if (this.state.preview_filter == filter_.f) {
+              this.setState({preview_filter: default_filter});
+            }
+            else {
+              this.setState({preview_filter: filter_.f});
+            }
+          },
+        }))}
+      />
     </div>);
   }
 

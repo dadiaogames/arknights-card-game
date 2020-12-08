@@ -177,21 +177,14 @@ export const SCardRow = (props) => {
 };
 
 export const TypeFilter = (props) => (
-  <div className="type-filter">
-  <Tabs>
-    <TabList>
-      <Tab>Title 1</Tab>
-      <Tab>Title 2</Tab>
-      <Tab>Title 2</Tab>
-      <Tab>Title 2</Tab>
-      <Tab>Title 2</Tab>
-      <Tab>Title 2</Tab>
-      <Tab>Title 2</Tab>
-      <Tab>Title 2</Tab>
-      <Tab>Title 2</Tab>
-    </TabList>
+  <div className="type-filter" style={{border:(props.selected)?"4px solid #096dd9":"4px solid grey"}} onClick={props.handleClick}>
+    <img className="type-filter-img" src={props.illust} />
+  </div>
+);
 
-  </Tabs>
+export const TypeFilterContainer = (props) => (
+  <div className="type-filter-container">
+    {props.filters.map(filter_ => <TypeFilter {...filter_} />)}
   </div>
 );
 
