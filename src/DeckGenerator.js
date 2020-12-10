@@ -682,7 +682,7 @@ export function is_standard(deck_data) {
     }
   }
   let sum_value = _.sum(numbers);
-  if (sum_value < 30) {
+  if (sum_value < 20) {
     return false;
   }
 

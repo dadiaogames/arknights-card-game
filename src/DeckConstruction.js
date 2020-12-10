@@ -31,7 +31,7 @@ export const DeckConstruction = (props) => {
       </button>
       <button
         onClick={()=>{
-          alert("标准卡组: 至少30张, 且同名卡不能超过3张;\n狂野卡组: 来啊, 整活啊!\n标准模式荣誉室: 可露希尔;");
+          alert("标准卡组: 至少20张, 且同名卡不能超过3张;\n狂野卡组: 来啊, 整活啊!\n标准模式荣誉室: 可露希尔;");
         }} 
         className="deck-construction-button"
       >
