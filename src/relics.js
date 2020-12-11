@@ -13,14 +13,14 @@ export const RELICS = [
   //     S.gold += 10;
   //   }
   // },
-  {
-    name: "乌萨斯列巴",
-    desc: "回合开始时，额外摸2张牌",
-    onTurnBegin(G, ctx){
-      draw(G, ctx);
-      draw(G, ctx);
-    }
-  },
+  // {
+  //   name: "乌萨斯列巴",
+  //   desc: "回合开始时，额外摸2张牌",
+  //   onTurnBegin(G, ctx){
+  //     draw(G, ctx);
+  //     draw(G, ctx);
+  //   }
+  // },
   {
     name: "超高级沙发",
     desc: "可同时部署人数+1",
@@ -81,11 +81,12 @@ export const RELICS = [
   
   {
     name: "地区行动方案",
-    desc: "起始获得额外1组材料",
+    desc: "起始获得额外1组材料，胜利所需分数+2",
     onBattleBegin(G, ctx){
       for (let i=0; i<3; i++) {
         G.materials[i] += 1;
       }
+      G.goal += 2;
     }
   },
   {
@@ -164,13 +165,13 @@ export const RELICS = [
       }
     }
   },
-  {
-    name:"奇怪的$墨镜", 
-    desc:"购买藏品后,获得5赏金",
-    onBuyRelic(S, relic) {
-      S.gold += 5;
-    }
-  },
+  // {
+  //   name:"奇怪的$墨镜", 
+  //   desc:"购买藏品后,获得5赏金",
+  //   onBuyRelic(S, relic) {
+  //     S.gold += 5;
+  //   }
+  // },
   // {
   //   name:"一份演讲稿", 
   //   desc:"购买藏品时,有概率随机升级1个干员",
@@ -286,16 +287,16 @@ export const RELICS = [
       });
     }
   },
-  {
-    name:"辉煌工匠包", 
-    desc:" 所有干员 +3攻 <-1>",
-    onBattleBegin(G, ctx) {
-      G.deck.map(x => {
-        x.atk += 3;
-        x.mine = Math.max(x.mine - 1, 0);
-      });
-    }
-  },
+  // {
+  //   name:"辉煌工匠包", 
+  //   desc:" 所有干员 +3攻 <-1>",
+  //   onBattleBegin(G, ctx) {
+  //     G.deck.map(x => {
+  //       x.atk += 3;
+  //       x.mine = Math.max(x.mine - 1, 0);
+  //     });
+  //   }
+  // },
   {
     name:"左半边椰子壳", 
     desc:" 所有干员+1费,+4/+4",
