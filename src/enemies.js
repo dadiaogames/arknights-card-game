@@ -320,9 +320,10 @@ export const BOSSES = [
     is_boss: true,
     illust: "http://prts.wiki/images/b/bd/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%94%88%E9%94%A4%E6%88%98%E5%A3%AB.png",
     desc: <span>行动: 对最后部署的干员造成5点伤害<br/>摧毁: 获得20分</span>,
-    onFight(G, ctx, self, card) {
-      if (card.dmg > card.hp) {
-        G.costs -= 2;
+    action(G, ctx, self) {
+      let card = G.field[G.field.length-1];
+      if (card) {
+        card.dmg += self.atk;
       }
     },
     onOut(G, ctx) {

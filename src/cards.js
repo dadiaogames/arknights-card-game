@@ -696,7 +696,7 @@ export const CARDS = [
     name:"星熊", 
     cost:4, 
     atk:4, 
-    hp:8, 
+    hp:10, 
     mine:2, 
     block:2, 
     desc:"行动: 消耗1点费用，获得+2/+2和阻挡数+1，然后重置自己", 
