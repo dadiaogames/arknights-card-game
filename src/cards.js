@@ -3329,7 +3329,9 @@ export const CARDS = [
         exhausted: false,
       };
       let idx = G.efield.indexOf(enemy);
-      G.efield[idx] = blank_enemy;
+      if (!enemy.is_boss) {
+        G.efield[idx] = blank_enemy;
+      }
     },
 
     onReinforce(G, ctx, self) {
