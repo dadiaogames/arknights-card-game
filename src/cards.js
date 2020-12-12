@@ -657,7 +657,7 @@ export const CARDS = [
     atk:2, 
     hp:6, 
     mine:2, 
-    block:2, 
+    block:3, 
     desc:"行动: 获得+6生命值", 
     illust:"http://prts.wiki/images/c/c7/%E7%AB%8B%E7%BB%98_%E8%9B%87%E5%B1%A0%E7%AE%B1_1.png",
     action(G, ctx, self) {
@@ -671,7 +671,7 @@ export const CARDS = [
     name:"斑点", 
     cost:4, 
     atk:2, 
-    hp:10, 
+    hp:12, 
     mine:2, 
     block:2, 
     desc:"行动: 完全治疗自己", 
