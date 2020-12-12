@@ -332,7 +332,7 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:1, 
-    desc:"采掘: 摧毁场上1个(重置状态的)干员，并获得4点费用", 
+    desc:"采掘: 摧毁场上1个(重置的)干员，并获得4点费用", 
     illust:"http://prts.wiki/images/3/3a/%E7%AB%8B%E7%BB%98_%E6%B8%85%E9%81%93%E5%A4%AB_1.png",
     onMine(G, ctx, self) {
       if (eliminate_field(G, ctx)) {
@@ -692,6 +692,31 @@ export const CARDS = [
     }
   },
 
+  {
+    name:"星熊", 
+    cost:4, 
+    atk:4, 
+    hp:8, 
+    mine:2, 
+    block:2, 
+    desc:"行动: 消耗1点费用，获得+2/+2和阻挡数+1，然后重置自己", 
+    illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
+    action(G, ctx, self) {
+      if (payCost(G, ctx, 1, true)) {
+        self.atk += 2;
+        self.hp += 2;
+        self.block += 1;
+      }
+      self.exhausted = false;
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.block += 1;
+    },
+    reinforce_desc: "阻挡数+1",
+  },
+  
+
 
   {
     name:"年", 
@@ -811,7 +836,7 @@ export const CARDS = [
     hp:1, 
     mine:1, 
     block:1, 
-    desc:"部署: 使1个(重置状态的)干员获得+3/+3", 
+    desc:"部署: 使1个(重置的)干员获得+3/+3", 
     illust:"http://prts.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E6%9C%AB%E8%8D%AF_1.png",
     onPlay(G, ctx, self) {
       // let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
@@ -1074,26 +1099,36 @@ export const CARDS = [
     reinforce_desc: "获得2点费用",
   },
 
-  // {
-  //   name:"伊芙利特",
-  //   cost:4,
-  //   atk:4,
-  //   hp:3,
-  //   mine:4,
-  //   block:0,
-  //   desc: "行动: 重置所有订单",
-  //   illust:"",
-  //   action(G, ctx) {
-  //     for (let order of G.finished) {
-  //       order.exhausted = false;
-  //     }
-  //   },
-  //   reinforce: 1,
-  //   reinforce_desc: "",
-  //   onReinforce(G, ctx, self){},
+  {
+    name:"伊芙利特",
+    cost:4,
+    atk:4,
+    hp:3,
+    mine:4,
+    block:0,
+    desc: "行动: 摧毁3个颜色相同的(重置的)订单，获得12分",
+    illust:"http://prts.wiki/images/5/53/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E8%8A%99%E5%88%A9%E7%89%B9_1.png",
+    action(G, ctx, self) {
+      for (let i=0; i<3; i++) {
+        let colored_orders = G.finished.filter(x => (!x.exhausted) && (x.color == i));
+        if (colored_orders.length >= 3) {
+          G.finished = G.finished.filter(x => !colored_orders.includes(x));
+          G.score += 12;
+          logMsg(G, ctx, "获得12分");
+          return;
+        }
+      }
+      self.exhausted = false;
+      logMsg(G, ctx, "没有3个同色的订单");
+    },
+    reinforce: 2,
+    reinforce_desc: "获得2分",
+    onReinforce(G, ctx, self){
+      G.score += 2;
+    },
 
 
-  // },
+  },
 
   {
     name:"天火",
@@ -1273,8 +1308,32 @@ export const CARDS = [
     },
     reinforce_desc: "获得1个\"梅尔\"",
   },
-
-
+  
+  {
+    name:"龙腾",
+    was_enemy: true,
+    cost:2,
+    atk:2,
+    hp:3,
+    mine:2,
+    block:0,
+    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，召唤3个"麦哲伦"</span>,
+    illust:"http://prts.wiki/images/c/c9/%E5%A4%B4%E5%83%8F_%E5%8F%AC%E5%94%A4%E7%89%A9_%E9%BE%99%E8%85%BE.F.png",
+    action(G, ctx, self) {
+      if (payMaterials(G, ctx, [1,1,1,0])) {
+        let generator = extra_cards.find(x => x.name == "麦哲伦");
+        for (let i=0; i<3; i++) {
+          let card = generator.generate(ctx);
+          summon(G, ctx, {...card}, self);
+        }
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "造成3点伤害",
+    onReinforce(G, ctx, self) {
+      deal_random_damage(G, ctx, 3);
+    },
+  },
 
   
   // {
@@ -2153,7 +2212,7 @@ export const CARDS = [
     hp:6,
     mine:2,
     block:2,
-    desc: "采掘/战斗: 强化场上1个(重置状态的)干员",
+    desc: "采掘/战斗: 强化场上1个(重置的)干员",
     illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
     reinforce: 1,
     onMine(G, ctx, self) {
@@ -2175,7 +2234,7 @@ export const CARDS = [
     hp:3,
     mine:1,
     block:1,
-    desc: "部署: 强化场上1个(重置状态的)干员，重复3次",
+    desc: "部署: 强化场上1个(重置的)干员，重复3次",
     illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -2236,7 +2295,7 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:1,
-    desc: "采掘: 将场上1个(重置状态的)干员返回手牌",
+    desc: "采掘: 将场上1个(重置的)干员返回手牌",
     illust:"http://prts.wiki/images/5/50/%E7%AB%8B%E7%BB%98_%E9%9C%9C%E5%8F%B6_1.png",
     reinforce: 1,
     // onRest(G, ctx, self) {
@@ -2334,7 +2393,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "行动: 对1个(重置状态的)干员造成3点伤害，并获得3分",
+    desc: "行动: 对1个(重置的)干员造成3点伤害，并获得3分",
     illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
     reinforce: 1,
     action(G, ctx, self) {
@@ -3053,11 +3112,11 @@ export const CARDS = [
       hp:2,
       mine:1,
       block:0,
-      desc:"采掘: 摧毁场上1个(重置状态的)干员，并造成6点伤害",
+      desc:"采掘: 摧毁场上1个(重置的)干员，并造成8点伤害",
       illust:"http://prts.wiki/images/8/87/%E7%AB%8B%E7%BB%98_%E7%A9%BA%E7%88%86_1.png",
       onMine(G, ctx, self) {
         if (eliminate_field(G, ctx)) {
-          deal_random_damage(G, ctx, 6 + 4 * self.power);
+          deal_random_damage(G, ctx, 8 + 4 * self.power);
         }
       },
       action(G, ctx, self) {
@@ -3654,6 +3713,50 @@ export const extra_cards = [
             }
           },
           
+          onReinforce(G, ctx) {
+            deal_random_damage(G, ctx, 5);
+          },
+          reinforce_desc: "造成5点伤害",
+        };
+    }
+  },
+  {
+    name: "麦哲伦",
+    generate(ctx) {
+      let name = choice(ctx, "麦迪文 麦当劳 麦当娜 麦克雷 麦旋风 麦克斯韦 张信哲 哥伦布 周杰伦 炎亚纶 拿破仑 达尔文 刘德华".split(" "));
+      let values = choice(ctx, [
+        {
+          atk: 2,
+          hp: 2,
+          mine: 1,
+          block: 1,
+        },
+        {
+          atk: 4,
+          hp: 2,
+          mine: 0,
+          block: 1,
+        },
+        {
+          atk: 0,
+          hp: 2,
+          mine: 2,
+          block: 1,
+        },
+        {
+          atk: 1,
+          hp: 2,
+          mine: 1,
+          block: 2,
+        },
+      ]);
+      return {
+          name,
+          ...values,
+          cost:1,
+          material:3,
+          illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
+          reinforce: 1,
           onReinforce(G, ctx) {
             deal_random_damage(G, ctx, 5);
           },
