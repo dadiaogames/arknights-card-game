@@ -40,10 +40,10 @@ export const RELICS = [
     }
   },{
     name: "荒地龙舌兰",
-    desc: "每回合少获得1点费用，但获得3个钢",
+    desc: "每回合少获得1点费用，但获得3个材料",
     onTurnBegin(G, ctx){
       G.costs -= 1;
-      G.materials[3] += 3;
+      gainMaterials(G, ctx, 3);
     }
   },{
     name: "一份演讲稿",

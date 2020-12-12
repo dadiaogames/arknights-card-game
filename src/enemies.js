@@ -1,9 +1,10 @@
+import React from 'react';
 import 
   { drawEnemy, switchEnemy, deal_damage, enemyMove,
     get_blocker, logMsg, ready_random_card,
  } from "./Game";
 
-export var ENEMIES = [
+export const ENEMIES = [
   {
     name: "小兵",
     atk: 2,
@@ -23,10 +24,10 @@ export var ENEMIES = [
     }
   },
   {
-    name: "弩手",
+    name: "敌方能天使",
     atk: 2,
     hp: 4,
-    illust: "http://prts.wiki/images/a/a5/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%B0%84%E6%89%8B.png",
+    illust: "http://prts.wiki/images/e/e2/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A5%9E%E5%B0%84%E6%89%8B.png",
     desc: "行动: 对最后部署的干员造成[攻击力]点伤害",
     action(G, ctx, self) {
       let card = G.field[G.field.length-1];
@@ -124,6 +125,30 @@ export var ENEMIES = [
         deal_damage(G, ctx, "field", idx, self.atk+2);
         logMsg(G, ctx, `高能源石虫对 ${G.field[idx].name} 造成了${self.atk+2}点伤害`);
       }
+    }
+  },
+
+  {
+    name: "乌萨斯刁民",
+    atk: -20,
+    hp: 6,
+    illust: "http://prts.wiki/images/3/35/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E4%B9%8C%E8%90%A8%E6%96%AF%E5%B9%B3%E6%B0%91.png",
+    desc: "无法攻击，摧毁: 获得3点费用",
+    action(G, ctx) {
+      return;
+    },
+    onOut(G, ctx) {
+      G.costs += 3;
+    }
+  },
+  {
+    name: "冰爆源石虫",
+    atk: 1,
+    hp: 2,
+    illust: "http://prts.wiki/images/2/26/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%86%B0%E7%88%86%E6%BA%90%E7%9F%B3%E8%99%AB.png",
+    desc: "摧毁: 失去2点费用",
+    onOut(G, ctx) {
+      G.costs -= 2;
     }
   },
   
@@ -268,4 +293,40 @@ export var ENEMIES = [
   },
 
 
+];
+
+export const BOSSES = [
+  {
+    name: "大泡普",
+    atk: 4,
+    hp: 1,
+    is_boss: true,
+    illust: "https://s3.ax1x.com/2020/12/13/rZ4mTJ.png",
+    desc: <span>超杀: 失去1点费用<br/>摧毁: 获得20分</span>,
+    onFight(G, ctx, self, card) {
+      if (card.dmg > card.hp) {
+        G.costs -= 2;
+      }
+    },
+    onOut(G, ctx) {
+      G.score += 20;
+    }
+  },
+
+  {
+    name: "锈锤战士",
+    atk: 5,
+    hp: 1,
+    is_boss: true,
+    illust: "http://prts.wiki/images/b/bd/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%94%88%E9%94%A4%E6%88%98%E5%A3%AB.png",
+    desc: <span>行动: 对最后部署的干员造成5点伤害<br/>摧毁: 获得20分</span>,
+    onFight(G, ctx, self, card) {
+      if (card.dmg > card.hp) {
+        G.costs -= 2;
+      }
+    },
+    onOut(G, ctx) {
+      G.score += 20;
+    }
+  },
 ];

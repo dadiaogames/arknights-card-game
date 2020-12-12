@@ -885,12 +885,12 @@ export class Board extends React.Component {
         else if (risk_level >= 40 && risk_level < 50) {
           grade = "SSS";
         }
-        // else if (risk_level >= 22 && risk_level < 30) {
-        //   grade = "SSSS";
-        // }
-        // else if (risk_level >= 30 && risk_level < 50) {
-        //   grade = "SSSSS";
-        // }
+        else if (risk_level >= 50 && risk_level < 60) {
+          grade = "SSSS";
+        }
+        else if (risk_level >= 60 && risk_level < 70) {
+          grade = "SSSSS";
+        }
         else {
           grade = "SSSSSS";
         }

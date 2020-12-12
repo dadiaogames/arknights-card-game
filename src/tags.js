@@ -1,4 +1,4 @@
-import { enemy2card } from "./Game";
+import { addBoss, enemy2card } from "./Game";
 
 const tag_list = [
   {
@@ -242,6 +242,27 @@ const tag_list = [
     standard_level: 3,
     effect(G, ctx){
       G.reinforceOnR4 = true;
+    }
+  },
+
+  {
+    src: "http://prts.wiki/images/b/bd/Enemy_ghost_1.png",
+    desc: "增加Boss\"大泡普\"，胜利所需分数+10",
+    level: 5,
+    challenge: true,
+    effect(G, ctx){
+      addBoss(G, ctx, "大泡普");
+      G.goal += 10;
+    }
+  },
+  {
+    src: "http://prts.wiki/images/f/f9/Enemy_faust_trapmod_3.png",
+    desc: "增加Boss\"锈锤战士\"，胜利所需分数+10",
+    level: 5,
+    challenge: true,
+    effect(G, ctx){
+      addBoss(G, ctx, "锈锤战士");
+      G.goal += 10;
     }
   },
 {

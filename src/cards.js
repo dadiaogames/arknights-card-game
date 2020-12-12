@@ -2148,7 +2148,8 @@ export const CARDS = [
     reinforce: 1,
     onPlay(G, ctx, self) {
       self.onTurnBegin = (G, ctx, self) => {
-        let paid = payCost(G, ctx, 2);
+        G.costs -= 2;
+        // let paid = payCost(G, ctx, 2);
         // if (!paid) {
         //   self.atk -= 5;
         //   self.hp -= 5;

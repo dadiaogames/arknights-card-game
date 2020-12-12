@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { CARDS } from "./cards";
-import { ENEMIES } from "./enemies";
+import { BOSSES, ENEMIES } from "./enemies";
 import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
 import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1 } from './DeckGenerator';
@@ -392,6 +392,14 @@ export function drawEnemy(G, ctx) {
     }
   
   }
+}
+
+export function addBoss(G, ctx, boss_name) {
+  let boss = {...BOSSES.find(x => x.name == boss_name)};
+
+  boss.exhausted = false;
+  boss.dmg = -19;
+  G.efield.push(boss);
 }
 
 export function switchEnemy(G, ctx) {
