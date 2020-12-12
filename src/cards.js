@@ -3338,7 +3338,8 @@ export const CARDS = [
       let texas = G.CARDS.find(x => (x.name == "德克萨斯"));
       texas.onMine = undefined;
       texas.desc = "";
-      G.field.push(init_card_state(G, ctx, {...texas}));
+      // G.field.push(init_card_state(G, ctx, {...texas}));
+      summon(G, ctx, {...texas}, self);
 
       if (self.power >= 5) {
         achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰德部署5个德克萨斯", self);
@@ -3546,7 +3547,7 @@ export const BORROWS = [
 
   {
     name:"青眼白龙",
-    cost:8,
+    cost:4,
     atk:3000,
     hp:2500,
     mine:4,
