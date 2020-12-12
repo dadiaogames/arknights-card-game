@@ -354,12 +354,12 @@ export const CARDS = [
     hp:3, 
     mine:1, 
     block:1, 
-    desc:"采掘: 横置1个敌人，然后每有1个横置的敌人，就获得1点费用(最多4点)", 
+    desc:"采掘: 横置1个敌人，然后每有1个横置的敌人，就获得1点费用", 
     illust:"http://prts.wiki/images/f/fc/%E7%AB%8B%E7%BB%98_%E5%BE%B7%E5%85%8B%E8%90%A8%E6%96%AF_1.png",
     onMine(G, ctx, self) {
       exhaust_random_enemy(G, ctx);
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
-      G.costs += Math.min(num_exhausted, 4);
+      G.costs += num_exhausted;
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
@@ -2167,18 +2167,18 @@ export const CARDS = [
 
   {
     name:"凛冬",
-    cost:3,
-    atk:4,
-    hp:3,
+    cost:4,
+    atk:3,
+    hp:6,
     mine:2,
     block:1,
-    desc: "行动: 强化1张手牌，然后每有1张强化过的手牌，就获得1点费用",
+    desc: "战斗: 强化1张手牌，然后每有1张强化过的手牌，就获得1点费用",
     illust:"http://prts.wiki/images/6/6e/%E7%AB%8B%E7%BB%98_%E5%87%9B%E5%86%AC_1.png",
     reinforce: 1,
     // onMine(G, ctx, self) {
     //   reinforce_hand(G, ctx);
     // },
-    action(G, ctx, self) {
+    onFight(G, ctx, self) {
       reinforce_hand(G, ctx);
       let num_reinforced = G.hand.filter(x => (x.power > 0)).length;
       G.costs += num_reinforced;
