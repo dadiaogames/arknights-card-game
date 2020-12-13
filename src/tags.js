@@ -41,6 +41,8 @@ const tag_list = [
     src: "http://prts.wiki/images/7/71/Level_predefines_1.png",
     desc: "敌方牌库减少40%的牌",
     level: 2,
+    unstackable: true,
+    extra_challenge: true,
     effect(G, ctx) {
       G.edeck = G.edeck.slice(8);
     }
@@ -61,6 +63,7 @@ const tag_list = [
     desc: "所有精英敌人获得+2/+4",
     level: 2,
     standard_level: 1,
+    stackable: true,
     effect(G, ctx) {
       for (let enemy of G.edeck) {
         if (enemy.is_elite) {
@@ -97,6 +100,7 @@ const tag_list = [
     desc: "2回合后，所有敌人获得\"冲锋\"",
     level: 2,
     challenge: true,
+    unstackable: true,
     effect(G, ctx) {
       G.dashOnR3 = true;
     }
@@ -133,6 +137,7 @@ const tag_list = [
     desc: "所有干员采掘力-1",
     level: 2,
     challenge: true,
+    unstackable: true,
     effect(G, ctx){
       for (let card of G.deck) {
         card.mine -= 1;
@@ -161,6 +166,8 @@ const tag_list = [
     desc: "可同时部署的干员数-3",
     level: 3,
     challenge: true,
+    unstackable: true,
+    extra_challenge: true,
     effect(G, ctx){
       G.field_limit -= 3;
     }
@@ -170,6 +177,7 @@ const tag_list = [
     desc: "所有订单的分数-1",
     level: 3,
     standard_level: 3,
+    unstackable: true,
     effect(G, ctx) {
       for (let order of G.odeck) {
         order.score -= 1;
@@ -182,6 +190,7 @@ const tag_list = [
     desc: "所有干员攻击力-2",
     level: 3,
     challenge: true,
+    unstackable: true,
     effect(G, ctx) {
       // G.goal += 28; // Because first turn gonna -4 too
       // G.reduce_goal = true;
@@ -196,6 +205,7 @@ const tag_list = [
     desc: "每回合额外翻开1张敌人牌",
     level: 3,
     challenge: true,
+    stackable: true,
     effect(G, ctx) {
       G.num_enemies_out += 1;
     }
@@ -230,6 +240,7 @@ const tag_list = [
     desc: "胜利所需分数+10",
     level: 3,
     standard_level: 2,
+    stackable: true,
     effect(G, ctx){
       G.goal += 10;
     }
@@ -250,6 +261,7 @@ const tag_list = [
     desc: "增加Boss\"大泡普\"，胜利所需分数+10",
     level: 5,
     challenge: true,
+    stackable: true,
     effect(G, ctx){
       addBoss(G, ctx, "大泡普");
       G.goal += 10;
@@ -260,6 +272,7 @@ const tag_list = [
     desc: "增加Boss\"锈锤战士\"，胜利所需分数+10",
     level: 5,
     challenge: true,
+    stackable: true,
     effect(G, ctx){
       addBoss(G, ctx, "锈锤战士");
       G.goal += 10;
@@ -269,6 +282,7 @@ const tag_list = [
     src: "http://prts.wiki/images/f/f1/Enemy_buster_1.png",
     desc: "这个tag是送你的哦~",
     level: -50,
+    unstackable: true,
     effect(G, ctx) {
       let deck = G.deck.map(x=>enemy2card(G, ctx));
       G.edeck = ctx.random.Shuffle(G.deck.map(x=>({...x, power:0}))); // If don't add power:0, plenty of bugs gonna come
@@ -288,6 +302,7 @@ const tag_list = [
     src: "http://prts.wiki/images/c/c1/Char_cdtime_2.png",
     desc: "干员以横置状态入场",
     level: 10,
+    unstackable: true,
     effect(G, ctx){
       G.exhausted_enter = true;
     }
