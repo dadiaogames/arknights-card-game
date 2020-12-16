@@ -217,13 +217,16 @@ function get_shop_item(S) {
   let item_type = S.rng.randRange(100);
   // console.log(item_type, "item type");
 
-  if (item_type <= 60) {
+  if (item_type <= 50) {
     // TODO: change this to relic
     return get_relic(S);
   }
-  else if (item_type <= 95) {
+  else if (item_type <= 75) {
     // TODO: change this to upgrade
     return get_upgrade(S);
+  }
+  else if (item_type <= 95) {
+    return get_card_pick(S);
   }
   else{
     return delete_card(S);
@@ -252,6 +255,21 @@ function get_upgrade(S) {
   };
 
   return shop_item;
+}
+
+function get_card_pick(S) {
+  return {
+    name: "自选干员",
+    price: 0,
+    indexes: S.rng.shuffle(CARDS.map((x,idx)=>idx)).slice(0,6),
+    desc: "从6个干员中，选择你最心仪的那一个",
+    src: "http://prts.wiki/images/8/88/%E9%9B%86%E6%88%90%E6%88%98%E7%95%A5_%E9%81%93%E5%85%B7_%E9%AB%98%E7%BA%A7%E4%BA%BA%E4%BA%8B%E8%B0%83%E5%BA%A6%E5%87%BD.png",
+    is_pick: true,
+    onBought(S, idx) {
+      let card = CARDS[idx];
+      S.Deck.unshift({...card, material: S.rng.randRange(3)});
+    }
+  };
 }
 
 // function get_reinforceupgrade(S, rng) {
@@ -471,6 +489,7 @@ export function random_upgrade(S) {
   let card = S.rng.choice(S.Deck);
   let upgrade = S.rng.choice(UPGRADES);
   upgrade.effect(card);
+  card.upgraded = true;
   alert(`${card.name} is upgraded with ${upgrade.name}`);
 }
 
