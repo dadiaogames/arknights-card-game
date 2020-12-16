@@ -7,10 +7,10 @@ const PREFIXES = "欧皇 非酋 只肝不氪 只氪不肝 肝帝 碎石猛肝 �
 const SEEDS = "龙门厕所 250区废墟 完整小道 旧街 中转坐 霜烤废墟 废铁峡谷 军械库北 风蚀矮天 荒废受厂 龙门厕所 荒废受厂 风蚀矮天".split(" ");
 
 export const classes = {
-  producers: "极境 讯使 香草 桃金娘 红豆 清道夫 德克萨斯 凛冬 贾维 惊蛰 推进之王 芬 调香师 断崖 清流".split(" "),
+  producers: "极境 讯使 香草 桃金娘 红豆 清道夫 德克萨斯 贾维 惊蛰 推进之王 芬 调香师 断崖 清流".split(" "),
   solvers: "克洛丝 巡林者 杰西卡 蓝毒 陨星 普罗旺斯 流星 空爆 能天使 W 陈 棘刺 史尔特尔 拉普兰德 刻刀 刻俄柏 四月".split(" "),
   miners: "史都华德 12F 炎熔 夜烟 远山 天火 杜林 星极 艾雅法拉".split(" "),
-  standers: "玫兰莎 芙兰卡 慕斯 柏喙 赫拉格 孑 宴 银灰 卡达 阿米娅-近卫 机械水獭 末药 杜宾 森蚺 夜刀".split(" "),
+  standers: "玫兰莎 芙兰卡 慕斯 柏喙 赫拉格 孑 宴 银灰 凛冬 卡达 阿米娅-近卫 机械水獭 末药 杜宾 森蚺 夜刀".split(" "),
   defenders: "米格鲁 蛇屠箱 斑点 年 可颂 古米 雷蛇 泥岩 砾 摄影车 龙腾 星熊".split(" "),
   supporters: "梓兰 红 诗怀雅 安洁莉娜 霜叶 巫恋 翎羽 白面鸮 空 波登可 真理 安比尔 温蒂 黑角".split(" "),
   scorers: "阿米娅 阿消 崖心 食铁兽 铃兰 酸糖 闪灵 煌 阿 断罪者 赫默 伊芙利特 苏苏洛 皇帝".split(" "),
@@ -337,13 +337,16 @@ const fullmoon = `铃兰 2 3
 // const strategies = [dubin_score, solve, penguin, highcost, rhine, eyja, angelina, karlan, ursus, arise, champion];
 const strategies = [solve, penguin, highcost, rhine, karlan, ursus, fullmoon];
 
+// Maybe this should be rewrite to mini_sets_S2 with plenty of union sets
 const mini_sets = [
   //风笛套
-  ' 风笛 伊桑 白面鸮  温蒂  黑角 夜刀 ',
-  ' 风笛 伊桑 雷蛇  能天使|艾雅法拉  黑角 夜刀 ',
+  ' 风笛 白面鸮 温蒂  黑角 夜刀 ',
 
   //莱茵订单流
   ' 赫默 赫默|白面鸮 赫默|白面鸮 12F|远山|炎熔|天火|杜林 艾雅法拉 ',
+
+  //火龙单核
+  ' 伊芙利特 赫默 白面鸮 史都华德|夜烟|炎熔 ',
 
   //企鹅物流 有德狗爆费核心 有空皇帝刷分核心 还有空德可颂的清场
   ' 德克萨斯 德克萨斯 艾雅法拉 坚雷|泥岩 阿消 ',
@@ -352,7 +355,7 @@ const mini_sets = [
 
   //能天使核心各种 能陨速清场 能炎熔刷材料
   ' 能天使 陨星 蓝毒 炎熔 ',
-  ' 能天使 陨星 拉普兰德 炎熔 ',
+  ' 能天使 陨星 拉普兰德 刻俄柏 ',
 
   //空爆
   ' 空爆 摄影车 砾 流星 ',
@@ -412,7 +415,7 @@ const mini_sets = [
   ' 伊桑 刻俄柏 芙兰卡 真理 ',
 
   //经典强化
-  ' 古米 诗怀雅 ',
+  ' 古米 诗怀雅 古米|诗怀雅 ',
 
   //超杀
   ' 安比尔 天火|煌|迷迭香 天火|煌|迷迭香 赫拉格 ',

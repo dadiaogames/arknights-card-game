@@ -63,7 +63,7 @@ const tag_list = [
     desc: "所有精英敌人获得+2/+4",
     level: 2,
     standard_level: 1,
-    stackable: true,
+    // stackable: true,
     effect(G, ctx) {
       for (let enemy of G.edeck) {
         if (enemy.is_elite) {
@@ -95,16 +95,7 @@ const tag_list = [
     }
   },
 
-  {
-    src: "http://prts.wiki/images/9/99/Enemy_movespeed_2.png",
-    desc: "2回合后，所有敌人获得\"冲锋\"",
-    level: 2,
-    challenge: true,
-    unstackable: true,
-    effect(G, ctx) {
-      G.dashOnR3 = true;
-    }
-  },
+  
 
   {
     src: "http://prts.wiki/images/a/a0/Enemy_hp_2.png",
@@ -257,6 +248,17 @@ const tag_list = [
   },
 
   {
+    src: "http://prts.wiki/images/9/99/Enemy_movespeed_2.png",
+    desc: "2回合后，所有敌人获得\"冲锋\"",
+    level: 4,
+    challenge: true,
+    unstackable: true,
+    effect(G, ctx) {
+      G.dashOnR3 = true;
+    }
+  },
+
+  {
     src: "http://prts.wiki/images/b/bd/Enemy_ghost_1.png",
     desc: "增加Boss\"大泡普\"，胜利所需分数+10",
     level: 5,
@@ -300,7 +302,7 @@ const tag_list = [
   
   {
     src: "http://prts.wiki/images/c/c1/Char_cdtime_2.png",
-    desc: "干员以横置状态入场",
+    desc: "干员以疲劳状态入场",
     level: 10,
     unstackable: true,
     effect(G, ctx){

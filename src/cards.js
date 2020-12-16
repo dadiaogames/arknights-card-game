@@ -107,21 +107,21 @@ export const CARDS = [
     reinforce_desc: "+2/+2",
   },
   
-  {
-    name:"芙兰卡", 
-    cost:4, 
-    atk:6, 
-    hp:6, 
-    mine:3, 
-    block:1, 
-    illust:"http://prts.wiki/images/6/6c/%E7%AB%8B%E7%BB%98_%E8%8A%99%E5%85%B0%E5%8D%A1_1.png",
-    reinforce: 2,
-    onReinforce(G, ctx, self) {
-      self.atk += 6;
-      self.hp += 6;
-    },
-    reinforce_desc: "+6/+6",
-  },
+  // {
+  //   name:"芙兰卡", 
+  //   cost:4, 
+  //   atk:6, 
+  //   hp:6, 
+  //   mine:3, 
+  //   block:1, 
+  //   illust:"http://prts.wiki/images/6/6c/%E7%AB%8B%E7%BB%98_%E8%8A%99%E5%85%B0%E5%8D%A1_1.png",
+  //   reinforce: 2,
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 6;
+  //     self.hp += 6;
+  //   },
+  //   reinforce_desc: "+6/+6",
+  // },
 
   {
     name: "米格鲁",
@@ -628,7 +628,7 @@ export const CARDS = [
     atk:4, 
     hp:4, 
     mine:3, 
-    block:1, 
+    block:0, 
     desc: <span>采掘: 弃2张牌，获得2个{material_icons[3]}</span>, 
     illust:"http://prts.wiki/images/b/bb/%E7%AB%8B%E7%BB%98_%E6%98%9F%E6%9E%81_1.png",
     onMine(G, ctx, self) {
@@ -667,30 +667,30 @@ export const CARDS = [
     reinforce_desc: "再获得+4生命值",
   },
 
-{
-    name:"斑点", 
-    cost:4, 
-    atk:2, 
-    hp:12, 
-    mine:2, 
-    block:2, 
-    desc:"行动: 完全治疗自己", 
-    illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
-    action(G, ctx, self) {
-      // let self_idx = G.field.indexOf(self);
-      // G.field.map((card, idx) => {
-      //   if ([self_idx-1, self_idx, self_idx+1].includes(idx)) {
-      //     card.hp += 4;
-      //   }
-      // });
-      self.dmg = 0;
-    },
-    reinforce: 1,
-    reinforce_desc: "+0/+6",
-    onReinforce(G, ctx, self) {
-      self.hp += 6;
-    }
-  },
+// {
+//     name:"斑点", 
+//     cost:4, 
+//     atk:2, 
+//     hp:12, 
+//     mine:2, 
+//     block:2, 
+//     desc:"行动: 完全治疗自己", 
+//     illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
+//     action(G, ctx, self) {
+//       // let self_idx = G.field.indexOf(self);
+//       // G.field.map((card, idx) => {
+//       //   if ([self_idx-1, self_idx, self_idx+1].includes(idx)) {
+//       //     card.hp += 4;
+//       //   }
+//       // });
+//       self.dmg = 0;
+//     },
+//     reinforce: 1,
+//     reinforce_desc: "+0/+6",
+//     onReinforce(G, ctx, self) {
+//       self.hp += 6;
+//     }
+//   },
 
   {
     name:"星熊", 
@@ -1586,7 +1586,7 @@ export const CARDS = [
     atk:4,
     hp:3,
     mine:2,
-    block:1,
+    block:0,
     desc:"超杀: 召唤2个随机干员的2/2复制",
     illust:"https://s3.ax1x.com/2020/11/26/Ddxxbt.png",
     onFight(G, ctx, self, enemy) {
@@ -1940,9 +1940,9 @@ export const CARDS = [
       self.use_count = 0;
     },
     reinforce: 1,
-    reinforce_desc: "+1/+1",
+    reinforce_desc: "+2/+1",
     onReinforce(G, ctx, self) {
-      self.atk += 1;
+      self.atk += 2;
       self.hp += 1;
     }
   },
@@ -2047,7 +2047,7 @@ export const CARDS = [
     onTurnBegin(G, ctx, self) {
       self.use_count = 20;
     },
-    reinforce: 2,
+    reinforce: 1,
     reinforce_desc: "伤害+1",
   },
   
@@ -2167,27 +2167,33 @@ export const CARDS = [
 
   {
     name:"凛冬",
-    cost:4,
+    cost:3,
     atk:3,
-    hp:6,
-    mine:2,
+    hp:4,
+    mine:1,
     block:1,
-    desc: "战斗: 强化1张手牌，然后每有1张强化过的手牌，就获得1点费用",
+    desc: "采掘/战斗: 强化1张手牌",
     illust:"http://prts.wiki/images/6/6e/%E7%AB%8B%E7%BB%98_%E5%87%9B%E5%86%AC_1.png",
     reinforce: 1,
     // onMine(G, ctx, self) {
     //   reinforce_hand(G, ctx);
     // },
+    // onFight(G, ctx, self) {
+    //   reinforce_hand(G, ctx);
+    //   let num_reinforced = G.hand.filter(x => (x.power > 0)).length;
+    //   G.costs += num_reinforced;
+    // },
+    onMine(G, ctx, self) {
+      reinforce_hand(G, ctx);
+    },
     onFight(G, ctx, self) {
       reinforce_hand(G, ctx);
-      let num_reinforced = G.hand.filter(x => (x.power > 0)).length;
-      G.costs += num_reinforced;
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
-      self.hp += 2;
+      self.hp += 3;
     },
-    reinforce_desc: "+2/+2",
+    reinforce_desc: "+2/+3",
   },
   {
     name:"真理",
@@ -2295,7 +2301,7 @@ export const CARDS = [
     atk:3,
     hp:3,
     mine:2,
-    block:1,
+    block:0,
     desc: "采掘: 将场上1个(重置的)干员返回手牌",
     illust:"http://prts.wiki/images/5/50/%E7%AB%8B%E7%BB%98_%E9%9C%9C%E5%8F%B6_1.png",
     reinforce: 1,
@@ -3082,9 +3088,9 @@ export const CARDS = [
       }
     },
     reinforce: 1,
-    reinforce_desc: "+1/+1",
+    reinforce_desc: "+2/+1",
     onReinforce(G, ctx, self) {
-      self.atk += 1;
+      self.atk += 2;
       self.hp += 1;
     },
   },{
@@ -3733,7 +3739,7 @@ export const extra_cards = [
           atk: 2,
           hp: 2,
           mine: 1,
-          block: 1,
+          block: 2,
         },
         {
           atk: 4,
@@ -3746,12 +3752,6 @@ export const extra_cards = [
           hp: 2,
           mine: 2,
           block: 1,
-        },
-        {
-          atk: 1,
-          hp: 2,
-          mine: 1,
-          block: 2,
         },
       ]);
       return {

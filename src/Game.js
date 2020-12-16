@@ -266,8 +266,12 @@ function play(G, ctx, idx) {
     }
     else {
       G.costs += card.cost;
-      G.hand.push(card);
+      G.hand.unshift(card);
     }
+  }
+
+  else {
+    logMsg(G, ctx, `费用不足，无法部署`);
   }
 }
 
@@ -734,7 +738,7 @@ export function enemyMove(G, ctx, idx) {
   }
 }
 
-function clearField(G, ctx, field="field") {
+export function clearField(G, ctx, field="field") {
   for (let i=G[field].length-1; i>=0; i--) {
     let card = G[field][i];
     if (card.hp - card.dmg <= 0) {

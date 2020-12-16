@@ -13,14 +13,15 @@ export const RELICS = [
   //     S.gold += 10;
   //   }
   // },
-  // {
-  //   name: "乌萨斯列巴",
-  //   desc: "回合开始时，额外摸2张牌",
-  //   onTurnBegin(G, ctx){
-  //     draw(G, ctx);
-  //     draw(G, ctx);
-  //   }
-  // },
+  {
+    name: "乌萨斯列巴",
+    desc: "回合开始时，获得1张随机干员牌，并使其费用-1",
+    onTurnBegin(G, ctx){
+      let card = {...choice(ctx, G.CARDS)};
+      card.cost -= 1;
+      G.hand.unshift(card);
+    }
+  },
   {
     name: "超高级沙发",
     desc: "可同时部署人数+1",
@@ -237,9 +238,9 @@ export const RELICS = [
   },
   {
     name:"倒转的怀表", 
-    desc:"回合开始时,每有1点动乱就获得3分",
+    desc:"回合开始时,每有1点动乱就获得2分",
     onTurnBegin(G, ctx) {
-      G.score += 3 * G.danger;
+      G.score += 2 * G.danger;
     }
   },
   // {
@@ -310,12 +311,12 @@ export const RELICS = [
   },
   {
     name:"右半边椰子壳", 
-    desc:" 所有干员-1费,胜利所需分数+8",
+    desc:" 所有干员-1费,胜利所需分数+10",
     onBattleBegin(G, ctx) {
       G.deck.map(x => {
         x.cost -= 1;
       });
-      G.goal += 8;
+      G.goal += 10;
     }
   },
   {
@@ -330,7 +331,7 @@ export const RELICS = [
     desc:"起始获得1个随机的强化3干员加入手牌",
     onBattleBegin(G, ctx) { 
       let reinforce = UPGRADES.find(x => x.name == "强化1");
-      let card = choice(ctx, G.CARDS);
+      let card = {...choice(ctx, G.CARDS)};
       reinforce.effect(card);
       reinforce.effect(card);
       reinforce.effect(card);

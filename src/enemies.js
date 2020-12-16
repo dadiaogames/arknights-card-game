@@ -1,7 +1,7 @@
 import React from 'react';
 import 
   { drawEnemy, switchEnemy, deal_damage, enemyMove,
-    get_blocker, logMsg, ready_random_card,
+    get_blocker, logMsg, ready_random_card, clearField,
  } from "./Game";
 
 export const ENEMIES = [
@@ -326,6 +326,7 @@ export const BOSSES = [
       let card = G.field[G.field.length-1];
       if (card) {
         card.dmg += self.atk;
+        clearField(G, ctx, "field");
       }
     },
     onOut(G, ctx) {

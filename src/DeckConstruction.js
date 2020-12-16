@@ -85,7 +85,13 @@ export const Settings = (props) => (
           onChange = {props.handleChange} 
           className = "input-deck-name"
         />
-      </form>
+    </form>
+      <br/>
+      <button onClick={props.handleToggle} className="lock-seed-button">
+        {props.locked? "解除锁定":"锁定种子"}
+      </button>
+      <br/>
+      <div style={{color: "#096dd9", display: (props.locked)?undefined:"none"}}>种子已锁定</div>
       <button
         onClick={props.back} 
         className="deck-construction-button"

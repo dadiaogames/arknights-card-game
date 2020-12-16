@@ -169,6 +169,7 @@ export class Board extends React.Component {
       show_finished: true,
 
       seed: get_seed_name(),
+      lock_seed: false,
 
       checking: {},
 
@@ -829,7 +830,9 @@ export class Board extends React.Component {
     }
     else{
       this.change_board("tag");
-      this.setState({seed: get_seed_name()});
+      if (!this.state.lock_seed) {
+        this.setState({seed: get_seed_name()});
+      }
     }
   }
 
@@ -1076,7 +1079,7 @@ export class Board extends React.Component {
   }
 
   enter_difficulty(difficulty) {
-    this.roguelike.set_difficulty(difficulty);
+    this.roguelike.set_difficulty_S2(difficulty);
     this.change_board("roguelike_deck_selection");
   }
 
@@ -1643,6 +1646,8 @@ export class Board extends React.Component {
         back = {() => this.back()}
         handleChange = {(event) => {this.setState({seed: event.target.value})}}
         value = {this.state.seed}
+        handleToggle = {() => this.setState({lock_seed: !this.state.lock_seed})}
+        locked = {this.state.lock_seed}
       />
     </div>);
   }

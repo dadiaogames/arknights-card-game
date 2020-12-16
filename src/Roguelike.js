@@ -31,7 +31,7 @@ function setup_roguelike_mode(S) {
 
   S.rng = new PRNG(S.seed || Date());
 
-  init_tags(S);
+  init_tags_S2(S);
   S.RELICS = RELICS.map(x => ({...x}));
 
   S.Deck = [];
@@ -64,6 +64,17 @@ function move_on(S) {
   S.game_count += 1;
   S.tags.splice(S.tags.length-1, 0, ...S.remained_tags.slice(0,2));
   S.remained_tags = S.remained_tags.slice(2);
+}
+
+function init_tags_S2(S) {
+  let tags = reset_tags();
+  let basic_tags = tags.slice(0, 12);
+  let repeat_tags = tags.filter(t => t.stackable).flatMap(t => _.times(3, ()=>({...t})));
+  let remained_tags = S.rng.shuffle(tags.filter(t => (!basic_tags.includes(t)) && t.level > 0));
+  let locked_tags = remained_tags.filter(t => (t.standard_level <= 2));
+  locked_tags.map(t => {t.locked = true;});
+  S.tags = [...basic_tags, ...repeat_tags, ...locked_tags];
+  S.remained_tags = remained_tags.filter(t => !locked_tags.includes(t));
 }
 
 function init_tags(S) {
@@ -153,6 +164,28 @@ function set_difficulty(S, difficulty) {
   if (["hard"].includes(difficulty)) {
     S.tags[0].locked = true;
     S.tags[1].locked = true;
+  }
+
+  S.level_required = S.levels[0];
+}
+
+function set_difficulty_S2(S, difficulty) {
+  S.difficulty = difficulty;
+
+  S.levels = [24, 28, 32, 36, 42, 48, 54, 60, 70];
+
+  if (difficulty == "easy") {
+    S.levels = [8, 10, 12, 14, 18, 22, 26, 30, 40];
+  }
+
+  if (difficulty == "hard") {
+    S.levels = [30, 35, 40, 45, 50, 56, 64, 75, 90];
+  }
+
+  if (["medium", "hard"].includes(difficulty)) {
+    for(let tag_idx of [0,3,4,6,9]) {
+      S.tags[tag_idx].locked = true;
+    }
   }
 
   S.level_required = S.levels[0];
@@ -628,6 +661,7 @@ export function FinalResult(props) {
 export const roguelike = {
   setup_roguelike_mode,
   set_difficulty,
+  set_difficulty_S2,
   setup_deck_selection,
   select_deck,
 
