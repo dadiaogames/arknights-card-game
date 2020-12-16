@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "fd2fadf124b671677082220a81a5d780",
+    "revision": "5ccc54fb7e5a552c1b29a85d8c20ff2e",
     "url": "/arknights-card-game/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/arknights-card-game/static/css/2.5c17b9f1.chunk.css"
   },
   {
-    "revision": "d85de343e5b6d7d95c21",
-    "url": "/arknights-card-game/static/css/main.52031cbf.chunk.css"
+    "revision": "f7d396c4498dbf8c34c5",
+    "url": "/arknights-card-game/static/css/main.48a016ee.chunk.css"
   },
   {
     "revision": "ff2d033b9f024aecca92",
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/arknights-card-game/static/js/2.1add054b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d85de343e5b6d7d95c21",
-    "url": "/arknights-card-game/static/js/main.c917b1f7.chunk.js"
+    "revision": "f7d396c4498dbf8c34c5",
+    "url": "/arknights-card-game/static/js/main.7085d543.chunk.js"
   },
   {
     "revision": "e689b0d9f31f241d8b2d",
