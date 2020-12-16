@@ -275,7 +275,7 @@ export const CARDS = [
   {
     name:"香草", 
     cost:3, 
-    atk:3, 
+    atk:4, 
     hp:2, 
     mine:1, 
     block:1, 
@@ -293,7 +293,7 @@ export const CARDS = [
     cost:3, 
     atk:3, 
     hp:4, 
-    mine:1, 
+    mine:2, 
     block:1, 
     desc:"采掘: 获得2点费用", 
     illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E8%AE%AF%E4%BD%BF_1.png",
