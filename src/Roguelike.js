@@ -16,6 +16,7 @@ import { CARDS, heijiao_in_dream } from './cards';
 import { UPGRADES } from './upgrades';
 import { RELICS } from './relics';
 import { lose_image, result_images } from './assets';
+import { CardRow } from './Card';
 
 export function introduce_roguelike_mode() {
   alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得40赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金(最高100赏金)；\n如果比要求等级高4级，则会达成“满贯”，额外获得80赏金，并跳过1局对战；\n如果比要求等级高8级，则会达成“大满贯”，额外获得200赏金！并跳过2局对战；`);
@@ -221,7 +222,7 @@ function get_shop_item(S) {
     // TODO: change this to relic
     return get_relic(S);
   }
-  else if (item_type <= 75) {
+  else if (item_type <= 78) {
     // TODO: change this to upgrade
     return get_upgrade(S);
   }
@@ -330,6 +331,7 @@ function get_relic(S) {
   shop_item.desc = relic.desc;
   shop_item.price = 30 + S.rng.randRange(20);
   shop_item.src = relic.illust;
+  shop_item.is_relic = true;
 
   shop_item.onBought = (S) => {
     let bought = {...relic};
@@ -398,6 +400,10 @@ function buy(S, idx) {
 
 function reset_shop(S) {
   S.shop_items = _.times(6, ()=>get_shop_item(S));
+
+  for (let r of S.relics) {
+    r.onRefreshShop && r.onRefreshShop(S);
+  }
 }
 
 function refresh_shop(S) {
@@ -496,18 +502,19 @@ export function random_upgrade(S) {
 
 export function RoguelikeDeckSelection(props) {
   return <div className="board" align="center">
-    <div className="deck-selection-title">选择你的卡组</div>
-    {props.decks.map(deck => <RoguelikeDeckRepr {...deck} />)}
-    <br/>
-    {/* <button className="deck-selection-button" onClick={props.back}>返回</button> */}
-  </div>
+    <div className="roguelike-deck-selection-title">选择你的卡组</div>
+    <div className="roguelike-deck-selection">
+      {props.decks.map(deck => <RoguelikeDeckRepr {...deck} />)}
+    </div>
+    </div>
 }
 
 function RoguelikeDeckRepr(props) {
-  return <div className="deck-repr" align="center">
-    <div className="deck-repr-name">{props.deckName || "\"热泵通道\"推进之王"}</div>
-    <button className="deck-repr-button" onClick={props.checkDeck}>查看</button>
-    <button className="deck-repr-button" onClick={props.selectDeck}>选择</button>
+  return <div className="roguelike-deck-repr" align="center">
+    <div className="roguelike-deck-repr-name">{props.deckName || "\"热泵通道\"推进之王"}</div>
+    <CardRow cards={str2deck(generate_roguelike_deck(props.deckName)).map(({cost, atk, hp, illust}) => ({illust, cost, atk, hp}))} additionalStyle={{height: "55%", marginTop: "1%"}} />
+    <button className="roguelike-deck-repr-button" onClick={props.checkDeck}>查看</button>
+    <button className="roguelike-deck-repr-button" onClick={props.selectDeck}>选择</button>
   </div>
 }
 

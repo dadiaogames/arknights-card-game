@@ -166,13 +166,20 @@ export const RELICS = [
       }
     }
   },
-  // {
-  //   name:"奇怪的$墨镜", 
-  //   desc:"购买藏品后,获得5赏金",
-  //   onBuyRelic(S, relic) {
-  //     S.gold += 5;
-  //   }
-  // },
+  {
+    name:"奇怪的$墨镜", 
+    desc:"所有藏品的价格-10(最低为10)",
+    // onBuyRelic(S, relic) {
+    //   S.gold += 5;
+    // }
+    onRefreshShop(S) {
+      for (let item of S.shop_items) {
+        if (item.is_relic) {
+          item.price = Math.max(item.price-10, 10);
+        }
+      }
+    }
+  },
   // {
   //   name:"一份演讲稿", 
   //   desc:"购买藏品时,有概率随机升级1个干员",

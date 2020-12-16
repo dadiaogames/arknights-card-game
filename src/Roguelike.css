@@ -285,3 +285,39 @@
   font-size: 80%;
   margin-top: 5%;
 }
+
+.roguelike-deck-selection-title {
+  margin-top: 2%;
+}
+
+.roguelike-deck-selection {
+  width: 96%;
+  margin-left: 2.5%;
+  height: 90%;
+  /* border: 1px solid gray; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.roguelike-deck-repr {
+  width: 98%;
+  height: 32%;
+  /* border: 0.8px solid gray; */
+}
+
+.roguelike-deck-repr-name {
+  margin-bottom: 0%;
+  font-size: 80%;
+  color: #0d0d0d;
+}
+
+.roguelike-deck-repr-button {
+  width: 25%;
+  margin-left: 2%;
+  margin-right: 2%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  font-size: 102%;
+}
