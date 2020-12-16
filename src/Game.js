@@ -1089,7 +1089,7 @@ export function get_desc(card) {
       </i>
       <br/>
     </span>
-    ({_.times(card.reinforce, ()=>material_icons[card.material || _.random(3)])}: {card.reinforce_desc||""})
+    ({_.times(card.reinforce, ()=>material_icons[card.material || 0])}: {card.reinforce_desc||""})
     <br />
     <i>{card.quote||""}</i>
   </span>;
