@@ -121,7 +121,7 @@ export const RELICS = [
   // },
   {
     name:"风干大蕉果", 
-    desc:"选牌时,里面的1个干员获得强化3",
+    desc:"在选牌区选牌时,里面的1个干员获得强化3",
     onPickCards(S) {
       let card = S.rng.choice(S.Deck.slice(0,3));
       let reinforce = UPGRADES.find(x => x.name == "强化1");
