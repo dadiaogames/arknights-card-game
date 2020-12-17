@@ -337,7 +337,7 @@ function get_relic(S) {
     let bought = {...relic};
     console.log("Bought relic ", bought.name);
 
-    for (let r of S.relics) {
+    for (let r of {...S.relics}) {
       r.onBuyRelic && r.onBuyRelic(S, bought, r);
     }
 
