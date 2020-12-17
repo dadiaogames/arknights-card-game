@@ -78,7 +78,7 @@ const advanced_orders = [{
   
   {
     requirements: [1,1,1,0],
-    score: 2,
+    score: 1,
     reward: 3,
     desc: (<span>获得: 1费</span>),
     advanced: true,
@@ -90,7 +90,7 @@ const advanced_orders = [{
   {
     requirements: [1,1,1,0],
     score: 1, 
-    // reward: 2,
+    reward: 3,
     advanced: true,
     desc: (<span>2分/每组{food_icons.slice(0,3)}订单</span>),
     effect: set_collection_order,

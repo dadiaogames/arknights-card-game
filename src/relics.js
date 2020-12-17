@@ -15,11 +15,13 @@ export const RELICS = [
   // },
   {
     name: "乌萨斯列巴",
-    desc: "回合开始时，获得1张随机干员牌，并使其费用-1",
+    desc: "回合开始时，获得2张随机干员牌，并使其费用-1",
     onTurnBegin(G, ctx){
-      let card = {...choice(ctx, G.CARDS)};
-      card.cost -= 1;
-      G.hand.unshift(card);
+      for (let i=0; i<2; i++) {
+        let card = {...choice(ctx, G.CARDS)};
+        card.cost -= 1;
+        G.hand.unshift(card);
+      }
     }
   },
   {

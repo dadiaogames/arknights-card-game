@@ -19,7 +19,7 @@ import { lose_image, result_images } from './assets';
 import { CardRow } from './Card';
 
 export function introduce_roguelike_mode() {
-  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得40赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金(最高100赏金)；\n如果比要求等级高4级，则会达成“满贯”，额外获得80赏金，并跳过1局对战；\n如果比要求等级高8级，则会达成“大满贯”，额外获得200赏金！并跳过2局对战；`);
+  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得40赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金(最高200赏金)；\n如果比要求等级高4级，则会达成“满贯”，额外获得80赏金，并跳过1局对战；\n如果比要求等级高8级，则会达成“大满贯”，额外获得200赏金！并跳过2局对战；`);
 }
 
 function reset_tags() {
@@ -222,7 +222,7 @@ function get_shop_item(S) {
     // TODO: change this to relic
     return get_relic(S);
   }
-  else if (item_type <= 78) {
+  else if (item_type <= 80) {
     // TODO: change this to upgrade
     return get_upgrade(S);
   }
@@ -445,7 +445,7 @@ export function get_gold_gained(risk_level, level_required) {
    let gold_gained = 40;
 
     let level_diff = risk_level - level_required;
-    gold_gained += Math.min(level_diff * 10, 100);
+    gold_gained += Math.min(level_diff * 10, 200);
 
     // For slam, don't store them in variables, instead, calculate it on time
     // So do plenty of other things
