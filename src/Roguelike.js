@@ -407,7 +407,7 @@ function reset_shop(S) {
 }
 
 function refresh_shop(S) {
-  if (payGold(S, 10)) {
+  if (payGold(S, 5)) {
     reset_shop(S);
   }
 }
@@ -546,7 +546,7 @@ export function PickCards(props) {
   // console.log(props.picks);
   return <div className="central" align="center">
     <GoldAmount gold={props.gold} />
-    <button className="refresh-picks" onClick={props.refresh_picks}><span>刷新选牌({ICONS.gold}10)</span></button>
+    <button className="refresh-picks"><span>卖萌按钮QwQ</span></button>
     {props.picks.map((cards, idx) => <Pick cards={cards} check_cards={() => props.check_cards(idx)} pick_cards={() => props.pick_cards(idx)} />)}
     <button className="skip-picks" onClick={props.skip_picks}><span>跳过选牌并获得{ICONS.gold}10</span></button>
   </div>
@@ -572,7 +572,7 @@ export function Shop(props) {
     <div className="shop-items">    
       {props.shop_items.map((item, idx) => <ShopItem {...item} buy={props.buy(idx)} />)}
     </div>
-    <button className="refresh-shop" onClick={props.refresh_shop}>刷新商店({ICONS.gold}10)</button>
+    <button className="refresh-shop" onClick={props.refresh_shop}>刷新商店({ICONS.gold}5)</button>
   </div>
 
 }
