@@ -303,14 +303,14 @@ export const BOSSES = [
     is_boss: true,
     is_elite: true,
     illust: "https://s3.ax1x.com/2020/12/13/rZ4mTJ.png",
-    desc: <span>超杀: 失去1点费用<br/>摧毁: 获得20分</span>,
+    desc: <span>超杀: 失去1点费用<br/>摧毁: 获得15分</span>,
     onFight(G, ctx, self, card) {
       if (card.dmg > card.hp) {
         G.costs -= 2;
       }
     },
     onOut(G, ctx) {
-      G.score += 20;
+      G.score += 15;
     }
   },
 
@@ -321,7 +321,7 @@ export const BOSSES = [
     is_boss: true,
     is_elite: true,
     illust: "http://prts.wiki/images/b/bd/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%94%88%E9%94%A4%E6%88%98%E5%A3%AB.png",
-    desc: <span>行动: 对最后部署的干员造成5点伤害<br/>摧毁: 获得20分</span>,
+    desc: <span>行动: 对最后部署的干员造成5点伤害<br/>摧毁: 获得15分</span>,
     action(G, ctx, self) {
       let card = G.field[G.field.length-1];
       if (card) {
@@ -330,7 +330,7 @@ export const BOSSES = [
       }
     },
     onOut(G, ctx) {
-      G.score += 20;
+      G.score += 15;
     }
   },
 ];
