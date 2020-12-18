@@ -894,8 +894,11 @@ export class Board extends React.Component {
         else if (risk_level >= 60 && risk_level < 70) {
           grade = "SSSSS";
         }
-        else {
+        else if (risk_level >= 70 && risk_level < 100) {
           grade = "SSSSSS";
+        }
+        else {
+          grade = "SSSSSSSSS";
         }
         // console.log("Time to alert finish");
         // TODO: reconstruct this part, flat is better than nested
@@ -1373,14 +1376,15 @@ export class Board extends React.Component {
           onClick={()=>this.end_game()}
           style = {{
             position: "absolute",
-            fontSize: "120%",
-            top: "2%",
+            fontSize: "105%",
+            top: "4%",
             left: "88%",
+            paddingTop: "1.5%",
 
             display: (this.state.competition_mode || this.state.roguelike_mode)?"none":"",
           }}
         >
-        ⟳
+        {ICONS.reset}
         </button>
 
         <span 
