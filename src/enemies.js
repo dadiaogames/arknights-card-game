@@ -299,8 +299,9 @@ export const BOSSES = [
     hp: 1,
     is_boss: true,
     is_elite: true,
+    enraged: true,
     illust: "https://s3.ax1x.com/2020/12/13/rZ4mTJ.png",
-    desc: <span>超杀: 失去1点费用<br/>摧毁: 获得15分</span>,
+    desc: <span>愤怒，超杀: 失去1点费用<br/>摧毁: 获得15分</span>,
     onFight(G, ctx, self, card) {
       if (card.dmg > card.hp) {
         G.costs -= 1;

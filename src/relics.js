@@ -203,24 +203,24 @@ export const RELICS = [
   },
   {
     name:"咪波·运输型", 
-    desc:"对局开始时费用+1",
+    desc:"对局开始时费用+2",
     onBattleBegin(G, ctx) {
-      G.costs += 1;
+      G.costs += 2;
     }
   },
   {
     name:"芙蓉的健康餐", 
-    desc:"所有敌人获得-1/-0",
+    desc:"所有敌人获得-2/-0",
     onBattleBegin(G, ctx) {
-      G.edeck.map(enemy => {enemy.atk = Math.max(enemy.atk-1, 0);});
+      G.edeck.map(enemy => {enemy.atk = Math.max(enemy.atk-2, 0);});
     }
   },
   {
     name:"压缩糖砖", 
-    desc:"胜利所需分数-2(最低为10)",
+    desc:"胜利所需分数-4(最低为10)",
     onTurnBegin(G, ctx) {
       if (G.round_num == 1) {
-        G.goal -= 2;
+        G.goal -= 4;
         G.goal = Math.max(G.goal, 10);
       }
     }
