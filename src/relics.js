@@ -348,12 +348,12 @@ export const RELICS = [
     }
   },
   {
-    name:"残弩-战场依存", 
-    desc:"所有干员获得 采掘:造成2点伤害",
+    name:"残弩-采矿镭射枪", 
+    desc:"所有干员获得 采掘:造成1.5点伤害",
     onTurnBegin(G, ctx) {
       G.onCardMine.push(
         (G, ctx) => {
-          deal_random_damage(G, ctx, 2);
+          deal_random_damage(G, ctx, 1.5);
         }
       );
     }
