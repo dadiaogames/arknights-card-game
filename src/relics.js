@@ -98,7 +98,7 @@ export const RELICS = [
     onTurnBegin(G, ctx) {
       G.onPlayCard.push(
         (G, ctx, card) => {
-          if (ctx.random.D4() == 1) {
+          if (ctx.random.D4() == 1 && (card.onPlay != undefined)) {
             card.onPlay(G, ctx, card);
             logMsg(G, ctx, `额外触发1次 ${card.name} 的部署效果`);
           }
