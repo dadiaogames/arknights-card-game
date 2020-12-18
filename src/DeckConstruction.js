@@ -6,7 +6,7 @@ export const DeckConstruction = (props) => {
   return (
     <div className="deck-construction">
       <form>
-        <br/>
+        {/* <br/> */}
         当前卡组为&nbsp;{is_standard(props.value)?"标准卡组":"狂野卡组"}
         <br/>
         <textarea 
@@ -19,13 +19,13 @@ export const DeckConstruction = (props) => {
       </form>
       <button
         onClick={props.checkDeck} 
-        className="deck-construction-button"
+        className="deck-construction-util-button"
       >
         查看卡组
       </button>
       <button
         onClick={props.checkCards} 
-        className="deck-construction-button"
+        className="deck-construction-util-button"
       >
         干员图鉴
       </button>
@@ -33,7 +33,7 @@ export const DeckConstruction = (props) => {
         onClick={()=>{
           alert("标准卡组: 至少20张, 且同名卡不能超过3张;\n狂野卡组: 来啊, 整活啊!\n标准模式荣誉室: 可露希尔;");
         }} 
-        className="deck-construction-button"
+        className="deck-construction-util-button"
       >
         查看标准
       </button>
@@ -58,13 +58,13 @@ export const DeckGeneration = (props) => {
       </form>
       <button
           onClick={props.changeName} 
-          className="deck-construction-button"
+          className="deck-construction-util-button"
         >
           换个随机名字
         </button>
         <button
           onClick={props.checkDeck} 
-          className="deck-construction-button"
+          className="deck-construction-util-button"
         >
           查看卡组
         </button>

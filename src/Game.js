@@ -193,10 +193,15 @@ export function draw(G, ctx) {
     logMsg(G, ctx, "手牌数已达到上限");
     return;
   }
-
-  if (G.deck.length > 0) {
-    G.hand.unshift(G.deck.pop());
-  } 
+  else {
+    if (G.deck.length > 0) {
+      G.hand.unshift(G.deck.pop());
+    } 
+    else {
+      G.danger += 1;
+      logMsg(G, ctx, "无牌可抽，增加1点动乱值");
+    }
+  }
 }
 
 export function drop(G, ctx) {
@@ -1222,13 +1227,13 @@ export const AC = {
 
   endIf(G, ctx) {
     if (G.playing) {
-      if (G.deck.length == 0) {
-        return {
-          win: false,
-          reason: "牌库被抽光",
-        };
-      }
-      else if (G.edeck.length == 0) {
+      // if (G.deck.length == 0) {
+      //   return {
+      //     win: false,
+      //     reason: "牌库被抽光",
+      //   };
+      // }
+      if (G.edeck.length == 0) {
         return {
           win: false,
           reason: "敌人牌库被抽光",

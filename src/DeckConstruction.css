@@ -27,8 +27,12 @@
   font-size: 102%;
 }
 
-.deck-construction-button {
+.deck-construction-button, .deck-construction-util-button {
   margin-right: 2%;
   margin-top: 20%;
   font-size: 105%;
+}
+
+.deck-construction-util-button {
+  margin-top: 2%;
 }
