@@ -180,7 +180,7 @@ function set_difficulty_S2(S, difficulty) {
   }
 
   if (difficulty == "hard") {
-    S.levels = [20, 25, 30, 35, 40, 50, 60, 70, 90];
+    S.levels = [25, 30, 35, 40, 50, 60, 70, 80, 100];
   }
 
   if (["medium", "hard"].includes(difficulty)) {

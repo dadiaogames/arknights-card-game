@@ -2141,7 +2141,7 @@ export const CARDS = [
     cost:2,
     atk:7,
     hp:7,
-    mine:2,
+    mine:3,
     block:1,
     desc:"部署: 获得\"回合开始时: 消耗2点费用\"",
     illust:"http://prts.wiki/images/3/37/%E7%AB%8B%E7%BB%98_%E5%AD%91_1.png",
