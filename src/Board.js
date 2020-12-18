@@ -1456,6 +1456,7 @@ export class Board extends React.Component {
         <Panel 
           variant = "game-panel"
           content = {game_panel}
+          completed = {this.props.G.score / this.props.G.goal}
         />
         <CardRow 
           cards = {this.props.G.efield.map(this.process_efield_data)}

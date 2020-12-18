@@ -6,9 +6,50 @@ import { material_icons } from './orders';
 
 import './Panel.css';
 
+const ProgressBar = (props) => {
+  const { bgcolor, completed } = props;
+
+  const containerStyles = {
+    display: (completed == undefined)? "none" : "",
+
+    height: '9.8%',
+    width: '100%',
+    backgroundColor: "#bfbfbf",
+    borderRadius: '50px',
+
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+  }
+
+  const fillerStyles = {
+    height: '100%',
+    width: `${Math.min(completed*100, 100)}%`,
+    backgroundColor: bgcolor,
+    borderRadius: 'inherit',
+    textAlign: 'right',
+    transition: 'width 0.25s ease-in-out',
+  }
+
+  const labelStyles = {
+    padding: 5,
+    color: 'white',
+    fontWeight: 'bold'
+  }
+
+  return (
+    <div style={containerStyles}>
+      <div style={fillerStyles}>
+        <span style={labelStyles}></span>
+      </div>
+    </div>
+  );
+};
+
 export const Panel = (props) => {
   return (<div className={props.variant}>
     {props.content}
+    <ProgressBar bgcolor="#1890ff" completed={props.completed} />
   </div>);
 };
 
