@@ -3,10 +3,10 @@ import { ready_order } from './orders';
 
 export const UPGRADES = [
   {
-    name: "+4/+0",
-    desc: "+4攻击力", // Write "获得"always
+    name: "+5/+0",
+    desc: "+5攻击力", // Write "获得"always
     effect(card) {
-      card.atk += 4;
+      card.atk += 5;
     }
   },
   // {
@@ -17,9 +17,10 @@ export const UPGRADES = [
   //   }
   // },
   {
-    name: "+0/+6",
-    desc: "+6生命值", // Write "获得"always
+    name: "+2/+6",
+    desc: "+2/+6", // Write "获得"always
     effect(card) {
+      card.atk += 2;
       card.hp += 6;
     }
   },
@@ -59,13 +60,13 @@ export const UPGRADES = [
 
   // Init "onplay bonus" before
   {
-    name: "3分",
-    desc: "部署奖励:\"获得3分\"",
+    name: "4分",
+    desc: "部署奖励:\"获得4分\"",
     effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          G.score += 3;
+          G.score += 4;
         }
       });
     }
@@ -86,41 +87,41 @@ export const UPGRADES = [
   // },
 
   {
-    name: "2材料",
-    desc: "部署奖励:\"获得2个材料\"",
+    name: "3材料",
+    desc: "部署奖励:\"获得3个材料\"",
     effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          gainMaterials(G, ctx, 2);
+          gainMaterials(G, ctx, 3);
         }
       });
     }
   },
 
-  {
-    name: "3张牌",
-    desc: "部署奖励:\"摸3张牌\"",
-    effect(card) {
-      card.onPlayBonus.push({
-        name: this.name,
-        effect(G, ctx, card) {
-          draw(G, ctx);
-          draw(G, ctx);
-          draw(G, ctx);
-        }
-      });
-    }
-  },
+  // {
+  //   name: "3张牌",
+  //   desc: "部署奖励:\"摸3张牌\"",
+  //   effect(card) {
+  //     card.onPlayBonus.push({
+  //       name: this.name,
+  //       effect(G, ctx, card) {
+  //         draw(G, ctx);
+  //         draw(G, ctx);
+  //         draw(G, ctx);
+  //       }
+  //     });
+  //   }
+  // },
 
   {
-    name: "4伤害",
-    desc: "部署奖励:\"造成4点伤害\"",
+    name: "6伤害",
+    desc: "部署奖励:\"造成6点伤害\"",
     effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          deal_random_damage(G, ctx, 4);
+          deal_random_damage(G, ctx, 6);
         }
       });
     }
@@ -172,24 +173,24 @@ export const UPGRADES = [
   }
 },
 
-{
-  name: "迷迭香之力",
-  desc: "部署奖励:\"召唤1个随机干员的2/2复制\"",
-  effect(card) {
-    card.onPlayBonus.push(
-      {
-        name: this.name,
-        effect (G, ctx, self) {
-        let card = ctx.random.Shuffle(G.CARDS)[0];
-        card = {...card};
-        card.atk = 2;
-        card.hp = 2;
-        card.mine = 1;
-        card.cost = 2;
-        summon(G, ctx, card, self);
-    }});
-  }
-},
+// {
+//   name: "迷迭香之力",
+//   desc: "部署奖励:\"召唤1个随机干员的2/2复制\"",
+//   effect(card) {
+//     card.onPlayBonus.push(
+//       {
+//         name: this.name,
+//         effect (G, ctx, self) {
+//         let card = ctx.random.Shuffle(G.CARDS)[0];
+//         card = {...card};
+//         card.atk = 2;
+//         card.hp = 2;
+//         card.mine = 1;
+//         card.cost = 2;
+//         summon(G, ctx, card, self);
+//     }});
+//   }
+// },
 
 // {
 //     name: "凯尔希之力",
