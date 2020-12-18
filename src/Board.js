@@ -1151,7 +1151,7 @@ export class Board extends React.Component {
       this.roguelike.pick_cards(idx);
     };
 
-    const card_picks = this.state.card_picks? (<PickCards picks={this.state.card_picks} gold={this.state.gold} check_cards={check_cards} pick_cards={pick_cards} skip_picks={()=>this.roguelike.skip_pick()}/>) : (<FinishPick gold={this.state.gold} />);
+    const card_picks = this.state.card_picks? (<PickCards picks={this.state.card_picks} gold={this.state.gold} check_cards={check_cards} pick_cards={pick_cards} skip_picks={()=>this.roguelike.skip_pick()} click_that_button={()=>this.roguelike.click_that_button()}/>) : (<FinishPick gold={this.state.gold} />);
     const shop = <Shop gold={this.state.gold} shop_items={this.state.shop_items} buy={this.buy_item} refresh_shop={this.roguelike.refresh_shop} />
 
     const roguelike_main = <Roguelike 

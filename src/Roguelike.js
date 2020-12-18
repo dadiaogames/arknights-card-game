@@ -235,6 +235,46 @@ function get_shop_item(S) {
 
 }
 
+function click_that_button(S) {
+  if (S.rng.randRange(100) <= 70 && S.gold >= 0) {
+    let value = S.rng.randRange(100);
+
+    if (value <= 20) {
+      alert(`喵喵喵~‍(=・ω・=)\n(获得5赏金)`);
+      S.gold += 5;
+    }
+    else if (value <= 30) {
+      alert(`讨厌，不要点人家啦‍‍(╯°口°)╯(┴—┴\n(失去50赏金)`)
+      S.gold -= 50;
+    }
+    else if (value == 40 || value == 41) {
+      alert(`这么喜欢点人家，给你点赏金好啦‍_(:з」∠)_\n(获得50赏金)`);
+      S.gold += 50;
+    }
+    else if (value == 50 || value == 51 || value == 52) {
+      let relic = S.rng.choice(RELICS);
+      S.relics.unshift({...relic});
+      alert(`这么喜欢点人家，送你个小礼物好啦~(｀・ω・´)\n(获得${relic.name})`);
+    }
+    else if (value == 60) {
+      alert(`‍其实，我超喜欢你的ε=ε=(ノ≧∇≦)ノ\n(获得100赏金)`);
+      S.gold += 100;
+
+    }
+    else {
+      return;
+    }
+  }
+  else {
+    if (S.gold <= 0) {
+      alert("需要赏金为正时，按钮才会和你玩哦‍(=・ω・=)");
+    }
+    else {
+      return;
+    }
+  }
+}
+
 function get_upgrade(S) {
   let shop_item = {};
 
@@ -546,7 +586,7 @@ export function PickCards(props) {
   // console.log(props.picks);
   return <div className="central" align="center">
     <GoldAmount gold={props.gold} />
-    <button className="refresh-picks"><span>卖萌按钮QwQ</span></button>
+    <button className="refresh-picks" onClick={props.click_that_button}><span>卖萌按钮QwQ</span></button>
     {props.picks.map((cards, idx) => <Pick cards={cards} check_cards={() => props.check_cards(idx)} pick_cards={() => props.pick_cards(idx)} />)}
     <button className="skip-picks" onClick={props.skip_picks}><span>跳过选牌并获得{ICONS.gold}10</span></button>
   </div>
@@ -697,6 +737,7 @@ export const roguelike = {
   buy,
   reset_shop,
   refresh_shop,
+  click_that_button,
 
   continue_run,
   end_roguelike_mode,
