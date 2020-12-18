@@ -222,7 +222,7 @@ function get_shop_item(S) {
     // TODO: change this to relic
     return get_relic(S);
   }
-  else if (item_type <= 80) {
+  else if (item_type <= 85) {
     // TODO: change this to upgrade
     return get_upgrade(S);
   }
