@@ -552,7 +552,7 @@ export function RoguelikeDeckSelection(props) {
 function RoguelikeDeckRepr(props) {
   return <div className="roguelike-deck-repr" align="center">
     <div className="roguelike-deck-repr-name">{props.deckName || "\"热泵通道\"推进之王"}</div>
-    <CardRow cards={str2deck(generate_roguelike_deck(props.deckName)).map(({cost, atk, hp, illust}) => ({illust, cost, atk, hp}))} additionalStyle={{height: "55%", marginTop: "1%"}} />
+    <CardRow cards={str2deck(generate_roguelike_deck(props.deckName)).map(({cost, atk, hp, illust, was_enemy}) => ({[was_enemy?"e_illust":"illust"]: illust, cost, atk, hp}))} additionalStyle={{height: "55%", marginTop: "1%"}} />
     <button className="roguelike-deck-repr-button" onClick={props.checkDeck}>查看</button>
     <button className="roguelike-deck-repr-button" onClick={props.selectDeck}>选择</button>
   </div>
