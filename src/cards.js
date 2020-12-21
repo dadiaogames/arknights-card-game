@@ -1700,7 +1700,7 @@ export const CARDS = [
       // self.hp += 2;
       // G.costs += 1;
       // G.score += 2 * G.discard.filter(x => (x.name == "热水壶")).length;
-      let card = choice(ctx, G.CARDS);
+      let card = choice(ctx, G.CARDS.filter(c => c.onMine || c.onFight || c.action));
       Object.assign(self, {...card, atk:self.atk, hp:self.hp, mine:self.mine, block:self.block, was_enemy:false})
     },
     reinforce: 1,
@@ -1803,7 +1803,7 @@ export const CARDS = [
     desc:"部署: 召唤5个随机干员的1/1复制",
     illust:"http://prts.wiki/images/7/72/%E7%AB%8B%E7%BB%98_%E5%87%AF%E5%B0%94%E5%B8%8C_1.png",
     onPlay(G, ctx, self) {
-      let cards = ctx.random.Shuffle(G.CARDS).slice(0, 20);
+      let cards = ctx.random.Shuffle(G.CARDS).filter(c => c.onMine || c.onFight || c.action || (c.cost >= 4));
       for (let i=0; i<5; i++) {
         let card = {...cards[i]}; // Copy at this stage
         card.atk = 1;
