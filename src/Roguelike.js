@@ -173,7 +173,7 @@ function set_difficulty(S, difficulty) {
 function set_difficulty_S2(S, difficulty) {
   S.difficulty = difficulty;
 
-  S.levels = [18, 22, 26, 30, 36, 42, 48, 56, 70];
+  S.levels = [18, 22, 26, 30, 36, 42, 48, 55, 70];
 
   if (difficulty == "easy") {
     S.levels = [8, 10, 12, 14, 18, 22, 26, 30, 40];
@@ -283,7 +283,7 @@ function get_upgrade(S) {
   shop_item.name = "升级: " + upgrade.name;
   shop_item.price = S.rng.randRange(10) + 15;
   // console.log("This deck", S.Deck);
-  shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
+  shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,5);
   shop_item.desc = "获得 " + upgrade.desc;
   shop_item.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/259/up-arrow_2b06.png";
   shop_item.onBought = (S, idx) => {

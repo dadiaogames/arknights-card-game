@@ -30,9 +30,9 @@ export const classes = {
 // 清流 0 2`;
 
 const cost_vanguard =  `极境 1 2
-香草 1 2
-讯使 1 2
-桃金娘 1 2
+香草 1 1
+讯使 1 1
+桃金娘 0 2
 贾维 1 1
 惊蛰 1 1`;
 
@@ -41,29 +41,33 @@ const draw_vanguard = `芬 1 2
 清流 0 1`;
 
 const scorer = `阿米娅 0 1
-崖心 0 1
+崖心 1 1
 食铁兽 0 1
 酸糖 0 1
-阿消 0 1
+阿消 1 1
 阿米娅-近卫 0 1
-赫默 0 1
-阿 0 1`;
+赫默 1 1
+伊芙利特 0 1
+阿 0 1
+断罪者 0 1`;
 
 const miner =  `史都华德 1 1
-夜烟 0 1
+夜烟 1 1
 远山 1 1
 炎熔 1 1`;
 
 const shooter = `棘刺 1 1
-机械水獭 0 1
 陈 1 1
 银灰 1 1
+W 0 1
+卡达 0 1
 拉普兰德 0 1
 史尔特尔 1 1`;
 
 const defender = `米格鲁 1 1
 蛇屠箱 0 1
 年 0 1
+龙腾 0 1
 摄影车 1 1`;
 
 // const dubin_score = `杜宾 2 3
@@ -638,7 +642,7 @@ export function generate_deck_s2(deck_name) {
 }
 
 export function generate_roguelike_deck(deck_name) {
-  let deck = ["黑角", "极境"];
+  let deck = ["黑角", "极境", "桃金娘"];
   let rng = new PRNG(deck_name);
 
   // Basic deck
@@ -649,7 +653,7 @@ export function generate_roguelike_deck(deck_name) {
   deck = [...deck, ...deck_from_strategy(defender, 1, rng)];
 
   // Random cards
-  let amount_add = 12 - deck.length;
+  let amount_add = 15 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }
