@@ -407,7 +407,12 @@ export function addBoss(G, ctx, boss_name) {
   let boss = {...BOSSES.find(x => x.name == boss_name)};
 
   boss.exhausted = false;
-  boss.dmg = -19;
+  if (boss.name == "二爷") {
+    boss.dmg = -98;
+  }
+  else {
+    boss.dmg = -19;
+  }
   G.efield.push(boss);
 }
 

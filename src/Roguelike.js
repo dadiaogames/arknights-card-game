@@ -4,7 +4,7 @@ import { produce } from 'immer';
 import { get_deck_name, generate_deck_s2, get_roguelike_pick, generate_roguelike_deck } from './DeckGenerator';
 import { str2deck } from './Game';
 import { map_object, PRNG } from './utils';
-import { TAGS } from './tags';
+import { final_tag, TAGS } from './tags';
 // import { InversedTabs } from './InversedTabs';
 
 import './Board.css';
@@ -65,6 +65,10 @@ function move_on(S) {
   S.game_count += 1;
   S.tags.splice(S.tags.length-1, 0, ...S.remained_tags.slice(0,2));
   S.remained_tags = S.remained_tags.slice(2);
+
+  if (S.difficulty == "hard" && S.game_count == 9) {
+    S.tags = [...S.tags, ..._.times(9, () => ({...final_tag}))];
+  }
 }
 
 function init_tags_S2(S) {

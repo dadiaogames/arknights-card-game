@@ -309,10 +309,18 @@ const tag_list = [
       G.exhausted_enter = true;
     }
   },
-
-
   
 ];
+
+export const final_tag = {
+  src: "http://prts.wiki/images/0/04/Enemy_icebrk_1.png",
+  desc: "增加Boss\"二爷\"，胜利所需分数+100",
+  level: 100,
+  effect(G, ctx){
+    addBoss(G, ctx, "二爷");
+    G.goal += 100;
+  }
+};
 
 function process_tags(tag_list) {
   let tags = [];
