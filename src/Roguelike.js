@@ -489,7 +489,7 @@ export function get_gold_gained(risk_level, level_required) {
    let gold_gained = 40;
 
     let level_diff = risk_level - level_required;
-    gold_gained += Math.min(level_diff * 10, 200);
+    gold_gained += Math.min(level_diff * 10, 400);
 
     // For slam, don't store them in variables, instead, calculate it on time
     // So do plenty of other things
