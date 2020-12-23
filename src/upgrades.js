@@ -277,9 +277,9 @@ export const UPGRADES = [
 
   {
     name: "加倍",
-    desc: "自己所有部署奖励的复制",
+    desc: "自己所有部署奖励的复制(最多500个)",
     effect(card) {
-      if (card.onPlayBonus) {
+      if (card.onPlayBonus && (card.onPlayBonus.length <= 500)) {
         card.onPlayBonus = [...card.onPlayBonus, ...card.onPlayBonus];
       }
     }
