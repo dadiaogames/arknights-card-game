@@ -338,14 +338,14 @@ export const BOSSES = [
     is_boss: true,
     is_elite: true,
     illust: "https://s3.ax1x.com/2020/12/23/rcQyt0.jpg",
-    desc: <span>超杀: 增加1点动乱值<br/>摧毁: 获得50分</span>,
+    desc: <span>超杀: 增加1点动乱值<br/>摧毁: 获得80分</span>,
     onFight(G, ctx, self, card) {
       if (card.dmg > card.hp) {
         G.danger += 1;
       }
     },
     onOut(G, ctx) {
-      G.score += 50;
+      G.score += 80;
     }
   },
 ];
