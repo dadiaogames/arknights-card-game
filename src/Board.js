@@ -838,6 +838,7 @@ export class Board extends React.Component {
 
   end_roguelike_mode() {
     this.roguelike.end_roguelike_mode();
+    this.setState({seed: get_seed_name()});
     this.enter_roguelike_mode();
   }
 

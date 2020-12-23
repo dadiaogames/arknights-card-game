@@ -537,6 +537,10 @@ function act(G, ctx, idx) {
   if (use(G, ctx, card) && (G.stage == "player")) {
     logMsg(G, ctx, `使用 ${card.name} 行动`);
     card.action(G, ctx, card);
+
+    for (let f of G.onCardAct) {
+      f(G, ctx, card);
+    }
   }
 }
 

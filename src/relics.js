@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { choice, deal_random_damage, draw, gainMaterials, init_card_state, logMsg, reinforce_hand, summon } from './Game';
+import { choice, deal_random_damage, draw, gainMaterials, init_card_state, logMsg, reinforce_card, reinforce_hand, summon } from './Game';
 import { random_upgrade } from './Roguelike';
 import { UPGRADES } from './upgrades';
 import { relic_images, relic_names } from './assets';
@@ -94,7 +94,7 @@ export const RELICS = [
   },
   {
     name: "一杯昏睡红茶",
-    desc: "部署干员时，有概率额外触发1次“部署:”效果",
+    desc: "部署干员时，有25%概率额外触发1次“部署:”效果",
     onTurnBegin(G, ctx) {
       G.onPlayCard.push(
         (G, ctx, card) => {
@@ -193,7 +193,7 @@ export const RELICS = [
   // },
   {
     name:"迷迭香之拥", 
-    desc:"购买藏品时,有小概率获得1个其复制",
+    desc:"购买藏品时,有20%概率获得1个其复制",
     onBuyRelic(S, relic) {
       if (S.rng.random() <= 0.2) {
         S.relics.unshift({...relic});
@@ -366,6 +366,19 @@ export const RELICS = [
         (G, ctx, card, enemy) => {
           if (enemy.dmg > enemy.hp) {
             gainMaterials(G, ctx, 1);
+          }
+        }
+      );
+    }
+  },
+  {
+    name:"丰蹄能量饮料", 
+    desc:"使用干员行动后 有50%概率强化其1次",
+    onTurnBegin(G, ctx) {
+      G.onCardAct.push(
+        (G, ctx, card) => {
+          if (ctx.random.D4() > 2) {
+            reinforce_card(G, ctx, card);
           }
         }
       );
