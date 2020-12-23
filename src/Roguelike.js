@@ -443,7 +443,7 @@ function buy(S, idx) {
 }
 
 function reset_shop(S) {
-  S.shop_items = _.times(6, ()=>get_shop_item(S));
+  S.shop_items = _.times(8, ()=>get_shop_item(S));
 
   for (let r of S.relics) {
     r.onRefreshShop && r.onRefreshShop(S);
