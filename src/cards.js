@@ -1886,11 +1886,17 @@ export const CARDS = [
         self.skill_power = (self.skill_power || 0) + 1;
         self.desc = `行动: 造成3点伤害，重复${4+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+Math.floor(self.skill_power/3)}分，整场战斗限1次(采掘/战斗: 强化此技能)`;
       };
-      self.action = (G, ctx, self) => {
-        for (let i=0; i<(4+self.skill_power); i++) {
+      
+      self.onMine = reinforce_skill;
+      self.onFight = reinforce_skill;
+      self.desc = this.desc;
+    },
+    action: (G, ctx, self) => {
+      let skill_power = self.skill_power || 1;
+        for (let i=0; i<(4+skill_power); i++) {
           deal_random_damage(G, ctx, 3);
         }
-        for (let j=0; j<(self.skill_power/3 + 1); j++) {
+        for (let j=0; j<Math.floor(skill_power/3 + 1); j++) {
           G.onCardMine.push((G, ctx) => {
             G.score += 1;
           });
@@ -1899,11 +1905,7 @@ export const CARDS = [
         self.onMine = undefined;
         self.onFight = undefined;
         self.desc = "";
-      };
-      self.onMine = reinforce_skill;
-      self.onFight = reinforce_skill;
-      self.desc = this.desc;
-    },
+      },
     reinforce: 1,
     reinforce_desc: "+1/+4",
     onReinforce(G, ctx, self) {
