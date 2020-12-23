@@ -240,7 +240,9 @@ export function play_card(G, ctx, card) {
       inserted.onPlay(G, ctx, inserted);
     }
     for (let bonus of (inserted.onPlayBonus || [])) {
-      bonus && bonus.effect(G, ctx, inserted);
+      if (bonus && (bonus.effect != undefined)) {
+        bonus.effect(G, ctx, inserted);
+      }
     }
     return inserted;
   }

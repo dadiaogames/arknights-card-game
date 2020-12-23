@@ -308,7 +308,7 @@ function get_card_pick(S) {
     price: 0,
     indexes: S.rng.shuffle(CARDS.map((x,idx)=>idx)).slice(0,6),
     desc: "从6个干员中，选择你最心仪的那一个",
-    src: "http://prts.wiki/images/8/88/%E9%9B%86%E6%88%90%E6%88%98%E7%95%A5_%E9%81%93%E5%85%B7_%E9%AB%98%E7%BA%A7%E4%BA%BA%E4%BA%8B%E8%B0%83%E5%BA%A6%E5%87%BD.png",
+    src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
     is_pick: true,
     onBought(S, idx) {
       let card = CARDS[idx];
