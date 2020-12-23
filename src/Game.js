@@ -176,8 +176,8 @@ export function init_card_state(G, ctx, card) {
   return card;
 }
 
-export function eliminate_field(G, ctx) {
-  let card = ctx.random.Shuffle(G.field.filter(x => !x.exhausted))[0];
+export function eliminate_field(G, ctx, user) {
+  let card = ctx.random.Shuffle(G.field.filter(x => (!x.exhausted) && (x != user)))[0];
   if (card) {
     G.field = G.field.filter(x => x != card);
     if (card.onOut) {

@@ -335,7 +335,7 @@ export const CARDS = [
     desc:"采掘: 摧毁场上1个(重置的)干员，并获得4点费用", 
     illust:"http://prts.wiki/images/3/3a/%E7%AB%8B%E7%BB%98_%E6%B8%85%E9%81%93%E5%A4%AB_1.png",
     onMine(G, ctx, self) {
-      if (eliminate_field(G, ctx)) {
+      if (eliminate_field(G, ctx, self)) {
         G.costs += 4;
       }
     },
@@ -3121,11 +3121,13 @@ export const CARDS = [
       hp:2,
       mine:1,
       block:0,
-      desc:"采掘: 摧毁场上1个(重置的)干员，并造成8点伤害",
+      desc:"采掘: 摧毁场上1个(重置的)干员，然后造成4点伤害，重复2次",
       illust:"http://prts.wiki/images/8/87/%E7%AB%8B%E7%BB%98_%E7%A9%BA%E7%88%86_1.png",
       onMine(G, ctx, self) {
-        if (eliminate_field(G, ctx)) {
-          deal_random_damage(G, ctx, 8 + 4 * self.power);
+        if (eliminate_field(G, ctx, self)) {
+          for (let i=0; i<(2+self.power); i++) {
+            deal_random_damage(G, ctx, 4);
+          }
         }
       },
       action(G, ctx, self) {
@@ -3140,7 +3142,7 @@ export const CARDS = [
         }
       },
       reinforce: 1,
-      reinforce_desc: "伤害+4",
+      reinforce_desc: "再重复1次",
       // onReinforce(G, ctx, self) {
       //   deal_random_damage(G, ctx, 3);
       // },
