@@ -497,7 +497,7 @@ export const CARDS = [
   {
     name:"蓝毒", 
     cost:4, 
-    atk:5, 
+    atk:6, 
     hp:3, 
     mine:2, 
     block:0, 

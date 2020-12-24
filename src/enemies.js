@@ -1,7 +1,7 @@
 import React from 'react';
 import 
   { drawEnemy, switchEnemy, deal_damage, enemyMove,
-    get_blocker, logMsg, ready_random_card, clearField,
+    get_blocker, logMsg, ready_random_card, clearField, draw, gainMaterials, init_card_state
  } from "./Game";
 
 export const ENEMIES = [
@@ -36,6 +36,43 @@ export const ENEMIES = [
       }
     }
   },
+  {
+    name: "雪怪小队",
+    atk: 3,
+    hp: 4,
+    illust: "http://prts.wiki/images/0/0b/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%9B%AA%E6%80%AA%E5%B0%8F%E9%98%9F.png",
+    desc: "摧毁: 摸2张牌",
+    onOut(G, ctx) {
+      draw(G, ctx);
+      draw(G, ctx);
+    }
+  },
+  {
+    name: "法术大师A2",
+    atk: 4,
+    hp: 5,
+    illust: "http://prts.wiki/images/2/2e/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%B3%95%E6%9C%AF%E5%A4%A7%E5%B8%88A2.png",
+    desc: "摧毁: 获得2个材料",
+    onOut(G, ctx) {
+      gainMaterials(G, ctx, 2);
+    }
+  },
+
+  {
+    name: "敌方风笛",
+    atk: 5,
+    hp: 6,
+    illust: "http://prts.wiki/images/2/28/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E8%90%A8%E5%8D%A1%E5%85%B9%E7%A9%BF%E5%88%BA%E6%89%8B%E7%BB%84%E9%95%BF.png",
+    desc: "摧毁: 打出牌库顶的1张牌",
+    onOut(G, ctx) {
+      let new_card = G.deck[0];
+      G.deck = G.deck.slice(1);
+      if (new_card != undefined) {
+        G.field.push(init_card_state({...new_card}));
+      }
+    }
+  },
+
   {
     name: "猎犬",
     atk: 1,
@@ -167,20 +204,20 @@ export const ENEMIES = [
     enraged: true,
   },
 
-  {
-    name: "复仇者",
-    atk: 3,
-    hp: 6,
-    illust: "http://prts.wiki/images/1/14/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A4%8D%E4%BB%87%E8%80%85.png",
-    desc: "替换，愤怒，超杀: 增加1点动乱值",
-    is_elite: true,
-    enraged: true,
-    onFight(G, ctx, self, card) {
-      if (card.dmg > card.hp) {
-        G.danger += 1;
-      }
-    },
-  },
+  // {
+  //   name: "复仇者",
+  //   atk: 3,
+  //   hp: 6,
+  //   illust: "http://prts.wiki/images/1/14/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A4%8D%E4%BB%87%E8%80%85.png",
+  //   desc: "替换，愤怒，超杀: 增加1点动乱值",
+  //   is_elite: true,
+  //   enraged: true,
+  //   onFight(G, ctx, self, card) {
+  //     if (card.dmg > card.hp) {
+  //       G.danger += 1;
+  //     }
+  //   },
+  // },
   
   {
     name: "碎岩者",
@@ -332,12 +369,12 @@ export const BOSSES = [
     }
   },
   {
-    name: "二爷",
+    name: "复仇者",
     atk: 99,
     hp: 1,
     is_boss: true,
     is_elite: true,
-    illust: "https://s3.ax1x.com/2020/12/23/rcQyt0.jpg",
+    illust: "http://prts.wiki/images/1/14/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%A4%8D%E4%BB%87%E8%80%85.png",
     desc: <span>超杀: 增加1点动乱值<br/>摧毁: 获得80分</span>,
     onFight(G, ctx, self, card) {
       if (card.dmg > card.hp) {

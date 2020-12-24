@@ -314,10 +314,10 @@ const tag_list = [
 
 export const final_tag = {
   src: "http://prts.wiki/images/0/04/Enemy_icebrk_1.png",
-  desc: "增加Boss\"二爷\"，胜利所需分数+100",
+  desc: "增加Boss\"复仇者\"，胜利所需分数+100",
   level: 100,
   effect(G, ctx){
-    addBoss(G, ctx, "二爷");
+    addBoss(G, ctx, "复仇者");
     G.goal += 100;
   }
 };
