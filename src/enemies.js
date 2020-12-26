@@ -68,7 +68,7 @@ export const ENEMIES = [
       let new_card = G.deck[0];
       G.deck = G.deck.slice(1);
       if (new_card != undefined) {
-        G.field.push(init_card_state({...new_card}));
+        G.field.push(init_card_state(G, ctx, {...new_card}));
       }
     }
   },

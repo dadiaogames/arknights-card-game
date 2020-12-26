@@ -82,6 +82,7 @@ export const Card = (props) => {
 
   useEffect(() => {
     if ((props.cardState.dmg > 0) && props.cardState.setShaking) {
+    // if (props.cardState.setShaking) {
       props.cardState.setShaking(true);
     }
   }, 
