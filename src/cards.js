@@ -3113,10 +3113,10 @@ export const CARDS = [
       }
     },
     reinforce: 1,
-    reinforce_desc: "+2/+1",
+    reinforce_desc: "+1/+2",
     onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 1;
+      self.atk += 1;
+      self.hp += 2;
     },
   },{
     name:"流星",

@@ -24,6 +24,7 @@ body {
 .board {
   height: 600px;
   width: 370px;
+  /* width: 970px; */
   border: 2.5px solid #a0a0a0;
   margin: 2%;
 
