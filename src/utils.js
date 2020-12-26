@@ -22,6 +22,11 @@ export function arr2obj(arr) {
   return new_obj;
 }
 
+export function mod_slice(arr, idx, cnt) {
+  let len = arr.length;
+  return [...arr.slice(idx, len), ...arr.slice(0, idx)].slice(0, cnt);
+}
+
 export class PRNG {
   constructor(seed) {
     this.seed = seed || 0;

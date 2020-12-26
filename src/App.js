@@ -8,6 +8,7 @@ const App = Client({
   game: AC, 
   board: Board,
   debug: false,
+  seed: 114514,
 });
 
 export default App;

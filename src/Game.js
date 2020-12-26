@@ -5,7 +5,7 @@ import { BOSSES, ENEMIES } from "./enemies";
 import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
 import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1 } from './DeckGenerator';
-import { arr2obj, PRNG } from "./utils";
+import { arr2obj, mod_slice, PRNG } from "./utils";
 import { ICONS } from "./icons";
 import { ALTER_ARTS } from "./alters";
 
@@ -302,7 +302,7 @@ function setValue(G, ctx, attr, val) {
 }
 
 export function refreshOrder(G, ctx) {
-  G.orders = ctx.random.Shuffle(G.odeck).slice(0, 8);
+  G.orders = mod_slice(G.odeck, G.round_num*8, 8);
   G.orders = sort_orders(G.orders);
 }
 
@@ -862,6 +862,7 @@ export function str2deck(deck_data) {
 
 function setDecks(G, ctx, decks) {
   Object.assign(G, decks);
+  G.another_deck = ctx.random.Shuffle(G.deck);
   // To make sure each time also got different ctx.random results
   // EH: However, it's still better if I can adjust the seed of ctx
   for (let i=0; i<G.shuffle_times; i++) {
@@ -884,7 +885,7 @@ export function init_decks(deck, seed) {
 
   edeck = edeck.slice(0, 22);
 
-  return {deck, edeck, odeck, shuffle_times:rng.randRange(10)};
+  return {deck, edeck, odeck, shuffle_times:rng.randRange(30)};
 }
 
 export function logMsg(G, ctx, msg) {
@@ -1022,7 +1023,8 @@ export function pick(G, ctx, idx) {
 }
 
 export function refresh_picks(G, ctx) {
-  G.picks = ctx.random.Shuffle(G.deck).slice(0, 5);
+  // G.picks = ctx.random.Shuffle(G.deck).slice(0, 5);
+  G.picks = mod_slice(G.another_deck, G.round_num*5, 5);
   let add_price = (pick, idx) => {
     let price = [0, 0, 0, 0];
     let requirement = ctx.random.Die(3) - 1;
