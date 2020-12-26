@@ -9,11 +9,11 @@ const SEEDS = "龙门厕所 250区废墟 完整小道 旧街 中转坐 霜烤废
 export const classes = {
   producers: "极境 讯使 香草 桃金娘 红豆 清道夫 德克萨斯 贾维 惊蛰 推进之王 芬 调香师 断崖 清流".split(" "),
   solvers: "克洛丝 巡林者 杰西卡 蓝毒 陨星 普罗旺斯 流星 空爆 能天使 W 陈 棘刺 史尔特尔 拉普兰德 刻刀 刻俄柏 四月".split(" "),
-  miners: "史都华德 12F 炎熔 夜烟 远山 天火 杜林 星极 艾雅法拉".split(" "),
+  miners: "史都华德 12F 阿米娅 炎熔 夜烟 远山 天火 杜林 星极 艾雅法拉".split(" "),
   standers: "玫兰莎 芙兰卡 慕斯 柏喙 赫拉格 孑 宴 银灰 凛冬 卡达 阿米娅-近卫 机械水獭 末药 杜宾 森蚺 夜刀".split(" "),
   defenders: "米格鲁 蛇屠箱 斑点 年 可颂 古米 雷蛇 泥岩 砾 摄影车 龙腾 星熊".split(" "),
-  supporters: "梓兰 红 诗怀雅 安洁莉娜 霜叶 巫恋 翎羽 白面鸮 空 波登可 真理 安比尔 温蒂 黑角".split(" "),
-  scorers: "阿米娅 阿消 崖心 食铁兽 铃兰 酸糖 闪灵 煌 阿 断罪者 赫默 伊芙利特 苏苏洛 皇帝".split(" "),
+  supporters: "梓兰 红 诗怀雅 安洁莉娜 霜叶 薄绿 巫恋 翎羽 白面鸮 空 波登可 真理 安比尔 温蒂 黑角".split(" "),
+  scorers: "阿消 崖心 食铁兽 卡夫卡 铃兰 酸糖 闪灵 煌 阿 断罪者 赫默 伊芙利特 苏苏洛 皇帝".split(" "),
   randomizers: "斯卡蒂 凯尔希 热水壶 嘉维尔 迷迭香 风笛 安赛尔 微风 亚叶 伊桑 狮蝎 坚雷 暗索 可露希尔".split(" "),
 };
 
@@ -642,18 +642,18 @@ export function generate_deck_s2(deck_name) {
 }
 
 export function generate_roguelike_deck(deck_name) {
-  let deck = ["黑角", "极境", "桃金娘"];
+  let deck = ["黑角", "极境", "极境"];
   let rng = new PRNG(deck_name);
 
   // Basic deck
-  deck = [...deck, ...deck_from_strategy(cost_vanguard, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
   deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
   deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
   deck = [...deck, ...deck_from_strategy(defender, 1, rng)];
 
   // Random cards
-  let amount_add = 15 - deck.length;
+  let amount_add = 11 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }

@@ -358,7 +358,7 @@ function finishOrder(G, ctx, idx) {
     logMsg(G, ctx, "完成订单");
     // sort_orders(G);
 
-    if ([4,7].includes(G.finished.length)) {
+    if ([4,9].includes(G.finished.length)) {
       G.orders.map(price_up);
       G.odeck.map(price_up);
     }
@@ -409,7 +409,7 @@ export function addBoss(G, ctx, boss_name) {
   let boss = {...BOSSES.find(x => x.name == boss_name)};
 
   boss.exhausted = false;
-  if (boss.name == "二爷") {
+  if (boss.name == "复仇者") {
     boss.dmg = -98;
   }
   else {
@@ -1026,7 +1026,7 @@ export function refresh_picks(G, ctx) {
   let add_price = (pick, idx) => {
     let price = [0, 0, 0, 0];
     let requirement = ctx.random.Die(3) - 1;
-    price[requirement] = Math.floor(idx / 2) + 1;
+    price[requirement] = [1,1,1,2,3][idx] || 1;
     return {...pick, price};
   }
   G.picks = G.picks.map(add_price);

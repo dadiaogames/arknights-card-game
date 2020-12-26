@@ -2697,27 +2697,50 @@ export const CARDS = [
     },
     reinforce_desc: "获得1分",
   },
+  {
+    name:"卡夫卡",
+    cost:3,
+    atk:2,
+    hp:1,
+    mine:2,
+    block:1,
+    desc: "部署: 如果场上干员数量多于敌人，则获得4分",
+    illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E5%A4%AB%E5%8D%A1_1.png",
+    reinforce: 1,
+    onPlay(G, ctx, self) {
+      if (G.field.length > G.efield.length) {
+        G.score += 4;
+      }
+    },
+    onReinforce(G, ctx, self) {
+      G.hand.unshift({...CARDS.find(x => x.name == "卡夫卡")});
+    },
+    reinforce_desc: "获得1张\"卡夫卡\"",
+  },
   
-  // {
-  //   name:"杰克",
-  //   cost:1,
-  //   atk:1,
-  //   hp:1,
-  //   mine:1,
-  //   block:1,
-  //   desc: "摧毁: 将弃牌堆中1张有\"部署:\"效果的牌返回手牌",
-  //   illust:"http://prts.wiki/images/1/1d/%E7%AB%8B%E7%BB%98_%E6%9D%B0%E5%85%8B_1.png",
-  //   reinforce: 1,
-  //   onOut(G, ctx, self) {
-  //     let card = ctx.random.Shuffle(G.discard).find(x => x.onPlay);
-  //     G.hand.unshift(card);
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     self.atk += 2;
-  //     self.hp += 2;
-  //   },
-  //   reinforce_desc: "+2/+2",
-  // },
+
+  {
+    name:"薄绿",
+    cost:2,
+    atk:2,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: "采掘: 将弃牌堆中1张有\"部署:\"效果的牌返回手牌",
+    illust:"http://prts.wiki/images/d/d8/%E7%AB%8B%E7%BB%98_%E8%96%84%E7%BB%BF_1.png",
+    reinforce: 1,
+    onMine(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.discard).find(x => x.onPlay);
+      if (card != undefined) {
+        G.hand.unshift(card);
+      }
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
   
   {
     name:"森蚺",
