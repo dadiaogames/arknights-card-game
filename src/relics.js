@@ -1,9 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
-import { choice, deal_random_damage, draw, gainMaterials, init_card_state, logMsg, reinforce_card, reinforce_hand, summon } from './Game';
-import { random_upgrade } from './Roguelike';
+import { choice, deal_random_damage, draw, gainMaterials, init_card_state, logMsg, ready_random_card, reinforce_card, reinforce_hand, summon } from './Game';
+import { random_upgrade, delete_card } from './Roguelike';
 import { UPGRADES } from './upgrades';
 import { relic_images, relic_names } from './assets';
+import { ready_order } from './orders';
 
 export const RELICS = [
   // {
@@ -123,13 +124,11 @@ export const RELICS = [
   // },
   {
     name:"风干大蕉果", 
-    desc:"在选牌区选牌时,里面的1个干员获得强化3",
-    onPickCards(S) {
-      let card = S.rng.choice(S.Deck.slice(0,3));
+    desc:"自选干员时，使选到的牌获得强化1",
+    onPickCard(S, card) {
       let reinforce = UPGRADES.find(x => x.name == "强化1");
       reinforce.effect(card);
-      reinforce.effect(card);
-      reinforce.effect(card);
+      card.upgraded = true;
     }
   },
   {
@@ -150,10 +149,13 @@ export const RELICS = [
   },
   {
     name:"真理的书单", 
-    desc:"战斗结束时,随机升级2个干员",
-    onBattleEnd(S) {
-      random_upgrade(S);
-      random_upgrade(S);
+    desc:"使用: 随机升级5个干员",
+    onUse(S) {
+      let msg = "";
+      for (let i=0; i<5; i++) {
+        msg += random_upgrade(S) + "\n";
+      }
+      alert(msg);
     }
   },
   {
@@ -210,9 +212,11 @@ export const RELICS = [
   },
   {
     name:"芙蓉的健康餐", 
-    desc:"所有敌人获得-2/-0",
-    onBattleBegin(G, ctx) {
-      G.edeck.map(enemy => {enemy.atk = Math.max(enemy.atk-2, 0);});
+    // desc:"所有敌人获得-2/-0",
+    desc:"使用: 商店中增加2个\"删1张牌\"",
+    onUse(S) {
+      S.shop_items.push(delete_card(S));
+      S.shop_items.push(delete_card(S));
     }
   },
   {
@@ -262,28 +266,28 @@ export const RELICS = [
   //     }
   //   }
   // },
-  {
-    name:"米格鲁的饼干", 
-    desc:"所有阻挡数至少为2的,阻挡数+2",
-    onBattleBegin(G, ctx) {
-      G.deck.map(x => {
-        if (x.block >= 2) {
-          x.block += 2;
-        }
-      });
-    }
-  },
-  {
-    name:"断杖-咏唱", 
-    desc:"所有采掘力至少为3的,<+2>",
-    onBattleBegin(G, ctx) {
-      G.deck.map(x => {
-        if (x.mine >= 3) {
-          x.mine += 2;
-        }
-      });
-    }
-  },
+  // {
+  //   name:"米格鲁的饼干", 
+  //   desc:"所有阻挡数至少为2的,阻挡数+2",
+  //   onBattleBegin(G, ctx) {
+  //     G.deck.map(x => {
+  //       if (x.block >= 2) {
+  //         x.block += 2;
+  //       }
+  //     });
+  //   }
+  // },
+  // {
+  //   name:"断杖-咏唱", 
+  //   desc:"所有采掘力至少为3的,<+2>",
+  //   onBattleBegin(G, ctx) {
+  //     G.deck.map(x => {
+  //       if (x.mine >= 3) {
+  //         x.mine += 2;
+  //       }
+  //     });
+  //   }
+  // },
   {
     name:"铁卫-推进", 
     desc:" 阻挡数多于2的,阻挡数-1,但是+4/+4",
@@ -336,6 +340,17 @@ export const RELICS = [
     }
   },
   {
+    name:"无线通讯器",
+    desc:"使用干员行动时，重置1个订单",
+    onTurnBegin(G, ctx) {
+      G.onCardAct.push(
+        (G, ctx) => {
+          ready_order(G, ctx, true);
+        }
+      );
+    }
+  },
+  {
     name:"“坏家伙”来了！", 
     desc:"起始获得1个随机的强化3干员加入手牌",
     onBattleBegin(G, ctx) { 
@@ -344,6 +359,7 @@ export const RELICS = [
       reinforce.effect(card);
       reinforce.effect(card);
       reinforce.effect(card);
+      card.upgraded = true;
       G.hand.unshift(card);
     }
   },
@@ -360,12 +376,13 @@ export const RELICS = [
   },
   {
     name:"断杖-突破", 
-    desc:"所有干员获得 超杀:获得1个材料",
+    desc:"所有干员获得 超杀:获得1个材料和1分",
     onTurnBegin(G, ctx) {
       G.onCardFight.push(
         (G, ctx, card, enemy) => {
           if (enemy.dmg > enemy.hp) {
             gainMaterials(G, ctx, 1);
+            G.score += 1;
           }
         }
       );
@@ -373,11 +390,11 @@ export const RELICS = [
   },
   {
     name:"丰蹄能量饮料", 
-    desc:"使用干员行动后 有50%概率强化其1次",
+    desc:"部署有\"行动:\"能力的干员时，有50%概率强化其1次",
     onTurnBegin(G, ctx) {
-      G.onCardAct.push(
+      G.onPlayCard.push(
         (G, ctx, card) => {
-          if (ctx.random.D4() > 2) {
+          if (ctx.random.D4() > 2 && card.action) {
             reinforce_card(G, ctx, card);
           }
         }
@@ -397,21 +414,21 @@ export const RELICS = [
   // },
   {
     name:"热水壶", 
-    desc:"购买时变成手里一个藏品的复制",
-    onBought(S) {
-      let self = S.relics[0];
-      let relic = S.rng.choice(S.relics.slice(1));
+    desc:"使用: 变成手里一个藏品的复制",
+    onUse(S) {
+      let relic = S.rng.choice(S.relics.filter(r => !r.used));
       if (relic) {
-        Object.assign(self, relic);
+        S.relics.push({...relic});
+        alert(`变成 ${relic.name}`);
       }
     }
   },
   {
     name:"全息粉粉沙盒", 
-    desc:"购买时变成2个随机藏品",
-    onBought(S) {
-      let self = S.relics[0];
-      S.relics = S.relics.slice(1);
+    desc:"使用: 变成2个随机藏品",
+    onUse(S) {
+      // let self = S.relics[0];
+      // S.relics = S.relics.slice(1);
       for (let i=0; i<2; i++) {
         let relic = S.rng.choice(S.RELICS);
         S.relics.unshift({...relic});      

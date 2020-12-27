@@ -261,7 +261,7 @@ const tag_list = [
   {
     src: "http://prts.wiki/images/b/bd/Enemy_ghost_1.png",
     desc: "增加Boss\"大泡普\"，胜利所需分数+10",
-    level: 5,
+    level: 4,
     challenge: true,
     stackable: true,
     effect(G, ctx){
@@ -272,7 +272,7 @@ const tag_list = [
   {
     src: "http://prts.wiki/images/f/f9/Enemy_faust_trapmod_3.png",
     desc: "增加Boss\"锈锤战士\"，胜利所需分数+10",
-    level: 5,
+    level: 4,
     challenge: true,
     stackable: true,
     effect(G, ctx){

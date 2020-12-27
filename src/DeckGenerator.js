@@ -645,7 +645,7 @@ export function generate_deck_s2(deck_name) {
 }
 
 export function generate_roguelike_deck(deck_name) {
-  let deck = ["黑角", "极境", "极境"];
+  let deck = ["黑角", "极境", "桃金娘"];
   let rng = new PRNG(deck_name);
 
   // Basic deck
@@ -656,7 +656,7 @@ export function generate_roguelike_deck(deck_name) {
   deck = [...deck, ...deck_from_strategy(defender, 1, rng)];
 
   // Random cards
-  let amount_add = 11 - deck.length;
+  let amount_add = 12 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }

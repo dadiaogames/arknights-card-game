@@ -17,7 +17,7 @@ import { CARDS, default_deck, default_filter, FILTERS } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
 import { ICONS } from './icons';
 import { TAGS } from './tags';
-import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop, RoguelikeEntry, RoguelikeDeckSelection, Roguelike, ResultWin, ResultLose, FinalResult, get_gold_gained } from './Roguelike';
+import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop, RoguelikeEntry, RoguelikeDeckSelection, Roguelike, ResultWin, ResultLose, FinalResult, get_gold_gained, Relics } from './Roguelike';
 import { RULES } from './rules';
 
 import 'react-tabs/style/react-tabs.css';
@@ -108,6 +108,9 @@ export class Board extends React.Component {
     this.render_roguelike_result_board = this.render_roguelike_result_board.bind(this);
     this.render_roguelike_final_result_board = this.render_roguelike_final_result_board.bind(this);
     this.render_roguelike_entry_board = this.render_roguelike_entry_board.bind(this);
+    this.render_roguelike_deck_upgrade_board = this.render_roguelike_deck_upgrade_board.bind(this);
+    this.render_roguelike_relic_selection_board = this.render_roguelike_relic_selection_board.bind(this);
+    this.render_roguelike_relic_check_board = this.render_roguelike_relic_check_board.bind(this);
 
     this.enter_competition_mode = this.enter_competition_mode.bind(this);
     this.select_deck = this.select_deck.bind(this);
@@ -156,6 +159,7 @@ export class Board extends React.Component {
       // board: this.render_roguelike_result_board,
       // DEFAULT
       last_board: this.render_title_board,
+      changer: this.change_board,
 
       tags: TAGS.map(x=>({...x})),
       risk_level: 0, // this is changed on game begin
@@ -759,6 +763,8 @@ export class Board extends React.Component {
       "card": this.render_card_board,
       "preview": this.render_preview_board,
       "relic": this.render_relic_board,
+      "roguelike_relic_selection": this.render_roguelike_relic_selection_board,
+      "roguelike_relic_check": this.render_roguelike_relic_check_board,
       "mulligan": this.render_mulligan_board,
       "settings": this.render_setting_board,
       "deck_selection": this.render_deck_selection_board,
@@ -768,6 +774,7 @@ export class Board extends React.Component {
       "roguelike": this.render_roguelike_board,
       "roguelike_entry": this.render_roguelike_entry_board,
       "roguelike_shop": this.render_roguelike_shop_board,
+      "roguelike_deck_upgrade": this.render_roguelike_deck_upgrade_board,
       "roguelike_result": this.render_roguelike_result_board,
       "roguelike_final_result": this.render_roguelike_final_result_board,
     };
@@ -1035,7 +1042,11 @@ export class Board extends React.Component {
     return {
       deckName: this.state.deck_names[idx],
       checkDeck,
-      selectDeck: () => {this.roguelike.select_deck(deck);this.change_board("roguelike");},
+      selectDeck: () => {
+        this.roguelike.select_deck(deck);
+        // this.change_board("roguelike");
+        this.roguelike.proceed();
+      },
     }
   }
 
@@ -1160,15 +1171,15 @@ export class Board extends React.Component {
       enter_dream = {this.roguelike.enter_dream}
       game_count = {this.state.game_count}
       check_deck = {() => {this.setState({preview_deck:this.state.Deck});this.change_board("preview");}}
-      check_relics = {() => {this.change_board("relic");}}
+      check_relics = {() => {this.change_board("roguelike_relic_check");}}
     />;
 
-    const centrals = [roguelike_main, card_picks, shop];
+    const centrals = [roguelike_main, shop];
 
     return <div className="board">
       {centrals[this.state.central_idx]}
       <RoguelikeTabs 
-        selections={["对战区", "选牌区", "诡意行商"]}
+        selections={["对战区", "诡意行商"]}
         onSelect={(idx) => {this.setState({central_idx: idx})}}
       />
       {/* <p className="gold-amount">{ICONS.gold}: {this.state.gold}</p> */}
@@ -1196,12 +1207,12 @@ export class Board extends React.Component {
         className="preview-button" 
         onClick={() => {
           this.roguelike.buy(this.state.shop_selected);
-          this.back();
+          this.roguelike.proceed();
         }}
       >
         确认购买({ICONS.gold}{this.state.current_item.price})
       </button>
-      <button className="preview-button" onClick={this.back}>返回</button>
+      <button className="preview-button" onClick={this.roguelike.proceed}>返回</button>
     </div>);
   }
 
@@ -1218,7 +1229,8 @@ export class Board extends React.Component {
         let game_count = this.state.game_count;
         this.roguelike.continue_run();
         if (game_count < 9) {
-          this.change_board("roguelike");
+          // this.change_board("roguelike");
+          this.roguelike.proceed();
         }
         else {
           this.change_board("roguelike_final_result");
@@ -1258,6 +1270,35 @@ export class Board extends React.Component {
       handleUpgradeClick = {this.handle_upgrade_clicked}
       handleClick = {this.upgrade_card}
     />
+  }
+
+  render_roguelike_deck_upgrade_board() {
+    return <DeckUpgrade 
+    cards = {this.state.current_indexes.map(idx => this.state.Deck[idx]).map(this.process_hand_data)}
+    cardStates = {this.state.current_indexes.map((deck_idx, idx) => ({selected: idx == this.state.selection_selected}))}
+    selectedCard = {{...this.state.Deck[this.state.current_indexes[this.state.selection_selected]]}}
+    handleCardClick = {this.handle_selection_clicked}
+    upgrades = {this.state.current_upgrades.map(this.process_upgrade_data)}
+    upgradeStates = {this.state.current_upgrades.map(this.process_upgrade_state)}
+    selectedUpgrade = {{...this.state.current_upgrades[this.state.upgrade_selected]}}
+    handleUpgradeClick = {this.handle_upgrade_clicked}
+    handleClick = {this.roguelike.upgrade_card}
+    />;
+  }
+
+  render_roguelike_relic_selection_board() {
+    return <Relics 
+      relics = {this.state.current_relics.map((relic,idx) => ({...relic, operation: {name: "选择", effect:()=>this.roguelike.pick_relic(idx)}}))}
+      proceed = {this.roguelike.proceed}
+    />;
+  }
+
+  render_roguelike_relic_check_board() {
+    return <Relics 
+      relics = {this.state.relics.map((relic,idx) => ({...relic, operation: (relic.onUse)?{name: "使用", effect:() => this.roguelike.use_relic(idx)}:undefined})).filter(relic => !relic.used)}
+      proceed = {this.roguelike.proceed}
+      checking = {true}
+    />;
   }
 
   render_competition_board() {

@@ -90,15 +90,22 @@
   background-color: rgba(0, 0, 0, .55);
 }
 
-.shop-items {
+.shop-items, .relics {
   display: flex;
   /* border: 1px solid gray; */
+  align-items: center;
+  /* justify-content: center; */
+
   flex-direction: column;
   overflow-x: scroll;
   margin: auto;
   width: 98%;
   height: 75%;
 
+}
+
+.relics {
+  height: 60%;
 }
 
 .shop-item-img-container {

@@ -4,6 +4,7 @@ import { EnterGame } from './Controller';
 
 import './Board.css';
 import './Competition.css';
+import { get_desc } from './Game';
 
 function DeckRepr(props) {
   return <div className="deck-repr" align="center">
@@ -14,13 +15,15 @@ function DeckRepr(props) {
 }
 
 function process_selected_desc(card) {
-  let desc = [card.desc];
+  // let desc = [card.desc];
 
-  if (card.onPlayBonus && (card.onPlayBonus.length > 0)) {
-    desc.push(` (${card.onPlayBonus.map(x => x.name).join(" ")})`);
-  }
+  // if (card.onPlayBonus && (card.onPlayBonus.length > 0)) {
+  //   desc.push(` (${card.onPlayBonus.map(x => x.name).join(" ")})`);
+  // }
 
-  return desc;
+  // return desc;
+
+  return (card.mine != undefined)? get_desc(card) : "";
 }
 
 function introduce_competition_mode() {
@@ -39,9 +42,9 @@ export function DeckSelection(props) {
 
 export function DeckUpgrade(props) {
   return <div className="board">
-    <CardRow cards={props.upgrades || []} states={props.upgradeStates || []} additionalStyle={{marginTop: "35%"}} handleClick={props.handleUpgradeClick}/>
-    <div className="card-desc">{props.selectedUpgrade.desc? "获得"+props.selectedUpgrade.desc : ""}</div>
-    <CardRow cards={props.cards || []} states={props.cardStates || []} handleClick={props.handleCardClick}/>
+    <CardRow cards={props.upgrades || []} states={props.upgradeStates || []} additionalStyle={{marginTop: "20%"}} handleClick={props.handleUpgradeClick}/>
+    <div className="upgrade-desc">{props.selectedUpgrade.desc? "获得"+props.selectedUpgrade.desc : ""}</div>
+    <CardRow cards={props.cards || []} states={props.cardStates || []} handleClick={props.handleCardClick} additionalStyle={{marginTop: "2%"}}/>
     <div className="card-desc">{props.selectedCard && process_selected_desc(props.selectedCard)}</div>
     <button className="deck-selection-button" style={{margin:"2%", padding:"3.5%"}} onClick={props.handleClick}>升级</button>
   </div>

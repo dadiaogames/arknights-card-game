@@ -19,7 +19,7 @@ import { lose_image, result_images } from './assets';
 import { CardRow } from './Card';
 
 export function introduce_roguelike_mode() {
-  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得40赏金，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，大侠请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得10赏金(最高200赏金)；\n如果比要求等级高4级，则会达成“满贯”，额外获得80赏金，并跳过1局对战；\n如果比要求等级高8级，则会达成“大满贯”，额外获得200赏金！并跳过2局对战；`);
+  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得20赏金和1次升级，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，博士请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得5赏金(最高40赏金)；\n每高4级，在高8级之前，会奖励1次升级，在高8级之后，会奖励1个藏品；\n如果比要求等级高4级，则会达成“满贯”，额外获得30赏金和1个藏品，并跳过1局对战；\n如果比要求等级高8级，则会达成“大满贯”，额外获得60赏金和2个藏品！并跳过2局对战；`);
 }
 
 function reset_tags() {
@@ -37,8 +37,12 @@ function setup_roguelike_mode(S) {
 
   S.Deck = [];
   S.relics = [];
-  S.gold = 100;
+  S.gold = 50;
 
+  S.scene_queue = ["upgrade", "relic"];
+  S.current_upgrades = [];
+  S.current_indexes = [];
+  S.current_relics = [];
 
   S.game_count = 1;
   S.level_required = 0;
@@ -66,8 +70,16 @@ function move_on(S) {
   S.tags.splice(S.tags.length-1, 0, ...S.remained_tags.slice(0,2));
   S.remained_tags = S.remained_tags.slice(2);
 
+  // S.scene_queue.unshift("pick");
+  S.scene_queue.unshift("upgrade");
+
   if (S.difficulty == "hard" && S.game_count == 9) {
     S.tags = [...S.tags, ..._.times(9, () => ({...final_tag}))];
+    for (let tag of S.tags) {
+      if (tag.stackable) {
+        tag.locked = true;
+      }
+    }
   }
 }
 
@@ -184,12 +196,19 @@ function set_difficulty_S2(S, difficulty) {
   }
 
   if (difficulty == "hard") {
-    S.levels = [25, 30, 35, 40, 50, 60, 70, 80, 100];
+    // S.levels = [25, 30, 35, 40, 50, 60, 70, 80, 100];
+    S.levels = [22, 27, 32, 38, 45, 52, 60, 70, 90];
   }
 
   if (["medium", "hard"].includes(difficulty)) {
     for(let tag_idx of [0,3,4,6,9]) {
       S.tags[tag_idx].locked = true;
+    }
+  }
+
+  if (difficulty == "easy") {
+    for (let tag of S.tags) {
+      tag.locked = false;
     }
   }
 
@@ -222,7 +241,7 @@ function get_shop_item(S) {
   let item_type = S.rng.randRange(100);
   // console.log(item_type, "item type");
 
-  if (item_type <= 50) {
+  if (item_type <= 60) {
     // TODO: change this to relic
     return get_relic(S);
   }
@@ -287,7 +306,7 @@ function get_upgrade(S) {
   shop_item.name = "升级: " + upgrade.name;
   shop_item.price = S.rng.randRange(10) + 15;
   // console.log("This deck", S.Deck);
-  shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,5);
+  shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "获得 " + upgrade.desc;
   shop_item.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/259/up-arrow_2b06.png";
   shop_item.onBought = (S, idx) => {
@@ -312,7 +331,12 @@ function get_card_pick(S) {
     is_pick: true,
     onBought(S, idx) {
       let card = CARDS[idx];
-      S.Deck.unshift({...card, material: S.rng.randRange(3)});
+      if (card) {
+        S.Deck.unshift({...card, material: S.rng.randRange(3)});
+        for (let r of S.relics) {
+          r.onPickCard && r.onPickCard(S, card);
+        }
+      }
     }
   };
 }
@@ -394,12 +418,12 @@ function get_relic(S) {
   return shop_item;
 }
 
-function delete_card(S) {
+export function delete_card(S) {
   let shop_item = {};
 
   shop_item.name = "删1张牌";
   shop_item.price = 0;
-  shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
+  shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,5);
   shop_item.desc = "";
   shop_item.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/foot_dark-skin-tone_1f9b6-1f3ff_1f3ff.png";
   shop_item.onBought = (S, card_idx) => {
@@ -486,18 +510,18 @@ function enter_dream(S) {
 }
 
 export function get_gold_gained(risk_level, level_required) {
-   let gold_gained = 40;
+   let gold_gained = 20;
 
     let level_diff = risk_level - level_required;
-    gold_gained += Math.min(level_diff * 10, 400);
+    gold_gained += Math.min(level_diff * 5, 40);
 
     // For slam, don't store them in variables, instead, calculate it on time
     // So do plenty of other things
     if (level_diff >= 4) {
-      gold_gained += 80;
+      gold_gained += 30;
     }
     if (level_diff >= 8) {
-      gold_gained += 120;
+      gold_gained += 30;
     }
 
     return gold_gained;
@@ -507,7 +531,7 @@ export function get_gold_gained(risk_level, level_required) {
 function continue_run(S) {
   // Resets go here
   S.central_idx = 1;
-  reset_shop(S);
+  // reset_shop(S);
   reset_card_picks(S);
 
   if (S.won) {
@@ -520,19 +544,75 @@ function continue_run(S) {
 
   // TODO: Reconstruct this part, into moveOn()
   // S.game_count += 1;
-  move_on(S)
+  move_on(S);
 
   if ((S.level_achieved - S.level_required) >= 4) {
     // S.game_count += 1;
-    move_on(S)
+    move_on(S);
+    S.scene_queue.unshift("relic");
   }
   if ((S.level_achieved - S.level_required) >= 8) {
     // S.game_count += 1;
-    move_on(S)
+    move_on(S);
+    S.scene_queue.unshift("relic");
+    S.scene_queue.unshift("relic");
   }
   S.game_count = Math.min(S.game_count, 9);
 
   S.level_required = S.levels[S.game_count - 1];
+
+  let num_bonus = Math.floor((S.level_achieved - S.level_required) / 4);
+  let num_extra_relics = Math.min(Math.max(num_bonus-2, 0), 7);
+  let num_upgrades = Math.min(num_bonus, 2);
+  S.scene_queue = [..._.times(num_extra_relics, ()=>"relic"), ..._.times(num_upgrades, ()=>"upgrade"), ...S.scene_queue];
+}
+
+function proceed(S) {
+  if (S.scene_queue.length == 0) {
+    S.changer("roguelike");
+  }
+  else {
+    let scene = S.scene_queue.pop();
+    if (scene == "upgrade") {
+      S.current_upgrades = S.rng.shuffle(UPGRADES).slice(0,3);
+      S.current_indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
+      S.changer("roguelike_deck_upgrade");
+    }
+    else if (scene == "pick") {
+      S.current_item = get_card_pick(S);
+      S.changer("roguelike_shop");
+    }
+    else if (scene == "relic") {
+      S.current_relics = S.rng.shuffle(RELICS).slice(0,3);
+      S.changer("roguelike_relic_selection");
+    }
+  }
+}
+
+function upgrade_card(S) {
+  let upgrade = S.current_upgrades[S.upgrade_selected];
+  let card = S.Deck[S.current_indexes[S.selection_selected]];
+  if (upgrade != undefined && card != undefined) {
+    upgrade.effect(card);
+    card.upgraded = true;
+    proceed(S);
+  }
+}
+
+function pick_relic(S, idx) {
+  let relic = S.current_relics[idx];
+  if (relic) {
+    S.relics.unshift({...relic});
+    proceed(S);
+  }
+}
+
+function use_relic(S, idx) {
+  let relic = S.relics[idx];
+  if (relic && relic.onUse && (!relic.used)) {
+    relic.onUse(S);
+    relic.used = true;
+  }
 }
 
 export function random_upgrade(S) {
@@ -540,7 +620,7 @@ export function random_upgrade(S) {
   let upgrade = S.rng.choice(UPGRADES);
   upgrade.effect(card);
   card.upgraded = true;
-  alert(`${card.name} is upgraded with ${upgrade.name}`);
+  return `${card.name} is upgraded with ${upgrade.name}`;
 }
 
 
@@ -597,7 +677,7 @@ export function PickCards(props) {
 }
 
 function ShopItem(props) {
-  return <div className="shop-item" align="center">
+  return <div className="shop-item">
     <div className="shop-item-img-container"><img src={props.src} className="shop-item-img"/></div>
     <div className="shop-item-info" align="center">
       <span className="shop-item-name">{props.name}</span>
@@ -607,6 +687,29 @@ function ShopItem(props) {
       <div className="shop-item-desc">{props.desc}</div>
     </div>
     <button className="buy" onClick={props.buy}>购买</button>
+  </div>
+}
+
+function Relic(props) {
+  return <div className="shop-item">
+    <div className="shop-item-img-container"><img src={props.illust} className="shop-item-img"/></div>
+    <div className="shop-item-info" align="center">
+      <span className="shop-item-name">{props.name}</span>
+      <br/>
+      <br/>
+      <div className="shop-item-desc">{props.desc}</div>
+    </div>
+    {(props.operation)?<button className="buy" onClick={props.operation.effect}>{props.operation.name}</button>:""}
+  </div>
+}
+
+export function Relics(props) {
+  return <div className="board" align="center">
+    <div style={{marginTop:"20%", fontSize:"110%"}}>{(props.checking)?"现有藏品":"选择一个藏品"}</div>
+    <div className="relics">
+      {props.relics.map((relic)=><Relic {...relic} />)}
+    </div>
+    <button className="continue-btn" style={{marginTop: "2%"}} onClick={props.proceed} >{(props.checking)?"返回":"跳过"}</button>
   </div>
 }
 
@@ -745,6 +848,10 @@ export const roguelike = {
 
   continue_run,
   end_roguelike_mode,
+  proceed,
+  upgrade_card,
+  pick_relic,
+  use_relic,
 
   enter_daily_mode,
   end_daily_mode,

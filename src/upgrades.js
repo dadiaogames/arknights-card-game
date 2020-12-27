@@ -3,8 +3,8 @@ import { ready_order } from './orders';
 
 export const UPGRADES = [
   {
-    name: "+5/+0",
-    desc: "+5攻击力", // Write "获得"always
+    name: "+4/+0",
+    desc: "+4攻击力", // Write "获得"always
     effect(card) {
       card.atk += 5;
     }
@@ -17,8 +17,8 @@ export const UPGRADES = [
   //   }
   // },
   {
-    name: "+2/+6",
-    desc: "+2/+6", // Write "获得"always
+    name: "+2/+4",
+    desc: "+2/+4", // Write "获得"always
     effect(card) {
       card.atk += 2;
       card.hp += 6;
@@ -26,8 +26,8 @@ export const UPGRADES = [
   },
 
   {
-    name: "-2费",
-    desc: "部署费用-2", // Write "获得"always
+    name: "-1费",
+    desc: "部署费用-1", // Write "获得"always
     effect(card) {
       card.cost -= 2;
     }
@@ -115,8 +115,8 @@ export const UPGRADES = [
   // },
 
   {
-    name: "6伤害",
-    desc: "部署奖励:\"造成6点伤害\"",
+    name: "5伤害",
+    desc: "部署奖励:\"造成5点伤害\"",
     effect(card) {
       card.onPlayBonus.push({
         name: this.name,
@@ -156,7 +156,7 @@ export const UPGRADES = [
 
   {
     name: "2费干员",
-    desc: "部署奖励:\"召唤1个2费干员\"",
+    desc: "部署奖励:\"获得1张2费干员牌并使其费用变为0\"",
     effect(card) {
       // Maybe reconstruct this to call the skill of Ansel is better?
       card.onPlayBonus.push({
@@ -164,9 +164,10 @@ export const UPGRADES = [
         effect(G, ctx, card) {
           let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==2)))[0];
           if (new_card) {
-            new_card = init_card_state(G, ctx, {...new_card});
+            // new_card = init_card_state(G, ctx, {...new_card});
             // new_card.hp = 1;
-            G.field.push(new_card);
+            // G.field.push(new_card);
+            G.hand.push({...new_card, cost: 0});
           }
         }
     });
@@ -217,7 +218,7 @@ export const UPGRADES = [
 
 {
   name: "回响",
-  desc: "部署奖励:\"将1张自己的同名牌加入手牌\"",
+  desc: "部署奖励:\"将1张自己的同名牌加入手牌，并使其费用-1\"",
   effect(card) {
     // Maybe reconstruct this to call the skill of Ansel is better?
     card.onPlayBonus.push({
@@ -229,7 +230,7 @@ export const UPGRADES = [
         }
         let new_card = G.CARDS.find(x => x.name == name);
         if (new_card) {
-          G.hand.unshift(new_card);
+          G.hand.unshift({...new_card, cost: new_card.cost-1});
         }
       }
   });
