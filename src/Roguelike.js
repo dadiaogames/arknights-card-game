@@ -71,7 +71,7 @@ function move_on(S) {
   S.remained_tags = S.remained_tags.slice(2);
 
   // S.scene_queue.unshift("pick");
-  S.scene_queue.unshift("upgrade");
+  // S.scene_queue.unshift("upgrade");
 
   if (S.difficulty == "hard" && S.game_count == 9) {
     S.tags = [...S.tags, ..._.times(9, () => ({...final_tag}))];
@@ -543,6 +543,7 @@ function continue_run(S) {
   }
 
   S.scene_queue.unshift("pick");
+  S.scene_queue.unshift("upgrade");
 
   // TODO: Reconstruct this part, into moveOn()
   // S.game_count += 1;
@@ -559,14 +560,16 @@ function continue_run(S) {
     S.scene_queue.unshift("relic");
     S.scene_queue.unshift("relic");
   }
-  S.game_count = Math.min(S.game_count, 9);
-
-  S.level_required = S.levels[S.game_count - 1];
 
   let num_bonus = Math.floor((S.level_achieved - S.level_required) / 4);
-  let num_extra_relics = Math.min(Math.max(num_bonus-2, 0), 7);
+  let num_extra_relics = Math.max(num_bonus-2, 0);
   let num_upgrades = Math.min(num_bonus, 2);
   S.scene_queue = [..._.times(num_extra_relics, ()=>"relic"), ..._.times(num_upgrades, ()=>"upgrade"), ...S.scene_queue];
+  // console.log(S.scene_queue);
+
+  S.game_count = Math.min(S.game_count, 9);
+  S.level_required = S.levels[S.game_count - 1];
+
 }
 
 function proceed(S) {
