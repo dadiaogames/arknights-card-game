@@ -542,6 +542,8 @@ function continue_run(S) {
     r.onBattleEnd && r.onBattleEnd(S, r);
   }
 
+  S.scene_queue.unshift("pick");
+
   // TODO: Reconstruct this part, into moveOn()
   // S.game_count += 1;
   move_on(S);

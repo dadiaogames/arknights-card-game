@@ -413,6 +413,16 @@ export const RELICS = [
   //   }
   // },
   {
+    name:"商队盒饭",
+    desc:"回合开始时，使2个订单分数+2",
+    onTurnBegin(G, ctx) {
+      for (let i=0; i<2; i++) {
+        let order = choice(ctx, G.orders);
+        order.score += 2;
+      }
+    }
+  },
+  {
     name:"热水壶", 
     desc:"使用: 变成手里一个藏品的复制",
     onUse(S) {
