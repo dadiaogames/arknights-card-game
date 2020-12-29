@@ -44,7 +44,7 @@ const tag_list = [
     unstackable: true,
     extra_challenge: true,
     effect(G, ctx) {
-      G.edeck = G.edeck.slice(8);
+      G.edeck = G.edeck.slice(0,14);
     }
   },
   // {

@@ -321,7 +321,7 @@ function get_upgrade(S) {
   return shop_item;
 }
 
-function get_card_pick(S) {
+export function get_card_pick(S) {
   return {
     name: "自选干员",
     price: 0,
@@ -391,7 +391,7 @@ function get_reinforced_card(S, rng) {
   return shop_item;
 }
 
-function get_relic(S) {
+export function get_relic(S) {
   let shop_item = {};
   let relic = S.rng.choice(RELICS);
 

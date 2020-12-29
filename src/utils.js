@@ -24,7 +24,8 @@ export function arr2obj(arr) {
 
 export function mod_slice(arr, idx, cnt) {
   let len = arr.length;
-  return [...arr.slice(idx, len), ...arr.slice(0, idx)].slice(0, cnt);
+  let from = idx % len;
+  return [...arr.slice(from, len), ...arr.slice(0, from)].slice(0, cnt);
 }
 
 export class PRNG {

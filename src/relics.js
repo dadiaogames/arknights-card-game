@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { choice, deal_random_damage, draw, gainMaterials, init_card_state, logMsg, ready_random_card, reinforce_card, reinforce_hand, summon } from './Game';
-import { random_upgrade, delete_card } from './Roguelike';
+import { random_upgrade, delete_card, get_card_pick, get_relic } from './Roguelike';
 import { UPGRADES } from './upgrades';
 import { relic_images, relic_names } from './assets';
 import { ready_order } from './orders';
@@ -217,6 +217,26 @@ export const RELICS = [
     onUse(S) {
       S.shop_items.push(delete_card(S));
       S.shop_items.push(delete_card(S));
+    }
+  },
+  {
+    name:"全局作战文件",
+    desc:"使用: 商店中增加6个\"自选干员\"",
+    onUse(S) {
+      for (let i=0; i<6; i++) {
+        S.shop_items.push(get_card_pick(S));
+      }
+    }
+  },
+  {
+    name:"可露希尔的怜悯",
+    desc:"使用: 商店中增加4个藏品，并使增加的藏品价格-20",
+    onUse(S) {
+      for (let i=0; i<6; i++) {
+        let relic = get_relic(S);
+        relic.price -= 20;
+        S.shop_items.push(relic);
+      }
     }
   },
   {

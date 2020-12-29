@@ -257,15 +257,19 @@ export const CARDS = [
     block: 1,
     illust:"http://prts.wiki/images/4/42/%E7%AB%8B%E7%BB%98_%E6%A1%83%E9%87%91%E5%A8%98_1.png",
     desc: "行动: 获得3点费用，本回合阻挡数-1",
-    onTurnBegin(G, ctx, self) {
-      if (self.block <= 0) {
-        self.block = 1;
-      }
-    },
+    // onTurnBegin(G, ctx, self) {
+    //   if (self.block <= 0) {
+    //     self.block = 1;
+    //   }
+    // },
     action(G, ctx, self) {
       G.costs += 3 + 2 * self.power;
       if (self.block > 0) {
         self.block -= 1;
+        self.onTurnBegin = (G, ctx, self) => {
+          self.block += 1;
+          self.onTurnBegin = undefined;
+        };
       }
     },
     reinforce: 2,
@@ -657,11 +661,16 @@ export const CARDS = [
     atk:2, 
     hp:6, 
     mine:2, 
-    block:3, 
-    desc:"行动: 获得+6生命值", 
+    block:2, 
+    desc:"行动: 获得+6生命值，本回合阻挡数+1", 
     illust:"http://prts.wiki/images/c/c7/%E7%AB%8B%E7%BB%98_%E8%9B%87%E5%B1%A0%E7%AE%B1_1.png",
     action(G, ctx, self) {
       self.hp += 6 + 4 * self.power;
+      self.block += 1;
+      self.onTurnBegin = (G, ctx, self) => {
+        self.block -= 1;
+        self.onTurnBegin = undefined;
+      }
     },
     reinforce: 1,
     reinforce_desc: "再获得+4生命值",
@@ -1476,28 +1485,30 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:0, 
-    desc:"行动: 本回合剩余时间内，每使用干员消耗1点费用，就造成3点伤害", 
+    desc:"采掘: 横置1个干员，然后该干员每有3点攻击力，就获得2分", 
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
-    action(G, ctx, self) {
-      // let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
-      // if (card) {
-      //   card.exhausted = true;
-      //   let delta = Math.floor(card.atk / 2);
-      //   G.score += delta;
-      //   logMsg(G, ctx, `使用 普罗旺斯 获得${delta}分`);
-      // }
-      let power = self.power;
-      G.onPayCost.push(
-        (G, ctx, amount) => {
-          for (let i=0; i<amount; i++) {
-            deal_random_damage(G, ctx, 3 + power);
-          }
-        }
-      );
+    onMine(G, ctx, self) {
+      let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
+      if (card) {
+        card.exhausted = true;
+        let delta = Math.floor(card.atk / 3) * 2;
+        G.score += delta;
+        logMsg(G, ctx, `使用 普罗旺斯 获得${delta}分`);
+      }
+      // let power = self.power;
+      // G.onPayCost.push(
+      //   (G, ctx, amount) => {
+      //     for (let i=0; i<amount; i++) {
+      //       deal_random_damage(G, ctx, 3 + power);
+      //     }
+      //   }
+      // );
     },
     reinforce: 2,
-    reinforce_desc: "伤害+1",
-
+    reinforce_desc: "触发1次\"采掘:\"效果",
+    onReinforce(G, ctx, self) {
+      this.onMine && this.onMine(G, ctx, self);
+    }
   },
   
   // {
@@ -2324,25 +2335,32 @@ export const CARDS = [
     },
     reinforce_desc: "阻挡数+1",
   },
-  // {
-  //   name:"锡兰",
-  //   cost:3,
-  //   atk:0,
-  //   hp:3,
-  //   mine:3,
-  //   block:0,
-  //   desc: "休整: 每有1个休整中的干员，就获得1分",
-  //   illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
-  //   reinforce: 2,
-  //   onRest(G, ctx, self) {
-  //     let num_rest_cards = get_num_rest_cards(G, ctx);
-  //     G.score += num_rest_cards;
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     G.costs += 2;
-  //   },
-  //   reinforce_desc: "获得2点费用",
-  // },
+  {
+    name:"锡兰",
+    cost:2,
+    atk:2,
+    hp:2,
+    mine:1,
+    block:0,
+    desc: "采掘: 本回合剩余时间内，每打出1张牌，就摸1张牌",
+    illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
+    reinforce: 2,
+    // onRest(G, ctx, self) {
+    //   let num_rest_cards = get_num_rest_cards(G, ctx);
+    //   G.score += num_rest_cards;
+    // },
+    onMine(G, ctx, self) {
+      G.onPlayCard.push(
+        (G, ctx) => {
+          draw(G, ctx);
+        }
+      );
+    },
+    onReinforce(G, ctx, self) {
+      G.costs += 2;
+    },
+    reinforce_desc: "获得2点费用",
+  },
   // // {
   // //   name:"诗怀雅",
   // //   cost:4,
@@ -2704,12 +2722,12 @@ export const CARDS = [
     hp:1,
     mine:2,
     block:1,
-    desc: "部署: 如果场上干员数量多于敌人，则获得4分",
+    desc: "部署: 如果场上干员数量多于敌人，则获得5分",
     illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E5%A4%AB%E5%8D%A1_1.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       if (G.field.length > G.efield.length) {
-        G.score += 4;
+        G.score += 5;
       }
     },
     onReinforce(G, ctx, self) {

@@ -302,6 +302,8 @@ function setValue(G, ctx, attr, val) {
 }
 
 export function refreshOrder(G, ctx) {
+  // console.log("Orders:", [...G.odeck], G.round_num);
+  // console.log("Picks:", [...G.another_deck], G.round_num);
   G.orders = mod_slice(G.odeck, G.round_num*8, 8);
   G.orders = sort_orders(G.orders);
 }
@@ -878,6 +880,7 @@ export function init_decks(deck, seed) {
   let get_enemies = () => (ENEMIES.map(x=>({...x})));
   let edeck = get_enemies().concat(get_enemies());
   let odeck = ORDERS.map((x,idx)=>({...x, order_id:idx, color:rng.randRange(3)}));
+  // odeck = [...odeck, ...odeck];
 
   deck = rng.shuffle(deck);
   edeck = rng.shuffle(edeck);
