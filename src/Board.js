@@ -845,7 +845,7 @@ export class Board extends React.Component {
     }
     else{
       this.change_board("tag");
-      if (!this.state.lock_seed) {
+      if (!(this.state.lock_seed || this.state.weekly_mode)) {
         this.setState({seed: get_seed_name()});
       }
     }
@@ -1327,6 +1327,14 @@ export class Board extends React.Component {
       week = {this.state.week}
       challenges = {this.state.challenges.map(process_challenge)}
       back = {() => this.roguelike.end_weekly_mode()}
+      click_title={()=>{
+        console.log("Clicking title");
+        this.state.dream_count = (this.state.dream_count + 1) || 1;
+        if (this.state.dream_count % 5 == 4) {
+          this.state.week += 1;
+          this.roguelike.generate_weekly_challenges();
+        }
+      }}
     />
   }
 

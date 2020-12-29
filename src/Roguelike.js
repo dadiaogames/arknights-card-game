@@ -766,7 +766,7 @@ export function Relics(props) {
 
 export function Weekly(props) {
   return <div className="board" align="center">
-    <div style={{marginTop:"20%", fontSize:"110%"}}>本周是{props.week}</div>
+    <div style={{marginTop:"20%", fontSize:"110%"}} onClick={props.click_title} >本周是{props.week}</div>
     <div className="relics">
       {props.challenges.map((challenge)=><Relic {...challenge} />)}
     </div>
@@ -918,6 +918,7 @@ export const roguelike = {
   enter_daily_mode,
   end_daily_mode,
   setup_weekly_challenge,
+  generate_weekly_challenges,
   enter_weekly_mode,
   end_weekly_mode,
 };
