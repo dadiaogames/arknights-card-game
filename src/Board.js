@@ -17,7 +17,7 @@ import { CARDS, default_deck, default_filter, FILTERS } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
 import { ICONS } from './icons';
 import { TAGS } from './tags';
-import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop, RoguelikeEntry, RoguelikeDeckSelection, Roguelike, ResultWin, ResultLose, FinalResult, get_gold_gained, Relics } from './Roguelike';
+import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop, RoguelikeEntry, RoguelikeDeckSelection, Roguelike, ResultWin, ResultLose, FinalResult, get_gold_gained, Relics, Weekly } from './Roguelike';
 import { RULES } from './rules';
 
 import 'react-tabs/style/react-tabs.css';
@@ -111,6 +111,7 @@ export class Board extends React.Component {
     this.render_roguelike_deck_upgrade_board = this.render_roguelike_deck_upgrade_board.bind(this);
     this.render_roguelike_relic_selection_board = this.render_roguelike_relic_selection_board.bind(this);
     this.render_roguelike_relic_check_board = this.render_roguelike_relic_check_board.bind(this);
+    this.render_weekly_board = this.render_weekly_board.bind(this);
 
     this.enter_competition_mode = this.enter_competition_mode.bind(this);
     this.select_deck = this.select_deck.bind(this);
@@ -180,6 +181,9 @@ export class Board extends React.Component {
       scenario_finished: false,
 
       dream_count: 0,
+
+      week: 0,
+      challenges: [],
     };
 
     this.branches = { 
@@ -777,6 +781,7 @@ export class Board extends React.Component {
       "roguelike_deck_upgrade": this.render_roguelike_deck_upgrade_board,
       "roguelike_result": this.render_roguelike_result_board,
       "roguelike_final_result": this.render_roguelike_final_result_board,
+      "weekly": this.render_weekly_board,
     };
     this.setState({last_board: this.state.board})
     this.setState({board: BOARDS[new_board]});
@@ -798,9 +803,12 @@ export class Board extends React.Component {
   enter_game() {
     let deck = [];
     let seed = this.state.seed;
-    if (this.state.competition_mode || this.state.roguelike_mode){
+    if (this.state.competition_mode || this.state.roguelike_mode) {
       deck = this.state.Deck;
-      seed += this.state.roguelike_mode? this.state.game_count : this.state.results.length;
+      if (this.state.roguelike_mode) {
+        seed += this.state.game_count
+      } 
+      // : this.state.results.length;
     }
     else {
       let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
@@ -911,7 +919,7 @@ export class Board extends React.Component {
         // console.log("Time to alert finish");
         // TODO: reconstruct this part, flat is better than nested
         let finish = this.props.G.rhodes_training_mode?"任务失败":"任务完成";
-        alert(`${finish}\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n${this.state.daily_mode?`完成每日挑战: ${this.state.date}\n`:""}地图种子: ${this.state.seed}`);
+        alert(`${finish}\n完成危机等级: ${risk_level}\n评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n${this.state.daily_mode?`完成每日挑战: ${this.state.date}\n`:""}地图种子: ${this.state.seed}\n${this.state.weekly_mode?`完成周常挑战: ${this.state.week}挑战${this.state.weekly_challenge_idx}\n`:""}`);
 
         if (this.state.competition_mode) {
           this.setState({results: [...this.state.results, risk_level]});
@@ -1301,6 +1309,27 @@ export class Board extends React.Component {
     />;
   }
 
+  render_weekly_board() {
+    let setup = this.roguelike.setup_weekly_challenge;
+    let process_challenge = (challenge, idx) => {
+      return {
+        name: `挑战${idx+1}`,
+        ...challenge,
+        operation: {
+          name: "挑战",
+          effect() {
+            setup(idx);
+          }
+        },
+      };
+    };
+    return <Weekly 
+      week = {this.state.week}
+      challenges = {this.state.challenges.map(process_challenge)}
+      back = {() => this.roguelike.end_weekly_mode()}
+    />
+  }
+
   render_competition_board() {
     let actions = {
        "查看卡组": () => {
@@ -1547,7 +1576,8 @@ export class Board extends React.Component {
         standard_level: this.state.standard_level + 1,
       }),
       // 其他模式: () => this.change_board('mode_selection'),
-      每日挑战: this.enter_daily_mode,
+      // 每日挑战: this.enter_daily_mode,
+      周常挑战: () => this.roguelike.enter_weekly_mode(),
       肉鸽模式: this.enter_roguelike_mode,
       返回标题: () => this.change_board("title"),
     };
@@ -1579,6 +1609,13 @@ export class Board extends React.Component {
           进入游戏: () => this.change_board("deck"),
           返回: end_daily_mode,
         };
+      }
+    }
+
+    if (this.state.weekly_mode) {
+      actions = {
+        进入游戏: this.enter_game,
+        返回: () => this.change_board("weekly"),
       }
     }
 

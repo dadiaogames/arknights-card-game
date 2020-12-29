@@ -2338,7 +2338,7 @@ export const CARDS = [
   {
     name:"锡兰",
     cost:2,
-    atk:2,
+    atk:3,
     hp:2,
     mine:1,
     block:0,
@@ -2968,32 +2968,33 @@ export const CARDS = [
     reinforce_desc: "获得2点费用",
   },
 
+  // {
+  //   name:"贾维",
+  //   cost:3,
+  //   atk:3,
+  //   hp:2,
+  //   mine:1,
+  //   block:1,
+  //   desc:"采掘: 弃2张牌，获得4点费用",
+  //   illust:"http://prts.wiki/images/2/2d/%E7%AB%8B%E7%BB%98_%E8%B4%BE%E7%BB%B4_1.png",
+  //   onMine(G, ctx, self) {
+  //     if (G.hand.length >= 2) {
+  //       drop(G, ctx);
+  //       drop(G, ctx);
+  //       G.costs += 4;
+  //     }
+  //     else {
+  //       logMsg(G, ctx, "手牌不足");
+  //     }
+  //   },
+  //   reinforce: 1,
+  //   reinforce_desc: "+2/+2",
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   }
+  // },
   {
-    name:"贾维",
-    cost:3,
-    atk:3,
-    hp:2,
-    mine:1,
-    block:1,
-    desc:"采掘: 弃2张牌，获得4点费用",
-    illust:"http://prts.wiki/images/2/2d/%E7%AB%8B%E7%BB%98_%E8%B4%BE%E7%BB%B4_1.png",
-    onMine(G, ctx, self) {
-      if (G.hand.length >= 2) {
-        drop(G, ctx);
-        drop(G, ctx);
-        G.costs += 4;
-      }
-      else {
-        logMsg(G, ctx, "手牌不足");
-      }
-    },
-    reinforce: 1,
-    reinforce_desc: "+2/+2",
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    }
-  },{
     name:"泥岩",
     cost:5,
     atk:6,

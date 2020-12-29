@@ -224,7 +224,7 @@ export const RELICS = [
     desc:"使用: 商店中增加6个\"自选干员\"",
     onUse(S) {
       for (let i=0; i<6; i++) {
-        S.shop_items.push(get_card_pick(S));
+        S.shop_items.unshift(get_card_pick(S));
       }
     }
   },
@@ -232,7 +232,7 @@ export const RELICS = [
     name:"可露希尔的怜悯",
     desc:"使用: 商店中增加4个藏品，并使增加的藏品价格-20",
     onUse(S) {
-      for (let i=0; i<6; i++) {
+      for (let i=0; i<4; i++) {
         let relic = get_relic(S);
         relic.price -= 20;
         S.shop_items.push(relic);

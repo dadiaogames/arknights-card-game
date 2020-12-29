@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { produce } from 'immer';
-import { get_deck_name, generate_deck_s2, get_roguelike_pick, generate_roguelike_deck } from './DeckGenerator';
+import { get_deck_name, generate_deck_s2, get_roguelike_pick, generate_roguelike_deck, get_challenge_name } from './DeckGenerator';
 import { str2deck } from './Game';
 import { map_object, PRNG } from './utils';
 import { final_tag, TAGS } from './tags';
@@ -20,6 +20,10 @@ import { CardRow } from './Card';
 
 export function introduce_roguelike_mode() {
   alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得20赏金和1次升级，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，博士请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得5赏金(最高40赏金)；\n每高4级，在高8级之前，会奖励1次升级，在高8级之后，会奖励1个藏品；\n如果比要求等级高4级，则会达成“满贯”，额外获得30赏金和1个藏品，并跳过1局对战；\n如果比要求等级高8级，则会达成“大满贯”，额外获得60赏金和2个藏品！并跳过2局对战；`);
+}
+
+function weekly_introduction() {
+  alert(`欢迎来到周常挑战模式！\n在这个模式中，你将在固定的牌组和牌序中，探索一套牌组的上限；\n根据表现，你将会得到以下评级：\n* 24级: S\n* 32级: SS\n* 40级: SSS`);
 }
 
 function reset_tags() {
@@ -149,6 +153,16 @@ function setup_daily_tags(S) {
   }
 }
 
+function setup_weekly_tags(S) {
+  let tags = reset_tags();
+  for (let t of tags) {
+    if (t.standard_level == 1) {
+      t.locked = true;
+    }
+  }
+  S.tags = tags;
+}
+
 function enter_daily_mode(S) {
   S.daily_mode = true;
   S.date = Date().slice(0,15);
@@ -159,6 +173,38 @@ function enter_daily_mode(S) {
 function end_daily_mode(S) {
   S.daily_mode = false;
   S.tags = reset_tags();
+}
+
+function generate_weekly_challenges(S) {
+  let rng = new PRNG(S.week);
+  let challenges = [];
+  for (let i=0; i<3; i++) {
+    challenges.push(get_challenge_name(rng));
+  }
+  S.challenges = challenges;
+}
+
+function setup_weekly_challenge(S, idx) {
+  S.deck_mode = "random";
+  S.deck_name = S.challenges[idx].desc;
+  S.seed = S.challenges[idx].desc;
+  S.weekly_challenge_idx = idx + 1;
+  S.changer("tag");
+}
+
+function enter_weekly_mode(S) {
+  S.weekly_mode = true;
+  let d = new Date();
+  S.week = d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate() - d.getDay();
+  generate_weekly_challenges(S);
+  setup_weekly_tags(S);
+  S.changer("weekly");
+}
+
+function end_weekly_mode(S) {
+  S.weekly_mode = false;
+  S.tags = reset_tags();
+  S.changer("tag");
 }
 
 function set_difficulty(S, difficulty) {
@@ -325,7 +371,7 @@ export function get_card_pick(S) {
   return {
     name: "自选干员",
     price: 0,
-    indexes: S.rng.shuffle(CARDS.map((x,idx)=>idx)).slice(0,6),
+    indexes: S.rng.shuffle(CARDS.slice(0, CARDS.length-1).map((x,idx)=>idx)).slice(0,6),
     desc: "从6个干员中，选择你最心仪的那一个",
     src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
     is_pick: true,
@@ -715,7 +761,18 @@ export function Relics(props) {
       {props.relics.map((relic)=><Relic {...relic} />)}
     </div>
     <button className="continue-btn" style={{marginTop: "2%"}} onClick={props.proceed} >{(props.checking)?"返回":"跳过"}</button>
-  </div>
+  </div>;
+}
+
+export function Weekly(props) {
+  return <div className="board" align="center">
+    <div style={{marginTop:"20%", fontSize:"110%"}}>本周是{props.week}</div>
+    <div className="relics">
+      {props.challenges.map((challenge)=><Relic {...challenge} />)}
+    </div>
+    <button className="weekly-btn" style={{marginTop: "2%"}} onClick={props.back} >返回</button>
+    <button className="weekly-btn" style={{marginTop: "2%"}} onClick={weekly_introduction} >周常模式介绍</button>
+  </div>;
 }
 
 export function Shop(props) {
@@ -860,4 +917,7 @@ export const roguelike = {
 
   enter_daily_mode,
   end_daily_mode,
+  setup_weekly_challenge,
+  enter_weekly_mode,
+  end_weekly_mode,
 };
