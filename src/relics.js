@@ -362,11 +362,11 @@ export const RELICS = [
   },
   {
     name:"无线通讯器",
-    desc:"使用干员行动时，重置1个订单",
+    desc:"使用干员行动时，获得1分",
     onTurnBegin(G, ctx) {
       G.onCardAct.push(
         (G, ctx) => {
-          ready_order(G, ctx, true);
+          G.score += 1;
         }
       );
     }
