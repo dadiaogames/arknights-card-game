@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { choice, deal_random_damage, draw, gainMaterials, init_card_state, logMsg, ready_random_card, reinforce_card, reinforce_hand, summon } from './Game';
-import { random_upgrade, delete_card, get_card_pick, get_relic } from './Roguelike';
+import { random_upgrade, delete_card, get_card_pick, get_relic, get_specific_card_pick } from './Roguelike';
 import { UPGRADES } from './upgrades';
 import { relic_images, relic_names } from './assets';
 import { ready_order } from './orders';
@@ -133,9 +133,9 @@ export const RELICS = [
   },
   {
     name:"古旧钱币", 
-    desc:"每次对战结束时,额外获得10赏金",
+    desc:"每次对战结束时,额外获得15赏金",
     onBattleEnd(S) {
-      S.gold += 10;
+      S.gold += 15;
     }
   },
   {
@@ -221,10 +221,11 @@ export const RELICS = [
   },
   {
     name:"全局作战文件",
-    desc:"使用: 商店中增加6个\"自选干员\"",
+    desc:"使用: 商店中增加3个\"高级自选干员\"",
     onUse(S) {
-      for (let i=0; i<6; i++) {
-        S.shop_items.unshift(get_card_pick(S));
+      let costs = S.rng.shuffle([2,3,4,5,6]).slice(0,3);
+      for (let cost of costs) {
+        S.shop_items.unshift(get_specific_card_pick(S, cost));
       }
     }
   },

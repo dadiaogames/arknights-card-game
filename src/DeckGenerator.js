@@ -14,7 +14,7 @@ export const classes = {
   standers: "玫兰莎 芙兰卡 慕斯 柏喙 赫拉格 孑 宴 银灰 凛冬 卡达 阿米娅-近卫 机械水獭 末药 杜宾 森蚺 夜刀".split(" "),
   defenders: "米格鲁 蛇屠箱 斑点 年 可颂 古米 雷蛇 泥岩 砾 摄影车 龙腾 星熊".split(" "),
   supporters: "梓兰 红 诗怀雅 安洁莉娜 霜叶 薄绿 巫恋 翎羽 白面鸮 空 波登可 真理 安比尔 温蒂 黑角".split(" "),
-  scorers: "阿消 崖心 食铁兽 卡夫卡 铃兰 酸糖 普罗旺斯 闪灵 煌 阿 断罪者 赫默 伊芙利特 苏苏洛 皇帝".split(" "),
+  scorers: "阿消 崖心 食铁兽 卡夫卡 铃兰 酸糖 普罗旺斯 闪灵 煌 阿 断罪者 赫默 伊芙利特 苏苏洛 大帝".split(" "),
   randomizers: "斯卡蒂 凯尔希 热水壶 嘉维尔 迷迭香 风笛 安赛尔 微风 亚叶 伊桑 狮蝎 坚雷 暗索 可露希尔".split(" "),
 };
 
@@ -30,12 +30,12 @@ export const classes = {
 // 蛇屠箱 0 2
 // 清流 0 2`;
 
-const cost_vanguard =  `极境 1 2
-香草 1 1
-讯使 1 1
-桃金娘 0 2
-贾维 1 1
-惊蛰 1 1`;
+const cost_vanguard =  `极境 1 1
+香草 0 1
+讯使 0 1
+桃金娘 0 1
+惊蛰 1 1
+推进之王 1 1`;
 
 const draw_vanguard = `芬 1 2
 调香师 0 2
@@ -45,12 +45,12 @@ const scorer = `阿米娅 0 1
 崖心 1 1
 食铁兽 0 1
 酸糖 0 1
+普罗旺斯 0 1
 阿消 1 1
 阿米娅-近卫 0 1
 赫默 1 1
 伊芙利特 0 1
-阿 0 1
-断罪者 0 1`;
+阿 0 1`;
 
 const miner =  `史都华德 1 1
 夜烟 1 1
@@ -70,6 +70,10 @@ const defender = `米格鲁 1 1
 年 0 1
 龙腾 0 1
 摄影车 1 1`;
+
+const supporter = `翎羽 1 1
+白面鸮 1 1
+雷蛇 1 1`;
 
 // const dubin_score = `杜宾 2 3
 // 推进之王 2 3
@@ -133,7 +137,7 @@ const solve = `能天使 1 2
 const penguin =  `德克萨斯 2 3
 空 2 3
 莫斯提马 1 2
-皇帝 2 2
+大帝 2 2
 波登可 1 2
 艾雅法拉 1 2
 阿消 1 2
@@ -353,9 +357,9 @@ const mini_sets = [
   //火龙单核
   ' 伊芙利特 赫默 白面鸮 史都华德|夜烟|炎熔 ',
 
-  //企鹅物流 有德狗爆费核心 有空皇帝刷分核心 还有空德可颂的清场
+  //企鹅物流 有德狗爆费核心 有空大帝刷分核心 还有空德可颂的清场
   ' 德克萨斯 德克萨斯 艾雅法拉 阿消 泥岩|阿消 ',
-  ' 空 空 温蒂 波登可 皇帝 ',
+  ' 空 空 温蒂 波登可 大帝 ',
   ' 德克萨斯 可颂 可颂 ',
 
   //能天使核心各种 能陨速清场 能炎熔刷材料
@@ -654,15 +658,17 @@ export function generate_deck_s2(deck_name) {
 }
 
 export function generate_roguelike_deck(deck_name) {
-  let deck = ["黑角", "极境", "桃金娘"];
+  let deck = ["黑角", "极境", "桃金娘", deck_name.slice(0,-3)];
+  // console.log(deck);
   let rng = new PRNG(deck_name);
 
   // Basic deck
   deck = [...deck, ...deck_from_strategy(cost_vanguard, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
   deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
   deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(defender, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
+  // console.log(deck);
 
   // Random cards
   let amount_add = 12 - deck.length;

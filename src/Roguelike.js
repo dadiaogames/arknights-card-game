@@ -267,7 +267,7 @@ function preprocess_roguelike_card(card) {
 
 function setup_deck_selection(S) {
   let rng = S.rng;
-  S.deck_names = _.times(3, ()=>rng.choice(CARDS.map(x=>x.name))).map(x => x + "·黑角");
+  S.deck_names = _.times(3, ()=>rng.choice(CARDS.map(x=>x.name).filter(x => x != "可露希尔"))).map(x => x + "·黑角");
   S.deck_list = S.deck_names.map(generate_roguelike_deck).map(str2deck); // TODO: change the generator
   S.deck_list.map(deck => deck.map(preprocess_roguelike_card))
 }
@@ -358,10 +358,10 @@ function get_upgrade(S) {
   shop_item.onBought = (S, idx) => {
     let card = S.Deck[idx];
     // console.log("Upgrade on ", card.name, "with ", upgrade.desc)
-    if (card) {
+    if (card != undefined) {
       upgrade.effect(card);
+      card.upgraded = true;
     }
-    card.upgraded = true;
   };
 
   return shop_item;
@@ -373,6 +373,26 @@ export function get_card_pick(S) {
     price: 0,
     indexes: S.rng.shuffle(CARDS.slice(0, CARDS.length-1).map((x,idx)=>idx)).slice(0,6),
     desc: "从6个干员中，选择你最心仪的那一个",
+    src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
+    is_pick: true,
+    onBought(S, idx) {
+      let card = CARDS[idx];
+      if (card) {
+        S.Deck.unshift({...card, material: S.rng.randRange(3)});
+        for (let r of S.relics) {
+          r.onPickCard && r.onPickCard(S, card);
+        }
+      }
+    }
+  };
+}
+
+export function get_specific_card_pick(S, cost) {
+  return {
+    name: `${cost}费自选干员`,
+    price: 0,
+    indexes: S.rng.shuffle(CARDS.slice(0, CARDS.length-1).map((x,idx)=>(x.cost==cost)?idx:undefined).filter(x => x != undefined)),
+    desc: "从N个干员中，选择你最心仪的那一个",
     src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
     is_pick: true,
     onBought(S, idx) {

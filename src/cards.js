@@ -998,8 +998,8 @@ export const CARDS = [
   // },
   
   {
-    name:"皇帝",
-    cost:3,
+    name:"大帝",
+    cost:2,
     atk:2,
     hp:2,
     mine:1,
@@ -1015,10 +1015,10 @@ export const CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
+      self.atk += 3;
+      self.hp += 3;
     },
-    reinforce_desc: "+2/+2",
+    reinforce_desc: "+3/+3",
   },
 
   
@@ -1485,13 +1485,13 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:0, 
-    desc:"采掘: 横置1个干员，然后该干员每有3点攻击力，就获得2分", 
+    desc:"采掘: 获得2分，然后横置1个干员，该干员每有2点攻击力，就再获得1分", 
     illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
     onMine(G, ctx, self) {
       let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
       if (card) {
         card.exhausted = true;
-        let delta = Math.floor(card.atk / 3) * 2;
+        let delta = Math.floor(card.atk / 2) + 2;
         G.score += delta;
         logMsg(G, ctx, `使用 普罗旺斯 获得${delta}分`);
       }
@@ -1603,7 +1603,7 @@ export const CARDS = [
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {
         for (let i=0; i<2; i++) {
-          let card = ctx.random.Shuffle(G.CARDS)[0];
+          let card = ctx.random.Shuffle(G.CARDS.filter(x => x.onMine || x.onFight || x.action))[0];
           card = {...card};
           card.atk = 2;
           card.hp = 2;
@@ -2420,33 +2420,34 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "行动: 对1个(重置的)干员造成3点伤害，并获得3分",
+    desc: "行动: 摧毁1个(重置的)干员，获得3分",
     illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
     reinforce: 1,
     action(G, ctx, self) {
-      let card = ctx.random.Shuffle(G.field.filter(x => (x!=self && !x.exhausted)))[0];
-      if (card) {
-        card.dmg += 3;
-        G.score += 3;
-        if (card.dmg >= card.hp) {
-          // let card_idx = G.field.indexOf(card);
-          // G.field.splice(card_idx, 1);
-          // G.discard.push(card);
-          G.field = G.field.filter(x => x != card);
-          G.discard = [card, ...G.discard];
+      // let card = ctx.random.Shuffle(G.field.filter(x => (x!=self && !x.exhausted)))[0];
+      // if (card) {
+      //   card.dmg += 3;
+      //   G.score += 3;
+      //   if (card.dmg >= card.hp) {
+      //     // let card_idx = G.field.indexOf(card);
+      //     // G.field.splice(card_idx, 1);
+      //     // G.discard.push(card);
+      //     G.field = G.field.filter(x => x != card);
+      //     G.discard = [card, ...G.discard];
+      //   }
+      //   // else {
+      //     // card.onMine = (G, ctx) => {G.score += 4};
+      //     // card.onFight = card.onMine;
+      //     // card.desc = "采掘/战斗: 获得4分";
+      //     // G.score += 3;
+      //   // }
+        if (eliminate_field(G, ctx, self)) {
+          G.score += 3;
         }
-        // else {
-          // card.onMine = (G, ctx) => {G.score += 4};
-          // card.onFight = card.onMine;
-          // card.desc = "采掘/战斗: 获得4分";
-          // G.score += 3;
-        // }
-
         self.use_count = (self.use_count || 0) + 1;
         if (self.use_count == 8) {
           achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿8次以上", self);
         }
-      }
     },
     onReinforce(G, ctx, self) {
       self.exhausted = false;
@@ -3100,7 +3101,7 @@ export const CARDS = [
     illust:"http://prts.wiki/images/5/5f/%E7%AB%8B%E7%BB%98_%E4%BA%9A%E5%8F%B6_1.png",
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
-        let card = ctx.random.Shuffle(G.CARDS)[0];
+        let card = ctx.random.Shuffle(G.CARDS.filter(x => x.onMine || x.onFight || x.action))[0];
         card = {...card};
         card.atk = 6;
         card.hp = 6;
@@ -3503,27 +3504,27 @@ export const CARDS = [
     reinforce_desc: "再强化1次",
   },
   
-  {
-    name:"暗索",
-    cost:2,
-    atk:2,
-    hp:2,
-    mine:1,
-    block:1,
-    illust: "http://prts.wiki/images/0/00/%E7%AB%8B%E7%BB%98_%E6%9A%97%E7%B4%A2_1.png",
-    reinforce: 1,
-    desc: "部署/行动: 从另一个游戏里偷1张牌",
-    onPlay(G, ctx, self) {
-      G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
-    },
-    action(G, ctx, self) {
-      G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
-    },
-    reinforce_desc: "从另一个游戏里偷1张牌",
-    onReinforce(G, ctx, self) {
-      G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
-    }
-  },
+  // {
+  //   name:"暗索",
+  //   cost:2,
+  //   atk:2,
+  //   hp:2,
+  //   mine:1,
+  //   block:1,
+  //   illust: "http://prts.wiki/images/0/00/%E7%AB%8B%E7%BB%98_%E6%9A%97%E7%B4%A2_1.png",
+  //   reinforce: 1,
+  //   desc: "部署/行动: 从另一个游戏里偷1张牌",
+  //   onPlay(G, ctx, self) {
+  //     G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
+  //   },
+  //   action(G, ctx, self) {
+  //     G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
+  //   },
+  //   reinforce_desc: "从另一个游戏里偷1张牌",
+  //   onReinforce(G, ctx, self) {
+  //     G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
+  //   }
+  // },
 
   {
     name:"可露希尔",

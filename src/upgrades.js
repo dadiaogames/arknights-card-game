@@ -6,7 +6,7 @@ export const UPGRADES = [
     name: "+4/+0",
     desc: "+4攻击力", // Write "获得"always
     effect(card) {
-      card.atk += 5;
+      card.atk += 4;
     }
   },
   // {
@@ -21,7 +21,7 @@ export const UPGRADES = [
     desc: "+2/+4", // Write "获得"always
     effect(card) {
       card.atk += 2;
-      card.hp += 6;
+      card.hp += 4;
     }
   },
 
@@ -29,7 +29,7 @@ export const UPGRADES = [
     name: "-1费",
     desc: "部署费用-1", // Write "获得"always
     effect(card) {
-      card.cost -= 2;
+      card.cost -= 1;
     }
   },
 
@@ -115,8 +115,8 @@ export const UPGRADES = [
   // },
 
   {
-    name: "5伤害",
-    desc: "部署奖励:\"造成5点伤害\"",
+    name: "6伤害",
+    desc: "部署奖励:\"造成6点伤害\"",
     effect(card) {
       card.onPlayBonus.push({
         name: this.name,
