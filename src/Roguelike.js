@@ -80,7 +80,7 @@ function move_on(S) {
   if (S.difficulty == "hard" && S.game_count == 9) {
     S.tags = [...S.tags, ..._.times(9, () => ({...final_tag}))];
     for (let tag of S.tags) {
-      if (tag.stackable) {
+      if (tag.level == 5) {
         tag.locked = true;
       }
     }
@@ -92,10 +92,10 @@ function init_tags_S2(S) {
   let basic_tags = tags.slice(0, 12);
   let repeat_tags = tags.filter(t => t.stackable).flatMap(t => _.times(3, ()=>({...t})));
   let remained_tags = S.rng.shuffle(tags.filter(t => (!basic_tags.includes(t)) && t.level > 0));
-  let locked_tags = remained_tags.filter(t => (t.standard_level <= 2));
-  locked_tags.map(t => {t.locked = true;});
-  S.tags = [...basic_tags, ...repeat_tags, ...locked_tags];
-  S.remained_tags = remained_tags.filter(t => !locked_tags.includes(t));
+  let init_added_tags = remained_tags.filter(t => (t.standard_level <= 3));
+  init_added_tags.map(t => {if (t.standard_level <= 2) t.locked = true;});
+  S.tags = [...basic_tags, ...repeat_tags, ...init_added_tags];
+  S.remained_tags = remained_tags.filter(t => !init_added_tags.includes(t));
 }
 
 function init_tags(S) {
@@ -156,7 +156,7 @@ function setup_daily_tags(S) {
 function setup_weekly_tags(S) {
   let tags = reset_tags();
   for (let t of tags) {
-    if (t.standard_level == 1) {
+    if (t.standard_level <= 2 || [0,3,4,6,9].includes(tags.indexOf(t))) {
       t.locked = true;
     }
   }
@@ -243,12 +243,21 @@ function set_difficulty_S2(S, difficulty) {
 
   if (difficulty == "hard") {
     // S.levels = [25, 30, 35, 40, 50, 60, 70, 80, 100];
-    S.levels = [22, 27, 32, 38, 45, 52, 60, 70, 90];
+    // S.levels = [22, 27, 32, 38, 45, 52, 60, 70, 90];
+    S.levels = [24, 30, 36, 42, 50, 60, 70, 80, 100];
   }
 
   if (["medium", "hard"].includes(difficulty)) {
     for(let tag_idx of [0,3,4,6,9]) {
       S.tags[tag_idx].locked = true;
+    }
+  }
+
+  if (difficulty == "hard") {
+    for (let t of S.tags) {
+      if (t.standard_level == 3) {
+        t.locked = true;
+      }
     }
   }
 
@@ -387,11 +396,20 @@ export function get_card_pick(S) {
   };
 }
 
+function get_indexes_from_cost(cost) {
+  if (cost == 16) {
+    return CARDS.slice(0, CARDS.length-1).map((x,idx)=>(x.cost <= 1 || x.cost >= 6)?idx:undefined).filter(x => x != undefined);
+  }
+  else {
+    return CARDS.slice(0, CARDS.length-1).map((x,idx)=>(x.cost==cost)?idx:undefined).filter(x => x != undefined);
+  }
+}
+
 export function get_specific_card_pick(S, cost) {
   return {
     name: `${cost}费自选干员`,
     price: 0,
-    indexes: S.rng.shuffle(CARDS.slice(0, CARDS.length-1).map((x,idx)=>(x.cost==cost)?idx:undefined).filter(x => x != undefined)),
+    indexes: get_indexes_from_cost(cost),
     desc: "从N个干员中，选择你最心仪的那一个",
     src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
     is_pick: true,

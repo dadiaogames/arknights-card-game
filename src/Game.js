@@ -1269,7 +1269,7 @@ export const AC = {
     }
   },
 
-  seed: undefined,
+  seed: 114514,
   
 
   // TODO: know how to set available moves to all moves, then add this phase feature
