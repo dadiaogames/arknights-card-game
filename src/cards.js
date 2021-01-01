@@ -1369,9 +1369,9 @@ export const CARDS = [
   {
     name:"艾雅法拉",
     cost:4,
-    atk:4,
+    atk:3,
     hp:3,
-    mine:3,
+    mine:2,
     block:0,
     desc:"采掘: 触发场上所有干员的\"采掘:\"效果",
     illust:"http://prts.wiki/images/c/c0/%E7%AB%8B%E7%BB%98_%E8%89%BE%E9%9B%85%E6%B3%95%E6%8B%89_1.png",
