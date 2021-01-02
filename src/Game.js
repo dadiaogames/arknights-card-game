@@ -198,8 +198,9 @@ export function draw(G, ctx) {
       G.hand.unshift(G.deck.pop());
     } 
     else {
-      G.danger += 1;
-      logMsg(G, ctx, "无牌可抽，增加1点动乱值");
+      // G.danger += 1;
+      // logMsg(G, ctx, "无牌可抽，增加1点动乱值");
+      logMsg(G, ctx, "无牌可抽");
     }
   }
 }

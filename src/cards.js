@@ -56,8 +56,8 @@ export const CARDS = [
       G.score += delta;
       logMsg(G, ctx, `使用 阿米娅 获得${delta}分`);
 
-      if (delta >= 15) {
-        achieve(G, ctx, "女主角", "使用阿米娅获得15分以上", self);
+      if (delta >= 30) {
+        achieve(G, ctx, "女主角", "使用阿米娅获得30分以上", self);
       }
     },
     action(G, ctx, self) {
@@ -219,8 +219,8 @@ export const CARDS = [
       self.atk += 4;
       self.hp += 4;
 
-      if (self.atk >= 30) {
-        achieve(G, ctx, "罗德岛的基石", "夜刀的攻击力达到30", self);
+      if (self.atk >= 50) {
+        achieve(G, ctx, "罗德岛的基石", "夜刀的攻击力达到50", self);
       }
     },
     reinforce_desc: "+4/+4",
@@ -388,8 +388,8 @@ export const CARDS = [
         G.costs += delta;
         logMsg(G, ctx, `使用 ${self.name} 获得${delta}点费用`);
 
-        if (delta >= 8) {
-          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少8点费用", self);
+        if (delta >= 10) {
+          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少10点费用", self);
         }
       }
     },
@@ -474,8 +474,8 @@ export const CARDS = [
       if (self.onPlay) {
         self.onPlay(G, ctx);
       }
-      if (self.power >= 3) {
-        achieve(G, ctx, "推进之王", "强化推进之王3次", self);
+      if (self.power >= 5) {
+        achieve(G, ctx, "推进之王", "强化推进之王5次", self);
       }
     },
     reinforce_desc: "触发1次\"部署:\"效果",
@@ -582,8 +582,8 @@ export const CARDS = [
         self.onPlay(G, ctx);
       }
 
-      if (~G.hand.indexOf(self) && (self.power >= 3)) {
-        achieve(G, ctx, "赤霄·绝影", "陈在手牌中被强化过至少3次", self);
+      if (~G.hand.indexOf(self) && (self.power >= 6)) {
+        achieve(G, ctx, "赤霄·绝影", "陈在手牌中被强化过至少6次", self);
       }
     },
     reinforce_desc: "触发1次\"部署:\"效果",
@@ -1036,8 +1036,8 @@ export const CARDS = [
         let delta = 6 + 2 * self.power;
         G.score += delta;
 
-        if (delta >= 16) {
-          achieve(G, ctx, "龙门消防局", "使用阿消获得至少16分", self);
+        if (delta >= 40) {
+          achieve(G, ctx, "龙门消防局", "使用阿消获得至少40分", self);
         }
       }
     },
@@ -1554,8 +1554,8 @@ export const CARDS = [
         let score_gained = Math.floor(delta / 2);
         G.score += score_gained;
         logMsg(G, ctx, `使用 ${self.name} 获得${score_gained}分`);
-        if (score_gained >= 12) {
-          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少12分", self);
+        if (score_gained >= 60) {
+          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少60分", self);
         }
       }
     },
@@ -1941,8 +1941,8 @@ export const CARDS = [
         self.use_count = self.use_count || 0;
         self.use_count += 1;
 
-        if (self.use_count >= 8) {
-          achieve(G, ctx, "真银斩", "一回合内使用银灰8次以上", self);
+        if (self.use_count >= 12) {
+          achieve(G, ctx, "真银斩", "一回合内使用银灰12次以上", self);
         }
       }
     },
@@ -2445,8 +2445,8 @@ export const CARDS = [
           G.score += 3;
         }
         self.use_count = (self.use_count || 0) + 1;
-        if (self.use_count == 8) {
-          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿8次以上", self);
+        if (self.use_count == 12) {
+          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿12次以上", self);
         }
     },
     onReinforce(G, ctx, self) {
@@ -3394,8 +3394,8 @@ export const CARDS = [
       // G.field.push(init_card_state(G, ctx, {...texas}));
       summon(G, ctx, {...texas}, self);
 
-      if (self.power >= 5) {
-        achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰德部署5个德克萨斯", self);
+      if (self.power >= 6) {
+        achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰德部署6个德克萨斯", self);
       }
     },
     reinforce_desc: "召唤\"德克萨斯\"并将其沉默",
