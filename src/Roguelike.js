@@ -507,7 +507,7 @@ export function delete_card(S) {
 
   shop_item.name = "删1张牌";
   shop_item.price = 0;
-  shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,5);
+  shop_item.indexes = S.Deck.map((x,idx)=>idx);
   shop_item.desc = "";
   shop_item.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/foot_dark-skin-tone_1f9b6-1f3ff_1f3ff.png";
   shop_item.onBought = (S, card_idx) => {
