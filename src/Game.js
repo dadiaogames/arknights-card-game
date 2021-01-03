@@ -881,11 +881,10 @@ export function init_decks(deck, seed) {
   let get_enemies = () => (ENEMIES.map(x=>({...x})));
   let edeck = get_enemies().concat(get_enemies());
   let odeck = ORDERS.map((x,idx)=>({...x, order_id:idx, color:rng.randRange(3)}));
-  // odeck = [...odeck, ...odeck];
 
   deck = rng.shuffle(deck);
   edeck = rng.shuffle(edeck);
-  odeck = rng.shuffle(odeck);
+  odeck = [...rng.shuffle(odeck), ...rng.shuffle(odeck)];
 
   edeck = edeck.slice(0, 22);
 

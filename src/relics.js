@@ -373,15 +373,17 @@ export const RELICS = [
   },
   {
     name:"“坏家伙”来了！", 
-    desc:"起始获得1个随机的强化3干员加入手牌",
+    desc:"起始获得2个随机的强化3干员加入手牌",
     onBattleBegin(G, ctx) { 
       let reinforce = UPGRADES.find(x => x.name == "强化1");
-      let card = {...choice(ctx, G.CARDS)};
-      reinforce.effect(card);
-      reinforce.effect(card);
-      reinforce.effect(card);
-      card.upgraded = true;
-      G.hand.unshift(card);
+      for (let i=0; i<2; i++) {
+        let card = {...choice(ctx, G.CARDS)};
+        reinforce.effect(card);
+        reinforce.effect(card);
+        reinforce.effect(card);
+        card.upgraded = true;
+        G.hand.unshift(card);
+      }
     }
   },
   {
@@ -411,11 +413,11 @@ export const RELICS = [
   },
   {
     name:"丰蹄能量饮料", 
-    desc:"部署有\"行动:\"能力的干员时，有50%概率强化其1次",
+    desc:"部署有\"行动:\"能力的干员时，有75%概率强化其1次",
     onTurnBegin(G, ctx) {
       G.onPlayCard.push(
         (G, ctx, card) => {
-          if (ctx.random.D4() > 2 && card.action) {
+          if (ctx.random.D4() > 1 && card.action) {
             reinforce_card(G, ctx, card);
           }
         }
@@ -435,9 +437,9 @@ export const RELICS = [
   // },
   {
     name:"商队盒饭",
-    desc:"回合开始时，使2个订单分数+2",
+    desc:"回合开始时，使3个订单分数+2",
     onTurnBegin(G, ctx) {
-      for (let i=0; i<2; i++) {
+      for (let i=0; i<3; i++) {
         let order = choice(ctx, G.orders);
         order.score += 2;
       }
