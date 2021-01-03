@@ -2047,7 +2047,7 @@ export const CARDS = [
     desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%A3%98%E5%88%BA_1.png",
     action(G, ctx, self) {
-      if (G.hand.length > 0 && self.use_count > 0) {
+      if (G.hand.length > 0) {
         drop(G, ctx);
         deal_random_damage(G, ctx, 3+self.power);
         self.exhausted = false;
