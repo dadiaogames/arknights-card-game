@@ -1103,7 +1103,8 @@ export class Board extends React.Component {
 
   enter_difficulty(difficulty) {
     this.roguelike.set_difficulty_S2(difficulty);
-    this.change_board("roguelike_deck_selection");
+    // this.change_board("roguelike_deck_selection");
+    this.roguelike.proceed();
   }
 
   buy_item(idx) {
@@ -1211,7 +1212,8 @@ export class Board extends React.Component {
       <div style={{margin:"5% 2% 5% 2%", width:"95%", height:"25%", overflowY:"hidden"}}>
         {selected_card && get_desc(selected_card)}
       </div>
-      <button 
+      {(this.state.current_item.name != "初始自选干员")?(
+      <><button 
         className="preview-button" 
         onClick={() => {
           this.roguelike.buy(this.state.shop_selected);
@@ -1221,6 +1223,16 @@ export class Board extends React.Component {
         确认购买({ICONS.gold}{this.state.current_item.price})
       </button>
       <button className="preview-button" onClick={this.roguelike.proceed}>返回</button>
+      </>):(<>
+      <button
+        className="preview-button"
+        onClick={() => {
+          this.roguelike.select_init_card(this.state.shop_selected);
+        }}
+      >
+        加入牌组
+      </button>
+      </>)}
     </div>);
   }
 

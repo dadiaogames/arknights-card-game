@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { produce } from 'immer';
-import { get_deck_name, generate_deck_s2, get_roguelike_pick, generate_roguelike_deck, get_challenge_name } from './DeckGenerator';
+import { get_deck_name, generate_deck_s2, get_roguelike_pick, generate_roguelike_deck, get_challenge_name, deck2str } from './DeckGenerator';
 import { str2deck } from './Game';
 import { map_object, PRNG } from './utils';
 import { final_tag, TAGS } from './tags';
@@ -43,7 +43,7 @@ function setup_roguelike_mode(S) {
   S.relics = [];
   S.gold = 50;
 
-  S.scene_queue = ["upgrade", "relic"];
+  S.scene_queue = ["relic", "upgrade", ..._.times(8, ()=>"init_card")];
   S.current_upgrades = [];
   S.current_indexes = [];
   S.current_relics = [];
@@ -55,8 +55,8 @@ function setup_roguelike_mode(S) {
 
   S.dream_count = 0;
 
-  reset_card_picks(S);
-  // reset_shop(S);
+  // reset_card_picks(S);
+  reset_shop(S);
 }
 
 function select_deck(S, deck) {
@@ -76,6 +76,10 @@ function move_on(S) {
 
   // S.scene_queue.unshift("pick");
   // S.scene_queue.unshift("upgrade");
+
+  if (S.difficulty == "hard") {
+    S.rng.choice(S.tags.filter(t => t.stackable && (!t.locked))).locked = true;
+  }
 
   if (S.difficulty == "hard" && S.game_count == 9) {
     S.tags = [...S.tags, ..._.times(9, () => ({...final_tag}))];
@@ -274,11 +278,16 @@ function preprocess_roguelike_card(card) {
   card.onPlayBonus = [];
 }
 
+// function setup_deck_selection(S) {
+//   let rng = S.rng;
+//   S.deck_names = _.times(3, ()=>rng.choice(CARDS.map(x=>x.name).filter(x => x != "可露希尔"))).map(x => x + "·黑角");
+//   S.deck_list = S.deck_names.map(generate_roguelike_deck).map(str2deck); // TODO: change the generator
+//   S.deck_list.map(deck => deck.map(preprocess_roguelike_card))
+// }
+
 function setup_deck_selection(S) {
-  let rng = S.rng;
-  S.deck_names = _.times(3, ()=>rng.choice(CARDS.map(x=>x.name).filter(x => x != "可露希尔"))).map(x => x + "·黑角");
-  S.deck_list = S.deck_names.map(generate_roguelike_deck).map(str2deck); // TODO: change the generator
-  S.deck_list.map(deck => deck.map(preprocess_roguelike_card))
+  S.Deck = str2deck(deck2str(["黑角", "极境", "桃金娘", "翎羽"]));
+  S.Deck.map(preprocess_roguelike_card);
 }
 
 function get_pick(S) {
@@ -370,6 +379,10 @@ function get_upgrade(S) {
     if (card != undefined) {
       upgrade.effect(card);
       card.upgraded = true;
+      return true;
+    }
+    else {
+      return false;
     }
   };
 
@@ -380,7 +393,7 @@ export function get_card_pick(S) {
   return {
     name: "自选干员",
     price: 0,
-    indexes: S.rng.shuffle(CARDS.slice(0, CARDS.length-1).map((x,idx)=>idx)).slice(0,6),
+    indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,6),
     desc: "从6个干员中，选择你最心仪的那一个",
     src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
     is_pick: true,
@@ -391,8 +404,23 @@ export function get_card_pick(S) {
         for (let r of S.relics) {
           r.onPickCard && r.onPickCard(S, card);
         }
+        return true;
+      }
+      else {
+        return false;
       }
     }
+  };
+}
+
+export function get_init_card_pick(S) {
+  return {
+    name: "初始自选干员",
+    price: 0,
+    indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,3),
+    desc: "从3个干员中，选择你最心仪的那一个",
+    src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
+    is_pick: true,
   };
 }
 
@@ -421,6 +449,7 @@ export function get_specific_card_pick(S, cost) {
           r.onPickCard && r.onPickCard(S, card);
         }
       }
+      return true;
     }
   };
 }
@@ -470,6 +499,7 @@ function get_reinforced_card(S, rng) {
 
   shop_item.onBought = (S) => {
     S.Deck.unshift(card);
+    return true;
   };
 
   return shop_item;
@@ -497,6 +527,7 @@ export function get_relic(S) {
     if (bought.onBought) {
       bought.onBought(S);
     }
+    return true;
   }
 
   return shop_item;
@@ -511,10 +542,8 @@ export function delete_card(S) {
   shop_item.desc = "";
   shop_item.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/foot_dark-skin-tone_1f9b6-1f3ff_1f3ff.png";
   shop_item.onBought = (S, card_idx) => {
-    console.log("The index:", card_idx);
-    console.log("Before delete", S.Deck.length, S.Deck);
     S.Deck = S.Deck.filter((x,idx) => (idx != card_idx));
-    console.log("After delete", S.Deck.length, S.Deck);
+    return true;
   }
 
   return shop_item;
@@ -547,6 +576,14 @@ function buy(S, idx) {
     else {
       item.onBought(S);
     }
+  }
+}
+
+function select_init_card(S, idx) {
+  let card = CARDS[S.current_item.indexes[idx]];
+  if (card) {
+    S.Deck.unshift({...card});
+    proceed(S);
   }
 }
 
@@ -669,6 +706,10 @@ function proceed(S) {
     }
     else if (scene == "pick") {
       S.current_item = get_card_pick(S);
+      S.changer("roguelike_shop");
+    }
+    else if (scene == "init_card") {
+      S.current_item = get_init_card_pick(S);
       S.changer("roguelike_shop");
     }
     else if (scene == "relic") {
@@ -937,6 +978,7 @@ export const roguelike = {
   set_difficulty_S2,
   setup_deck_selection,
   select_deck,
+  select_init_card,
 
   pick_cards,
   skip_pick,

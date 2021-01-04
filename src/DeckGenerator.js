@@ -548,7 +548,7 @@ function arr2deck(arr) {
 
 }
 
-function deck2str(deck) {
+export function deck2str(deck) {
   let output = {};
 
   for (let card of deck) {
