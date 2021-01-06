@@ -1183,9 +1183,10 @@ export const CARDS = [
     // },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.atk += 3;
+      self.atk += 2;
+      self.hp += 1;
     },
-    reinforce_desc: "+3/+0",
+    reinforce_desc: "+2/+1",
   },
   
   // {
