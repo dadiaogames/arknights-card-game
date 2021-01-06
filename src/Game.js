@@ -265,9 +265,9 @@ function play(G, ctx, idx) {
     // move(G, ctx, "hand", "field", idx);
     // init_card_state(G, ctx, card);
     G.hand.splice(idx, 1);
+    logMsg(G, ctx, `部署 ${card.name}(剩余部署位: ${G.field_limit-G.field.length})`);
     let inserted = play_card(G, ctx, card); // EH: What a strange abstraction, this should be changed
     if (inserted) {
-      logMsg(G, ctx, `部署 ${card.name}(剩余部署位: ${G.field_limit-G.field.length})`);
       for (let f of G.onPlayCard) {
         f(G, ctx, inserted, card);
       }

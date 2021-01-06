@@ -3216,10 +3216,10 @@ export const CARDS = [
       self.fever = false;
     },
     reinforce: 2,
-    reinforce_desc: "+1/+1",
+    reinforce_desc: "+2/+2",
     onReinforce(G, ctx, self) {
-      self.atk += 1;
-      self.hp += 1;
+      self.atk += 2;
+      self.hp += 2;
     },
   },
 
