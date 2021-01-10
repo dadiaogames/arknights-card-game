@@ -583,6 +583,7 @@ function select_init_card(S, idx) {
   let card = CARDS[S.current_item.indexes[idx]];
   if (card) {
     S.Deck.unshift({...card, material: S.rng.randRange(3)});
+    reset_shop(S);
     proceed(S);
   }
 }
