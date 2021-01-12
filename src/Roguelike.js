@@ -43,7 +43,7 @@ function setup_roguelike_mode(S) {
   S.relics = [];
   S.gold = 50;
 
-  S.scene_queue = ["relic", "upgrade", ..._.times(8, ()=>"init_card")];
+  S.scene_queue = ["upgrade", ..._.times(8, ()=>"init_card"), "relic"];
   S.current_upgrades = [];
   S.current_indexes = [];
   S.current_relics = [];
@@ -632,7 +632,7 @@ function enter_dream(S) {
 }
 
 export function get_gold_gained(risk_level, level_required) {
-   let gold_gained = 20;
+   let gold_gained = 25;
 
     let level_diff = risk_level - level_required;
     gold_gained += Math.min(level_diff * 5, 40);
@@ -664,7 +664,7 @@ function continue_run(S) {
     r.onBattleEnd && r.onBattleEnd(S, r);
   }
 
-  S.scene_queue.unshift("pick");
+  // S.scene_queue.unshift("pick");
   S.scene_queue.unshift("upgrade");
 
   // TODO: Reconstruct this part, into moveOn()

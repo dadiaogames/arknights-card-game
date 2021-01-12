@@ -41,6 +41,7 @@ const tag_list = [
     src: "http://prts.wiki/images/7/71/Level_predefines_1.png",
     desc: "敌方牌库减少40%的牌",
     level: 2,
+    standard_level: 4,
     unstackable: true,
     extra_challenge: true,
     effect(G, ctx) {
@@ -101,7 +102,7 @@ const tag_list = [
     src: "http://prts.wiki/images/a/a0/Enemy_hp_2.png",
     desc: "回合开始时，所有敌人获得+2生命值",
     level: 2,
-    // standard_level: 3,
+    standard_level: 4,
     effect(G, ctx){
       G.enemy_hp_grow = true;
     }
@@ -159,6 +160,7 @@ const tag_list = [
     challenge: true,
     unstackable: true,
     extra_challenge: true,
+    standard_level: 5,
     effect(G, ctx){
       G.field_limit -= 3;
     }
@@ -286,6 +288,7 @@ const tag_list = [
     level: 5,
     challenge: true,
     stackable: true,
+    standard_level: 5,
     effect(G, ctx) {
       G.goal += 18;
     }
