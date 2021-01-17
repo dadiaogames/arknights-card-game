@@ -296,7 +296,7 @@ export const CARDS = [
     name:"讯使", 
     cost:3, 
     atk:3, 
-    hp:4, 
+    hp:3, 
     mine:2, 
     block:1, 
     desc:"采掘: 获得2点费用", 
@@ -729,10 +729,10 @@ export const CARDS = [
 
   {
     name:"年", 
-    cost:4, 
+    cost:5, 
     atk:3, 
-    hp:9, 
-    mine:1, 
+    hp:12, 
+    mine:2, 
     block:2, 
     desc:"部署: 场上所有其他干员阻挡数+1", 
     illust:"http://prts.wiki/images/c/c9/%E7%AB%8B%E7%BB%98_%E5%B9%B4_1.png",
@@ -2336,32 +2336,32 @@ export const CARDS = [
     },
     reinforce_desc: "阻挡数+1",
   },
-  {
-    name:"锡兰",
-    cost:2,
-    atk:3,
-    hp:2,
-    mine:1,
-    block:0,
-    desc: "采掘: 本回合剩余时间内，每打出1张牌，就摸1张牌",
-    illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
-    reinforce: 2,
-    // onRest(G, ctx, self) {
-    //   let num_rest_cards = get_num_rest_cards(G, ctx);
-    //   G.score += num_rest_cards;
-    // },
-    onMine(G, ctx, self) {
-      G.onPlayCard.push(
-        (G, ctx) => {
-          draw(G, ctx);
-        }
-      );
-    },
-    onReinforce(G, ctx, self) {
-      G.costs += 2;
-    },
-    reinforce_desc: "获得2点费用",
-  },
+  // {
+  //   name:"锡兰",
+  //   cost:2,
+  //   atk:3,
+  //   hp:2,
+  //   mine:1,
+  //   block:0,
+  //   desc: "采掘: 本回合剩余时间内，每打出1张牌，就摸1张牌",
+  //   illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
+  //   reinforce: 2,
+  //   // onRest(G, ctx, self) {
+  //   //   let num_rest_cards = get_num_rest_cards(G, ctx);
+  //   //   G.score += num_rest_cards;
+  //   // },
+  //   onMine(G, ctx, self) {
+  //     G.onPlayCard.push(
+  //       (G, ctx) => {
+  //         draw(G, ctx);
+  //       }
+  //     );
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     G.costs += 2;
+  //   },
+  //   reinforce_desc: "获得2点费用",
+  // },
   // // {
   // //   name:"诗怀雅",
   // //   cost:4,
@@ -2767,7 +2767,7 @@ export const CARDS = [
     cost:5,
     atk:2,
     hp:2,
-    mine:2,
+    mine:1,
     block:1,
     desc: "部署: 随机强化自己5次",
     illust:"http://prts.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E6%A3%AE%E8%9A%BA_1.png",
@@ -2804,14 +2804,14 @@ export const CARDS = [
     hp:8,
     mine:2,
     block:1,
-    desc: "超杀: 每造成1点额外伤害，就获得+1攻击力并治疗2点伤害",
+    desc: "超杀: 每造成2点额外伤害，就获得+1攻击力并治疗5点伤害",
     illust:"http://prts.wiki/images/4/48/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E6%8B%89%E6%A0%BC_1.png",
     reinforce: 1,
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {
-        let excess = enemy.dmg - enemy.hp;
+        let excess = Math.floor((enemy.dmg - enemy.hp) / 2);
         self.atk += excess;
-        self.dmg = Math.max(self.dmg - excess * 2, 0);
+        self.dmg = Math.max((self.dmg - excess * 5), 0);
       }
     },
     onReinforce(G, ctx, self) {
@@ -3001,7 +3001,7 @@ export const CARDS = [
     cost:5,
     atk:6,
     hp:6,
-    mine:3,
+    mine:2,
     block:2,
     desc:"部署: 消耗所有剩余费用，然后每消耗1点，就获得+3/+3",
     illust:"http://prts.wiki/images/8/80/%E7%AB%8B%E7%BB%98_%E6%B3%A5%E5%B2%A9_1.png",
@@ -3139,24 +3139,25 @@ export const CARDS = [
       self.atk += 1;
       self.hp += 2;
     },
-  },{
-    name:"流星",
-    cost:2,
-    atk:4,
-    hp:2,
-    mine:0,
-    block:0,
-    desc:"部署: 造成5点伤害",
-    illust:"http://prts.wiki/images/b/be/%E7%AB%8B%E7%BB%98_%E6%B5%81%E6%98%9F_1.png",
-    onPlay(G, ctx, self) {
-      deal_random_damage(G, ctx, 5);
-    },
-    reinforce: 1,
-    reinforce_desc: "造成3点伤害",
-    onReinforce(G, ctx, self) {
-      deal_random_damage(G, ctx, 3);
-    },
   },
+  // {
+  //   name:"流星",
+  //   cost:2,
+  //   atk:4,
+  //   hp:2,
+  //   mine:0,
+  //   block:0,
+  //   desc:"部署: 造成5点伤害",
+  //   illust:"http://prts.wiki/images/b/be/%E7%AB%8B%E7%BB%98_%E6%B5%81%E6%98%9F_1.png",
+  //   onPlay(G, ctx, self) {
+  //     deal_random_damage(G, ctx, 5);
+  //   },
+  //   reinforce: 1,
+  //   reinforce_desc: "造成3点伤害",
+  //   onReinforce(G, ctx, self) {
+  //     deal_random_damage(G, ctx, 3);
+  //   },
+  // },
 
   {
       name:"空爆",
@@ -3279,6 +3280,7 @@ export const CARDS = [
       let card = choice(ctx, G.hand);
       if (card) {
         Object.assign(self, card);
+        self.exhausted = false;
       }
     },
     onReinforce(G, ctx, self) {
