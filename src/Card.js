@@ -78,7 +78,7 @@ export const Card = (props) => {
   // }
   // EH: Find a way to let some illust change pattern
 
-  let shaker = useShaker(props.cardState.shaking, props.cardState.setShaking, -30, -30, {duration:125}, props.cardState.onEnd);
+  let shaker = useShaker(props.cardState.shaking, props.cardState.setShaking, -30, -30, {duration:95}, props.cardState.onEnd);
 
   useEffect(() => {
     if ((props.cardState.dmg > 0) && props.cardState.setShaking) {

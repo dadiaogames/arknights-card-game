@@ -35,7 +35,7 @@ export function Ripple(props) {
         props.setPlaying(false);
       }
     },
-    config: {duration: 290},
+    config: {duration: 270},
   });
    return <animated.div 
       className="ripple" 

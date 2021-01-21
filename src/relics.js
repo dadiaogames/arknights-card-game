@@ -437,11 +437,10 @@ export const RELICS = [
   // },
   {
     name:"商队盒饭",
-    desc:"回合开始时，使3个订单分数+2",
+    desc:"所有订单分数+1",
     onTurnBegin(G, ctx) {
-      for (let i=0; i<3; i++) {
-        let order = choice(ctx, G.orders);
-        order.score += 2;
+      for (let order of G.orders) {
+        order.score += 1;
       }
     }
   },

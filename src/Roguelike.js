@@ -182,7 +182,7 @@ function end_daily_mode(S) {
 function generate_weekly_challenges(S) {
   let rng = new PRNG(S.week);
   let challenges = [];
-  for (let i=0; i<3; i++) {
+  for (let i=0; i<1; i++) {
     challenges.push(get_challenge_name(rng));
   }
   S.challenges = challenges;
