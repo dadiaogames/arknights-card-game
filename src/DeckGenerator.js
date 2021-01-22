@@ -30,10 +30,10 @@ export const classes = {
 // 蛇屠箱 0 2
 // 清流 0 2`;
 
-const cost_vanguard =  `极境 1 1
-香草 0 1
+const cost_vanguard =  `极境 1 2
+香草 1 1
 讯使 0 1
-桃金娘 0 1
+桃金娘 1 1
 惊蛰 1 1
 推进之王 1 1`;
 
@@ -627,12 +627,12 @@ export function generate_deck_s2(deck_name) {
   let rng = new PRNG(deck_name);
 
   // Basic deck
-  deck = [...deck, ...deck_from_strategy(cost_vanguard, 8, rng)];
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 6, rng)];
   // deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
 
   // Strategy deck
-  deck = [...deck, ...deck_from_mini_sets(16, rng)];
+  deck = [...deck, ...deck_from_mini_sets(12, rng)];
 
   // Let diff goes
   // console.log("deck before", deck);
@@ -649,7 +649,7 @@ export function generate_deck_s2(deck_name) {
   deck = Object.keys(deck_dict).reduce((acc, val) => [...acc, ..._.times(deck_dict[val], ()=>val)], [])
 
   // Random cards
-  let amount_add = 36 - deck.length;
+  let amount_add = 27 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }
