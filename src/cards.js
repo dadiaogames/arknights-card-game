@@ -701,29 +701,29 @@ export const CARDS = [
 //     }
 //   },
 
-  {
-    name:"星熊", 
-    cost:4, 
-    atk:4, 
-    hp:10, 
-    mine:2, 
-    block:2, 
-    desc:"行动: 消耗1点费用，获得+2/+2和阻挡数+1，然后重置自己", 
-    illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
-    action(G, ctx, self) {
-      if (payCost(G, ctx, 1, true)) {
-        self.atk += 2;
-        self.hp += 2;
-        self.block += 1;
-      }
-      self.exhausted = false;
-    },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      self.block += 1;
-    },
-    reinforce_desc: "阻挡数+1",
-  },
+  // {
+  //   name:"星熊", 
+  //   cost:4, 
+  //   atk:4, 
+  //   hp:10, 
+  //   mine:2, 
+  //   block:2, 
+  //   desc:"行动: 消耗1点费用，获得+2/+2和阻挡数+1，然后重置自己", 
+  //   illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
+  //   action(G, ctx, self) {
+  //     if (payCost(G, ctx, 1, true)) {
+  //       self.atk += 2;
+  //       self.hp += 2;
+  //       self.block += 1;
+  //     }
+  //     self.exhausted = false;
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     self.block += 1;
+  //   },
+  //   reinforce_desc: "阻挡数+1",
+  // },
   
 
 
