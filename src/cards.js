@@ -2183,7 +2183,7 @@ export const CARDS = [
     name:"凛冬",
     cost:3,
     atk:3,
-    hp:4,
+    hp:3,
     mine:1,
     block:1,
     desc: "采掘/战斗: 强化1张手牌",
@@ -2205,9 +2205,9 @@ export const CARDS = [
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
-      self.hp += 3;
+      self.hp += 2;
     },
-    reinforce_desc: "+2/+3",
+    reinforce_desc: "+2/+2",
   },
   {
     name:"真理",
@@ -2336,32 +2336,32 @@ export const CARDS = [
     },
     reinforce_desc: "阻挡数+1",
   },
-  // {
-  //   name:"锡兰",
-  //   cost:2,
-  //   atk:3,
-  //   hp:2,
-  //   mine:1,
-  //   block:0,
-  //   desc: "采掘: 本回合剩余时间内，每打出1张牌，就摸1张牌",
-  //   illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
-  //   reinforce: 2,
-  //   // onRest(G, ctx, self) {
-  //   //   let num_rest_cards = get_num_rest_cards(G, ctx);
-  //   //   G.score += num_rest_cards;
-  //   // },
-  //   onMine(G, ctx, self) {
-  //     G.onPlayCard.push(
-  //       (G, ctx) => {
-  //         draw(G, ctx);
-  //       }
-  //     );
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     G.costs += 2;
-  //   },
-  //   reinforce_desc: "获得2点费用",
-  // },
+  {
+    name:"锡兰",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: "采掘: 本回合剩余时间内，每打出1张牌，就摸1张牌",
+    illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
+    reinforce: 2,
+    // onRest(G, ctx, self) {
+    //   let num_rest_cards = get_num_rest_cards(G, ctx);
+    //   G.score += num_rest_cards;
+    // },
+    onMine(G, ctx, self) {
+      G.onPlayCard.push(
+        (G, ctx) => {
+          draw(G, ctx);
+        }
+      );
+    },
+    onReinforce(G, ctx, self) {
+      G.costs += 2;
+    },
+    reinforce_desc: "获得2点费用",
+  },
   // // {
   // //   name:"诗怀雅",
   // //   cost:4,
