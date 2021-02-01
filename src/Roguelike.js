@@ -67,6 +67,7 @@ function select_deck(S, deck) {
 function end_roguelike_mode(S) {
   S.roguelike_mode = false;
   S.tags = reset_tags();
+  CARDS.map(preprocess_roguelike_card); // To prevent onPlayBonus pointer bug
 }
 
 function move_on(S) {

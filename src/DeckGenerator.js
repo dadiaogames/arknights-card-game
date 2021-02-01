@@ -32,10 +32,11 @@ export const classes = {
 
 const cost_vanguard =  `极境 1 2
 香草 1 1
-讯使 0 1
-桃金娘 1 1
+讯使 1 1
+桃金娘 1 2
 惊蛰 1 1
-推进之王 1 1`;
+推进之王 1 1
+豆苗 1 1`;
 
 const draw_vanguard = `芬 1 2
 调香师 0 2
