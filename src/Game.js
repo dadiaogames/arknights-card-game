@@ -6,7 +6,7 @@ import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
 import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1 } from './DeckGenerator';
 import { arr2obj, mod_slice, PRNG } from "./utils";
-import { ICONS } from "./icons";
+import { ICONS, food_icons } from "./icons";
 import { ALTER_ARTS } from "./alters";
 
 export function move(G, ctx, d1, d2, idx) {
@@ -611,6 +611,18 @@ export function reinforce_hand(G, ctx) {
   }
 }
 
+export function exhaust_order(G, ctx) {
+  let orders = G.finished.filter(x => !x.exhausted);
+  if (orders.length > 0) {
+    let order = choice(ctx, orders);
+    order.exhausted = true;
+    return order;
+  }
+  else {
+    return undefined;
+  }
+}
+
 export function reinforce_field(G, ctx) {
   let card = choice(ctx, G.field.filter(x => (!(x.exhausted||["诗怀雅"].includes(x.name)))));
 
@@ -642,7 +654,7 @@ export function add_vulnerable(G, ctx, amount) {
 
 export function ready_random_card(G, ctx, self) {
   let exhausted_cards = G.field.filter(x => (x.exhausted && (x != self)));
-  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪", "霜叶"].includes(x.name)));
+  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪", "霜叶", "夜莺"].includes(x.name)));
   if ((exhausted_cards.length != 0) && (prepared_cards.length == 0)) {
     logMsg(G, ctx, "干员们感到意外的疲惫，无法被重置");
   }

@@ -23,6 +23,7 @@ body {
 
 .board {
   height: 600px;
+  /* height: 900px; */
   width: 370px;
   /* width: 970px; */
   border: 2.5px solid #a0a0a0;

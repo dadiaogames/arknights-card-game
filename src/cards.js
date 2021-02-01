@@ -5,10 +5,11 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card
+  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order
 } from './Game';
 import { classes } from './DeckGenerator';
 import { material_icons, ready_order } from './orders';
+import { food_icons } from './icons';
 
 export function init_card(card) {
   return {
@@ -1135,10 +1136,161 @@ export const CARDS = [
     onReinforce(G, ctx, self){
       G.score += 2;
     },
-
-
   },
 
+  {
+    name:"塞雷娅",
+    cost:4,
+    atk:4,
+    hp:10,
+    mine:2,
+    block:2,
+    desc: "行动: 本回合剩余时间内，使用其他干员战斗时，重置1个订单",
+    illust:"http://prts.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E5%A1%9E%E9%9B%B7%E5%A8%85_1.png",
+    action(G, ctx, self) {
+      G.onCardFight.push(
+        (G, ctx) => {
+          ready_order(G, ctx, true);
+        }
+      );
+    },
+    reinforce: 1,
+    reinforce_desc: "使1个敌人获得易伤1",
+    onReinforce(G, ctx, self){
+      add_vulnerable(G, ctx, 1);
+    },
+  },
+{
+    name:"爱丽丝",
+    cost:2,
+    atk:2,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: "采掘: 横置1个订单，并触发其能力2次",
+    illust:"http://prts.wiki/images/6/62/%E7%AB%8B%E7%BB%98_%E7%88%B1%E4%B8%BD%E4%B8%9D_1.png",
+    onMine(G, ctx, self) {
+      let order = exhaust_order(G, ctx);
+      if (order) {
+        for (let i=0; i<(2+self.power); i++) {
+          if ((order.cost == undefined) || payMaterials(G, ctx, order.cost, true)) {
+            order.effect(G, ctx);
+          }
+        }
+      }
+      else {
+        logMsg(G, ctx, "没有可横置的订单");
+      }
+    },
+    reinforce: 2,
+    reinforce_desc: "再触发1次",
+  },
+{
+    name:"松果",
+    cost:3,
+    atk:2,
+    hp:1,
+    mine:1,
+    block:0,
+    desc: "部署: 横置2个订单，摧毁1个敌人，如果2个订单颜色相同，则再摧毁1个",
+    illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E6%9D%BE%E6%9E%9C_1.png",
+    onPlay(G, ctx, self) {
+      let order1 = exhaust_order(G, ctx);
+      let order2 = exhaust_order(G, ctx);
+      if (order1 != undefined && order2 != undefined) {
+        let times = (order1.color == order2.color)? 2 : 1;
+        for (let i=0; i<times; i++) {
+          let enemy = choice(ctx, G.efield.filter(x => x.hp > x.dmg));
+          enemy.dmg += enemy.hp;
+        }
+      }
+      else {
+        logMsg(G, ctx, "没有足够的订单");
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "造成3点伤害",
+    onReinforce(G, ctx, self){
+      deal_random_damage(G, ctx, 3);
+    },
+  },
+{
+    name:"豆苗",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:1,
+    block:0,
+    desc: <span>采掘: 横置1个订单，如果该订单是<br/>{food_icons[0]}: 获得3点费用<br/>{food_icons[1]}: 摸2张牌，并使该牌费用-1<br/>{food_icons[2]}: 召唤手牌中1个干员的4/4复制</span>,
+    illust:"http://prts.wiki/images/4/4b/%E7%AB%8B%E7%BB%98_%E8%B1%86%E8%8B%97_1.png",
+    onMine(G, ctx, self) {
+      let order = exhaust_order(G, ctx);
+      if (order) {
+        if (order.color == 0) {
+          G.costs += 3;
+        }
+        else if (order.color == 1) {
+          draw(G, ctx);
+          draw(G, ctx);
+          G.hand[0].cost -= 1;
+          G.hand[1].cost -= 1;
+        }
+        else {
+          let card = choice(ctx, G.hand);
+          if (card) {
+            summon(G, ctx, {
+              ...card,
+              atk: 4,
+              hp: 4,
+              mine: 2,
+              cost: 3,
+            }, self);
+          }
+      }
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "获得1点费用",
+    onReinforce(G, ctx, self){
+      G.costs += 1;
+    },
+  },
+{
+    name:"夜莺",
+    cost:3,
+    atk:0,
+    hp:3,
+    mine:2,
+    block:0,
+    desc: <span>行动: 横置1个订单，如果该订单是<br/>{food_icons[0]}: 重置1个干员<br/>{food_icons[1]}: 横置2个敌人<br/>{food_icons[2]}: 触发场上1个干员的"部署:"效果(极境除外)</span>,
+    illust:"http://prts.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E8%8E%BA_1.png",
+    action(G, ctx, self) {
+      let order = exhaust_order(G, ctx);
+      if (order) {
+        if (order.color == 0) {
+          ready_random_card(G, ctx, self);
+        }
+        else if (order.color == 1) {
+          exhaust_random_enemy(G, ctx);
+          exhaust_random_enemy(G, ctx);
+        }
+        else {
+          let card = choice(ctx, G.field.filter(x => x.onPlay && x.name != "极境"));
+          if (card) {
+            card.onPlay(G, ctx, card);
+          }
+          else {
+            logMsg(G, ctx, "没有合适的干员触发");
+          }
+        }
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "治疗1个干员的6点伤害",
+    onReinforce(G, ctx, self){
+      cure(G, ctx, 6);
+    },
+  },
   {
     name:"天火",
     cost:4,
