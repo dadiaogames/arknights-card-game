@@ -88,6 +88,7 @@ const tag_list = [
     desc: "强化干员需要消耗1点费用",
     level: 2,
     challenge: true,
+    standard_level: 4,
     effect(G, ctx) {
       // for (let card of G.deck) {
       //   card.reinforce += 1;
@@ -98,15 +99,15 @@ const tag_list = [
 
   
 
-  {
-    src: "http://prts.wiki/images/a/a0/Enemy_hp_2.png",
-    desc: "回合开始时，所有敌人获得+2生命值",
-    level: 2,
-    standard_level: 4,
-    effect(G, ctx){
-      G.enemy_hp_grow = true;
-    }
-  },
+  // {
+  //   src: "http://prts.wiki/images/a/a0/Enemy_hp_2.png",
+  //   desc: "回合开始时，所有敌人获得+2生命值",
+  //   level: 2,
+  //   standard_level: 4,
+  //   effect(G, ctx){
+  //     G.enemy_hp_grow = true;
+  //   }
+  // },
 
   
 
@@ -153,7 +154,7 @@ const tag_list = [
   //     }
   //   }
   // },
-{
+  {
     src: "http://prts.wiki/images/4/46/Global_forbidloc_2.png",
     desc: "可同时部署的干员数-3",
     level: 3,
