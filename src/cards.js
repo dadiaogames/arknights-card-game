@@ -2129,28 +2129,29 @@ export const CARDS = [
     reinforce: 2,
     reinforce_desc: "再获得2分",
   },
-  // {
-  //   name:"雪雉",
-  //   cost:3,
-  //   atk:4,
-  //   hp:3,
-  //   mine:2,
-  //   block:1,
-  //   desc:"部署/采掘/战斗: 清除弃牌堆中的2张牌，获得3分",
-  //   illust:"http://prts.wiki/images/8/89/%E7%AB%8B%E7%BB%98_%E9%9B%AA%E9%9B%89_1.png",
-  //   (G, ctx, self) {
-  //     // if (G.discard.length >= 4) {
-  //     //   G.discard = G.discard.slice(4);
-  //     //   G.score += 6 + 2 * self.power;
-  //     // }
-  //     // else {
-  //     //   logMsg(G, ctx, `弃牌堆中的牌数量不够(${G.discard.length}/4)`);
-  //     //   self.exhausted = false;
-  //     // }
-  //   },
-  //   reinforce: 2,
-  //   reinforce_desc: "再获得2分",
-  // },
+  {
+    name:"雪雉",
+    cost:3,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:1,
+    desc:"行动: 清除弃牌堆中的5张牌，获得6分",
+    illust:"http://prts.wiki/images/8/89/%E7%AB%8B%E7%BB%98_%E9%9B%AA%E9%9B%89_1.png",
+    effect(G, ctx, self) {
+      if (G.discard.length >= 5) {
+        G.discard = G.discard.slice(5);
+        G.score += 6 + 2 * self.power;
+        logMsg(G, ctx, `弃牌堆中还剩${G.discard.length}张`);
+      }
+      else {
+        logMsg(G, ctx, `弃牌堆中的牌数量不够(${G.discard.length}张)`);
+        self.exhausted = false;
+      }
+    },
+    reinforce: 2,
+    reinforce_desc: "再获得2分",
+  },
 
   // {
   //   name:"初雪",
