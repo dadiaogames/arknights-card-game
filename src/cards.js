@@ -281,7 +281,7 @@ export const CARDS = [
     name:"香草", 
     cost:3, 
     atk:4, 
-    hp:2, 
+    hp:3, 
     mine:1, 
     block:1, 
     desc:"战斗: 获得2点费用", 
@@ -296,7 +296,7 @@ export const CARDS = [
   {
     name:"讯使", 
     cost:3, 
-    atk:3, 
+    atk:2, 
     hp:3, 
     mine:2, 
     block:1, 

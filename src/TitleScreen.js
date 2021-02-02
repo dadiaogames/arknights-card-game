@@ -3,7 +3,7 @@ import './TitleScreen.css';
 
 export const TitleScreen = (props) => (
   <div style={{textAlign: "center", marginTop:"45%"}}>
-    <h2 className="title" >明日方舟: 卡牌版</h2>
+    <h2 className="title" >明日方舟: 采掘行动</h2>
     <div >
       制作: <a href="https://space.bilibili.com/8492192/dynamic/">大雕游戏</a>
     </div>
