@@ -179,20 +179,20 @@ const tag_list = [
     }
   },
 
-  {
-    src: "http://prts.wiki/images/e/ee/Char_atkatkspeed_1.png",
-    desc: "所有干员攻击力-2",
-    level: 3,
-    challenge: true,
-    unstackable: true,
-    effect(G, ctx) {
-      // G.goal += 28; // Because first turn gonna -4 too
-      // G.reduce_goal = true;
-      for (let card of G.deck) {
-        card.atk -= 2;
-      }
-    }
-  },
+  // {
+  //   src: "http://prts.wiki/images/e/ee/Char_atkatkspeed_1.png",
+  //   desc: "所有干员攻击力-2",
+  //   level: 3,
+  //   challenge: true,
+  //   unstackable: true,
+  //   effect(G, ctx) {
+  //     // G.goal += 28; // Because first turn gonna -4 too
+  //     // G.reduce_goal = true;
+  //     for (let card of G.deck) {
+  //       card.atk -= 2;
+  //     }
+  //   }
+  // },
 
   {
     src: "http://prts.wiki/images/0/06/Enemy_attackspeed_2.png",
