@@ -39,18 +39,23 @@ const cost_vanguard =  `极境 1 2
 豆苗 1 1`;
 
 const draw_vanguard = `芬 1 2
-调香师 0 2
+调香师 1 1
+锡兰 0 1
 清流 0 1`;
 
-const scorer = `阿米娅 0 1
+const scorer = `阿米娅 1 1
 崖心 1 1
 食铁兽 0 1
 酸糖 0 1
 普罗旺斯 0 1
 阿消 1 1
 阿米娅-近卫 0 1
-赫默 1 1
+赫默 0 1
+爱丽丝 1 1
 伊芙利特 0 1
+雪雉 1 1
+卡夫卡 0 1
+铃兰 0 1
 阿 0 1`;
 
 const miner =  `史都华德 1 1
@@ -61,10 +66,12 @@ const miner =  `史都华德 1 1
 const shooter = `棘刺 1 1
 陈 1 1
 银灰 1 1
-W 0 1
-卡达 0 1
+W 1 1
+卡达 1 1
 拉普兰德 0 1
-史尔特尔 1 1`;
+史尔特尔 1 1
+松果 1 1
+刻刀 1 1`;
 
 const defender = `米格鲁 1 1
 蛇屠箱 0 1
@@ -74,7 +81,8 @@ const defender = `米格鲁 1 1
 
 const supporter = `翎羽 1 1
 白面鸮 1 1
-雷蛇 1 1`;
+雷蛇 0 1
+夜莺 1 1`;
 
 // const dubin_score = `杜宾 2 3
 // 推进之王 2 3
@@ -454,7 +462,7 @@ const mini_sets = [
   ' 安洁莉娜 极境 泥岩 ',
 
   //卡夫卡
-  ' 卡夫卡 凯尔希|摄影车 麦哲伦 薄绿 安洁莉娜|薄绿 ',
+  ' 卡夫卡 凯尔希|摄影车 龙腾 薄绿 安洁莉娜|薄绿 ',
   
   //刻刀单核小套路
   ' 刻刀 刻刀 刻俄柏 波登可 ',
@@ -639,8 +647,11 @@ export function generate_deck_s2(deck_name) {
 
   // Basic deck
   deck = [...deck, ...deck_from_strategy(cost_vanguard, 6, rng)];
-  // deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
 
   // Strategy deck
   deck = [...deck, ...deck_from_mini_sets(12, rng)];
@@ -660,7 +671,7 @@ export function generate_deck_s2(deck_name) {
   deck = Object.keys(deck_dict).reduce((acc, val) => [...acc, ..._.times(deck_dict[val], ()=>val)], [])
 
   // Random cards
-  let amount_add = 27 - deck.length;
+  let amount_add = 30 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }
