@@ -115,7 +115,7 @@ export const ENEMIES = [
   {
     name: "术师",
     atk: 2,
-    hp: 4,
+    hp: 2,
     illust: "http://prts.wiki/images/0/02/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%9C%AF%E5%B8%88.png",
     desc: "行动: 对1个无阻挡能力干员，造成[攻击力]点伤害",
     action(G, ctx, self) {
@@ -138,7 +138,7 @@ export const ENEMIES = [
   {
     name: "高阶术师",
     atk: 2,
-    hp: 6,
+    hp: 4,
     illust: "http://prts.wiki/images/b/b9/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%AB%98%E9%98%B6%E6%9C%AF%E5%B8%88.png",
     is_elite: true,
     desc: "替换, 行动: 对2个无阻挡能力干员, 造成[攻击力]点伤害",
@@ -197,8 +197,8 @@ export const ENEMIES = [
 
   {
     name: "寻仇者",
-    atk: 2,
-    hp: 4,
+    atk: 3,
+    hp: 3,
     illust: "http://prts.wiki/images/d/d0/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%AF%BB%E4%BB%87%E8%80%85.png",
     desc: "愤怒",
     enraged: true,
