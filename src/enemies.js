@@ -178,7 +178,7 @@ export const ENEMIES = [
   {
     name: "冰爆源石虫",
     atk: -2,
-    hp: 2,
+    hp: 1,
     illust: "http://prts.wiki/images/2/26/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%86%B0%E7%88%86%E6%BA%90%E7%9F%B3%E8%99%AB.png",
     desc: "摧毁: 失去2点费用",
     onOut(G, ctx) {

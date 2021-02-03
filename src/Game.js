@@ -792,8 +792,8 @@ function refresh(G, ctx) {
 function onScenarioBegin(G, ctx) {
   //Setup edeck
   for (let enemy of G.edeck) {
-    if (enemy.atk <= 0) { 
-      enemy.atk = 1;
+    if (enemy.atk < 0) { 
+      enemy.atk = 0;
     }
   }
 
