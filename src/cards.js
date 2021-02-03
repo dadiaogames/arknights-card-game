@@ -403,7 +403,7 @@ export const CARDS = [
   
   {
     name:"风笛", 
-    cost:4, 
+    cost:3, 
     atk:4, 
     hp:3, 
     mine:1, 
