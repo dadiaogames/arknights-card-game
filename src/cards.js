@@ -1161,14 +1161,14 @@ export const CARDS = [
     },
   },
 {
-    name:"爱丽丝",
+    name:"凯尔希",
     cost:2,
     atk:2,
     hp:2,
     mine:2,
     block:0,
     desc: "采掘: 横置1个订单，并触发其能力2次",
-    illust:"http://prts.wiki/images/6/62/%E7%AB%8B%E7%BB%98_%E7%88%B1%E4%B8%BD%E4%B8%9D_1.png",
+    illust:"http://prts.wiki/images/7/72/%E7%AB%8B%E7%BB%98_%E5%87%AF%E5%B0%94%E5%B8%8C_1.png",
     onMine(G, ctx, self) {
       let order = exhaust_order(G, ctx);
       if (order) {
@@ -1958,14 +1958,14 @@ export const CARDS = [
   },
 
   {
-    name:"凯尔希",
-    cost:5,
+    name:"图耶",
+    cost:6,
     atk:2,
     hp:2,
     mine:1,
     block:0,
     desc:"部署: 召唤5个随机干员的1/1复制",
-    illust:"http://prts.wiki/images/7/72/%E7%AB%8B%E7%BB%98_%E5%87%AF%E5%B0%94%E5%B8%8C_1.png",
+    illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E5%9B%BE%E8%80%B6_1.png",
     onPlay(G, ctx, self) {
       let cards = ctx.random.Shuffle(G.CARDS).filter(c => c.onMine || c.onFight || c.action || (c.cost >= 4));
       for (let i=0; i<5; i++) {

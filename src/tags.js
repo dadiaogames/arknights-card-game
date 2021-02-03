@@ -131,6 +131,7 @@ const tag_list = [
     level: 2,
     challenge: true,
     unstackable: true,
+    advance: true,
     effect(G, ctx){
       for (let card of G.deck) {
         card.mine -= 1;
@@ -200,6 +201,7 @@ const tag_list = [
     level: 3,
     challenge: true,
     stackable: true,
+    advance: true,
     effect(G, ctx) {
       G.num_enemies_out += 1;
     }
