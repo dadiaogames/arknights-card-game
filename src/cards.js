@@ -630,9 +630,9 @@ export const CARDS = [
   {
     name:"星极", 
     cost:4, 
-    atk:4, 
-    hp:4, 
-    mine:3, 
+    atk:6, 
+    hp:3, 
+    mine:2, 
     block:0, 
     desc: <span>采掘: 弃2张牌，获得2个{material_icons[3]}</span>, 
     illust:"http://prts.wiki/images/b/bb/%E7%AB%8B%E7%BB%98_%E6%98%9F%E6%9E%81_1.png",
