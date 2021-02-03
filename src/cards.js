@@ -209,9 +209,9 @@ export const CARDS = [
   {
     name:"夜刀",
     cost:12,
-    atk:18,
-    hp:18,
-    mine:9,
+    atk:16,
+    hp:16,
+    mine:8,
     block:2,
     illust:"http://prts.wiki/images/a/ad/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E5%88%80_1.png",
     reinforce: 1,

@@ -14,7 +14,7 @@ export const ENEMIES = [
   {
     name: "游击队战士",
     atk: 1,
-    hp: 2,
+    hp: 1,
     illust: "http://prts.wiki/images/a/ac/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%B8%B8%E5%87%BB%E9%98%9F%E6%88%98%E5%A3%AB.png",
     desc: "入场: 使1个敌人获得+2/+2",
     onPlay(G, ctx, self) {
@@ -128,7 +128,7 @@ export const ENEMIES = [
   {
     name: "空降兵",
     atk: 2,
-    hp: 2,
+    hp: 1,
     illust: "http://prts.wiki/images/f/f7/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A9%BA%E9%99%8D%E5%85%B5.png",
     desc: "入场: 使1个敌人获得+2攻击力",
     onPlay(G, ctx) {
@@ -245,19 +245,19 @@ export const ENEMIES = [
     // }
   },
 
-  {
-    name: "酸液源石虫",
-    illust: "http://prts.wiki/images/6/6b/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%85%B8%E6%B6%B2%E6%BA%90%E7%9F%B3%E8%99%AB%C2%B7%CE%B1.png",
-    atk: -1,
-    hp: 4,
-    desc: "替换, 摧毁: 对所有干员造成1点伤害",
-    is_elite: true,
-    onOut(G, ctx, self) {
-      for (let card of G.field) {
-        card.dmg += 1;
-      }
-    },
-  },
+  // {
+  //   name: "酸液源石虫",
+  //   illust: "http://prts.wiki/images/6/6b/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E9%85%B8%E6%B6%B2%E6%BA%90%E7%9F%B3%E8%99%AB%C2%B7%CE%B1.png",
+  //   atk: -1,
+  //   hp: 4,
+  //   desc: "替换, 摧毁: 对所有干员造成1点伤害",
+  //   is_elite: true,
+  //   onOut(G, ctx, self) {
+  //     for (let card of G.field) {
+  //       card.dmg += 1;
+  //     }
+  //   },
+  // },
 
   {
     name: "拳手",
@@ -296,7 +296,7 @@ export const ENEMIES = [
   {
     name: "哨兵",
     atk: 0,
-    hp: 4,
+    hp: 2,
     illust: "http://prts.wiki/images/1/16/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E8%90%A8%E5%8D%A1%E5%85%B9%E5%93%A8%E5%85%B5.png",
     desc: "行动: 翻开1张敌人牌",
     action(G, ctx, self) {

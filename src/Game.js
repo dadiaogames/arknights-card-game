@@ -4,7 +4,7 @@ import { CARDS } from "./cards";
 import { BOSSES, ENEMIES } from "./enemies";
 import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
-import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1 } from './DeckGenerator';
+import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1, solver_core, scorer_core } from './DeckGenerator';
 import { arr2obj, mod_slice, PRNG } from "./utils";
 import { ICONS, food_icons } from "./icons";
 import { ALTER_ARTS } from "./alters";
@@ -228,6 +228,11 @@ export function mulligan(G, ctx, choices) {
     }
     G.deck = ctx.random.Shuffle([...G.deck, ...discarded]);
   }
+
+  // Psudo-shuffle the deck
+  // let solver = G.deck.find(x => solver_core.includes(x.name)) || G.deck[0];
+  // let scorer = G.deck.find(x => scorer_core.includes(x.name)) || G.deck[1];
+  // G.deck = [...G.deck.filter(x => ![solver, scorer].includes(x)), scorer, solver];
 
   // Add init here
   G.hand = [...G.deck.filter(card => card.is_init), ...G.hand];

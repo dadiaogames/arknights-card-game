@@ -50,7 +50,6 @@ const scorer = `阿米娅 1 1
 普罗旺斯 0 1
 阿消 1 1
 阿米娅-近卫 0 1
-赫默 0 1
 爱丽丝 1 1
 伊芙利特 0 1
 雪雉 1 1
@@ -83,6 +82,9 @@ const supporter = `翎羽 1 1
 白面鸮 1 1
 雷蛇 0 1
 夜莺 1 1`;
+
+export const solver_core = "棘刺 陈 银灰 W 松果 刻刀 刻俄柏".split(" ");
+export const scorer_core = "阿米娅 阿消 崖心 雪雉 酸糖 铃兰 普罗旺斯 煌 爱丽丝 伊芙利特".split(" ");
 
 // const dubin_score = `杜宾 2 3
 // 推进之王 2 3
