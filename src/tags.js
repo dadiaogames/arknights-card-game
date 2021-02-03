@@ -283,17 +283,17 @@ const tag_list = [
       G.goal += 10;
     }
   },
-  {
-    src: "http://prts.wiki/images/f/f9/Enemy_diaman_2.png",
-    desc: "胜利所需分数+18",
-    level: 5,
-    challenge: true,
-    stackable: true,
-    standard_level: 5,
-    effect(G, ctx) {
-      G.goal += 18;
-    }
-  },
+  // {
+  //   src: "http://prts.wiki/images/f/f9/Enemy_diaman_2.png",
+  //   desc: "胜利所需分数+18",
+  //   level: 5,
+  //   challenge: true,
+  //   stackable: true,
+  //   standard_level: 5,
+  //   effect(G, ctx) {
+  //     G.goal += 18;
+  //   }
+  // },
 {
     src: "http://prts.wiki/images/f/f1/Enemy_buster_1.png",
     desc: "这个tag是送你的哦~",

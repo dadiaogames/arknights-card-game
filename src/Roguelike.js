@@ -243,13 +243,13 @@ function set_difficulty_S2(S, difficulty) {
   S.levels = [18, 22, 26, 30, 36, 42, 48, 55, 70];
 
   if (difficulty == "easy") {
-    S.levels = [8, 10, 12, 14, 18, 22, 26, 30, 40];
+    S.levels = [8, 12, 16, 20, 25, 30, 35, 40, 50];
   }
 
   if (difficulty == "hard") {
     // S.levels = [25, 30, 35, 40, 50, 60, 70, 80, 100];
     // S.levels = [22, 27, 32, 38, 45, 52, 60, 70, 90];
-    S.levels = [24, 30, 36, 42, 50, 60, 70, 80, 100];
+    S.levels = [24, 28, 32, 36, 40, 50, 60, 70, 90];
   }
 
   if (["medium", "hard"].includes(difficulty)) {
