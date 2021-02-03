@@ -3198,11 +3198,10 @@ export const CARDS = [
     hp:3,
     mine:3,
     block:0,
-    desc:"行动: 弃3张牌，召唤1个费用为4的干员",
+    desc:"行动: 弃2张牌，召唤1个费用为4的干员",
     illust:"http://prts.wiki/images/e/e7/%E7%AB%8B%E7%BB%98_%E5%BE%AE%E9%A3%8E_1.png",
     action(G, ctx, self) {
-      if (G.hand.length >= 3) {
-        drop(G, ctx);
+      if (G.hand.length >= 2) {
         drop(G, ctx);
         drop(G, ctx);
         let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==4)))[0];
