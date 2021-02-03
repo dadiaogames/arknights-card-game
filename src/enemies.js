@@ -219,17 +219,17 @@ export const ENEMIES = [
   //   },
   // },
   
-  {
-    name: "碎岩者",
-    illust: "http://prts.wiki/images/b/bd/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A2%8E%E5%B2%A9%E8%80%85.png",
-    atk: -3,
-    hp: 8,
-    // onTurnBegin(G, ctx, self) {
-    //   if (self.atk <= 0) {
-    //     self.atk = 1;
-    //   }
-    // }
-  },
+  // {
+  //   name: "碎岩者",
+  //   illust: "http://prts.wiki/images/b/bd/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%A2%8E%E5%B2%A9%E8%80%85.png",
+  //   atk: -3,
+  //   hp: 8,
+  //   // onTurnBegin(G, ctx, self) {
+  //   //   if (self.atk <= 0) {
+  //   //     self.atk = 1;
+  //   //   }
+  //   // }
+  // },
 
   {
     name: "碎岩者组长",
@@ -261,8 +261,8 @@ export const ENEMIES = [
 
   {
     name: "拳手",
-    atk: 4,
-    hp: 4,
+    atk: 5,
+    hp: 5,
     illust: "http://prts.wiki/images/e/e5/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%89%93%E6%89%8B.png",
     desc: "摧毁: 重置1个干员",
     onOut(G, ctx, self) {
