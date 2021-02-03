@@ -337,7 +337,7 @@ export const BOSSES = [
     is_boss: true,
     is_elite: true,
     enraged: true,
-    illust: "https://s3.ax1x.com/2020/12/13/rZ4mTJ.png",
+    illust: "https://dadiaogames.gitee.io/images/imagebed/bigbob.png",
     desc: <span>愤怒，超杀: 失去1点费用<br/>摧毁: 获得15分</span>,
     onFight(G, ctx, self, card) {
       if (card.dmg > card.hp) {

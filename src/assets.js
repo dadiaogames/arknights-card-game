@@ -1,5 +1,5 @@
 export const result_images = [
-  ["https://s3.ax1x.com/2020/12/01/DWcVIO.jpg", 75358644],
+  ["https://dadiaogames.gitee.io/images/imagebed/roguelike_ascension.jpg", 75358644],
   // ["https://s3.ax1x.com/2020/12/01/DWcVIO.jpg", 75358644],
   // ["https://s3.ax1x.com/2020/12/01/DWceiD.jpg", 75576391],
 ];
