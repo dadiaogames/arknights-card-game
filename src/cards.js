@@ -2872,7 +2872,7 @@ export const CARDS = [
   },
   {
     name:"卡夫卡",
-    cost:3,
+    cost:2,
     atk:2,
     hp:1,
     mine:2,
