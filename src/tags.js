@@ -3,10 +3,10 @@ import { addBoss, enemy2card } from "./Game";
 const tag_list = [
   {
     src: "http://prts.wiki/images/d/d3/Enemy_def_1.png",
-    desc: "胜利所需的分数+4",
+    desc: "胜利所需的分数+3",
     level: 1,
     effect(G, ctx) {
-      G.goal += 4
+      G.goal += 3;
     }
   },
   {
@@ -231,12 +231,12 @@ const tag_list = [
   
   {
     src: "http://prts.wiki/images/6/6c/Enemy_attackradius_1.png",
-    desc: "胜利所需分数+10",
+    desc: "胜利所需分数+12",
     level: 3,
     standard_level: 2,
     stackable: true,
     effect(G, ctx){
-      G.goal += 10;
+      G.goal += 12;
     }
   },
 
