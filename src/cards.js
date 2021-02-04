@@ -154,20 +154,20 @@ export const CARDS = [
     reinforce_desc: "<+1>",
   },
 
-  {
-    name: "12F",
-    cost: 5,
-    atk: 6,
-    hp: 4,
-    mine: 5,
-    block: 0,
-    illust: "http://prts.wiki/images/6/61/%E7%AB%8B%E7%BB%98_12F_1.png",
-    reinforce: 2,
-    onReinforce(G, ctx, self) {
-      self.mine += 1;
-    },
-    reinforce_desc: "<+1>",
-  },
+  // {
+  //   name: "12F",
+  //   cost: 5,
+  //   atk: 6,
+  //   hp: 4,
+  //   mine: 5,
+  //   block: 0,
+  //   illust: "http://prts.wiki/images/6/61/%E7%AB%8B%E7%BB%98_12F_1.png",
+  //   reinforce: 2,
+  //   onReinforce(G, ctx, self) {
+  //     self.mine += 1;
+  //   },
+  //   reinforce_desc: "<+1>",
+  // },
   
   {
     name: "巡林者",
@@ -616,9 +616,9 @@ export const CARDS = [
     block:1, 
     illust:"http://prts.wiki/images/c/c5/%E7%AB%8B%E7%BB%98_%E6%85%95%E6%96%AF_1.png",
     reinforce: 1,
-    desc: "战斗: 使目标攻击力-5",
+    desc: "战斗: 使目标攻击力-4",
     onFight(G, ctx, self, enemy) {
-      enemy.atk -= 5;
+      enemy.atk -= 4;
     },
     onReinforce(G, ctx, self) {
       self.atk += 3;
@@ -1142,7 +1142,7 @@ export const CARDS = [
     name:"塞雷娅",
     cost:4,
     atk:4,
-    hp:10,
+    hp:9,
     mine:2,
     block:2,
     desc: "行动: 本回合剩余时间内，使用其他干员战斗时，重置1个订单",
@@ -1778,7 +1778,7 @@ export const CARDS = [
     cost:2,
     atk:4,
     hp:2,
-    mine:1,
+    mine:0,
     block:0,
     desc:"行动: 本回合剩余时间内，干员的\"超杀:\"效果将额外触发1次",
     illust:"http://prts.wiki/images/3/3e/%E7%AB%8B%E7%BB%98_%E5%AE%89%E6%AF%94%E5%B0%94_1.png",
@@ -1886,7 +1886,7 @@ export const CARDS = [
     desc:"部署/采掘/战斗: 造成1点伤害，重复3次",
     illust:"http://prts.wiki/images/3/3d/%E7%AB%8B%E7%BB%98_%E5%88%BB%E4%BF%84%E6%9F%8F_1.png",
     onPlay(G, ctx, self) {
-      for (let i=0; i<(3+3*self.power); i++) {
+      for (let i=0; i<(3+2*self.power); i++) {
         deal_random_damage(G, ctx, 1);
       }
     },
@@ -1903,7 +1903,7 @@ export const CARDS = [
       this.onPlay(G, ctx, self);
     },
     reinforce: 1,
-    reinforce_desc: "再重复3次",
+    reinforce_desc: "再重复2次",
   },
 
  
