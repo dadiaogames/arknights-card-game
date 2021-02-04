@@ -167,12 +167,12 @@ export const ENEMIES = [
 
   {
     name: "乌萨斯刁民",
-    atk: -20,
-    hp: 6,
+    atk: -3,
+    hp: 10,
     illust: "http://prts.wiki/images/3/35/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E4%B9%8C%E8%90%A8%E6%96%AF%E5%B9%B3%E6%B0%91.png",
-    desc: "摧毁: 获得3点费用",
+    desc: "摧毁: 获得2点费用",
     onOut(G, ctx) {
-      G.costs += 3;
+      G.costs += 2;
     }
   },
   {
@@ -309,22 +309,22 @@ export const ENEMIES = [
     }
   },
 
-  {
-    name: "狂暴宿主组长",
-    atk: -2,
-    hp: 6,
-    is_elite: true,
-    illust: "http://prts.wiki/images/e/ec/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%8B%82%E6%9A%B4%E5%AE%BF%E4%B8%BB%E6%8E%B7%E9%AA%A8%E6%89%8B.png",
-    desc: "替换，摧毁: 胜利所需分数+4",
-    onOut(G, ctx, self) {
-      G.goal += 4;
-    },
-    // onTurnBegin(G, ctx, self) {
-    //   if (self.atk <= 0) {
-    //     self.atk = 1;
-    //   }
-    // }
-  },
+  // {
+  //   name: "狂暴宿主组长",
+  //   atk: -2,
+  //   hp: 6,
+  //   is_elite: true,
+  //   illust: "http://prts.wiki/images/e/ec/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E7%8B%82%E6%9A%B4%E5%AE%BF%E4%B8%BB%E6%8E%B7%E9%AA%A8%E6%89%8B.png",
+  //   desc: "替换，摧毁: 胜利所需分数+4",
+  //   onOut(G, ctx, self) {
+  //     G.goal += 4;
+  //   },
+  //   // onTurnBegin(G, ctx, self) {
+  //   //   if (self.atk <= 0) {
+  //   //     self.atk = 1;
+  //   //   }
+  //   // }
+  // },
 
 
 ];
