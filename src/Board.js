@@ -1439,7 +1439,7 @@ export class Board extends React.Component {
             if (this.props.ctx.gameover) {
               this.end_game();
             }
-            // this.props.moves.rest();
+            this.props.moves.rest();
             this.props.moves.enemyInit();
             this.enemy_move(-this.props.G.num_enemies_out);
           }}

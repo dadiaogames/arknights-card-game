@@ -576,7 +576,7 @@ export function rest(G, ctx) {
   let num_rest_cards = rest_cards.length;
 
   for (let i=0; i<num_rest_cards; i++) {
-      draw(G, ctx);
+      // draw(G, ctx);
       G.costs += 1;
   }
 
