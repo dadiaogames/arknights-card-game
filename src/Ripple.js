@@ -17,7 +17,7 @@ export function Ripple(props) {
     ...ripple_style,
     ...props.variants, // Here, "variants" for additional styles and "variant" for one type of style, but maybe "type" is more prefered than "variant"
     transform: "scale(0)",
-    opacity: 0.7,
+    opacity: 0.5,
   };
   let to_state = [{
     opacity: 0,
@@ -35,7 +35,7 @@ export function Ripple(props) {
         props.setPlaying(false);
       }
     },
-    config: {duration: 240},
+    config: {duration: 200},
   });
    return <animated.div 
       className="ripple" 
