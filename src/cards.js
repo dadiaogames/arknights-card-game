@@ -1278,6 +1278,7 @@ export const CARDS = [
           let card = choice(ctx, G.field.filter(x => x.onPlay && x.name != "极境"));
           if (card) {
             card.onPlay(G, ctx, card);
+            logMsg(G, ctx, `触发 ${card.name} 的部署效果`);
           }
           else {
             logMsg(G, ctx, "没有合适的干员触发");
@@ -2988,6 +2989,9 @@ export const CARDS = [
       if (player) {
         player.onPlay(G, ctx, player);
         logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
+      }
+      else {
+        logMsg(G, ctx, "没有合适的干员触发");
       }
     },
     onReinforce(G, ctx, self) {
