@@ -1051,7 +1051,7 @@ export function refresh_picks(G, ctx) {
     let scorer_name = choice(ctx, pick_scorers);
     let scorer = G.CARDS.find(x => x.name == scorer_name);
     if (scorer) {
-      G.picks[2] = {...scorer};
+      G.picks[2] = {...scorer, material: ctx.random.Die(3)-1};
     }
   }
 
