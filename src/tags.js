@@ -291,7 +291,7 @@ const tag_list = [
     level: 5,
     challenge: true,
     stackable: true,
-    standard_level: 5,
+    // standard_level: 5,
     effect(G, ctx) {
       G.goal += 18;
     }
