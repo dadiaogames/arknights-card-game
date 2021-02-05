@@ -30,6 +30,8 @@ export const classes = {
 // 蛇屠箱 0 2
 // 清流 0 2`;
 
+export const pick_scorers = "阿米娅 阿消 崖心 雪雉 铃兰 酸糖 普罗旺斯 煌".split(" ");
+
 const cost_vanguard =  `极境 1 2
 香草 1 1
 讯使 1 1

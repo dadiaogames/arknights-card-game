@@ -4,7 +4,7 @@ import { CARDS } from "./cards";
 import { BOSSES, ENEMIES } from "./enemies";
 import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
-import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1, solver_core, scorer_core } from './DeckGenerator';
+import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1, solver_core, scorer_core, pick_scorers } from './DeckGenerator';
 import { arr2obj, mod_slice, PRNG } from "./utils";
 import { ICONS, food_icons } from "./icons";
 import { ALTER_ARTS } from "./alters";
@@ -1045,10 +1045,20 @@ export function pick(G, ctx, idx) {
 export function refresh_picks(G, ctx) {
   // G.picks = ctx.random.Shuffle(G.deck).slice(0, 5);
   G.picks = mod_slice(G.another_deck, G.round_num*5, 5);
+
+  // Add scorer every turn after T3 to ensure there is a scorer to focus on
+  if (G.round_num >= 3) {
+    let scorer_name = choice(ctx, pick_scorers);
+    let scorer = G.CARDS.find(x => x.name == scorer_name);
+    if (scorer) {
+      G.picks[2] = {...scorer};
+    }
+  }
+
   let add_price = (pick, idx) => {
     let price = [0, 0, 0, 0];
     let requirement = ctx.random.Die(3) - 1;
-    price[requirement] = [1,1,1,2,3][idx] || 1;
+    price[requirement] = [1,1,1,2,2][idx] || 1;
     return {...pick, price};
   }
   G.picks = G.picks.map(add_price);
