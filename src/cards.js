@@ -3492,9 +3492,10 @@ export const CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      deal_random_damage(G, ctx, 3);
+      self.atk += 1;
+      self.hp += 1;
     },
-    reinforce_desc: "造成3点伤害",
+    reinforce_desc: "+1/+1",
   },
 
  
