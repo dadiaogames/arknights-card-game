@@ -295,10 +295,10 @@ export const CARDS = [
 
   {
     name:"讯使", 
-    cost:3, 
+    cost:2, 
     atk:3, 
     hp:3, 
-    mine:1, 
+    mine:2, 
     block:1, 
     desc:"采掘: 获得2点费用", 
     illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E8%AE%AF%E4%BD%BF_1.png",
