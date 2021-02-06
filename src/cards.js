@@ -599,12 +599,16 @@ export const CARDS = [
     block:1,
     desc: "采掘: 获得+3/+3",
     illust:"http://prts.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E6%9F%8F%E5%96%99_1.png",
-    reinforce: 2,
+    reinforce: 1,
     onMine(G, ctx, self) {
-      self.atk += 3 + 2 * self.power;
-      self.hp += 3 + 2 * self.power;
+      self.atk += 3;
+      self.hp += 3;
     },
-    reinforce_desc: "再获得+2/+2",
+    reinforce_desc: "+2/+2",
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
   },
 
   {
@@ -2917,7 +2921,7 @@ export const CARDS = [
   {
     name:"薄绿",
     cost:2,
-    atk:2,
+    atk:3,
     hp:2,
     mine:2,
     block:0,
