@@ -366,7 +366,7 @@ function finishOrder(G, ctx, idx) {
     logMsg(G, ctx, "完成订单");
     // sort_orders(G);
 
-    if ([4,9].includes(G.finished.length)) {
+    if ([5,10].includes(G.finished.length)) {
       G.orders.map(price_up);
       G.odeck.map(price_up);
     }
