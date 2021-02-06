@@ -94,7 +94,7 @@ function move_on(S) {
 
 function init_tags_S2(S) {
   let tags = reset_tags();
-  let basic_tags = tags.slice(0, 12);
+  let basic_tags = tags.slice(0, 15);
   let repeat_tags = tags.filter(t => t.stackable).flatMap(t => _.times(3, ()=>({...t})));
   let remained_tags = S.rng.shuffle(tags.filter(t => (!basic_tags.includes(t)) && t.level > 0));
   let init_added_tags = remained_tags.filter(t => (t.standard_level <= 3));
@@ -259,6 +259,7 @@ function set_difficulty_S2(S, difficulty) {
   }
 
   if (difficulty == "hard") {
+    S.tags[12].locked = true; // EH: This is redundant, get "set standard tags" out
     for (let t of S.tags) {
       if (t.standard_level == 3) {
         t.locked = true;

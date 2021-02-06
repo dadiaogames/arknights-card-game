@@ -233,12 +233,12 @@ export class Board extends React.Component {
       if ((current_standard_level >= 2) && [4,6,9].includes(new_tags.indexOf(tag))) {
         tag.selected = true;
       }
-      if ((current_standard_level >= 4) && [1,5,7,8].includes(new_tags.indexOf(tag))) {
+      if ((current_standard_level >= 3) && [12].includes(new_tags.indexOf(tag))) {
         tag.selected = true;
       }
-      // if ((current_standard_level >= 5) && [1,2,5].includes(new_tags.indexOf(tag))) {
-        // tag.selected = true;
-      // }
+      if ((current_standard_level >= 4) && [1,2,5,7,8].includes(new_tags.indexOf(tag))) {
+        tag.selected = true;
+      }
     }
 
     if (this.state.competition_mode) {

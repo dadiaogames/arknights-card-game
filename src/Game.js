@@ -270,7 +270,7 @@ function play(G, ctx, idx) {
     // move(G, ctx, "hand", "field", idx);
     // init_card_state(G, ctx, card);
     G.hand.splice(idx, 1);
-    logMsg(G, ctx, `部署 ${card.name}(剩余部署位: ${G.field_limit-G.field.length})`);
+    logMsg(G, ctx, `部署 ${card.name}(剩余部署位: ${G.field_limit-G.field.length-1})`);
     let inserted = play_card(G, ctx, card); // EH: What a strange abstraction, this should be changed
     if (inserted) {
       for (let f of G.onPlayCard) {
@@ -987,7 +987,7 @@ export function setup_scenario(G, ctx) {
     G.goal = 15;
     G.max_danger = 8;
     G.num_enemies_out = 2;
-    G.field_limit = 8;
+    G.field_limit = 7;
 
     G.relics = [];
     G.extra_gain = 0;

@@ -38,10 +38,21 @@ const tag_list = [
     }
   },
   {
+    src: "http://prts.wiki/images/c/c6/Global_forbidloc_1.png",
+    desc: "可同时部署的干员数-1",
+    level: 1,
+    challenge: true,
+    unstackable: true,
+    extra_challenge: true,
+    effect(G, ctx){
+      G.field_limit -= 1;
+    }
+  },
+  {
     src: "http://prts.wiki/images/7/71/Level_predefines_1.png",
     desc: "敌方牌库减少40%的牌",
     level: 2,
-    standard_level: 4,
+    standard_level: 3,
     unstackable: true,
     extra_challenge: true,
     effect(G, ctx) {
@@ -88,7 +99,7 @@ const tag_list = [
     desc: "强化干员需要消耗1点费用",
     level: 2,
     challenge: true,
-    standard_level: 4,
+    // standard_level: 4,
     effect(G, ctx) {
       // for (let card of G.deck) {
       //   card.reinforce += 1;
@@ -155,18 +166,18 @@ const tag_list = [
   //     }
   //   }
   // },
-  {
-    src: "http://prts.wiki/images/4/46/Global_forbidloc_2.png",
-    desc: "可同时部署的干员数-3",
-    level: 3,
-    challenge: true,
-    unstackable: true,
-    extra_challenge: true,
-    standard_level: 5,
-    effect(G, ctx){
-      G.field_limit -= 3;
-    }
-  },
+  // {
+  //   src: "http://prts.wiki/images/4/46/Global_forbidloc_2.png",
+  //   desc: "可同时部署的干员数-3",
+  //   level: 3,
+  //   challenge: true,
+  //   unstackable: true,
+  //   extra_challenge: true,
+  //   standard_level: 5,
+  //   effect(G, ctx){
+  //     G.field_limit -= 3;
+  //   }
+  // },
   {
     src: "http://prts.wiki/images/e/eb/Global_pcharnum_2.png",
     desc: "所有订单的分数-1",
@@ -202,6 +213,7 @@ const tag_list = [
     challenge: true,
     stackable: true,
     advance: true,
+    standard_level: 4,
     effect(G, ctx) {
       G.num_enemies_out += 1;
     }
@@ -246,7 +258,7 @@ const tag_list = [
     src: "http://prts.wiki/images/4/40/Enemy_hirman_2.png",
     desc: "3回合后，所有敌人获得+5/+5",
     level: 3,
-    standard_level: 3,
+    // standard_level: 3,
     effect(G, ctx){
       G.reinforceOnR4 = true;
     }
