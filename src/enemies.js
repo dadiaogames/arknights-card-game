@@ -361,7 +361,9 @@ export const BOSSES = [
       let card = G.field[G.field.length-1];
       if (card) {
         card.dmg += self.atk;
-        clearField(G, ctx, "field");
+        if (card.dmg > card.hp) {
+          G.field = G.field.filter(x => x != card)
+        }
       }
     },
     onOut(G, ctx) {
