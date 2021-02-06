@@ -1214,6 +1214,27 @@ export const CARDS = [
       deal_random_damage(G, ctx, 3);
     },
   },
+  {
+    name:"白金",
+    cost:3,
+    atk:5,
+    hp:2,
+    mine:1,
+    block:0,
+    desc: "超杀: 横置1个订单，重置1个干员",
+    illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%87%91_1.png",
+    reinforce: 1,
+    reinforce_desc: "+2/+1",
+    onFight(G, ctx, self, enemy) {
+      if (enemy.dmg > enemy.hp && exhaust_order(G, ctx)) {
+        ready_random_card(G, ctx, self);
+      }
+    },
+    onReinforce(G, ctx, self){
+      self.atk += 2;
+      self.hp += 1;
+    },
+  },
 {
     name:"豆苗",
     cost:2,
@@ -1708,8 +1729,8 @@ export const CARDS = [
         let score_gained = Math.floor(delta / 2);
         G.score += score_gained;
         logMsg(G, ctx, `使用 ${self.name} 获得${score_gained}分`);
-        if (score_gained >= 60) {
-          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少60分", self);
+        if (score_gained >= 30) {
+          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少30分", self);
         }
       }
     },
