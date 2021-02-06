@@ -60,7 +60,7 @@ export const DeckGeneration = (props) => {
           onClick={props.changeName} 
           className="deck-construction-util-button"
         >
-          换个随机名字
+          换个卡组
         </button>
         <button
           onClick={props.checkDeck} 

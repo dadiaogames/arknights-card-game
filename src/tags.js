@@ -247,7 +247,7 @@ const tag_list = [
     src: "http://prts.wiki/images/6/6c/Enemy_attackradius_1.png",
     desc: "胜利所需分数+12",
     level: 3,
-    standard_level: 2,
+    standard_level: 4,
     stackable: true,
     effect(G, ctx){
       G.goal += 12;

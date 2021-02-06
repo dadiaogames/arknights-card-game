@@ -17,7 +17,7 @@ import { CARDS, default_deck, default_filter, FILTERS } from './cards';
 import { order_illust, rhine_illust, material_icons } from './orders';
 import { ICONS } from './icons';
 import { TAGS } from './tags';
-import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop, RoguelikeEntry, RoguelikeDeckSelection, Roguelike, ResultWin, ResultLose, FinalResult, get_gold_gained, Relics, Weekly } from './Roguelike';
+import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop, RoguelikeEntry, RoguelikeDeckSelection, Roguelike, ResultWin, ResultLose, FinalResult, get_gold_gained, Relics, Weekly, choose_standard_tags } from './Roguelike';
 import { RULES } from './rules';
 
 import 'react-tabs/style/react-tabs.css';
@@ -127,7 +127,6 @@ export class Board extends React.Component {
     this.change_board = this.change_board.bind(this);
     this.reset_preview_deck = this.reset_preview_deck.bind(this);
     this.choose_tag = this.choose_tag.bind(this);
-    this.choose_standard_tags = this.choose_standard_tags.bind(this);
     this.get_risk_level = this.get_risk_level.bind(this);
     this.enter_game = this.enter_game.bind(this);
     this.check_deck = this.check_deck.bind(this);
@@ -220,37 +219,7 @@ export class Board extends React.Component {
     };
   }
 
-  choose_standard_tags(tags, current_standard_level) {
-    let new_tags = [...tags];
-    // let current_standard_level = this.state.standard_level + 1;
-    for (let tag of new_tags) {
-      if (tag.standard_level <= current_standard_level) {
-        tag.selected = true;
-      }
-      if ((current_standard_level >= 1) && [0,3].includes(new_tags.indexOf(tag))) {
-        tag.selected = true;
-      }
-      if ((current_standard_level >= 2) && [4,6,9].includes(new_tags.indexOf(tag))) {
-        tag.selected = true;
-      }
-      if ((current_standard_level >= 3) && [12].includes(new_tags.indexOf(tag))) {
-        tag.selected = true;
-      }
-      if ((current_standard_level >= 4) && [1,2,5,7,8].includes(new_tags.indexOf(tag))) {
-        tag.selected = true;
-      }
-    }
-
-    if (this.state.competition_mode) {
-      for (let tag of new_tags) {
-        if (tag.selected) {
-          tag.locked = true;
-        }
-      }
-    }
-
-    return new_tags;
-  }
+  
 
   get_risk_level() {
     let selected_tags = this.state.tags.filter(t => (t.selected || t.locked));
@@ -1087,7 +1056,7 @@ export class Board extends React.Component {
       // preview_deck: this.props.G.Deck,
       results: [],
     });
-    this.setState({tags: this.choose_standard_tags(TAGS.map(x=>({...x})), 3)});
+    this.setState({tags: choose_standard_tags(TAGS.map(x=>({...x})), 3)});
     this.change_board("competition");
   }
 
@@ -1598,7 +1567,7 @@ export class Board extends React.Component {
     let actions = {
       进入游戏: () => this.change_board("deck"),
       快速设置: () => this.setState({
-        tags: this.choose_standard_tags(this.state.tags, this.state.standard_level+1),
+        tags: choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),
       // 其他模式: () => this.change_board('mode_selection'),

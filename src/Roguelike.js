@@ -118,9 +118,41 @@ function reduce_basic_tags(tags, rng) {
   return [...tags.slice(0,6), ...rng.shuffle(tags.slice(6)).slice(0,6).sort((t1,t2) => tags.indexOf(t1)-tags.indexOf(t2))];
 }
 
+export function choose_standard_tags(tags, current_standard_level) {
+    let new_tags = [...tags];
+    // let current_standard_level = this.state.standard_level + 1;
+    for (let tag of new_tags) {
+      if (tag.standard_level <= current_standard_level) {
+        tag.selected = true;
+      }
+      if ((current_standard_level >= 1) && [0,3].includes(new_tags.indexOf(tag))) {
+        tag.selected = true;
+      }
+      if ((current_standard_level >= 2) && [1,2,4,6,9,12].includes(new_tags.indexOf(tag))) {
+        tag.selected = true;
+      }
+      if ((current_standard_level >= 3) && [13].includes(new_tags.indexOf(tag))) {
+        tag.selected = true;
+      }
+      if ((current_standard_level >= 4) && [7,8].includes(new_tags.indexOf(tag))) {
+        tag.selected = true;
+      }
+    }
+
+    // if (this.state.competition_mode) {
+    //   for (let tag of new_tags) {
+    //     if (tag.selected) {
+    //       tag.locked = true;
+    //     }
+    //   }
+    // }
+
+    return new_tags;
+}
+
 function setup_normal_challenge(tags, rng) {
   for (let t of tags) {
-    if (t.standard_level <= 2 || [0,3,4,6,9].includes(tags.indexOf(t))) {
+    if (t.standard_level <= 2 || [0,1,2,3,4,6,9,12].includes(tags.indexOf(t))) {
       t.locked = true;
     }
   }
@@ -160,12 +192,13 @@ function setup_daily_tags(S) {
 
 function setup_weekly_tags(S) {
   let tags = reset_tags();
-  for (let t of tags) {
-    if (t.standard_level <= 2 || [0,3,4,6,9].includes(tags.indexOf(t))) {
-      t.locked = true;
-    }
-  }
-  S.tags = tags;
+  // for (let t of tags) {
+  //   if (t.standard_level <= 2 || [0,3,4,6,9].includes(tags.indexOf(t))) {
+  //     t.locked = true;
+  //   }
+  // }
+  S.tags = choose_standard_tags(tags, 2);
+  S.tags.map(t => {if (t.selected) t.locked = true;});
 }
 
 function enter_daily_mode(S) {
@@ -240,38 +273,42 @@ function set_difficulty(S, difficulty) {
 function set_difficulty_S2(S, difficulty) {
   S.difficulty = difficulty;
 
-  S.levels = [18, 22, 26, 30, 36, 42, 48, 55, 70];
+  S.levels = [8, 12, 16, 20, 25, 30, 35, 40, 50];
 
-  if (difficulty == "easy") {
-    S.levels = [8, 12, 16, 20, 25, 30, 35, 40, 50];
+  if (difficulty == "medium") {
+    S.levels = [18, 22, 26, 30, 36, 42, 48, 55, 70];
+    S.tags = choose_standard_tags(S.tags, 2);
   }
 
   if (difficulty == "hard") {
     // S.levels = [25, 30, 35, 40, 50, 60, 70, 80, 100];
     // S.levels = [22, 27, 32, 38, 45, 52, 60, 70, 90];
     S.levels = [24, 28, 32, 36, 40, 50, 60, 70, 90];
+    S.tags = choose_standard_tags(S.tags, 3);
   }
 
-  if (["medium", "hard"].includes(difficulty)) {
-    for(let tag_idx of [0,3,4,6,9]) {
-      S.tags[tag_idx].locked = true;
-    }
-  }
+  // if (["medium", "hard"].includes(difficulty)) {
+  //   for(let tag_idx of [0,3,4,6,9]) {
+  //     S.tags[tag_idx].locked = true;
+  //   }
+  // }
 
-  if (difficulty == "hard") {
-    S.tags[12].locked = true; // EH: This is redundant, get "set standard tags" out
-    for (let t of S.tags) {
-      if (t.standard_level == 3) {
-        t.locked = true;
-      }
-    }
-  }
+  // if (difficulty == "hard") {
+  //   S.tags[12].locked = true; // EH: This is redundant, get "set standard tags" out
+  //   for (let t of S.tags) {
+  //     if (t.standard_level == 3) {
+  //       t.locked = true;
+  //     }
+  //   }
+  // }
 
-  if (difficulty == "easy") {
-    for (let tag of S.tags) {
-      tag.locked = false;
-    }
-  }
+  // if (difficulty == "easy") {
+  //   for (let tag of S.tags) {
+  //     tag.locked = false;
+  //   }
+  // }
+
+  S.tags.map(t => {if (t.selected) t.locked = true;});
 
   S.level_required = S.levels[0];
 }

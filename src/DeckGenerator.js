@@ -650,32 +650,33 @@ export function generate_deck_s2(deck_name) {
   let rng = new PRNG(deck_name);
 
   // Basic deck
-  deck = [...deck, ...deck_from_strategy(cost_vanguard, 6, rng)];
-  deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
-  deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 4, rng)];
+  deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
+  // deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
+  // deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
   deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
 
   // Strategy deck
-  deck = [...deck, ...deck_from_mini_sets(12, rng)];
+  // deck = [...deck, ...deck_from_mini_sets(12, rng)];
+  deck = [...deck, ...deck_from_mini_sets(8, rng)];
 
   // Let diff goes
   // console.log("deck before", deck);
   deck = deck.map(select_one_card(rng));
   // console.log("deck after", deck);
 
-  // No more than 3
+  // No more than 2
   let deck_dict = deck.reduce((acc, val) => ({...acc, [val]: (acc[val]+1)||1}), {})
   for (let card in deck_dict) {
-    if (deck_dict[card] > 3) {
-      deck_dict[card] = 3;
+    if (deck_dict[card] > 2) {
+      deck_dict[card] = 2;
     }
   }
   deck = Object.keys(deck_dict).reduce((acc, val) => [...acc, ..._.times(deck_dict[val], ()=>val)], [])
 
   // Random cards
-  let amount_add = 30 - deck.length;
+  let amount_add = 20 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }
