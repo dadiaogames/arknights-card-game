@@ -94,19 +94,19 @@ const tag_list = [
       G.moreEnemiesOnR3 = true;
     }
   },
-{
-    src: "http://prts.wiki/images/c/c7/Global_costrecovery_1.png",
-    desc: "强化干员需要消耗1点费用",
-    level: 2,
-    challenge: true,
-    // standard_level: 4,
-    effect(G, ctx) {
-      // for (let card of G.deck) {
-      //   card.reinforce += 1;
-      // }
-      G.reinforce_need_cost = true;
-    }
-  },
+// {
+//     src: "http://prts.wiki/images/c/c7/Global_costrecovery_1.png",
+//     desc: "强化干员需要消耗1点费用",
+//     level: 2,
+//     challenge: true,
+//     // standard_level: 4,
+//     effect(G, ctx) {
+//       // for (let card of G.deck) {
+//       //   card.reinforce += 1;
+//       // }
+//       G.reinforce_need_cost = true;
+//     }
+//   },
 
   
 
