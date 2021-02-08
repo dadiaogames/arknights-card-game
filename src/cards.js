@@ -2702,17 +2702,17 @@ export const CARDS = [
     block:0,
     desc: "采掘: 摸2张牌",
     illust:"http://prts.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
-    reinforce: 2,
     onMine(G, ctx, self) {
       draw(G, ctx);
       draw(G, ctx);
     },
-    reinforce_desc: "摸3张牌",
-    onReinforce(G, ctx) {
-      for (let i=0; i<3; i++) {
-        draw(G, ctx);
-      }
-    }
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      cure(G, ctx, 6);
+    },
+    reinforce_desc: "治疗1个干员的6点伤害",
+
+
   },
 
   {
@@ -2905,7 +2905,7 @@ export const CARDS = [
     block:1,
     desc: "部署: 如果场上干员数量多于敌人，则获得6分",
     illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E5%A4%AB%E5%8D%A1_1.png",
-    reinforce: 1,
+    reinforce: 2,
     onPlay(G, ctx, self) {
       if (G.field.length > G.efield.length) {
         G.score += 6;
