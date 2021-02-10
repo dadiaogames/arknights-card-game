@@ -189,7 +189,7 @@ export function eliminate_field(G, ctx, user) {
 
 export function draw(G, ctx) {
   // First, check the limit
-  if (G.hand.length >= 12) {
+  if (G.hand.length >= G.hand_limit) {
     logMsg(G, ctx, "手牌数已达到上限");
     return;
   }
@@ -988,6 +988,7 @@ export function setup_scenario(G, ctx) {
     G.max_danger = 8;
     G.num_enemies_out = 2;
     G.field_limit = 8;
+    G.hand_limit = 8;
 
     G.relics = [];
     G.extra_gain = 0;

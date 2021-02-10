@@ -2637,10 +2637,10 @@ export const CARDS = [
   
   {
     name:"断罪者",
-    cost:4,
-    atk:4,
-    hp:3,
-    mine:2,
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:1,
     block:1,
     desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
     illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%96%AD%E7%BD%AA%E8%80%85_1.png",
