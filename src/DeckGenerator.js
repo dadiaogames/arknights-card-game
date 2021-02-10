@@ -32,6 +32,8 @@ export const classes = {
 
 export const pick_scorers = "阿米娅 阿消 崖心 雪雉 酸糖 煌 凯尔希 苏苏洛".split(" ");
 
+export const pick_vanguards = "极境 讯使 香草 桃金娘 豆苗 惊蛰 推进之王".split(" ");
+
 const cost_vanguard =  `极境 1 2
 香草 1 1
 讯使 1 1

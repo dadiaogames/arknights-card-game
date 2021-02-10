@@ -4,7 +4,7 @@ import { CARDS } from "./cards";
 import { BOSSES, ENEMIES } from "./enemies";
 import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
-import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1, solver_core, scorer_core, pick_scorers } from './DeckGenerator';
+import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1, solver_core, scorer_core, pick_scorers, pick_vanguards } from './DeckGenerator';
 import { arr2obj, mod_slice, PRNG } from "./utils";
 import { ICONS, food_icons } from "./icons";
 import { ALTER_ARTS } from "./alters";
@@ -1046,14 +1046,14 @@ export function refresh_picks(G, ctx) {
   // G.picks = ctx.random.Shuffle(G.deck).slice(0, 5);
   G.picks = mod_slice(G.another_deck, G.round_num*5, 5);
 
-  // Add scorer every turn after T3 to ensure there is a scorer to focus on
-  if (G.round_num >= 3) {
-    let scorer_name = choice(ctx, pick_scorers);
-    let scorer = G.CARDS.find(x => x.name == scorer_name);
-    if (scorer) {
-      G.picks[2] = {...scorer, material: ctx.random.Die(3)-1};
-    }
+  // Add special card every turn to ensure there is a required card in that stage
+  // if (G.round_num >= 3) {
+  let special_card_name = choice(ctx, (G.round_num >= 3)? pick_scorers : pick_vanguards);
+  let special_card = G.CARDS.find(x => x.name == special_card_name);
+  if (special_card) {
+    G.picks[2] = {...special_card, material: ctx.random.Die(3)-1};
   }
+  // }
 
   let add_price = (pick, idx) => {
     let price = [0, 0, 0, 0];
