@@ -2903,12 +2903,12 @@ export const CARDS = [
     hp:1,
     mine:2,
     block:1,
-    desc: "部署: 如果场上干员数量多于敌人，则获得6分",
+    desc: "部署: 如果场上干员数量多于敌人，则获得5分",
     illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E5%A4%AB%E5%8D%A1_1.png",
     reinforce: 2,
     onPlay(G, ctx, self) {
       if (G.field.length > G.efield.length) {
-        G.score += 6;
+        G.score += 5;
       }
     },
     onReinforce(G, ctx, self) {
