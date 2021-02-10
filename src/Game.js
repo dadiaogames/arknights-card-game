@@ -333,9 +333,9 @@ function sort_orders(orders) {
 //   });
 // }
 
-// function sort_finished(G) {
-//   G.finished = G.finished.sort((x,y)=>(x.order_id-y.order_id));
-// }
+function sort_finished(G) {
+  G.finished = G.finished.sort((x,y)=>(x.order_id-y.order_id));
+}
 
 function price_up(order) {
   // let new_requirements = order.requirements;
@@ -1193,6 +1193,7 @@ export const AC = {
         refreshOrder(G, ctx);
         G.costs += 3;
         refresh_picks(G, ctx);
+        sort_finished(G, ctx);
 
         setup_events(G, ctx);
         setup_turn_states(G, ctx);
