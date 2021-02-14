@@ -1801,8 +1801,8 @@ export const CARDS = [
 
   {
     name:"安比尔",
-    cost:2,
-    atk:4,
+    cost:3,
+    atk:5,
     hp:2,
     mine:0,
     block:0,
@@ -2671,10 +2671,10 @@ export const CARDS = [
   },
   {
     name:"清流",
-    cost:3,
-    atk:0,
+    cost:2,
+    atk:3,
     hp:2,
-    mine:3,
+    mine:2,
     block:0,
     desc: "部署: 将弃牌堆中的所有牌返回手牌",
     illust:"http://prts.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
