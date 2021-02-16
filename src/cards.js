@@ -940,7 +940,7 @@ export const CARDS = [
   {
     name:"闪灵",
     cost:3,
-    atk:0,
+    atk:4,
     hp:3,
     mine:2,
     block:0,
@@ -1069,7 +1069,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       this.action(G, ctx);
     },
-    reinforce: 3,
+    reinforce: 2,
     reinforce_desc: "触发1次\"行动:\"效果",
   },
 
@@ -1191,7 +1191,7 @@ export const CARDS = [
   },
 {
     name:"松果",
-    cost:3,
+    cost:2,
     atk:2,
     hp:1,
     mine:1,
@@ -1213,9 +1213,9 @@ export const CARDS = [
       }
     },
     reinforce: 1,
-    reinforce_desc: "造成3点伤害",
+    reinforce_desc: "造成4点伤害",
     onReinforce(G, ctx, self){
-      deal_random_damage(G, ctx, 3);
+      deal_random_damage(G, ctx, 4);
     },
   },
   {

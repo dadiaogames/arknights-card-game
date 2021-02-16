@@ -669,7 +669,7 @@ export function generate_deck_s2(deck_name) {
 
   // Basic deck
   deck = [...deck, ...deck_from_strategy(cost_vanguard, 4, rng)];
-  deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
+  // deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
   // deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
   // deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
@@ -677,7 +677,7 @@ export function generate_deck_s2(deck_name) {
 
   // Strategy deck
   // deck = [...deck, ...deck_from_mini_sets(12, rng)];
-  deck = [...deck, ...deck_from_mini_sets(8, rng)];
+  deck = [...deck, ...deck_from_mini_sets(9, rng)];
 
   // Let diff goes
   // console.log("deck before", deck);

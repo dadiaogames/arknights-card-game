@@ -107,8 +107,17 @@ const tag_list = [
 //       G.reinforce_need_cost = true;
 //     }
 //   },
-
   
+{
+  src: "http://prts.wiki/images/c/cd/Global_tokencnt_2.png",
+  desc: "强化干员需要的材料数+1",
+  level: 2,
+  effect(G, ctx) {
+    for (let card of G.deck) {
+      card.reinforce += 1;
+    }
+  }
+},
 
   // {
   //   src: "http://prts.wiki/images/a/a0/Enemy_hp_2.png",
@@ -297,17 +306,17 @@ const tag_list = [
       G.goal += 10;
     }
   },
-  // {
-  //   src: "http://prts.wiki/images/f/f9/Enemy_diaman_2.png",
-  //   desc: "胜利所需分数+18",
-  //   level: 5,
-  //   challenge: true,
-  //   stackable: true,
-  //   // standard_level: 5,
-  //   effect(G, ctx) {
-  //     G.goal += 18;
-  //   }
-  // },
+  {
+    src: "http://prts.wiki/images/f/f9/Enemy_diaman_2.png",
+    desc: "胜利所需分数+18",
+    level: 5,
+    challenge: true,
+    // stackable: true,
+    // standard_level: 5,
+    effect(G, ctx) {
+      G.goal += 18;
+    }
+  },
 {
     src: "http://prts.wiki/images/f/f1/Enemy_buster_1.png",
     desc: "这个tag是送你的哦~",
