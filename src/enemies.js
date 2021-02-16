@@ -69,6 +69,7 @@ export const ENEMIES = [
       G.deck = G.deck.slice(1);
       if (new_card != undefined) {
         G.field.push(init_card_state(G, ctx, {...new_card}));
+        logMsg(G, ctx, `打出 ${new_card.name}`);
       }
     }
   },
@@ -170,9 +171,9 @@ export const ENEMIES = [
     atk: -3,
     hp: 10,
     illust: "http://prts.wiki/images/3/35/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E4%B9%8C%E8%90%A8%E6%96%AF%E5%B9%B3%E6%B0%91.png",
-    desc: "摧毁: 获得2点费用",
+    desc: "摧毁: 获得3点费用",
     onOut(G, ctx) {
-      G.costs += 2;
+      G.costs += 3;
     }
   },
   {
@@ -186,14 +187,14 @@ export const ENEMIES = [
     }
   },
   
-  {
-    name: "双持剑士",
-    atk: 2,
-    hp: 4,
-    illust: "http://prts.wiki/images/d/d8/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%8F%8C%E6%8C%81%E5%89%91%E5%A3%AB%E7%BB%84%E9%95%BF.png",
-    desc: "无法被横置",
-    unyielding: true,
-  },
+  // {
+  //   name: "双持剑士",
+  //   atk: 2,
+  //   hp: 4,
+  //   illust: "http://prts.wiki/images/d/d8/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E5%8F%8C%E6%8C%81%E5%89%91%E5%A3%AB%E7%BB%84%E9%95%BF.png",
+  //   desc: "无法被横置",
+  //   unyielding: true,
+  // },
 
   {
     name: "寻仇者",

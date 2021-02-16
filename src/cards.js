@@ -421,6 +421,7 @@ export const CARDS = [
       if (new_card) {
         G.field.splice(idx, 0, init_card_state(G, ctx, {...new_card}));
         // insert_field(G, ctx, new_card, idx);
+        logMsg(G, ctx, `打出 ${new_card.name}`);
       }
       if (new_card.name == "夜刀") {
         achieve(G, ctx, "特殊召唤", "使用风笛跳出夜刀", self);
