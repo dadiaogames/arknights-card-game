@@ -308,13 +308,13 @@ const tag_list = [
   },
   {
     src: "http://prts.wiki/images/f/f9/Enemy_diaman_2.png",
-    desc: "胜利所需分数+18",
+    desc: "胜利所需分数+20",
     level: 5,
     challenge: true,
     // stackable: true,
     // standard_level: 5,
     effect(G, ctx) {
-      G.goal += 18;
+      G.goal += 20;
     }
   },
 {
