@@ -118,7 +118,7 @@ function out(G, ctx, deck, idx) {
   let card = G[deck][idx];
   let discard = (deck == "field") ? "discard" : "ediscard";
   move(G, ctx, deck, discard, idx);
-  logMsg(G, ctx, `${card.name} 被摧毁`);
+  logMsg(G, ctx, `${card.name} 被摧毁${(deck=="efield")?"(+1分)":""}`);
   if (card.onOut) {
     card.onOut(G, ctx, card);
   }
@@ -780,6 +780,7 @@ export function clearField(G, ctx, field="field") {
     if (card.hp - card.dmg <= 0) {
       out(G, ctx, field, i);
       if (field == "efield") {
+        G.score += 1;
         for (let f of G.onEnemyOut) {
           f(G, ctx);
         }
