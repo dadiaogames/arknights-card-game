@@ -1190,7 +1190,10 @@ export const AC = {
         G.round_num += 1;
 
         refresh(G, ctx);
-        draw(G, ctx);
+        // draw(G, ctx);
+        if (G.deck.length > 0) {
+          G.hand.unshift(G.deck.pop());
+        } 
         refreshOrder(G, ctx);
         G.costs += 3;
         refresh_picks(G, ctx);
