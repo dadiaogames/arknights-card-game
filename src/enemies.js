@@ -169,11 +169,11 @@ export const ENEMIES = [
   {
     name: "乌萨斯刁民",
     atk: -3,
-    hp: 10,
+    hp: 4,
     illust: "http://prts.wiki/images/3/35/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E4%B9%8C%E8%90%A8%E6%96%AF%E5%B9%B3%E6%B0%91.png",
-    desc: "摧毁: 获得3点费用",
+    desc: "摧毁: 获得2点费用",
     onOut(G, ctx) {
-      G.costs += 3;
+      G.costs += 2;
     }
   },
   {
