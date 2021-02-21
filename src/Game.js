@@ -421,7 +421,7 @@ export function addBoss(G, ctx, boss_name) {
     boss.dmg = -98;
   }
   else {
-    boss.dmg = -19;
+    boss.dmg = -24;
   }
   G.efield.push(boss);
 }
