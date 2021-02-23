@@ -285,7 +285,7 @@ export const CARDS = [
     mine:1, 
     block:1, 
     desc:"战斗: 获得2点费用", 
-    illust:"http://prts.wiki/images/a/a0/%E7%AB%8B%E7%BB%98_%E9%A6%99%E8%8D%89_1.png",
+    illust:"https://dadiaogames.gitee.io/images/imagebed/vanilla.png",
     onFight(G, ctx, self) {
       G.costs += 2 + 1 * self.power;
     },
