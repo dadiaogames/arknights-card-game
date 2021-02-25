@@ -172,17 +172,17 @@ export const CARDS = [
   {
     name: "巡林者",
     cost: 5,
-    atk: 9,
+    atk: 10,
     hp: 4,
     mine: 3,
     block: 0,
     illust: "http://prts.wiki/images/c/c8/%E7%AB%8B%E7%BB%98_%E5%B7%A1%E6%9E%97%E8%80%85_1.png",
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.atk += 3;
-      self.hp += 1;
+      self.atk += 5;
+      self.hp += 2;
     },
-    reinforce_desc: "+3/+1",
+    reinforce_desc: "+5/+2",
   },
 
   {
