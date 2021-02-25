@@ -1501,7 +1501,7 @@ export const CARDS = [
   {
     name:"龙腾",
     was_enemy: true,
-    cost:2,
+    cost:3,
     atk:2,
     hp:3,
     mine:2,
