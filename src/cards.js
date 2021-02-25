@@ -3554,7 +3554,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc: "战斗: 将目标变成1/1并失去所有能力",
+    desc: "战斗: 将目标变成1/1并将其沉默",
     illust:"http://prts.wiki/images/7/75/%E7%AB%8B%E7%BB%98_%E6%8B%89%E6%99%AE%E5%85%B0%E5%BE%B7_1.png",
     reinforce: 2,
 
