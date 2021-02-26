@@ -5,7 +5,7 @@ export const result_images = [
 ];
 
 // export const lose_image = "https://s3.ax1x.com/2020/12/01/DWcmJe.png";
-export const lose_image = "http://prts.wiki/images/3/3d/%E6%94%B6%E8%97%8F%E5%93%81_177.png";
+export const lose_image = "https://i.postimg.cc/5979BHJb/img-cards-74.png";
 
 export const relic_images = [
   'http://prts.wiki/images/c/cf/%E6%94%B6%E8%97%8F%E5%93%81_1.png',
