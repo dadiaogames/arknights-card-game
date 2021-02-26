@@ -34,7 +34,7 @@ export const CARDS = [
     hp: 1,
     mine: 1,
     block: 0,
-    illust: "http://prts.wiki/images/b/ba/%E7%AB%8B%E7%BB%98_%E5%85%8B%E6%B4%9B%E4%B8%9D_1.png",
+    illust: "https://i.postimg.cc/g2wKz6zJ/img-cards-0.png",
     reinforce: 1,
     onReinforce(G, ctx, self) {
       self.atk += 3;
@@ -50,7 +50,7 @@ export const CARDS = [
     hp: 2,
     mine: 3,
     block: 0,
-    illust: "http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E9%98%BF%E7%B1%B3%E5%A8%85_1.png",
+    illust: "https://i.postimg.cc/QtZmnxrM/img-cards-1.png",
     desc: "采掘: 获得1分",
     onMine(G, ctx, self) {
       let delta = 1 + 2 * self.power;
@@ -83,7 +83,7 @@ export const CARDS = [
     hp: 2,
     mine: 2,
     block: 0,
-    illust: "http://prts.wiki/images/9/96/%E7%AB%8B%E7%BB%98_%E6%9D%B0%E8%A5%BF%E5%8D%A1_1.png",
+    illust: "https://i.postimg.cc/sg8w7467/img-cards-2.png",
     desc: "采掘: 造成3点伤害",
     onMine(G, ctx, self) {
       deal_random_damage(G, ctx, 3 + 3 * self.power);
@@ -99,7 +99,7 @@ export const CARDS = [
     hp: 4,
     mine: 1,
     block: 1,
-    illust: "http://prts.wiki/images/0/09/%E7%AB%8B%E7%BB%98_%E7%8E%AB%E5%85%B0%E8%8E%8E_1.png",
+    illust: "https://i.postimg.cc/1zqMHV2T/img-cards-3.png",
     reinforce: 1,
     onReinforce(G, ctx, self) {
       self.atk += 2;
@@ -115,7 +115,7 @@ export const CARDS = [
   //   hp:6, 
   //   mine:3, 
   //   block:1, 
-  //   illust:"http://prts.wiki/images/6/6c/%E7%AB%8B%E7%BB%98_%E8%8A%99%E5%85%B0%E5%8D%A1_1.png",
+  //   illust:"https://i.postimg.cc/jSCMDFXR/img-cards-4.png",
   //   reinforce: 2,
   //   onReinforce(G, ctx, self) {
   //     self.atk += 6;
@@ -131,7 +131,7 @@ export const CARDS = [
     hp: 6,
     mine: 1,
     block: 2,
-    illust: "http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_%E7%B1%B3%E6%A0%BC%E9%B2%81_1.png",
+    illust: "https://i.postimg.cc/VvRKtypk/img-cards-5.png",
     reinforce: 1,
     onReinforce(G, ctx, self) {
       self.hp += 6;
@@ -146,7 +146,7 @@ export const CARDS = [
     hp: 2,
     mine: 3,
     block: 0,
-    illust: "http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_%E5%8F%B2%E9%83%BD%E5%8D%8E%E5%BE%B7_1.png",
+    illust: "https://i.postimg.cc/ZqBsMMBw/img-cards-6.png",
     reinforce: 2,
     onReinforce(G, ctx, self) {
       self.mine += 1;
@@ -161,7 +161,7 @@ export const CARDS = [
   //   hp: 4,
   //   mine: 5,
   //   block: 0,
-  //   illust: "http://prts.wiki/images/6/61/%E7%AB%8B%E7%BB%98_12F_1.png",
+  //   illust: "https://i.postimg.cc/9FbkRTHY/img-cards-7.png",
   //   reinforce: 2,
   //   onReinforce(G, ctx, self) {
   //     self.mine += 1;
@@ -176,7 +176,7 @@ export const CARDS = [
     hp: 4,
     mine: 3,
     block: 0,
-    illust: "http://prts.wiki/images/c/c8/%E7%AB%8B%E7%BB%98_%E5%B7%A1%E6%9E%97%E8%80%85_1.png",
+    illust: "https://i.postimg.cc/dVSSnY17/img-cards-8.png",
     reinforce: 2,
     onReinforce(G, ctx, self) {
       self.atk += 5;
@@ -192,7 +192,7 @@ export const CARDS = [
     hp: 8,
     mine: 4,
     block: 2,
-    illust: "http://prts.wiki/images/d/dc/%E7%AB%8B%E7%BB%98_%E9%BB%91%E8%A7%92_1.png",
+    illust: "https://i.postimg.cc/9QfnGMW5/img-cards-9.png",
     reinforce: 2,
     action(G, ctx, self) {
       let white = G.CARDS.find(x => x.name == "白面鸮");
@@ -213,7 +213,7 @@ export const CARDS = [
     hp:16,
     mine:8,
     block:2,
-    illust:"http://prts.wiki/images/a/ad/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E5%88%80_1.png",
+    illust:"https://i.postimg.cc/wMcGkRyH/img-cards-10.png",
     reinforce: 1,
     
     onReinforce(G, ctx, self) {
@@ -235,7 +235,7 @@ export const CARDS = [
     mine: 1,
     block: 1,
     desc: "部署: 摸2张牌",
-    illust: "http://prts.wiki/images/a/af/%E7%AB%8B%E7%BB%98_%E8%8A%AC_1.png",
+    illust: "https://i.postimg.cc/kMxzCzjZ/img-cards-11.png",
     onPlay(G, ctx, self) {
       draw(G, ctx);
       draw(G, ctx);
@@ -256,7 +256,7 @@ export const CARDS = [
     hp: 2,
     mine: 1,
     block: 1,
-    illust:"http://prts.wiki/images/4/42/%E7%AB%8B%E7%BB%98_%E6%A1%83%E9%87%91%E5%A8%98_1.png",
+    illust:"https://i.postimg.cc/dtwXV6p0/img-cards-12.png",
     desc: "行动: 获得3点费用，本回合阻挡数-1",
     // onTurnBegin(G, ctx, self) {
     //   if (self.block <= 0) {
@@ -301,7 +301,7 @@ export const CARDS = [
     mine:2, 
     block:1, 
     desc:"采掘: 获得2点费用", 
-    illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E8%AE%AF%E4%BD%BF_1.png",
+    illust:"https://i.postimg.cc/PJk7ZQq2/img-cards-13.png",
     onMine(G, ctx, self) {
       G.costs += 2 + 1 * self.power;
     },
@@ -317,7 +317,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "部署: 获得7点费用",
-    illust:"http://prts.wiki/images/5/5a/%E7%AB%8B%E7%BB%98_%E6%9E%81%E5%A2%83_1.png",
+    illust:"https://i.postimg.cc/cH3jrbdv/img-cards-14.png",
     reinforce: 2,
 
     onPlay(G, ctx) {
@@ -338,7 +338,7 @@ export const CARDS = [
     mine:1, 
     block:1, 
     desc:"采掘: 摧毁场上1个(重置的)干员，并获得4点费用", 
-    illust:"http://prts.wiki/images/3/3a/%E7%AB%8B%E7%BB%98_%E6%B8%85%E9%81%93%E5%A4%AB_1.png",
+    illust:"https://i.postimg.cc/N05Zw0V7/img-cards-15.png",
     onMine(G, ctx, self) {
       if (eliminate_field(G, ctx, self)) {
         G.costs += 4;
@@ -360,7 +360,7 @@ export const CARDS = [
     mine:1, 
     block:1, 
     desc:"采掘: 横置1个敌人，然后每有1个横置的敌人，就获得1点费用", 
-    illust:"http://prts.wiki/images/f/fc/%E7%AB%8B%E7%BB%98_%E5%BE%B7%E5%85%8B%E8%90%A8%E6%96%AF_1.png",
+    illust:"https://i.postimg.cc/XY2th52Y/img-cards-16.png",
     onMine(G, ctx, self) {
       exhaust_random_enemy(G, ctx);
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
@@ -381,7 +381,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "超杀: 每造成2点额外伤害，就获得1点费用",
-    illust:"http://prts.wiki/images/7/70/%E7%AB%8B%E7%BB%98_%E7%BA%A2%E8%B1%86_1.png",
+    illust:"https://i.postimg.cc/Hs9qwRX5/img-cards-17.png",
     reinforce: 1,
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {
@@ -409,7 +409,7 @@ export const CARDS = [
     mine:1, 
     block:1, 
     desc:"行动: 打出牌库顶的1张牌", 
-    illust:"http://prts.wiki/images/5/5e/%E7%AB%8B%E7%BB%98_%E9%A3%8E%E7%AC%9B_1.png",
+    illust:"https://i.postimg.cc/XvmmNb6M/img-cards-18.png",
     action(G, ctx, self) {
       // if (G.limit_hand_field && G.field.length >= 6) {
       //   logMsg(G, ctx, "场上干员数已达到上限");
@@ -443,7 +443,7 @@ export const CARDS = [
   //   mine:1, 
   //   block:1, 
   //   desc:"摧毁: 将手牌中的1个干员部署到场上", 
-  //   illust:"http://prts.wiki/images/7/70/%E7%AB%8B%E7%BB%98_%E7%BA%A2%E8%B1%86_1.png",
+  //   illust:"https://i.postimg.cc/Hs9qwRX5/img-cards-17.png",
   //   onOut(G, ctx, self) {
   //     if (G.hand.length > 0) {
   //       let idx = ctx.random.Die(G.hand.length) - 1;
@@ -465,7 +465,7 @@ export const CARDS = [
     mine:1, 
     block:1, 
     desc:"部署: 所有手牌的费用-1", 
-    illust:"http://prts.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%8E%A8%E8%BF%9B%E4%B9%8B%E7%8E%8B_1.png",
+    illust:"https://i.postimg.cc/bNPX2pDp/img-cards-20.png",
     onPlay(G, ctx, self) {
       for (let card of G.hand) {
         card.cost -= 1;
@@ -491,7 +491,7 @@ export const CARDS = [
     mine: 3,
     block: 0,
     desc: "战斗: 获得1个材料",
-    illust:"http://prts.wiki/images/8/80/%E7%AB%8B%E7%BB%98_%E7%82%8E%E7%86%94_1.png",
+    illust:"https://i.postimg.cc/tRWQTYgB/img-cards-21.png",
     onFight(G, ctx, self) {
       gainMaterials(G, ctx, 1+self.power);
     },
@@ -508,7 +508,7 @@ export const CARDS = [
     mine:2, 
     block:0, 
     desc:"战斗: 再造成3点伤害", 
-    illust:"http://prts.wiki/images/6/66/%E7%AB%8B%E7%BB%98_%E8%93%9D%E6%AF%92_1.png",
+    illust:"https://i.postimg.cc/9036bjLP/img-cards-22.png",
     onFight(G, ctx, self) {
       deal_random_damage(G, ctx, 3 + 3 * self.power);
     },
@@ -524,7 +524,7 @@ export const CARDS = [
     mine:1, 
     block:1, 
     desc:"部署: 场上所有其他干员获得+2/+2", 
-    illust:"http://prts.wiki/images/2/25/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E5%AE%BE_1.png",
+    illust:"https://i.postimg.cc/x1tS2hdY/img-cards-23.png",
     onPlay(G, ctx, self) {
       for (let card of G.field) {
         if (card != self) {
@@ -549,7 +549,7 @@ export const CARDS = [
   //   mine:2, 
   //   block:0, 
   //   desc:"部署: 场上所有其他干员获得<+1>", 
-  //   illust:"http://prts.wiki/images/f/f7/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E6%9E%97_1.png",
+  //   illust:"https://i.postimg.cc/4yt8x7bV/img-cards-138.png",
   //   onPlay(G, ctx, self) {
   //     for (let card of G.field) {
   //       if (card != self) {
@@ -573,7 +573,7 @@ export const CARDS = [
     mine:2, 
     block:1, 
     desc:"部署: 造成4点伤害，重复2次", 
-    illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E9%99%88_1.png",
+    illust:"https://i.postimg.cc/6p9NFttY/img-cards-25.png",
     onPlay(G, ctx, self) {
       deal_random_damage(G, ctx, 4);
       deal_random_damage(G, ctx, 4);
@@ -599,7 +599,7 @@ export const CARDS = [
     mine:2,
     block:1,
     desc: "采掘: 获得+3/+3",
-    illust:"http://prts.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E6%9F%8F%E5%96%99_1.png",
+    illust:"https://i.postimg.cc/qRCf27xM/img-cards-26.png",
     reinforce: 1,
     onMine(G, ctx, self) {
       self.atk += 3;
@@ -619,7 +619,7 @@ export const CARDS = [
     hp:4, 
     mine:3, 
     block:1, 
-    illust:"http://prts.wiki/images/c/c5/%E7%AB%8B%E7%BB%98_%E6%85%95%E6%96%AF_1.png",
+    illust:"https://i.postimg.cc/tgJGCk16/img-cards-27.png",
     reinforce: 1,
     desc: "战斗: 使目标攻击力-4",
     onFight(G, ctx, self, enemy) {
@@ -640,7 +640,7 @@ export const CARDS = [
     mine:2, 
     block:0, 
     desc: <span>采掘: 弃2张牌，获得2个{material_icons[3]}</span>, 
-    illust:"http://prts.wiki/images/b/bb/%E7%AB%8B%E7%BB%98_%E6%98%9F%E6%9E%81_1.png",
+    illust:"https://i.postimg.cc/4Nvg8mkY/img-cards-28.png",
     onMine(G, ctx, self) {
       if (G.hand.length >= 2) {
         drop(G, ctx);
@@ -669,7 +669,7 @@ export const CARDS = [
     mine:2, 
     block:2, 
     desc:"行动: 获得+6生命值，本回合阻挡数+1", 
-    illust:"http://prts.wiki/images/c/c7/%E7%AB%8B%E7%BB%98_%E8%9B%87%E5%B1%A0%E7%AE%B1_1.png",
+    illust:"https://i.postimg.cc/021vd73g/img-cards-29.png",
     action(G, ctx, self) {
       self.hp += 6 + 4 * self.power;
       self.block += 1;
@@ -690,7 +690,7 @@ export const CARDS = [
 //     mine:2, 
 //     block:2, 
 //     desc:"行动: 完全治疗自己", 
-//     illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
+//     illust:"https://i.postimg.cc/0jLLt1Zd/img-cards-62.png",
 //     action(G, ctx, self) {
 //       // let self_idx = G.field.indexOf(self);
 //       // G.field.map((card, idx) => {
@@ -715,7 +715,7 @@ export const CARDS = [
   //   mine:2, 
   //   block:2, 
   //   desc:"行动: 消耗1点费用，获得+2/+2和阻挡数+1，然后重置自己", 
-  //   illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
+  //   illust:"https://i.postimg.cc/T1qrsrJ7/img-cards-119.png",
   //   action(G, ctx, self) {
   //     if (payCost(G, ctx, 1, true)) {
   //       self.atk += 2;
@@ -741,7 +741,7 @@ export const CARDS = [
     mine:2, 
     block:2, 
     desc:"部署: 场上所有其他干员阻挡数+1", 
-    illust:"http://prts.wiki/images/c/c9/%E7%AB%8B%E7%BB%98_%E5%B9%B4_1.png",
+    illust:"https://i.postimg.cc/fyx6ggPG/img-cards-32.png",
     onPlay(G, ctx, self) {
       for (let card of G.field) {
         if (card != self) {
@@ -764,7 +764,7 @@ export const CARDS = [
     mine:1, 
     block:2, 
     desc:"战斗: 横置目标，如果目标已经被横置，则将其摧毁", 
-    illust:"http://prts.wiki/images/6/62/%E7%AB%8B%E7%BB%98_%E5%8F%AF%E9%A2%82_1.png",
+    illust:"https://i.postimg.cc/PfwhwSSz/img-cards-33.png",
     onFight(G, ctx, self, enemy) {
       if (enemy.exhausted) {
         enemy.dmg += enemy.hp;
@@ -789,7 +789,7 @@ export const CARDS = [
     mine:1, 
     block:2, 
     desc:"采掘/战斗: 重置1个干员", 
-    illust:"http://prts.wiki/images/3/39/%E7%AB%8B%E7%BB%98_%E9%9B%B7%E8%9B%87_1.png",
+    illust:"https://i.postimg.cc/kGKmP52h/img-cards-34.png",
     onMine(G, ctx, self) {
       ready_random_card(G, ctx, self);
     },
@@ -811,7 +811,7 @@ export const CARDS = [
   //   mine:1, 
   //   block:0, 
   //   desc:"部署: 完全治疗1个干员", 
-  //   illust:"http://prts.wiki/images/b/b9/%E7%AB%8B%E7%BB%98_%E8%8A%99%E8%93%89_1.png",
+  //   illust:"https://i.postimg.cc/B6d0zFnK/img-cards-35.png",
   //   onPlay(G, ctx, self) {
   //     fully_restore(G, ctx);
   //   },
@@ -830,7 +830,7 @@ export const CARDS = [
     mine:2, 
     block:0, 
     desc:"行动: 召唤1个费用为2的干员", 
-    illust:"http://prts.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E5%AE%89%E8%B5%9B%E5%B0%94_1.png",
+    illust:"https://i.postimg.cc/d0Nv8pMn/img-cards-36.png",
     action(G, ctx, self) {
       let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(2+(self.power||0)))))[0];
       let idx = G.field.indexOf(self) + 1;
@@ -852,7 +852,7 @@ export const CARDS = [
     mine:1, 
     block:1, 
     desc:"部署: 使1个(重置的)干员获得+3/+3", 
-    illust:"http://prts.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E6%9C%AB%E8%8D%AF_1.png",
+    illust:"https://i.postimg.cc/G2BRzKdR/img-cards-37.png",
     onPlay(G, ctx, self) {
       // let card = ctx.random.Shuffle(G.field.filter(x=>(x!=self)))[0];
       let card = choice(ctx, G.field.filter(x => x!=self).filter(x => !x.exhausted));
@@ -878,7 +878,7 @@ export const CARDS = [
   //   block:0, 
   //   desc:"部署: 本回合下一次部署干员时，会额外部署1次", 
   //   was_enemy: true,
-  //   illust:"http://prts.wiki/images/e/e4/%E7%AB%8B%E7%BB%98_%E6%9C%AB%E8%8D%AF_1.png",
+  //   illust:"https://i.postimg.cc/G2BRzKdR/img-cards-37.png",
   //   onPlay(G, ctx, self) {
   //     let play_again = () => {
   //       let played = false;
@@ -907,7 +907,7 @@ export const CARDS = [
   //   mine:3, 
   //   block:0, 
   //   desc:"行动: 使1个干员获得+9生命值", 
-  //   illust:"http://prts.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
+  //   illust:"https://i.postimg.cc/YSWLV6p6/img-cards-103.png",
   //   action(G, ctx, self) {
   //     cure(G, ctx, 9);
   //   },
@@ -926,7 +926,7 @@ export const CARDS = [
   //   mine:3, 
   //   block:0, 
   //   desc:"行动: 使1个干员获得+3攻击力", 
-  //   illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E5%98%89%E7%BB%B4%E5%B0%94_1.png",
+  //   illust:"https://i.postimg.cc/qRpBLygM/img-cards-79.png",
   //   action(G, ctx, self) {
   //     let field = G.field.filter(x => (x != self));
   //     let card = ctx.random.Shuffle(field)[0];
@@ -946,7 +946,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "行动: 完全治疗1个干员，如果治疗了至少4点伤害，则获得2分",
-    illust:"http://prts.wiki/images/e/e9/%E7%AB%8B%E7%BB%98_%E9%97%AA%E7%81%B5_1.png",
+    illust:"https://i.postimg.cc/TYnRZtmY/img-cards-41.png",
     reinforce: 2,
     action(G, ctx, self) {
       let cured = fully_restore(G, ctx);
@@ -965,7 +965,7 @@ export const CARDS = [
     mine:3, 
     block:0, 
     desc:"行动: 横置2个敌人", 
-    illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E7%A9%BA_1.png",
+    illust:"https://i.postimg.cc/tRKqSKsM/img-cards-42.png",
     action(G, ctx, self) {
       exhaust_random_enemy(G, ctx);
       exhaust_random_enemy(G, ctx);
@@ -985,7 +985,7 @@ export const CARDS = [
   //   mine:2,
   //   block:0,
   //   desc:"采掘/战斗: 每有1个被横置的敌人，就获得1个材料",
-  //   illust:"http://prts.wiki/images/c/cd/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_1.png",
+  //   illust:"https://i.postimg.cc/CMBM4hx8/img-cards-43.png",
   //   onMine(G, ctx, self) {
   //     let num_exhausted = G.efield.filter(x=>x.exhausted).length;
   //     gainMaterials(G, ctx, num_exhausted);
@@ -1036,7 +1036,7 @@ export const CARDS = [
     mine:2, 
     block:1, 
     desc:"行动: 消耗3点费用，获得6分", 
-    illust:"http://prts.wiki/images/c/c6/%E7%AB%8B%E7%BB%98_%E9%98%BF%E6%B6%88_1.png",
+    illust:"https://i.postimg.cc/FHm9m0gb/img-cards-44.png",
     action(G, ctx, self) {
       if (payCost(G, ctx, 3 + self.power, true)) {
         let delta = 6 + 2 * self.power;
@@ -1059,7 +1059,7 @@ export const CARDS = [
     mine:2, 
     block:0, 
     desc:"行动: 本回合剩余时间内，每部署1个干员，就获得2分", 
-    illust:"http://prts.wiki/images/f/f5/%E7%AB%8B%E7%BB%98_%E9%93%83%E5%85%B0_1.png",
+    illust:"https://i.postimg.cc/CxNwKdm3/img-cards-45.png",
     action(G, ctx) {
       G.onPlayCard.push(
         (G, ctx) => {
@@ -1082,7 +1082,7 @@ export const CARDS = [
     mine:1,
     block:0,
     desc:"采掘: 重置2个订单",
-    illust:"http://prts.wiki/images/7/7f/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E9%BB%98_1.png",
+    illust:"https://i.postimg.cc/T1Ws5HGy/img-cards-46.png",
     onMine(G, ctx, self) {
       ready_order(G, ctx, true);
       ready_order(G, ctx, true);
@@ -1102,7 +1102,7 @@ export const CARDS = [
     mine:3,
     block:0,
     desc:"行动: 重置1个干员，重置1个订单",
-    illust:"http://prts.wiki/images/a/ac/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9D%A2%E9%B8%AE_1.png",
+    illust:"https://i.postimg.cc/3wSfSHx4/img-cards-143.png",
     action(G, ctx, self) {
       ready_random_card(G, ctx, self);
       ready_order(G, ctx);
@@ -1122,7 +1122,7 @@ export const CARDS = [
     mine:4,
     block:0,
     desc: "行动: 摧毁3个颜色相同的(重置的)订单，获得12分",
-    illust:"http://prts.wiki/images/5/53/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E8%8A%99%E5%88%A9%E7%89%B9_1.png",
+    illust:"https://i.postimg.cc/0Q43QqgR/img-cards-48.png",
     action(G, ctx, self) {
       for (let i=0; i<3; i++) {
         let colored_orders = G.finished.filter(x => (!x.exhausted) && (x.color == i));
@@ -1151,7 +1151,7 @@ export const CARDS = [
     mine:2,
     block:2,
     desc: "行动: 本回合剩余时间内，使用其他干员战斗时，重置1个订单",
-    illust:"http://prts.wiki/images/4/4e/%E7%AB%8B%E7%BB%98_%E5%A1%9E%E9%9B%B7%E5%A8%85_1.png",
+    illust:"https://i.postimg.cc/ydxts8by/img-cards-49.png",
     action(G, ctx, self) {
       G.onCardFight.push(
         (G, ctx) => {
@@ -1173,7 +1173,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "采掘: 横置1个订单，并触发其能力2次",
-    illust:"http://prts.wiki/images/7/72/%E7%AB%8B%E7%BB%98_%E5%87%AF%E5%B0%94%E5%B8%8C_1.png",
+    illust:"https://i.postimg.cc/hGSNZr8w/img-cards-50.png",
     onMine(G, ctx, self) {
       let order = exhaust_order(G, ctx);
       if (order) {
@@ -1198,7 +1198,7 @@ export const CARDS = [
     mine:1,
     block:0,
     desc: "部署: 横置2个订单，摧毁1个敌人，如果2个订单颜色相同，则再摧毁1个",
-    illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E6%9D%BE%E6%9E%9C_1.png",
+    illust:"https://i.postimg.cc/GmPZjNDG/img-cards-51.png",
     onPlay(G, ctx, self) {
       let order1 = exhaust_order(G, ctx);
       let order2 = exhaust_order(G, ctx);
@@ -1227,7 +1227,7 @@ export const CARDS = [
     mine:1,
     block:0,
     desc: "超杀: 横置1个订单，重置1个干员",
-    illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%87%91_1.png",
+    illust:"https://i.postimg.cc/VkPxn1Jz/img-cards-52.png",
     reinforce: 1,
     reinforce_desc: "+2/+1",
     onFight(G, ctx, self, enemy) {
@@ -1248,7 +1248,7 @@ export const CARDS = [
     mine:1,
     block:0,
     desc: <span>采掘: 横置1个订单，如果该订单是<br/>{food_icons[0]}: 获得3点费用<br/>{food_icons[1]}: 摸2张牌，并使该牌费用-1<br/>{food_icons[2]}: 召唤手牌中1个干员的4/4复制</span>,
-    illust:"http://prts.wiki/images/4/4b/%E7%AB%8B%E7%BB%98_%E8%B1%86%E8%8B%97_1.png",
+    illust:"https://i.postimg.cc/YqFcvjqX/img-cards-53.png",
     onMine(G, ctx, self) {
       let order = exhaust_order(G, ctx);
       if (order) {
@@ -1289,7 +1289,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: <span>行动: 横置1个订单，如果该订单是<br/>{food_icons[0]}: 重置1个干员<br/>{food_icons[1]}: 横置2个敌人<br/>{food_icons[2]}: 触发场上1个干员的"部署:"效果(极境除外)</span>,
-    illust:"http://prts.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E8%8E%BA_1.png",
+    illust:"https://i.postimg.cc/kGf28wcm/img-cards-100.png",
     action(G, ctx, self) {
       let order = exhaust_order(G, ctx);
       if (order) {
@@ -1326,7 +1326,7 @@ export const CARDS = [
     mine:3,
     block:0,
     desc: "超杀: 每造成2点额外伤害，就获得1个材料",
-    illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E5%A4%A9%E7%81%AB_1.png",
+    illust:"https://i.postimg.cc/1R2hRDPn/img-cards-55.png",
     // onMine(G, ctx, self) {
     //   let count = G.finished.filter(x => x.exhausted).length;
     //   for (let order of G.finished) {
@@ -1401,7 +1401,7 @@ export const CARDS = [
   //   mine:1,
   //   block:1,
   //   desc: "部署: 获得1个已完成的订单，其能力为\"?→造成5点伤害\"",
-  //   illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
+  //   illust:"https://i.postimg.cc/B6jYRwjh/img-cards-145.png",
   //   reinforce: 1,
 
   //   onPlay(G, ctx) {
@@ -1434,7 +1434,7 @@ export const CARDS = [
   //   mine:2,
   //   block:0,
   //   desc:<span>部署: 获得1个已完成的订单，其能力为"{material_icons[0]}{material_icons[1]}{material_icons[2]}→获得4分"</span>,
-  //   illust:"http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E7%A8%80%E9%9F%B3_1.png",
+  //   illust:"https://i.postimg.cc/BvQwBv4f/img-cards-144.png",
   //   reinforce: 1,
   //   onPlay(G, ctx, self) {
   //     let order = {}; // EH: Reconstruct this as this code is the same as Meier
@@ -1463,7 +1463,7 @@ export const CARDS = [
     block:1,
     desc:"部署: 获得2个召唤物\"稀音\"",
     was_enemy: true,
-    illust:"http://prts.wiki/images/d/d5/%E5%A4%B4%E5%83%8F_%E5%8F%AC%E5%94%A4%E7%89%A9_%E7%A7%BB%E5%8A%A8%E6%91%84%E5%BD%B1%E5%99%A8.png",
+    illust:"https://i.postimg.cc/NjhcDmzq/img-cards-59.png",
     onPlay(G, ctx, self) {
       let card = extra_cards.find(x => x.name == "稀音");
       G.hand = [card, card, ...G.hand];
@@ -1485,7 +1485,7 @@ export const CARDS = [
     block:1,
     desc:"部署: 获得2个召唤物\"梅尔\"",
     was_enemy: true,
-    illust:"http://prts.wiki/images/1/13/%E5%A4%B4%E5%83%8F_%E5%8F%AC%E5%94%A4%E7%89%A9_%E6%9C%BA%E6%A2%B0%E6%B0%B4%E7%8D%AD.png",
+    illust:"https://i.postimg.cc/Nj1wzF3y/img-cards-60.png",
     onPlay(G, ctx, self) {
       let card = extra_cards.find(x => x.name == "梅尔");
       G.hand = [card.generator(ctx), card.generator(ctx), ...G.hand];
@@ -1507,7 +1507,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，召唤3个"麦哲伦"</span>,
-    illust:"http://prts.wiki/images/c/c9/%E5%A4%B4%E5%83%8F_%E5%8F%AC%E5%94%A4%E7%89%A9_%E9%BE%99%E8%85%BE.F.png",
+    illust:"https://i.postimg.cc/3J0h2n9F/img-cards-61.png",
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
         let generator = extra_cards.find(x => x.name == "麦哲伦");
@@ -1533,7 +1533,7 @@ export const CARDS = [
   //   mine:2,
   //   block:3,
   //   desc:"部署: 每有1个已完成的订单，就获得+1/+2",
-  //   illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E6%96%91%E7%82%B9_1.png",
+  //   illust:"https://i.postimg.cc/0jLLt1Zd/img-cards-62.png",
   //   onPlay(G, ctx, self) {
   //     let num_finished = G.finished.length;
   //     self.atk += num_finished;
@@ -1554,7 +1554,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc:"采掘: 触发场上所有干员的\"采掘:\"效果",
-    illust:"http://prts.wiki/images/c/c0/%E7%AB%8B%E7%BB%98_%E8%89%BE%E9%9B%85%E6%B3%95%E6%8B%89_1.png",
+    illust:"https://i.postimg.cc/D0W9dwQw/img-cards-63.png",
     onMine(G, ctx, self) {
       if (~G.field.indexOf(self)) { // To prevent reinforce hand infinite loop
         for (let card of G.field) {
@@ -1583,7 +1583,7 @@ export const CARDS = [
     mine:1, 
     block:0, 
     desc:"战斗: 触发场上所有干员的\"战斗:\"效果", 
-    illust:"http://prts.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E8%83%BD%E5%A4%A9%E4%BD%BF_1.png",
+    illust:"https://i.postimg.cc/43sTkZGW/img-cards-64.png",
     onFight(G, ctx, self, enemy) {
       if (~G.field.indexOf(self)) {
         for (let card of G.field) {
@@ -1611,7 +1611,7 @@ export const CARDS = [
     mine:2, 
     block:1, 
     desc:"行动: 触发场上所有干员的\"行动:\"效果", 
-    illust:"http://prts.wiki/images/2/26/%E7%AB%8B%E7%BB%98_%E6%B8%A9%E8%92%82_1.png",
+    illust:"https://i.postimg.cc/ZRDkdddQ/img-cards-65.png",
     action(G, ctx, self, enemy) {
       if (~G.field.indexOf(self)) { // To ensure effect is executed in field
         for (let card of G.field.map(x=>x)) {
@@ -1639,7 +1639,7 @@ export const CARDS = [
     mine:2,
     block:1,
     desc:"部署: 触发手牌中所有干员的\"部署:\"效果",
-    illust:"http://prts.wiki/images/f/fe/%E7%AB%8B%E7%BB%98_%E5%AE%89%E6%B4%81%E8%8E%89%E5%A8%9C_1.png",
+    illust:"https://i.postimg.cc/63QJq0yR/img-cards-66.png",
     onPlay(G, ctx, self) {
       for (let card of G.hand.map(x=>x)) { //Copy the list to prevent infinite loop
         if (card.onPlay && (card.onPlay != self.onPlay)) {
@@ -1666,7 +1666,7 @@ export const CARDS = [
     mine:1, 
     block:0, 
     desc:"采掘: 获得2分，然后横置1个干员，该干员每有2点攻击力，就再获得1分", 
-    illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%99%AE%E7%BD%97%E6%97%BA%E6%96%AF_1.png",
+    illust:"https://i.postimg.cc/HLz1TKsd/img-cards-67.png",
     onMine(G, ctx, self) {
       let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
       if (card) {
@@ -1699,7 +1699,7 @@ export const CARDS = [
   //   mine:1, 
   //   block:0, 
   //   desc:"部署: 获得+15攻击力直到回合结束", 
-  //   illust:"http://prts.wiki/images/2/23/%E7%AB%8B%E7%BB%98_%E7%81%B0%E5%96%89_1.png",
+  //   illust:"https://i.postimg.cc/jqFKWG6j/img-cards-68.png",
   //   onPlay(G, ctx, self) {
   //     let delta = 15;
   //     self.atk += delta;
@@ -1727,7 +1727,7 @@ export const CARDS = [
     mine:2,
     block:1,
     desc:"超杀: 每造成2点额外伤害，就获得1分",
-    illust:"http://prts.wiki/images/3/38/%E7%AB%8B%E7%BB%98_%E7%85%8C_1.png",
+    illust:"https://i.postimg.cc/nrCJRkxZ/img-cards-69.png",
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {
         let delta = enemy.dmg - enemy.hp;
@@ -1755,7 +1755,7 @@ export const CARDS = [
   //   mine:2,
   //   block:1,
   //   desc:"超杀: 每造成1点额外伤害，就摸1张牌",
-  //   illust:"http://prts.wiki/images/1/1b/%E7%AB%8B%E7%BB%98_%E6%96%AD%E5%B4%96_1.png",
+  //   illust:"https://i.postimg.cc/5yTMZC9z/img-cards-70.png",
   //   onFight(G, ctx, self, enemy) {
   //     if (enemy.dmg > enemy.hp) {
   //       let delta = enemy.dmg - enemy.hp;
@@ -1808,7 +1808,7 @@ export const CARDS = [
     mine:0,
     block:0,
     desc:"行动: 本回合剩余时间内，干员的\"超杀:\"效果将额外触发1次",
-    illust:"http://prts.wiki/images/3/3e/%E7%AB%8B%E7%BB%98_%E5%AE%89%E6%AF%94%E5%B0%94_1.png",
+    illust:"https://i.postimg.cc/LX4RfS0J/img-cards-71.png",
     action(G, ctx) {
       G.onCardFight.push(
         (G, ctx, self, enemy) => {
@@ -1832,7 +1832,7 @@ export const CARDS = [
   //   mine:1,
   //   block:0,
   //   desc:"超杀: 对其对位敌人造成5点伤害",
-  //   illust:"http://prts.wiki/images/7/7b/%E7%AB%8B%E7%BB%98_%E9%BB%91_1.png",
+  //   illust:"https://i.postimg.cc/8CmNjcw8/img-cards-72.png",
   //   onFight(G, ctx, self, enemy) {
   //     if (enemy.dmg > enemy.hp) {
   //       let idx = G.field.indexOf(self);
@@ -1856,7 +1856,7 @@ export const CARDS = [
     mine:1, 
     block:0, 
     desc:"行动: 本回合剩余时间内，每有1个敌人被摧毁，就获得2分", 
-    illust:"http://prts.wiki/images/b/bd/%E7%AB%8B%E7%BB%98_%E9%85%B8%E7%B3%96_1.png",
+    illust:"https://i.postimg.cc/Fsw96216/img-cards-73.png",
     action(G, ctx, self) {
       // G.onCardFight.push((G, ctx, card, enemy) => {
       //   if (enemy.dmg >= enemy.hp) {
@@ -1886,7 +1886,7 @@ export const CARDS = [
     block: 1,
     was_enemy: true,
     desc:"部署: 变成1个随机干员", 
-    illust:"http://prts.wiki/images/3/3d/%E6%94%B6%E8%97%8F%E5%93%81_177.png",
+    illust:"https://i.postimg.cc/5979BHJb/img-cards-74.png",
     onPlay(G, ctx, self) {
       // self.hp += 2;
       // G.costs += 1;
@@ -1911,7 +1911,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc:"部署/采掘/战斗: 造成1点伤害，重复3次",
-    illust:"http://prts.wiki/images/3/3d/%E7%AB%8B%E7%BB%98_%E5%88%BB%E4%BF%84%E6%9F%8F_1.png",
+    illust:"https://i.postimg.cc/FRPvV62D/img-cards-75.png",
     onPlay(G, ctx, self) {
       for (let i=0; i<(3+2*self.power); i++) {
         deal_random_damage(G, ctx, 1);
@@ -1942,7 +1942,7 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:1,
-    illust: "http://prts.wiki/images/4/45/%E7%AB%8B%E7%BB%98_%E6%96%AF%E5%8D%A1%E8%92%82_1.png",
+    illust: "https://i.postimg.cc/NjTgvpHj/img-cards-76.png",
     reinforce: 1,
     desc: "部署/采掘/战斗/行动: 触发1个随机干员的部署/采掘/战斗/行动效果",
     onPlay(G, ctx, self) {
@@ -1992,7 +1992,7 @@ export const CARDS = [
     mine:1,
     block:0,
     desc:"部署: 召唤5个随机干员的1/1复制",
-    illust:"http://prts.wiki/images/8/8a/%E7%AB%8B%E7%BB%98_%E5%9B%BE%E8%80%B6_1.png",
+    illust:"https://i.postimg.cc/N0cQsm67/img-cards-77.png",
     onPlay(G, ctx, self) {
       let cards = ctx.random.Shuffle(G.CARDS).filter(c => c.onMine || c.onFight || c.action || (c.cost >= 4));
       for (let i=0; i<5; i++) {
@@ -2021,7 +2021,7 @@ export const CARDS = [
   //   mine:1,
   //   block:1,
   //   desc:"部署/采掘: 将所有手牌替换为随机干员牌",
-  //   illust:"http://prts.wiki/images/6/6e/%E7%AB%8B%E7%BB%98_%E6%9A%B4%E8%A1%8C_1.png",
+  //   illust:"https://i.postimg.cc/yxbVsGjk/img-cards-78.png",
   //   onPlay(G, ctx) {
   //     let cards = ctx.random.Shuffle(G.CARDS).slice(0, G.hand.length);
   //     G.hand = cards.map(x => ({...x}));
@@ -2044,7 +2044,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc:"部署: 将场上所有干员变成随机干员",
-    illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E5%98%89%E7%BB%B4%E5%B0%94_1.png",
+    illust:"https://i.postimg.cc/qRpBLygM/img-cards-79.png",
     onPlay(G, ctx, self) {
       let change_card = (card) => {
         let new_card = ctx.random.Shuffle(G.CARDS.filter(x => (x.onMine || x.onFight || x.action)))[0];
@@ -2113,7 +2113,7 @@ export const CARDS = [
     mine:2,
     block:1,
     desc: <span>采掘/战斗: 消耗1个{material_icons[3]}，重置自己</span>,
-    illust:"http://prts.wiki/images/0/03/%E7%AB%8B%E7%BB%98_%E9%93%B6%E7%81%B0_1.png",
+    illust:"https://i.postimg.cc/FzRrtvjM/img-cards-80.png",
     onMine(G, ctx, self) {
       if (payMaterials(G, ctx, [0,0,0,1])) {
         self.exhausted = false;
@@ -2147,7 +2147,7 @@ export const CARDS = [
     mine:2,
     block:1,
     desc:<span>行动: 消耗2个{material_icons[3]}，获得6分</span>,
-    illust:"http://prts.wiki/images/a/a7/%E7%AB%8B%E7%BB%98_%E5%B4%96%E5%BF%83_1.png",
+    illust:"https://i.postimg.cc/vmFZ4psn/img-cards-81.png",
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [0,0,0,2])) {
         G.score += 6 + 2 * self.power;
@@ -2164,7 +2164,7 @@ export const CARDS = [
     mine:2,
     block:1,
     desc:"行动: 清除弃牌堆中的5张牌，获得6分",
-    illust:"http://prts.wiki/images/8/89/%E7%AB%8B%E7%BB%98_%E9%9B%AA%E9%9B%89_1.png",
+    illust:"https://i.postimg.cc/mgFr2T0R/img-cards-82.png",
     action(G, ctx, self) {
       if (G.discard.length >= 5) {
         G.discard = G.discard.slice(5);
@@ -2188,7 +2188,7 @@ export const CARDS = [
   //   mine:2,
   //   block:0,
   //   desc:<span>行动: 获得1个{material_icons[3]}，然后每有1组{material_icons.slice(0,3)}，就再获得1个{material_icons[3]}</span>,
-  //   illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%88%9D%E9%9B%AA_1.png",
+  //   illust:"https://i.postimg.cc/3wXJmn8c/img-cards-83.png",
   //   action(G, ctx, self) {
   //     G.materials[3] += 1 + G.materials.slice(0,3).sort()[0];
   //   },
@@ -2206,7 +2206,7 @@ export const CARDS = [
   //   mine:1,
   //   block:2,
   //   desc:<span>部署: 每有1个{material_icons[3]}，就获得+1/+1</span>,
-  //   illust:"http://prts.wiki/images/6/6c/%E7%AB%8B%E7%BB%98_%E8%A7%92%E5%B3%B0_1.png",
+  //   illust:"https://i.postimg.cc/Ghf2C4gq/img-cards-84.png",
   //   onPlay(G, ctx, self) {
   //     self.atk += G.materials[3];
   //     self.hp += G.materials[3];
@@ -2226,7 +2226,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
-    illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%A3%98%E5%88%BA_1.png",
+    illust:"https://i.postimg.cc/9M1mN0qP/img-cards-85.png",
     action(G, ctx, self) {
       if (G.hand.length > 0) {
         drop(G, ctx);
@@ -2253,7 +2253,7 @@ export const CARDS = [
     mine:3,
     block:0,
     desc:"采掘: 消耗2点费用，额外获得3个材料",
-    illust:"http://prts.wiki/images/a/a0/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E7%83%9F_1.png",
+    illust:"https://i.postimg.cc/Yq09Z6Rv/img-cards-86.png",
     onMine(G, ctx) {
       if (payCost(G, ctx, 2, true)) {
         gainMaterials(G, ctx, 3);
@@ -2274,7 +2274,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "部署/采掘/战斗: 化解1点动乱值",
-    illust:"http://prts.wiki/images/b/bb/%E7%AB%8B%E7%BB%98_%E6%A2%93%E5%85%B0_1.png",
+    illust:"https://i.postimg.cc/WzW4tzNp/img-cards-87.png",
     reinforce: 1,
     onMine(G, ctx, self) {
       G.danger -= 1;
@@ -2299,7 +2299,7 @@ export const CARDS = [
   //   mine:2,
   //   block:0,
   //   desc:"部署: 化解5点动乱值",
-  //   illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
+  //   illust:"https://i.postimg.cc/fRvrdd4v/img-cards-146.png",
   //   reinforce: 1,
   //   onPlay(G, ctx, self) {
   //     G.danger -= 5;
@@ -2319,7 +2319,7 @@ export const CARDS = [
     mine:1,
     block:0,
     desc:<span>部署: 每有1组{material_icons.slice(0,3)}，就获得2分</span>,
-    illust:"http://prts.wiki/images/1/1c/%E7%AB%8B%E7%BB%98_%E8%8B%8F%E8%8B%8F%E6%B4%9B_1.png",
+    illust:"https://i.postimg.cc/KcJj0qPX/img-cards-89.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       G.score += 2 * G.materials.slice(0,3).sort()[0];
@@ -2338,7 +2338,7 @@ export const CARDS = [
     mine:3,
     block:1,
     desc:"部署: 获得\"回合开始时: 消耗2点费用\"",
-    illust:"http://prts.wiki/images/3/37/%E7%AB%8B%E7%BB%98_%E5%AD%91_1.png",
+    illust:"https://i.postimg.cc/KzbjHCpb/img-cards-90.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       self.onTurnBegin = (G, ctx, self) => {
@@ -2367,7 +2367,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "采掘/战斗: 强化1张手牌",
-    illust:"http://prts.wiki/images/6/6e/%E7%AB%8B%E7%BB%98_%E5%87%9B%E5%86%AC_1.png",
+    illust:"https://i.postimg.cc/jjPCvRXv/img-cards-91.png",
     reinforce: 1,
     // onMine(G, ctx, self) {
     //   reinforce_hand(G, ctx);
@@ -2397,7 +2397,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "行动: 强化1张手牌，重复2次",
-    illust:"http://prts.wiki/images/1/19/%E7%AB%8B%E7%BB%98_%E7%9C%9F%E7%90%86_1.png",
+    illust:"https://i.postimg.cc/zG9VnynV/img-cards-92.png",
     reinforce: 2,
     action(G, ctx, self) {
       for (let i=0; i<self.power+2; i++){
@@ -2414,7 +2414,7 @@ export const CARDS = [
     mine:2,
     block:2,
     desc: "采掘/战斗: 强化场上1个(重置的)干员",
-    illust:"http://prts.wiki/images/1/16/%E7%AB%8B%E7%BB%98_%E5%8F%A4%E7%B1%B3_1.png",
+    illust:"https://i.postimg.cc/pTBrbk3F/img-cards-93.png",
     reinforce: 1,
     onMine(G, ctx, self) {
       reinforce_field(G, ctx);
@@ -2436,7 +2436,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "部署: 强化场上1个(重置的)干员，重复3次",
-    illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
+    illust:"https://i.postimg.cc/pVZhgXt6/img-cards-99.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       reinforce_field(G, ctx);
@@ -2458,7 +2458,7 @@ export const CARDS = [
   //   mine:2,
   //   block:0,
   //   desc: "部署: 每有1张被强化过的手牌(包括自己)，就造成3点伤害并获得1分",
-  //   illust:"http://prts.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E6%97%A9%E9%9C%B2_1.png",
+  //   illust:"https://i.postimg.cc/D0yZ2LKY/img-cards-95.png",
   //   reinforce: 1,
   //   onPlay(G, ctx, self) {
   //     let num_reinforced = [...G.hand, self].filter(x => (x.power > 0)).length;
@@ -2482,7 +2482,7 @@ export const CARDS = [
   //   mine:2,
   //   block:0,
   //   desc: "休整: 造成3点伤害，每有1个休整中的干员，伤害就+2",
-  //   illust:"http://prts.wiki/images/1/1f/%E7%AB%8B%E7%BB%98_%E5%AE%88%E6%9E%97%E4%BA%BA_1.png",
+  //   illust:"https://i.postimg.cc/65b7pjqV/img-cards-96.png",
   //   reinforce: 1,
   //   onRest(G, ctx, self) {
   //     deal_random_damage(G, ctx, 3 + 2 * get_num_rest_cards(G, ctx) + 3 * self.power);
@@ -2497,7 +2497,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "采掘: 将场上1个(重置的)干员返回手牌",
-    illust:"http://prts.wiki/images/5/50/%E7%AB%8B%E7%BB%98_%E9%9C%9C%E5%8F%B6_1.png",
+    illust:"https://i.postimg.cc/J4zDmVr4/img-cards-97.png",
     reinforce: 1,
     // onRest(G, ctx, self) {
     //   let num_rest_cards = get_num_rest_cards(G, ctx);
@@ -2524,7 +2524,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "采掘: 本回合剩余时间内，每打出1张牌，就摸1张牌",
-    illust:"http://prts.wiki/images/c/c2/%E7%AB%8B%E7%BB%98_%E9%94%A1%E5%85%B0_1.png",
+    illust:"https://i.postimg.cc/mgcPzY1v/img-cards-98.png",
     reinforce: 2,
     // onRest(G, ctx, self) {
     //   let num_rest_cards = get_num_rest_cards(G, ctx);
@@ -2550,7 +2550,7 @@ export const CARDS = [
   // //   mine:1,
   // //   block:1,
   // //   desc: "休整: 触发场上1个干员的\"部署:\"效果(极境和安洁莉娜除外)",
-  // //   illust:"http://prts.wiki/images/b/bc/%E7%AB%8B%E7%BB%98_%E8%AF%97%E6%80%80%E9%9B%85_1.png",
+  // //   illust:"https://i.postimg.cc/pVZhgXt6/img-cards-99.png",
   // //   reinforce: 1,
   // //   onRest(G, ctx, self) {
   // //     let player = ctx.random.Shuffle(G.field.filter(x => (x.onPlay && !["极境", "安洁莉娜"].includes(x.name))))[0];
@@ -2573,7 +2573,7 @@ export const CARDS = [
   //   mine:3,
   //   block:0,
   //   desc: "休整: 触发场上所有干员的\"休整:\"效果",
-  //   illust:"http://prts.wiki/images/6/6f/%E7%AB%8B%E7%BB%98_%E5%A4%9C%E8%8E%BA_1.png",
+  //   illust:"https://i.postimg.cc/kGf28wcm/img-cards-100.png",
   //   onRest(G, ctx, self) {
   //     if (~G.field.indexOf(self)) {
   //       for (let card of G.field.map(x=>x)) {
@@ -2602,7 +2602,7 @@ export const CARDS = [
     mine:1,
     block:0,
     desc: "行动: 摧毁1个(重置的)干员，获得3分",
-    illust:"http://prts.wiki/images/6/67/%E7%AB%8B%E7%BB%98_%E9%98%BF_1.png",
+    illust:"https://i.postimg.cc/nzKjVn9M/img-cards-101.png",
     reinforce: 1,
     action(G, ctx, self) {
       // let card = ctx.random.Shuffle(G.field.filter(x => (x!=self && !x.exhausted)))[0];
@@ -2644,7 +2644,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
-    illust:"http://prts.wiki/images/e/e2/%E7%AB%8B%E7%BB%98_%E6%96%AD%E7%BD%AA%E8%80%85_1.png",
+    illust:"https://i.postimg.cc/rs8dK75j/img-cards-102.png",
     reinforce: 1,
     action(G, ctx, self) {
       let num_cards = G.hand.length;
@@ -2678,7 +2678,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "部署: 将弃牌堆中的所有牌返回手牌",
-    illust:"http://prts.wiki/images/f/f3/%E7%AB%8B%E7%BB%98_%E6%B8%85%E6%B5%81_1.png",
+    illust:"https://i.postimg.cc/YSWLV6p6/img-cards-103.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       G.hand = [...G.discard, ...G.hand];
@@ -2702,7 +2702,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "采掘: 摸2张牌",
-    illust:"http://prts.wiki/images/5/5c/%E7%AB%8B%E7%BB%98_%E8%B0%83%E9%A6%99%E5%B8%88_1.png",
+    illust:"https://i.postimg.cc/9MHwjDMv/img-cards-104.png",
     onMine(G, ctx, self) {
       draw(G, ctx);
       draw(G, ctx);
@@ -2724,7 +2724,7 @@ export const CARDS = [
     mine:3,
     block:1,
     desc: "行动: 获得5分",
-    illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E9%A3%9F%E9%93%81%E5%85%BD_1.png",
+    illust:"https://i.postimg.cc/JzgBP6W7/img-cards-105.png",
     reinforce: 2,
     action(G, ctx) {
       G.score += 5;
@@ -2743,7 +2743,7 @@ export const CARDS = [
   //   mine:1,
   //   block:1,
   //   desc: "摧毁: 召唤\"格拉尼\"",
-  //   illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E6%A0%BC%E6%8B%89%E5%B0%BC_1.png",
+  //   illust:"https://i.postimg.cc/kgDbNrzh/img-cards-106.png",
   //   reinforce: 1,
   //   onOut(G, ctx, self) {
   //     let new_card = G.CARDS.find(x => x.name == "格拉尼");
@@ -2764,7 +2764,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "部署: 获得+6/+6直到回合结束",
-    illust:"http://prts.wiki/images/d/de/%E7%AB%8B%E7%BB%98_%E5%AE%B4_1.png",
+    illust:"https://i.postimg.cc/9FL9qX87/img-cards-107.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       self.atk += 6;
@@ -2799,7 +2799,7 @@ export const CARDS = [
   //   mine:1, 
   //   block:1, 
   //   desc:"采掘/战斗: 如果你在本回合弃过手牌，则获得+3/+3", 
-  //   illust:"http://prts.wiki/images/0/02/%E7%AB%8B%E7%BB%98_%E6%9C%88%E8%A7%81%E5%A4%9C_1.png",
+  //   illust:"https://i.postimg.cc/c1Mw0BfT/img-cards-108.png",
   //   onMine(G, ctx, self) {
   //     if (G.has_discarded) {
   //       self.atk += 3;
@@ -2826,7 +2826,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "部署: 获得3个材料",
-    illust:"http://prts.wiki/images/4/4a/%E7%AB%8B%E7%BB%98_%E8%BF%9C%E5%B1%B1_1.png",
+    illust:"https://i.postimg.cc/15m6tVHS/img-cards-109.png",
     reinforce: 2,
     onPlay(G, ctx, self) {
       gainMaterials(G, ctx, 3);
@@ -2852,7 +2852,7 @@ export const CARDS = [
     hp:1,
     mine:1,
     block:1,
-    illust: "http://prts.wiki/images/3/38/%E7%AB%8B%E7%BB%98_%E7%A0%BE_1.png",
+    illust: "https://i.postimg.cc/nrkD2nnN/img-cards-110.png",
     reinforce: 1,
     desc: "摧毁: 返回手牌",
     // onPlay(G, ctx, self) {
@@ -2884,7 +2884,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "部署: 横置1个敌人",
-    illust:"http://prts.wiki/images/c/c4/%E7%AB%8B%E7%BB%98_%E7%BA%A2_1.png",
+    illust:"https://i.postimg.cc/bv7kN66V/img-cards-111.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       // G.score += 1;
@@ -2905,7 +2905,7 @@ export const CARDS = [
     mine:2,
     block:1,
     desc: "部署: 如果场上干员数量多于敌人，则获得5分",
-    illust:"http://prts.wiki/images/e/ef/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E5%A4%AB%E5%8D%A1_1.png",
+    illust:"https://i.postimg.cc/5tY8JcmF/img-cards-112.png",
     reinforce: 2,
     onPlay(G, ctx, self) {
       if (G.field.length > G.efield.length) {
@@ -2927,7 +2927,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "采掘: 将弃牌堆中1张有\"部署:\"效果的牌返回手牌",
-    illust:"http://prts.wiki/images/d/d8/%E7%AB%8B%E7%BB%98_%E8%96%84%E7%BB%BF_1.png",
+    illust:"https://i.postimg.cc/XYD9tN9b/img-cards-113.png",
     reinforce: 1,
     onMine(G, ctx, self) {
       let card = ctx.random.Shuffle(G.discard).find(x => x.onPlay);
@@ -2950,7 +2950,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "部署: 随机强化自己5次",
-    illust:"http://prts.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E6%A3%AE%E8%9A%BA_1.png",
+    illust:"https://i.postimg.cc/XJ9FZwmj/img-cards-114.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       let cards = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce)).slice(0, 5);
@@ -2985,7 +2985,7 @@ export const CARDS = [
     mine:2,
     block:1,
     desc: "超杀: 每造成2点额外伤害，就获得+1攻击力并治疗5点伤害",
-    illust:"http://prts.wiki/images/4/48/%E7%AB%8B%E7%BB%98_%E8%B5%AB%E6%8B%89%E6%A0%BC_1.png",
+    illust:"https://i.postimg.cc/L8szygYD/img-cards-115.png",
     reinforce: 1,
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {
@@ -3008,7 +3008,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc: "行动: 触发手牌中1个干员的\"部署:\"效果(极境除外)",
-    illust:"http://prts.wiki/images/5/56/%E7%AB%8B%E7%BB%98_%E6%B3%A2%E7%99%BB%E5%8F%AF_1.png",
+    illust:"https://i.postimg.cc/nc24YGzM/img-cards-116.png",
     reinforce: 1,
     action(G, ctx, self) {
       let player = ctx.random.Shuffle(G.hand.filter(x => (x.onPlay && !["极境"].includes(x.name))))[0];
@@ -3035,7 +3035,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc:"采掘: 使1个敌人获得易伤2，重复2次",
-    illust:"http://prts.wiki/images/e/e3/%E7%AB%8B%E7%BB%98_%E5%B7%AB%E6%81%8B_1.png",
+    illust:"https://i.postimg.cc/QxhgTyjR/img-cards-117.png",
     reinforce: 1,
     onMine(G, ctx, self) {
       // let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
@@ -3071,7 +3071,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "部署: 摧毁1个受到伤害的敌人",
-    illust:"http://prts.wiki/images/5/51/%E7%AB%8B%E7%BB%98_%E5%88%BB%E5%88%80_1.png",
+    illust:"https://i.postimg.cc/sfp91rCY/img-cards-118.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       let damaged_enemy = ctx.random.Shuffle(G.efield.filter(x => (x.dmg > 0 && x.dmg < x.hp)))[0];
@@ -3095,7 +3095,7 @@ export const CARDS = [
   //   mine:3,
   //   block:3,
   //   desc: "部署: 每有1张手牌，就获得+6生命值",
-  //   illust:"http://prts.wiki/images/d/d4/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_1.png",
+  //   illust:"https://i.postimg.cc/T1qrsrJ7/img-cards-119.png",
   //   reinforce: 1,
   //   onPlay(G, ctx, self) {
   //     let num_cards = G.hand.length;
@@ -3115,7 +3115,7 @@ export const CARDS = [
   //   mine:0,
   //   block:0,
   //   desc: "部署: 重置场上所有干员，然后沉默所有被重置的干员并使其采掘力变为0",
-  //   illust:"http://prts.wiki/images/2/2c/%E7%AB%8B%E7%BB%98_%E5%9B%9B%E6%9C%88_1.png",
+  //   illust:"https://i.postimg.cc/W4C6qp4n/img-cards-120.png",
   //   reinforce: 1,
   //   onPlay(G, ctx, self) {
   //     G.field.map(card => {
@@ -3140,7 +3140,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得6点费用</span>,
-    illust:"http://prts.wiki/images/9/9f/%E7%AB%8B%E7%BB%98_%E6%83%8A%E8%9B%B0_1.png",
+    illust:"https://i.postimg.cc/4dcv6C7T/img-cards-121.png",
     reinforce: 2,
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
@@ -3161,7 +3161,7 @@ export const CARDS = [
   //   mine:1,
   //   block:1,
   //   desc:"采掘: 弃2张牌，获得4点费用",
-  //   illust:"http://prts.wiki/images/2/2d/%E7%AB%8B%E7%BB%98_%E8%B4%BE%E7%BB%B4_1.png",
+  //   illust:"https://i.postimg.cc/3NHX9Lm0/img-cards-122.png",
   //   onMine(G, ctx, self) {
   //     if (G.hand.length >= 2) {
   //       drop(G, ctx);
@@ -3187,7 +3187,7 @@ export const CARDS = [
     mine:2,
     block:2,
     desc:"部署: 消耗所有剩余费用，然后每消耗1点，就获得+3/+3",
-    illust:"http://prts.wiki/images/8/80/%E7%AB%8B%E7%BB%98_%E6%B3%A5%E5%B2%A9_1.png",
+    illust:"https://i.postimg.cc/fRHvZfn1/img-cards-123.png",
     onPlay(G, ctx, self) {
       let cost_remained = G.costs;
       self.atk += 3 * cost_remained;
@@ -3229,7 +3229,7 @@ export const CARDS = [
     mine:3,
     block:0,
     desc:"行动: 弃2张牌，召唤1个费用为4的干员",
-    illust:"http://prts.wiki/images/e/e7/%E7%AB%8B%E7%BB%98_%E5%BE%AE%E9%A3%8E_1.png",
+    illust:"https://i.postimg.cc/HkWtfPKQ/img-cards-124.png",
     action(G, ctx, self) {
       if (G.hand.length >= 2) {
         drop(G, ctx);
@@ -3281,7 +3281,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，召唤1个随机干员的6/6复制</span>,
-    illust:"http://prts.wiki/images/5/5f/%E7%AB%8B%E7%BB%98_%E4%BA%9A%E5%8F%B6_1.png",
+    illust:"https://i.postimg.cc/65f0bNHW/img-cards-125.png",
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
         let card = ctx.random.Shuffle(G.CARDS.filter(x => x.onMine || x.onFight || x.action))[0];
@@ -3306,7 +3306,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc:"超杀: 消耗1点费用，重置自己",
-    illust:"http://prts.wiki/images/0/0c/%E7%AB%8B%E7%BB%98_%E5%8F%B2%E5%B0%94%E7%89%B9%E5%B0%94_1.png",
+    illust:"https://i.postimg.cc/YShzSLt0/img-cards-126.png",
     onFight(G, ctx, self, enemy) {
       // if (G.field.indexOf(self) == G.efield.indexOf(enemy) && payCost(G, ctx, 1)) {
       //   self.exhausted = false;
@@ -3330,7 +3330,7 @@ export const CARDS = [
   //   mine:0,
   //   block:0,
   //   desc:"部署: 造成5点伤害",
-  //   illust:"http://prts.wiki/images/b/be/%E7%AB%8B%E7%BB%98_%E6%B5%81%E6%98%9F_1.png",
+  //   illust:"https://i.postimg.cc/gkWsK0Ht/img-cards-127.png",
   //   onPlay(G, ctx, self) {
   //     deal_random_damage(G, ctx, 5);
   //   },
@@ -3349,7 +3349,7 @@ export const CARDS = [
       mine:1,
       block:0,
       desc:"采掘: 摧毁场上1个(重置的)干员，然后造成4点伤害，重复2次",
-      illust:"http://prts.wiki/images/8/87/%E7%AB%8B%E7%BB%98_%E7%A9%BA%E7%88%86_1.png",
+      illust:"https://i.postimg.cc/Y2g8gFYm/img-cards-128.png",
       onMine(G, ctx, self) {
         if (eliminate_field(G, ctx, self)) {
           for (let i=0; i<(2+self.power); i++) {
@@ -3383,7 +3383,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc:"行动: 本回合剩余时间内，使用其他干员采掘时，重置自己",
-    illust:"http://prts.wiki/images/1/1a/%E7%AB%8B%E7%BB%98_%E5%8D%A1%E8%BE%BE_1.png",
+    illust:"https://i.postimg.cc/C5yNXMT1/img-cards-129.png",
     action(G, ctx, self) {
       self.fever = true;
       G.onCardMine.push(
@@ -3415,7 +3415,7 @@ export const CARDS = [
     mine:1,
     block:0,
     desc: "采掘/战斗: 触发手牌中1个干员的采掘/战斗效果(视为自己触发)",
-    illust:"http://prts.wiki/images/1/10/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9B%AA_1.png",
+    illust:"https://i.postimg.cc/rsSJk6M9/img-cards-130.png",
     reinforce: 1,
     onMine(G, ctx, self) {
       let miner = ctx.random.Shuffle(G.hand.filter(x => (x.onMine && !["白雪"].includes(x.name))))[0];
@@ -3453,7 +3453,7 @@ export const CARDS = [
   //   mine:1,
   //   block:0,
   //   desc: "行动: 变成手牌中1个干员的复制",
-  //   illust:"http://prts.wiki/images/e/e0/%E7%AB%8B%E7%BB%98_%E4%BC%8A%E6%A1%91_1.png",
+  //   illust:"https://i.postimg.cc/XvzxKcs9/img-cards-131.png",
   //   reinforce: 3,
   //   action(G, ctx, self) {
   //     // if (G.field.length > 1){
@@ -3480,7 +3480,7 @@ export const CARDS = [
     block:0,
     desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，造成4点伤害，重复4次</span>,
 
-    illust:"http://prts.wiki/images/4/44/%E7%AB%8B%E7%BB%98_W_1.png",
+    illust:"https://i.postimg.cc/zGpxv1Wt/img-cards-132.png",
     // onPlay(G, ctx) {
     //   drawEnemy(G, ctx);
     // },
@@ -3507,7 +3507,7 @@ export const CARDS = [
     mine:1,
     block:0,
     desc: "战斗: 同时对其攻击目标相邻的敌人造成伤害",
-    illust:"http://prts.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E9%99%A8%E6%98%9F_1.png",
+    illust:"https://i.postimg.cc/G2TKX8fV/img-cards-133.png",
     onFight(G, ctx, self, enemy) {
       let enemy_idx = G.efield.indexOf(enemy);
       for (let e of [G.efield[enemy_idx-1], G.efield[enemy_idx+1]]) {
@@ -3533,7 +3533,7 @@ export const CARDS = [
   //   mine:1,
   //   block:1,
   //   desc: "战斗: 激怒目标",
-  //   illust:"http://prts.wiki/images/f/f8/%E7%AB%8B%E7%BB%98_%E7%8C%8E%E8%9C%82_1.png",
+  //   illust:"https://i.postimg.cc/y87f7NJ3/img-cards-134.png",
   //   reinforce: 1,
 
   //   onFight(G, ctx, self, enemy) {
@@ -3555,7 +3555,7 @@ export const CARDS = [
     mine:1,
     block:1,
     desc: "战斗: 将目标变成1/1并将其沉默",
-    illust:"http://prts.wiki/images/7/75/%E7%AB%8B%E7%BB%98_%E6%8B%89%E6%99%AE%E5%85%B0%E5%BE%B7_1.png",
+    illust:"https://i.postimg.cc/zfB0RPFJ/img-cards-135.png",
     reinforce: 2,
 
     onFight(G, ctx, self, enemy) {
@@ -3594,7 +3594,7 @@ export const CARDS = [
     hp:1,
     mine:1,
     block:1,
-    illust: "http://prts.wiki/images/8/84/%E7%AB%8B%E7%BB%98_%E7%BF%8E%E7%BE%BD_1.png",
+    illust: "https://i.postimg.cc/15GCxFzZ/img-cards-137.png",
     reinforce: 1,
     desc: "部署: 重置1个干员",
 
@@ -3622,7 +3622,7 @@ export const CARDS = [
   //   hp:7,
   //   mine:2,
   //   block:2,
-  //   illust: "http://prts.wiki/images/f/f7/%E7%AB%8B%E7%BB%98_%E6%9D%9C%E6%9E%97_1.png",
+  //   illust: "https://i.postimg.cc/4yt8x7bV/img-cards-138.png",
   //   reinforce: 1,
   //   desc: "摧毁: 如果\"巡林者\"也在弃牌堆，则部署\"夜刀\"",
 
@@ -3651,7 +3651,7 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:0,
-    illust: "http://prts.wiki/images/9/98/%E7%AB%8B%E7%BB%98_%E7%8B%AE%E8%9D%8E_1.png",
+    illust: "https://i.postimg.cc/ZYysc2tn/img-cards-139.png",
     reinforce: 2,
     desc: "行动: 将场上所有干员变成[费用+1]的干员",
 
@@ -3677,7 +3677,7 @@ export const CARDS = [
     hp:16,
     mine:2,
     block:2,
-    illust: "http://prts.wiki/images/9/9c/%E7%AB%8B%E7%BB%98_%E5%9D%9A%E9%9B%B7_1.png",
+    illust: "https://i.postimg.cc/xTDxF5nR/img-cards-140.png",
     reinforce: 1,
     desc: "行动: 获得1张干员牌，并强化其3次",
     action(G, ctx, self) {
@@ -3697,7 +3697,7 @@ export const CARDS = [
   //   hp:2,
   //   mine:1,
   //   block:1,
-  //   illust: "http://prts.wiki/images/0/00/%E7%AB%8B%E7%BB%98_%E6%9A%97%E7%B4%A2_1.png",
+  //   illust: "https://i.postimg.cc/fL12sjXM/img-cards-141.png",
   //   reinforce: 1,
   //   desc: "部署/行动: 从另一个游戏里偷1张牌",
   //   onPlay(G, ctx, self) {
@@ -3899,7 +3899,7 @@ export const heijiao_in_dream =  {
     block:2,
     onPlayBonus: [],
     desc:"部署: 获得5000分",
-    illust:"http://prts.wiki/images/a/ac/%E7%AB%8B%E7%BB%98_%E7%99%BD%E9%9D%A2%E9%B8%AE_1.png",
+    illust:"https://i.postimg.cc/3wSfSHx4/img-cards-143.png",
     onPlay(G, ctx) {
       G.score += 5000;
     },
@@ -3924,7 +3924,7 @@ export const extra_cards = [
     block:1,
     material:3,
     desc:"",
-    illust:"http://prts.wiki/images/d/dd/%E7%AB%8B%E7%BB%98_%E7%A8%80%E9%9F%B3_1.png",
+    illust:"https://i.postimg.cc/BvQwBv4f/img-cards-144.png",
     reinforce: 1,
     onReinforce(G, ctx, self) {
       self.hp += 3;
@@ -3945,7 +3945,7 @@ export const extra_cards = [
           block:0,
           material:3,
           desc: <span>行动: 消耗1个{material_icons[material]}，造成6点伤害</span>,
-          illust:"http://prts.wiki/images/f/f0/%E7%AB%8B%E7%BB%98_%E6%A2%85%E5%B0%94_1.png",
+          illust:"https://i.postimg.cc/B6jYRwjh/img-cards-145.png",
           reinforce: 1,
       
           action(G, ctx) {
@@ -3992,7 +3992,7 @@ export const extra_cards = [
           ...values,
           cost:1,
           material:3,
-          illust:"http://prts.wiki/images/9/93/%E7%AB%8B%E7%BB%98_%E9%BA%A6%E5%93%B2%E4%BC%A6_1.png",
+          illust:"https://i.postimg.cc/fRvrdd4v/img-cards-146.png",
           reinforce: 1,
           onReinforce(G, ctx) {
             deal_random_damage(G, ctx, 5);
@@ -4011,48 +4011,48 @@ const type_filter = (type_,deck) => classes[type_].map(name => deck.find(card =>
 export const FILTERS = [
   
   {
-    illust: "http://prts.wiki/images/thumb/8/82/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E5%85%88%E9%94%8B_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E5%85%88%E9%94%8B_%E5%A4%A7%E5%9B%BE.png",
+    illust: "https://i.postimg.cc/VLnTYTDp/img-cards-147.png",
     f(deck) {
       return type_filter("producers", deck);
     }
   },
 
   {
-    illust: "http://prts.wiki/images/thumb/d/d1/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E7%8B%99%E5%87%BB_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E7%8B%99%E5%87%BB_%E5%A4%A7%E5%9B%BE.png",
+    illust: "https://i.postimg.cc/NGySnLTg/img-cards-148.png",
     f(deck) {
       return type_filter("solvers", deck);
     }
   },
   {
-    illust: "http://prts.wiki/images/thumb/4/4d/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E6%9C%AF%E5%B8%88_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E6%9C%AF%E5%B8%88_%E5%A4%A7%E5%9B%BE.png",
+    illust: "https://i.postimg.cc/h4H6RgbV/img-cards-149.png",
     f(deck) {
       return type_filter("miners", deck);
     }
   },
 
   {
-    illust: "http://prts.wiki/images/thumb/a/a9/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E8%BF%91%E5%8D%AB_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E8%BF%91%E5%8D%AB_%E5%A4%A7%E5%9B%BE.png",
+    illust: "https://i.postimg.cc/PJ8WQgCj/img-cards-150.png",
     f(deck) {
       return type_filter("standers", deck);
     }
   },
 
   {
-    illust: "http://prts.wiki/images/thumb/6/6f/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E9%87%8D%E8%A3%85_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E9%87%8D%E8%A3%85_%E5%A4%A7%E5%9B%BE.png",
+    illust: "https://i.postimg.cc/kD3x1TSt/img-cards-151.png",
     f(deck) {
       return type_filter("defenders", deck);
     }
   },
 
   {
-    illust: "http://prts.wiki/images/thumb/f/f0/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E8%BE%85%E5%8A%A9_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E8%BE%85%E5%8A%A9_%E5%A4%A7%E5%9B%BE.png",
+    illust: "https://i.postimg.cc/HxN05Ysz/img-cards-152.png",
     f(deck) {
       return type_filter("supporters", deck);
     }
   },
 
   {
-    illust: "http://prts.wiki/images/thumb/2/2a/%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E7%89%B9%E7%A7%8D_%E5%A4%A7%E5%9B%BE.png/120px-%E5%9B%BE%E6%A0%87_%E8%81%8C%E4%B8%9A_%E7%89%B9%E7%A7%8D_%E5%A4%A7%E5%9B%BE.png",
+    illust: "https://i.postimg.cc/63qLy2wT/img-cards-153.png",
     f(deck) {
       return type_filter("scorers", deck);
     }
