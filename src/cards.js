@@ -3563,7 +3563,7 @@ export const CARDS = [
         name: "源石虫",
         atk: 1,
         hp: 1,
-        illust: "http://prts.wiki/images/3/3e/%E5%A4%B4%E5%83%8F_%E6%95%8C%E4%BA%BA_%E6%BA%90%E7%9F%B3%E8%99%AB.png",
+        illust: "https://i.postimg.cc/gc54LDxp/img-enemies-7.png",
         dmg: 0,
         exhausted: false,
       };
