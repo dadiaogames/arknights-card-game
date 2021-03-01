@@ -167,7 +167,7 @@ export class Board extends React.Component {
 
       deck_mode: "random",
       deck_name: get_deck_name(),
-      deck_data: CARDS.slice(0,10).map(x=>`3 ${x.name}`).join("\n"),
+      deck_data: CARDS.slice(0,10).map(x=>`2 ${x.name}`).join("\n"),
       preview_deck: CARDS.map(x=>({...x, material:Math.floor(Math.random()*3)})),
 
       show_finished: true,
