@@ -81,7 +81,7 @@ export const Card = (props) => {
   let shaker = useShaker(props.cardState.shaking, props.cardState.setShaking, -25, -25, {duration:105}, props.cardState.onEnd);
 
   useEffect(() => {
-    if ((props.cardState.dmg > 0) && props.cardState.setShaking) {
+    if ((props.cardState.dmg != 0) && props.cardState.setShaking) {
     // if (props.cardState.setShaking) {
       props.cardState.setShaking(true);
     }
