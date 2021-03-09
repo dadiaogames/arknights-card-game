@@ -2430,18 +2430,18 @@ export const CARDS = [
 
   {
     name:"诗怀雅",
-    cost:5,
-    atk:3,
-    hp:3,
+    cost:2,
+    atk:2,
+    hp:1,
     mine:1,
     block:1,
-    desc: "部署: 强化场上1个(重置的)干员，重复3次",
+    desc: "部署: 强化场上1个(重置的)干员，重复2次",
     illust:"https://i.postimg.cc/pVZhgXt6/img-cards-99.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
       reinforce_field(G, ctx);
       reinforce_field(G, ctx);
-      reinforce_field(G, ctx);
+      // reinforce_field(G, ctx);
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;

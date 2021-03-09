@@ -16,11 +16,11 @@ export const RELICS = [
   // },
   {
     name: "乌萨斯列巴",
-    desc: "回合开始时，获得2张随机干员牌，并使其费用-1",
+    desc: "回合开始时，获得2张随机干员牌，并使其费用-2",
     onTurnBegin(G, ctx){
       for (let i=0; i<2; i++) {
         let card = {...choice(ctx, G.CARDS)};
-        card.cost -= 1;
+        card.cost -= 2;
         G.hand.unshift(card);
       }
     }
@@ -272,7 +272,7 @@ export const RELICS = [
   },
   {
     name:"倒转的怀表", 
-    desc:"回合开始时,每有1点动乱就获得2分",
+    desc:"回合开始时，每有1点动乱就获得2分",
     onTurnBegin(G, ctx) {
       G.score += 2 * G.danger;
     }
@@ -371,21 +371,21 @@ export const RELICS = [
       );
     }
   },
-  {
-    name:"“坏家伙”来了！", 
-    desc:"起始获得2个随机的强化3干员加入手牌",
-    onBattleBegin(G, ctx) { 
-      let reinforce = UPGRADES.find(x => x.name == "强化1");
-      for (let i=0; i<2; i++) {
-        let card = {...choice(ctx, G.CARDS)};
-        reinforce.effect(card);
-        reinforce.effect(card);
-        reinforce.effect(card);
-        card.upgraded = true;
-        G.hand.unshift(card);
-      }
-    }
-  },
+  // {
+  //   name:"“坏家伙”来了！", 
+  //   desc:"起始获得2个随机的强化3干员加入手牌",
+  //   onBattleBegin(G, ctx) { 
+  //     let reinforce = UPGRADES.find(x => x.name == "强化1");
+  //     for (let i=0; i<2; i++) {
+  //       let card = {...choice(ctx, G.CARDS)};
+  //       reinforce.effect(card);
+  //       reinforce.effect(card);
+  //       reinforce.effect(card);
+  //       card.upgraded = true;
+  //       G.hand.unshift(card);
+  //     }
+  //   }
+  // },
   {
     name:"残弩-采矿镭射枪", 
     desc:"所有干员获得 采掘:造成2点伤害",
@@ -399,13 +399,12 @@ export const RELICS = [
   },
   {
     name:"断杖-突破", 
-    desc:"所有干员获得 超杀:获得1个材料和1分",
+    desc:"所有干员获得 超杀:获得2个材料",
     onTurnBegin(G, ctx) {
       G.onCardFight.push(
         (G, ctx, card, enemy) => {
           if (enemy.dmg > enemy.hp) {
-            gainMaterials(G, ctx, 1);
-            G.score += 1;
+            gainMaterials(G, ctx, 2);
           }
         }
       );
