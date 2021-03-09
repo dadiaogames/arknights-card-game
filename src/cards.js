@@ -2252,7 +2252,7 @@ export const CARDS = [
     hp:2,
     mine:3,
     block:0,
-    desc:"采掘: 消耗2点费用，额外获得3个材料",
+    desc:"采掘: 消耗2点费用，再获得3个材料",
     illust:"https://i.postimg.cc/Yq09Z6Rv/img-cards-86.png",
     onMine(G, ctx) {
       if (payCost(G, ctx, 2, true)) {
@@ -3653,7 +3653,7 @@ export const CARDS = [
     block:0,
     illust: "https://i.postimg.cc/ZYysc2tn/img-cards-139.png",
     reinforce: 2,
-    desc: "行动: 将场上所有干员变成[费用+1]的干员",
+    desc: "行动: 将场上所有干员变成高1费的干员",
 
     action(G, ctx, self) {
       for (let i=0; i<G.field.length; i++) {
