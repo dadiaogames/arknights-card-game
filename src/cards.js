@@ -938,24 +938,24 @@ export const CARDS = [
   //   reinforce_desc: "攻击力加成+3",
   // },
 
-  {
-    name:"闪灵",
-    cost:3,
-    atk:4,
-    hp:3,
-    mine:2,
-    block:0,
-    desc: "行动: 完全治疗1个干员，如果治疗了至少4点伤害，则获得2分",
-    illust:"https://i.postimg.cc/TYnRZtmY/img-cards-41.png",
-    reinforce: 2,
-    action(G, ctx, self) {
-      let cured = fully_restore(G, ctx);
-      if (cured >= 4) {
-        G.score += 2 + 2 * self.power;
-      }
-    },
-    reinforce_desc: "再获得2分",
-  },
+  // {
+  //   name:"闪灵",
+  //   cost:3,
+  //   atk:4,
+  //   hp:3,
+  //   mine:2,
+  //   block:0,
+  //   desc: "行动: 完全治疗1个干员，如果治疗了至少4点伤害，则获得2分",
+  //   illust:"https://i.postimg.cc/TYnRZtmY/img-cards-41.png",
+  //   reinforce: 2,
+  //   action(G, ctx, self) {
+  //     let cured = fully_restore(G, ctx);
+  //     if (cured >= 4) {
+  //       G.score += 2 + 2 * self.power;
+  //     }
+  //   },
+  //   reinforce_desc: "再获得2分",
+  // },
 
   {
     name:"空", 
@@ -1240,47 +1240,47 @@ export const CARDS = [
       self.hp += 1;
     },
   },
-{
-    name:"豆苗",
-    cost:2,
-    atk:3,
-    hp:2,
-    mine:1,
-    block:0,
-    desc: <span>采掘: 横置1个订单，如果该订单是<br/>{food_icons[0]}: 获得3点费用<br/>{food_icons[1]}: 摸2张牌，并使该牌费用-1<br/>{food_icons[2]}: 召唤手牌中1个干员的4/4复制</span>,
-    illust:"https://i.postimg.cc/YqFcvjqX/img-cards-53.png",
-    onMine(G, ctx, self) {
-      let order = exhaust_order(G, ctx);
-      if (order) {
-        if (order.color == 0) {
-          G.costs += 3;
-        }
-        else if (order.color == 1) {
-          draw(G, ctx);
-          draw(G, ctx);
-          G.hand[0].cost -= 1;
-          G.hand[1].cost -= 1;
-        }
-        else {
-          let card = choice(ctx, G.hand);
-          if (card) {
-            summon(G, ctx, {
-              ...card,
-              atk: 4,
-              hp: 4,
-              mine: 2,
-              cost: 3,
-            }, self);
-          }
-      }
-      }
-    },
-    reinforce: 1,
-    reinforce_desc: "获得1点费用",
-    onReinforce(G, ctx, self){
-      G.costs += 1;
-    },
-  },
+// {
+//     name:"豆苗",
+//     cost:2,
+//     atk:3,
+//     hp:2,
+//     mine:1,
+//     block:0,
+//     desc: <span>采掘: 横置1个订单，如果该订单是<br/>{food_icons[0]}: 获得3点费用<br/>{food_icons[1]}: 摸2张牌，并使该牌费用-1<br/>{food_icons[2]}: 召唤手牌中1个干员的4/4复制</span>,
+//     illust:"https://i.postimg.cc/YqFcvjqX/img-cards-53.png",
+//     onMine(G, ctx, self) {
+//       let order = exhaust_order(G, ctx);
+//       if (order) {
+//         if (order.color == 0) {
+//           G.costs += 3;
+//         }
+//         else if (order.color == 1) {
+//           draw(G, ctx);
+//           draw(G, ctx);
+//           G.hand[0].cost -= 1;
+//           G.hand[1].cost -= 1;
+//         }
+//         else {
+//           let card = choice(ctx, G.hand);
+//           if (card) {
+//             summon(G, ctx, {
+//               ...card,
+//               atk: 4,
+//               hp: 4,
+//               mine: 2,
+//               cost: 3,
+//             }, self);
+//           }
+//       }
+//       }
+//     },
+//     reinforce: 1,
+//     reinforce_desc: "获得1点费用",
+//     onReinforce(G, ctx, self){
+//       G.costs += 1;
+//     },
+//   },
 {
     name:"夜莺",
     cost:3,
@@ -2248,7 +2248,7 @@ export const CARDS = [
   {
     name:"夜烟",
     cost:3,
-    atk:4,
+    atk:3,
     hp:2,
     mine:3,
     block:0,
@@ -2362,7 +2362,7 @@ export const CARDS = [
   {
     name:"凛冬",
     cost:3,
-    atk:3,
+    atk:4,
     hp:3,
     mine:1,
     block:1,
@@ -2516,32 +2516,32 @@ export const CARDS = [
     },
     reinforce_desc: "阻挡数+1",
   },
-  {
-    name:"锡兰",
-    cost:2,
-    atk:3,
-    hp:2,
-    mine:2,
-    block:0,
-    desc: "采掘: 本回合剩余时间内，每打出1张牌，就摸1张牌",
-    illust:"https://i.postimg.cc/mgcPzY1v/img-cards-98.png",
-    reinforce: 2,
-    // onRest(G, ctx, self) {
-    //   let num_rest_cards = get_num_rest_cards(G, ctx);
-    //   G.score += num_rest_cards;
-    // },
-    onMine(G, ctx, self) {
-      G.onPlayCard.push(
-        (G, ctx) => {
-          draw(G, ctx);
-        }
-      );
-    },
-    onReinforce(G, ctx, self) {
-      G.costs += 2;
-    },
-    reinforce_desc: "获得2点费用",
-  },
+  // {
+  //   name:"锡兰",
+  //   cost:2,
+  //   atk:3,
+  //   hp:2,
+  //   mine:2,
+  //   block:0,
+  //   desc: "采掘: 本回合剩余时间内，每打出1张牌，就摸1张牌",
+  //   illust:"https://i.postimg.cc/mgcPzY1v/img-cards-98.png",
+  //   reinforce: 2,
+  //   // onRest(G, ctx, self) {
+  //   //   let num_rest_cards = get_num_rest_cards(G, ctx);
+  //   //   G.score += num_rest_cards;
+  //   // },
+  //   onMine(G, ctx, self) {
+  //     G.onPlayCard.push(
+  //       (G, ctx) => {
+  //         draw(G, ctx);
+  //       }
+  //     );
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     G.costs += 2;
+  //   },
+  //   reinforce_desc: "获得2点费用",
+  // },
   // // {
   // //   name:"诗怀雅",
   // //   cost:4,
