@@ -85,12 +85,12 @@ export const RELICS = [
   
   {
     name: "地区行动方案",
-    desc: "起始获得额外1组材料，胜利所需分数+2",
+    desc: "起始获得额外2组材料，胜利所需分数+5",
     onBattleBegin(G, ctx){
       for (let i=0; i<3; i++) {
-        G.materials[i] += 1;
+        G.materials[i] += 2;
       }
-      G.goal += 2;
+      G.goal += 5;
     }
   },
   {
@@ -242,12 +242,14 @@ export const RELICS = [
   },
   {
     name:"压缩糖砖", 
-    desc:"胜利所需分数-4(最低为10)",
+    // desc:"胜利所需分数-4(最低为10)",
+    desc:"回合开始时，获得2分",
     onTurnBegin(G, ctx) {
-      if (G.round_num == 1) {
-        G.goal -= 4;
-        G.goal = Math.max(G.goal, 10);
-      }
+      // if (G.round_num == 1) {
+        // G.goal -= 4;
+        // G.goal = Math.max(G.goal, 10);
+      // }
+      G.score += 2;
     }
   },
   {
@@ -355,9 +357,9 @@ export const RELICS = [
   },
   {
     name:"摩根队长佳酿", 
-    desc:"起始获得2个钢",
+    desc:"起始获得3个钢",
     onBattleBegin(G, ctx) {
-      G.materials[3] += 2;
+      G.materials[3] += 3;
     }
   },
   {
