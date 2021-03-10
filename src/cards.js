@@ -2366,7 +2366,8 @@ export const CARDS = [
     hp:3,
     mine:1,
     block:1,
-    desc: "采掘/战斗: 强化1张手牌",
+    // desc: "采掘/战斗: 强化1张手牌",
+    desc: "采掘/战斗: 强化场上1个(重置的)干员",
     illust:"https://i.postimg.cc/jjPCvRXv/img-cards-91.png",
     reinforce: 1,
     // onMine(G, ctx, self) {
@@ -2378,10 +2379,10 @@ export const CARDS = [
     //   G.costs += num_reinforced;
     // },
     onMine(G, ctx, self) {
-      reinforce_hand(G, ctx);
+      reinforce_field(G, ctx);
     },
     onFight(G, ctx, self) {
-      reinforce_hand(G, ctx);
+      reinforce_field(G, ctx);
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
@@ -2406,27 +2407,27 @@ export const CARDS = [
     },
     reinforce_desc: "再重复1次",
   },
-  {
-    name:"古米",
-    cost:4,
-    atk:3,
-    hp:6,
-    mine:2,
-    block:2,
-    desc: "采掘/战斗: 强化场上1个(重置的)干员",
-    illust:"https://i.postimg.cc/pTBrbk3F/img-cards-93.png",
-    reinforce: 1,
-    onMine(G, ctx, self) {
-      reinforce_field(G, ctx);
-    },
-    onFight(G, ctx, self) {
-      reinforce_field(G, ctx);
-    },
-    onReinforce(G, ctx, self) {
-      self.hp += 6;
-    },
-    reinforce_desc: "+0/+6",
-  },
+  // {
+  //   name:"古米",
+  //   cost:4,
+  //   atk:3,
+  //   hp:6,
+  //   mine:2,
+  //   block:2,
+  //   desc: "采掘/战斗: 强化场上1个(重置的)干员",
+  //   illust:"https://i.postimg.cc/pTBrbk3F/img-cards-93.png",
+  //   reinforce: 1,
+  //   onMine(G, ctx, self) {
+  //     reinforce_field(G, ctx);
+  //   },
+  //   onFight(G, ctx, self) {
+  //     reinforce_field(G, ctx);
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.hp += 6;
+  //   },
+  //   reinforce_desc: "+0/+6",
+  // },
 
   {
     name:"诗怀雅",
