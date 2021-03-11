@@ -337,15 +337,15 @@ const tag_list = [
     }
   },
   
-  {
-    src: "https://i.postimg.cc/qv7Rf8Gt/img-tags-28.png",
-    desc: "干员以疲劳状态入场",
-    level: 10,
-    unstackable: true,
-    effect(G, ctx){
-      G.exhausted_enter = true;
-    }
-  },
+  // {
+  //   src: "https://i.postimg.cc/qv7Rf8Gt/img-tags-28.png",
+  //   desc: "干员以疲劳状态入场",
+  //   level: 10,
+  //   unstackable: true,
+  //   effect(G, ctx){
+  //     G.exhausted_enter = true;
+  //   }
+  // },
   
 ];
 

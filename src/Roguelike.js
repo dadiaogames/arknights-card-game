@@ -99,7 +99,7 @@ function init_tags_S2(S) {
   let remained_tags = S.rng.shuffle(tags.filter(t => (!basic_tags.includes(t)) && t.level > 0));
   let init_added_tags = remained_tags.filter(t => (t.standard_level <= 3));
   init_added_tags.map(t => {if (t.standard_level <= 2) t.locked = true;});
-  S.tags = [...basic_tags, ...repeat_tags, ...init_added_tags];
+  S.tags = [...basic_tags, ...repeat_tags, ...init_added_tags].map(t => ({...t}));
   S.remained_tags = remained_tags.filter(t => !init_added_tags.includes(t));
 }
 
@@ -119,7 +119,7 @@ function reduce_basic_tags(tags, rng) {
 }
 
 export function choose_standard_tags(tags, current_standard_level) {
-    let new_tags = [...tags];
+    let new_tags = tags.map(t => ({...t}));
     // let current_standard_level = this.state.standard_level + 1;
     for (let tag of new_tags) {
       if (tag.standard_level <= current_standard_level) {
@@ -308,7 +308,12 @@ function set_difficulty_S2(S, difficulty) {
   //   }
   // }
 
-  S.tags.map(t => {if (t.selected) t.locked = true;});
+  // S.tags.map(t => {if (t.selected) t.locked = true;});
+  for (let t of S.tags) {
+    if (t.selected) {
+      t.locked = true;
+    }
+  }
 
   S.level_required = S.levels[0];
 }
