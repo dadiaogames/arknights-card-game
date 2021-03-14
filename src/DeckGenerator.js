@@ -668,16 +668,16 @@ export function generate_deck_s2(deck_name) {
   let rng = new PRNG(deck_name);
 
   // Basic deck
-  deck = [...deck, ...deck_from_strategy(cost_vanguard, 4, rng)];
+  deck = [...deck, ...deck_from_strategy(cost_vanguard, 5, rng)];
   // deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
   // deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
-  // deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
   deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
 
   // Strategy deck
   // deck = [...deck, ...deck_from_mini_sets(12, rng)];
-  deck = [...deck, ...deck_from_mini_sets(9, rng)];
+  deck = [...deck, ...deck_from_mini_sets(8, rng)];
 
   // Let diff goes
   // console.log("deck before", deck);
@@ -694,7 +694,7 @@ export function generate_deck_s2(deck_name) {
   deck = Object.keys(deck_dict).reduce((acc, val) => [...acc, ..._.times(deck_dict[val], ()=>val)], [])
 
   // Random cards
-  let amount_add = 20 - deck.length;
+  let amount_add = 22 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }
