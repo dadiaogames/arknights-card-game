@@ -3030,7 +3030,7 @@ export const CARDS = [
   
   {
     name:"巫恋",
-    cost:4,
+    cost:3,
     atk:3,
     hp:3,
     mine:2,
