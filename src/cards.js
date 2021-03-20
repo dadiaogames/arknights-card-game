@@ -1779,7 +1779,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc:"超杀: 召唤2个随机干员的2/2复制",
-    illust:"https://s3.ax1x.com/2020/11/26/Ddxxbt.png",
+    illust:"https://z3.ax1x.com/2020/11/26/Ddxxbt.png",
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {
         for (let i=0; i<2; i++) {
@@ -2068,7 +2068,7 @@ export const CARDS = [
     hp: 6,
     mine: 3,
     block: 1,
-    illust: "https://s3.ax1x.com/2020/11/12/BvqDyQ.png",
+    illust: "https://z3.ax1x.com/2020/11/12/BvqDyQ.png",
     desc: `行动: 造成3点伤害，重复4次，然后本回合剩余时间内，使用干员采掘时，获得1分，整场战斗限1次(采掘/战斗: 强化此技能)`,
     // was_enemy: true,
     onPlay(G, ctx, self) {
@@ -4060,7 +4060,7 @@ export const FILTERS = [
   },
 
   {
-    illust: "https://s3.ax1x.com/2020/12/08/r9iiyq.png",
+    illust: "https://z3.ax1x.com/2020/12/08/r9iiyq.png",
     f(deck) {
       return type_filter("randomizers", deck);
     }
