@@ -354,9 +354,9 @@ export const CARDS = [
   
   {
     name:"德克萨斯", 
-    cost:4, 
+    cost:3, 
     atk:4, 
-    hp:3, 
+    hp:2, 
     mine:1, 
     block:1, 
     desc:"采掘: 横置1个敌人，然后每有1个横置的敌人，就获得1点费用", 

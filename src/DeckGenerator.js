@@ -85,7 +85,8 @@ const defender = `米格鲁 1 1
 const supporter = `翎羽 1 1
 白面鸮 1 1
 雷蛇 0 1
-夜莺 1 1`;
+赫默 0 1
+凯尔希 0 1`;
 
 export const solver_core = "棘刺 陈 银灰 W 松果 刻刀 刻俄柏".split(" ");
 export const scorer_core = "阿米娅 阿消 崖心 雪雉 酸糖 铃兰 普罗旺斯 煌 凯尔希 伊芙利特".split(" ");
