@@ -1802,8 +1802,8 @@ export const CARDS = [
 
   {
     name:"安比尔",
-    cost:3,
-    atk:5,
+    cost:2,
+    atk:4,
     hp:2,
     mine:0,
     block:0,
