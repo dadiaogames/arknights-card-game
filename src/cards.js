@@ -1564,15 +1564,18 @@ export const CARDS = [
         }
       }
     },
-    reinforce: 1,
+    reinforce: 3,
+    // onReinforce(G, ctx, self) {
+    //   let miners = G.deck.filter(x => x.onMine);
+    //   if (miners.length > 0) {
+    //     let card = ctx.random.Shuffle(miners)[0];
+    //     G.hand.unshift(Object.assign({}, card));
+    //   }
+    // },
     onReinforce(G, ctx, self) {
-      let miners = G.deck.filter(x => x.onMine);
-      if (miners.length > 0) {
-        let card = ctx.random.Shuffle(miners)[0];
-        G.hand.unshift(Object.assign({}, card));
-      }
+      self.mine += 2;
     },
-    reinforce_desc: "检索1张有\"采掘:\"效果的牌",
+    reinforce_desc: "<+2>",
   },
 
   {
@@ -1593,15 +1596,19 @@ export const CARDS = [
         }
       }
     },
-    reinforce: 1,
+    reinforce: 2,
+    // onReinforce(G, ctx, self) {
+    //   let fighters = G.deck.filter(x => x.onFight);
+    //   if (fighters.length > 0) {
+    //     let card = ctx.random.Shuffle(fighters)[0];
+    //     G.hand.unshift(Object.assign({}, card));
+    //   }
+    // },
     onReinforce(G, ctx, self) {
-      let fighters = G.deck.filter(x => x.onFight);
-      if (fighters.length > 0) {
-        let card = ctx.random.Shuffle(fighters)[0];
-        G.hand.unshift(Object.assign({}, card));
-      }
+      self.atk += 3;
+      self.hp += 1;
     },
-    reinforce_desc: "检索1张有\"战斗:\"效果的牌",
+    reinforce_desc: "+3/+1",
   },
   {
     name:"温蒂", 
