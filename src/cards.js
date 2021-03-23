@@ -1283,9 +1283,9 @@ export const CARDS = [
 //   },
 {
     name:"夜莺",
-    cost:3,
+    cost:2,
     atk:0,
-    hp:3,
+    hp:2,
     mine:2,
     block:0,
     desc: <span>行动: 横置1个订单，如果该订单是<br/>{food_icons[0]}: 重置1个干员<br/>{food_icons[1]}: 横置2个敌人<br/>{food_icons[2]}: 触发场上1个干员的"部署:"效果(极境除外)</span>,
