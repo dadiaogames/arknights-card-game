@@ -3037,10 +3037,10 @@ export const CARDS = [
   
   {
     name:"巫恋",
-    cost:3,
-    atk:3,
-    hp:3,
-    mine:2,
+    cost:2,
+    atk:2,
+    hp:2,
+    mine:1,
     block:0,
     desc:"采掘: 使1个敌人获得易伤2，重复2次",
     illust:"https://i.postimg.cc/QxhgTyjR/img-cards-117.png",
