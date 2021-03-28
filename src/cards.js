@@ -510,10 +510,10 @@ export const CARDS = [
     desc:"战斗: 再造成3点伤害", 
     illust:"https://i.postimg.cc/9036bjLP/img-cards-22.png",
     onFight(G, ctx, self) {
-      deal_random_damage(G, ctx, 3 + 3 * self.power);
+      deal_random_damage(G, ctx, 3 + 4 * self.power);
     },
     reinforce: 1,
-    reinforce_desc: "伤害+3",
+    reinforce_desc: "伤害+4",
   },
   
   {
@@ -621,9 +621,9 @@ export const CARDS = [
     block:1, 
     illust:"https://i.postimg.cc/tgJGCk16/img-cards-27.png",
     reinforce: 1,
-    desc: "战斗: 使目标攻击力-4",
+    desc: "战斗: 使目标攻击力-6",
     onFight(G, ctx, self, enemy) {
-      enemy.atk -= 4;
+      enemy.atk -= 6;
     },
     onReinforce(G, ctx, self) {
       self.atk += 3;
@@ -829,7 +829,7 @@ export const CARDS = [
     hp:2, 
     mine:2, 
     block:0, 
-    desc:"行动: 召唤1个费用为2的干员", 
+    desc:"行动: 召唤1个2费干员", 
     illust:"https://i.postimg.cc/d0Nv8pMn/img-cards-36.png",
     action(G, ctx, self) {
       let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==(2+(self.power||0)))))[0];
@@ -1224,7 +1224,7 @@ export const CARDS = [
     cost:3,
     atk:5,
     hp:2,
-    mine:1,
+    mine:2,
     block:0,
     desc: "超杀: 横置1个订单，重置1个干员",
     illust:"https://i.postimg.cc/VkPxn1Jz/img-cards-52.png",
@@ -1323,7 +1323,7 @@ export const CARDS = [
     cost:4,
     atk:6,
     hp:3,
-    mine:3,
+    mine:4,
     block:0,
     desc: "超杀: 每造成2点额外伤害，就获得1个材料",
     illust:"https://i.postimg.cc/1R2hRDPn/img-cards-55.png",
@@ -1564,7 +1564,7 @@ export const CARDS = [
         }
       }
     },
-    reinforce: 3,
+    reinforce: 2,
     // onReinforce(G, ctx, self) {
     //   let miners = G.deck.filter(x => x.onMine);
     //   if (miners.length > 0) {
@@ -1573,9 +1573,9 @@ export const CARDS = [
     //   }
     // },
     onReinforce(G, ctx, self) {
-      self.mine += 2;
+      self.mine += 1;
     },
-    reinforce_desc: "<+2>",
+    reinforce_desc: "<+1>",
   },
 
   {
@@ -3352,7 +3352,7 @@ export const CARDS = [
   {
       name:"空爆",
       cost:2,
-      atk:3,
+      atk:4,
       hp:2,
       mine:1,
       block:0,
@@ -3422,7 +3422,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "采掘/战斗: 触发手牌中1个干员的采掘/战斗效果(视为自己触发)",
+    desc: "采掘/战斗: 触发手牌中1个干员的采掘/战斗效果",
     illust:"https://i.postimg.cc/rsSJk6M9/img-cards-130.png",
     reinforce: 1,
     onMine(G, ctx, self) {
