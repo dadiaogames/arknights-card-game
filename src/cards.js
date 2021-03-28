@@ -1831,29 +1831,29 @@ export const CARDS = [
     },
     reinforce_desc: "触发1次\"行动:\"效果",
   },
-  // {
-  //   name:"黑",
-  //   cost:4,
-  //   atk:5,
-  //   hp:3,
-  //   mine:1,
-  //   block:0,
-  //   desc:"超杀: 对其对位敌人造成5点伤害",
-  //   illust:"https://i.postimg.cc/8CmNjcw8/img-cards-72.png",
-  //   onFight(G, ctx, self, enemy) {
-  //     if (enemy.dmg > enemy.hp) {
-  //       let idx = G.field.indexOf(self);
-  //       if (~idx) {
-  //         let enemy = G.efield[idx];
-  //         if (enemy) {
-  //           enemy.dmg += 5 + 4 * self.power;
-  //         }
-  //       }
-  //     }
-  //   },
-  //   reinforce: 1,
-  //   reinforce_desc: "伤害+4",
-  // },
+  {
+    name:"黑",
+    cost:3,
+    atk:5,
+    hp:2,
+    mine:1,
+    block:0,
+    desc:"战斗: 攻击其面前的敌人时，造成伤害翻倍",
+    illust:"https://i.postimg.cc/8CmNjcw8/img-cards-72.png",
+    onFight(G, ctx, self, enemy) {
+      let idx = G.field.indexOf(self);
+      let target = G.efield[idx];  // it's fine if it is undefined
+      if (enemy == target) {
+        enemy.dmg += self.atk;
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 1;
+    },
+    reinforce_desc: "+2/+1",
+  },
   
   {
     name:"酸糖", 
