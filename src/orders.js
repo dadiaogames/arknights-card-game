@@ -17,10 +17,10 @@ function add_atk_hp(G, ctx, field_selected) {
     logMsg(G, ctx, "建议: 请选定场面上想加成的干员后使用该订单");
   }
   else {
-    logMsg(G, ctx, `使 ${card.name} 获得+2/+1`);
+    logMsg(G, ctx, `使 ${card.name} 获得+2攻击力`);
   }
   card.atk += 2;
-  card.hp += 1;
+  // card.hp += 1;
 }
 
 function deal3dmg(G, ctx, field_selected, enemy_selected) {
@@ -65,7 +65,7 @@ const advanced_orders = [{
     score: 2,
     reward: 3,
     advanced: true,
-    desc: (<span>+2/+1</span>),
+    desc: (<span>+2攻击力</span>),
     effect: add_atk_hp,
   },
   // {
