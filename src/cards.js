@@ -803,24 +803,32 @@ export const CARDS = [
     reinforce_desc: "+0/+10",
   },
   
-  // {
-  //   name:"芙蓉", 
-  //   cost:1, 
-  //   atk:0, 
-  //   hp:2, 
-  //   mine:1, 
-  //   block:0, 
-  //   desc:"部署: 完全治疗1个干员", 
-  //   illust:"https://i.postimg.cc/B6d0zFnK/img-cards-35.png",
-  //   onPlay(G, ctx, self) {
-  //     fully_restore(G, ctx);
-  //   },
-  //   reinforce: 1,
-  //   onReinforce(G, ctx, self) {
-  //     cure(G, ctx, 6);
-  //   },
-  //   reinforce_desc: "治疗1个干员的6点伤害",
-  // },
+  {
+    name:"芙蓉", 
+    cost:2, 
+    atk:2, 
+    hp:2, 
+    mine:1, 
+    block:0, 
+    desc:"采掘: 使场上1个(重置的)干员获得+2/+2", 
+    illust:"https://i.postimg.cc/B6d0zFnK/img-cards-35.png",
+    // onPlay(G, ctx, self) {
+    //   fully_restore(G, ctx);
+    // },
+    onMine(G, ctx, self) {
+      let card = choice(ctx, G.field.filter(x => x!=self).filter(x => !x.exhausted));
+      if (card) {
+        card.atk += 2 + self.power;
+        card.hp += 2 + self.power;
+      }
+
+    },
+    reinforce: 1,
+    // onReinforce(G, ctx, self) {
+    //   cure(G, ctx, 6);
+    // },
+    reinforce_desc: "再获得+1/+1",
+  },
 
   {
     name:"安赛尔", 
@@ -3236,7 +3244,7 @@ export const CARDS = [
     hp:3,
     mine:3,
     block:0,
-    desc:"行动: 弃2张牌，召唤1个费用为4的干员",
+    desc:"行动: 弃2张牌，召唤1个4费干员",
     illust:"https://i.postimg.cc/HkWtfPKQ/img-cards-124.png",
     action(G, ctx, self) {
       if (G.hand.length >= 2) {
