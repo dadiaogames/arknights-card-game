@@ -806,7 +806,7 @@ export const CARDS = [
   {
     name:"芙蓉", 
     cost:2, 
-    atk:2, 
+    atk:0, 
     hp:2, 
     mine:1, 
     block:0, 
