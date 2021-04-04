@@ -219,8 +219,6 @@ export class Board extends React.Component {
     };
   }
 
-  
-
   get_risk_level() {
     let selected_tags = this.state.tags.filter(t => (t.selected || t.locked));
     let reducer = (acc, val) => (acc + val.level);

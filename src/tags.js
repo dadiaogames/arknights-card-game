@@ -3,10 +3,10 @@ import { addBoss, enemy2card } from "./Game";
 const tag_list = [
   {
     src: "https://i.postimg.cc/XNQSRt18/img-tags-0.png",
-    desc: "胜利所需的分数+3",
+    desc: "胜利所需的分数+4",
     level: 1,
     effect(G, ctx) {
-      G.goal += 3;
+      G.goal += 4;
     }
   },
   {

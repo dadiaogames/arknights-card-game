@@ -985,7 +985,7 @@ export function setup_scenario(G, ctx) {
 
     G.score = 0;
     G.danger = 0;
-    G.goal = 15;
+    G.goal = 12;
     G.max_danger = 8;
     G.num_enemies_out = 2;
     G.field_limit = 8;
