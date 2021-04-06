@@ -51,16 +51,16 @@ export const RELICS = [
     }
   },{
     name: "一份演讲稿",
-    desc: "对局开始时，召唤1个2费干员",
+    desc: "对局开始时，召唤1个4费干员",
     onBattleBegin(G, ctx){
-      let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==2)))[0];
+      let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==4)))[0];
       // summon(G, ctx, new_card, {});
       G.field.push(init_card_state(G, ctx, {...new_card, hp:new_card.hp+1}));
     }
   },
   {
     name: "人事部密信",
-    desc: "回合开始时，召唤1个随机干员的1/2复制",
+    desc: "回合开始时，召唤1个随机干员的1/1复制",
     onTurnBegin(G, ctx){
       let new_card = ctx.random.Shuffle(G.CARDS)[0];
       // summon(G, ctx, new_card, {});
@@ -85,12 +85,12 @@ export const RELICS = [
   
   {
     name: "地区行动方案",
-    desc: "起始获得额外2组材料，胜利所需分数+5",
+    desc: "起始获得额外1组材料，胜利所需分数+2",
     onBattleBegin(G, ctx){
       for (let i=0; i<3; i++) {
-        G.materials[i] += 2;
+        G.materials[i] += 1;
       }
-      G.goal += 5;
+      G.goal += 2;
     }
   },
   {
@@ -362,17 +362,17 @@ export const RELICS = [
       G.materials[3] += 3;
     }
   },
-  {
-    name:"无线通讯器",
-    desc:"使用干员行动时，获得1分",
-    onTurnBegin(G, ctx) {
-      G.onCardAct.push(
-        (G, ctx) => {
-          G.score += 1;
-        }
-      );
-    }
-  },
+  // {
+  //   name:"无线通讯器",
+  //   desc:"使用干员行动时，获得1分",
+  //   onTurnBegin(G, ctx) {
+  //     G.onCardAct.push(
+  //       (G, ctx) => {
+  //         G.score += 1;
+  //       }
+  //     );
+  //   }
+  // },
   // {
   //   name:"“坏家伙”来了！", 
   //   desc:"起始获得2个随机的强化3干员加入手牌",

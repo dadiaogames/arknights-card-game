@@ -433,7 +433,7 @@ export class Board extends React.Component {
       enraged: card.enraged,
       shaking: this.state.animations.efield[idx],
       setShaking: (value) => this.set_animations("efield", idx, value),
-      onEnd: () => {this.props.moves.clearField("efield");console.log("onEnd");},
+      onEnd: () => {this.props.moves.clearField("efield");},
     }
   }
 
@@ -964,7 +964,7 @@ export class Board extends React.Component {
       <button className="preview-button" onClick={this.back}>
         返回
       </button>
-      <TypeFilterContainer 
+      {/* <TypeFilterContainer 
         filters = {FILTERS.map(filter_ => ({
           ...filter_,
           selected: this.state.preview_filter == filter_.f,
@@ -977,7 +977,7 @@ export class Board extends React.Component {
             }
           },
         }))}
-      />
+      /> */}
     </div>);
   }
 

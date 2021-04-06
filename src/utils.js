@@ -12,6 +12,24 @@ export function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+export function vector_sum(v1, v2) {
+  if (v1.length != v2.length) {
+    return v1;
+  }
+  else {
+    return v1.map((v,i) =>(v + v2[i]));
+  }
+}
+
+export function vector_diff(v1, v2) {
+  if (v1.length != v2.length) {
+    return [0];
+  }
+  else {
+    return v1.map((v,i) => (v - v2[i]));
+  }
+}
+
 export function arr2obj(arr) {
   let new_obj = {};
 

@@ -132,7 +132,7 @@
 /* Detailed card addition */
 .cost_detailed, .desc {
   border: none;
-  background-color: rgba(69, 69, 69, .87);
+  background-color: rgba(69, 69, 69, .9);
   box-shadow: 0px 0px 1px grey;
   color: white;
 }

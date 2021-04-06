@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order
+  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker,
 } from './Game';
 import { classes } from './DeckGenerator';
 import { material_icons, ready_order } from './orders';
@@ -584,8 +584,8 @@ export const CARDS = [
         self.onPlay(G, ctx);
       }
 
-      if (~G.hand.indexOf(self) && (self.power >= 6)) {
-        achieve(G, ctx, "赤霄·绝影", "陈在手牌中被强化过至少6次", self);
+      if (~G.hand.indexOf(self) && (self.power >= 15)) {
+        achieve(G, ctx, "赤霄·绝影", "陈在手牌中被强化过至少15次", self);
       }
     },
     reinforce_desc: "触发1次\"部署:\"效果",
@@ -707,29 +707,34 @@ export const CARDS = [
 //     }
 //   },
 
-  // {
-  //   name:"星熊", 
-  //   cost:4, 
-  //   atk:4, 
-  //   hp:10, 
-  //   mine:2, 
-  //   block:2, 
-  //   desc:"行动: 消耗1点费用，获得+2/+2和阻挡数+1，然后重置自己", 
-  //   illust:"https://i.postimg.cc/T1qrsrJ7/img-cards-119.png",
-  //   action(G, ctx, self) {
-  //     if (payCost(G, ctx, 1, true)) {
-  //       self.atk += 2;
-  //       self.hp += 2;
-  //       self.block += 1;
-  //     }
-  //     self.exhausted = false;
-  //   },
-  //   reinforce: 1,
-  //   onReinforce(G, ctx, self) {
-  //     self.block += 1;
-  //   },
-  //   reinforce_desc: "阻挡数+1",
-  // },
+  {
+    name:"星熊", 
+    cost:3, 
+    atk:2, 
+    hp:8, 
+    mine:1, 
+    block:2, 
+    desc:"行动: 消耗1点费用，对阻挡的所有敌人造成2点伤害，然后重置自己", 
+    illust:"https://i.postimg.cc/T1qrsrJ7/img-cards-119.png",
+    action(G, ctx, self) {
+      if (payCost(G, ctx, 1, true)) {
+        // self.atk += 2;
+        // self.hp += 2;
+        // self.block += 1;
+        for (let enemy of G.efield) {
+          if (get_blocker(G, ctx, enemy) == self) {
+            enemy.dmg += 2;
+          }
+        }
+      }
+      self.exhausted = false;
+    },
+    reinforce: 2,
+    onReinforce(G, ctx, self) {
+      self.block += 1;
+    },
+    reinforce_desc: "阻挡数+1",
+  },
   
 
 
@@ -1023,8 +1028,8 @@ export const CARDS = [
     onPlay(G, ctx, self) {
       let num_exhausted = G.efield.filter(x=>x.exhausted).length;
       G.score += num_exhausted;
-      if (num_exhausted >= 8) {
-        achieve(G, ctx, "企鹅物流", "场上有至少8个敌人被横置时部署皇帝", self);
+      if (num_exhausted >= 10) {
+        achieve(G, ctx, "企鹅物流", "场上有至少10个敌人被横置时部署大帝", self);
       }
     },
     reinforce: 1,
@@ -1107,7 +1112,7 @@ export const CARDS = [
     cost:4,
     atk:0,
     hp:3,
-    mine:3,
+    mine:2,
     block:0,
     desc:"行动: 重置1个干员，重置1个订单",
     illust:"https://i.postimg.cc/3wSfSHx4/img-cards-143.png",
@@ -1749,8 +1754,8 @@ export const CARDS = [
         let score_gained = Math.floor(delta / 2);
         G.score += score_gained;
         logMsg(G, ctx, `使用 ${self.name} 获得${score_gained}分`);
-        if (score_gained >= 30) {
-          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少30分", self);
+        if (score_gained >= 50) {
+          achieve(G, ctx, "沸腾爆裂", "使用煌获得至少50分", self);
         }
       }
     },
@@ -1786,34 +1791,34 @@ export const CARDS = [
   //   },
   //   reinforce_desc: "+2/+2",
   // },
-  {
-    name:"迷迭香",
-    cost:4,
-    atk:4,
-    hp:3,
-    mine:2,
-    block:0,
-    desc:"超杀: 召唤2个随机干员的2/2复制",
-    illust:"https://z3.ax1x.com/2020/11/26/Ddxxbt.png",
-    onFight(G, ctx, self, enemy) {
-      if (enemy.dmg > enemy.hp) {
-        for (let i=0; i<2; i++) {
-          let card = ctx.random.Shuffle(G.CARDS.filter(x => x.onMine || x.onFight || x.action))[0];
-          card = {...card};
-          card.atk = 2;
-          card.hp = 2;
-          card.mine = 1;
-          card.cost = 2;
-          summon(G, ctx, card, self);
-        }
-      }
-    },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      deal_random_damage(G, ctx, 3);
-    },
-    reinforce_desc: "造成3点伤害",
-  },
+  // {
+  //   name:"迷迭香",
+  //   cost:4,
+  //   atk:4,
+  //   hp:3,
+  //   mine:2,
+  //   block:0,
+  //   desc:"超杀: 召唤2个随机干员的2/2复制",
+  //   illust:"https://z3.ax1x.com/2020/11/26/Ddxxbt.png",
+  //   onFight(G, ctx, self, enemy) {
+  //     if (enemy.dmg > enemy.hp) {
+  //       for (let i=0; i<2; i++) {
+  //         let card = ctx.random.Shuffle(G.CARDS.filter(x => x.onMine || x.onFight || x.action))[0];
+  //         card = {...card};
+  //         card.atk = 2;
+  //         card.hp = 2;
+  //         card.mine = 1;
+  //         card.cost = 2;
+  //         summon(G, ctx, card, self);
+  //       }
+  //     }
+  //   },
+  //   reinforce: 1,
+  //   onReinforce(G, ctx, self) {
+  //     deal_random_damage(G, ctx, 3);
+  //   },
+  //   reinforce_desc: "造成3点伤害",
+  // },
 
   {
     name:"安比尔",
@@ -2122,10 +2127,10 @@ export const CARDS = [
 
   {
     name:"银灰",
-    cost:5,
-    atk:5,
-    hp:6,
-    mine:2,
+    cost:4,
+    atk:6,
+    hp:3,
+    mine:1,
     block:1,
     desc: <span>采掘/战斗: 消耗1个{material_icons[3]}，重置自己</span>,
     illust:"https://i.postimg.cc/FzRrtvjM/img-cards-80.png",
@@ -2136,8 +2141,8 @@ export const CARDS = [
         self.use_count = self.use_count || 0;
         self.use_count += 1;
 
-        if (self.use_count >= 12) {
-          achieve(G, ctx, "真银斩", "一回合内使用银灰12次以上", self);
+        if (self.use_count >= 10) {
+          achieve(G, ctx, "真银斩", "一回合内使用银灰10次以上", self);
         }
       }
     },
@@ -2148,9 +2153,9 @@ export const CARDS = [
       self.use_count = 0;
     },
     reinforce: 1,
-    reinforce_desc: "+2/+1",
+    reinforce_desc: "+1/+1",
     onReinforce(G, ctx, self) {
-      self.atk += 2;
+      self.atk += 1;
       self.hp += 1;
     }
   },
@@ -2642,8 +2647,8 @@ export const CARDS = [
           G.score += 3;
         }
         self.use_count = (self.use_count || 0) + 1;
-        if (self.use_count == 12) {
-          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿12次以上", self);
+        if (self.use_count == 10) {
+          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿10次以上", self);
         }
     },
     onReinforce(G, ctx, self) {
@@ -2895,7 +2900,7 @@ export const CARDS = [
   {
     name:"红",
     cost:2,
-    atk:2,
+    atk:3,
     hp:1,
     mine:1,
     block:1,
@@ -3357,45 +3362,45 @@ export const CARDS = [
   //   },
   // },
 
-  {
-      name:"空爆",
-      cost:2,
-      atk:4,
-      hp:2,
-      mine:1,
-      block:0,
-      desc:"采掘: 摧毁场上1个(重置的)干员，然后造成4点伤害，重复2次",
-      illust:"https://i.postimg.cc/Y2g8gFYm/img-cards-128.png",
-      onMine(G, ctx, self) {
-        if (eliminate_field(G, ctx, self)) {
-          for (let i=0; i<(2+self.power); i++) {
-            deal_random_damage(G, ctx, 4);
-          }
-        }
-      },
-      action(G, ctx, self) {
-        if (self.power == 1) {
-          let meteorite = G.CARDS.find(x => x.name == "陨星");
-          Object.assign(self, meteorite);
-          self.action = undefined;
-        }
-        else {
-          logMsg(G, ctx, "只需要强化1次即可");
-          self.exhausted = false;
-        }
-      },
-      reinforce: 1,
-      reinforce_desc: "再重复1次",
-      // onReinforce(G, ctx, self) {
-      //   deal_random_damage(G, ctx, 3);
-      // },
-    },
+  // {
+  //     name:"空爆",
+  //     cost:2,
+  //     atk:4,
+  //     hp:2,
+  //     mine:1,
+  //     block:0,
+  //     desc:"采掘: 摧毁场上1个(重置的)干员，然后造成4点伤害，重复2次",
+  //     illust:"https://i.postimg.cc/Y2g8gFYm/img-cards-128.png",
+  //     onMine(G, ctx, self) {
+  //       if (eliminate_field(G, ctx, self)) {
+  //         for (let i=0; i<(2+self.power); i++) {
+  //           deal_random_damage(G, ctx, 4);
+  //         }
+  //       }
+  //     },
+  //     action(G, ctx, self) {
+  //       if (self.power == 1) {
+  //         let meteorite = G.CARDS.find(x => x.name == "陨星");
+  //         Object.assign(self, meteorite);
+  //         self.action = undefined;
+  //       }
+  //       else {
+  //         logMsg(G, ctx, "只需要强化1次即可");
+  //         self.exhausted = false;
+  //       }
+  //     },
+  //     reinforce: 1,
+  //     reinforce_desc: "再重复1次",
+  //     // onReinforce(G, ctx, self) {
+  //     //   deal_random_damage(G, ctx, 3);
+  //     // },
+  //   },
 
   {
     name:"卡达",
     cost:3,
     atk:3,
-    hp:4,
+    hp:3,
     mine:1,
     block:1,
     desc:"行动: 本回合剩余时间内，使用其他干员采掘时，重置自己",
@@ -3596,8 +3601,8 @@ export const CARDS = [
       // G.field.push(init_card_state(G, ctx, {...texas}));
       summon(G, ctx, {...texas}, self);
 
-      if (self.power >= 6) {
-        achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰德部署6个德克萨斯", self);
+      if (self.power >= 8) {
+        achieve(G, ctx, "德克萨斯做得到吗", "使用拉普兰德部署8个德克萨斯", self);
       }
     },
     reinforce_desc: "召唤\"德克萨斯\"并将其沉默",

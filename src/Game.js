@@ -5,7 +5,7 @@ import { BOSSES, ENEMIES } from "./enemies";
 import { ORDERS, material_icons, default_order } from "./orders";
 import { UPGRADES } from './upgrades';
 import { get_deck_name, generate_deck, generate_deck_s2, generate_deck_s1, solver_core, scorer_core, pick_scorers, pick_vanguards } from './DeckGenerator';
-import { arr2obj, mod_slice, PRNG } from "./utils";
+import { arr2obj, mod_slice, PRNG, vector_diff, vector_sum } from "./utils";
 import { ICONS, food_icons } from "./icons";
 import { ALTER_ARTS } from "./alters";
 
@@ -1007,6 +1007,8 @@ export function setup_scenario(G, ctx) {
     G.stage = "player";
     G.round_num = 0;
 
+    G.diff_cnt = 0;
+
     G.CARDS = CARDS.slice(0);
     let banned_cards = ["可露希尔"];
     G.CARDS = G.CARDS.filter(x => !banned_cards.includes(x.name));
@@ -1120,6 +1122,15 @@ function upgrade(G, ctx, card_idx, upgrade_idx) {
   G.Deck = G.selections;
 }
 
+function receive_diff(G, ctx, diff) {
+  G.score += diff.score;
+  G.danger += diff.danger;
+  G.materials = vector_sum(G.materials, diff.materials);
+  G.efield.map((enemy, idx) => {
+    enemy.dmg += diff.efield_dmg[idx] || 0;
+    enemy.hp += diff.efield_hp[idx] || 0;
+  });
+}
 
 export function get_desc(card) {
   return  <span>
@@ -1179,6 +1190,7 @@ export const AC = {
     upgrade,
     pick,
     setupRoguelikeBattle,
+    receive_diff,
   },
 
   turn: {
@@ -1303,6 +1315,38 @@ export const AC = {
   },
 
   seed: 114514,
+
+  plugins: [
+    {
+      name: "diff",
+      fnWrap: (fn) => (G, ctx, ...args) => {
+        if (typeof args[0] == "object" && "is_diff" in args[0]) {
+          return fn(G, ctx, ...args);
+        }
+        else {
+          let {score: prev_score, danger: prev_danger, materials: prev_materials, efield: prev_efield} = G;
+          let new_G = fn(G, ctx, ...args);
+          let {score, danger, materials, efield} = new_G;
+          // Send diff whatever when move
+          let diff = {
+            is_diff: true,
+            score: score - prev_score,
+            danger: danger - prev_danger,
+            materials: vector_diff(materials, prev_materials),
+            efield_dmg: vector_diff(efield.map(e=>e.dmg), prev_efield.map(e=>e.dmg)),
+            efield_hp: vector_diff(efield.map(e=>e.hp), prev_efield.map(e=>e.hp)),
+          }
+          let diff_cnt = new_G.diff_cnt;
+          let span_diff = [diff.score, diff.danger, ...diff.materials, ...diff.efield_dmg, ...diff.efield_hp];
+          if (_.sum(span_diff) > 0) {
+            diff_cnt += 1;
+            console.log("Diff:", diff);
+          }
+          return {...new_G, diff_cnt, diff};
+        }
+      }
+    }
+  ],
   
 
   // TODO: know how to set available moves to all moves, then add this phase feature
