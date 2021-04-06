@@ -2241,8 +2241,8 @@ export const CARDS = [
   {
     name:"棘刺",
     cost:2,
-    atk:3,
-    hp:2,
+    atk:2,
+    hp:3,
     mine:1,
     block:1,
     desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
