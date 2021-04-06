@@ -33,8 +33,9 @@ const init_animations = {
   materials: {},
 };
 
-const SOCKET_SERVER = "http://localhost:3050";
+// const SOCKET_SERVER = "http://localhost:3050";
 // const SOCKET_SERVER = "http://47.96.2.148:3050"
+const SOCKET_SERVER = "http://165.232.168.197:3050"
 
 export class Board extends React.Component {
 
