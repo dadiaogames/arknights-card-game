@@ -267,7 +267,7 @@ const tag_list = [
     src: "https://i.postimg.cc/j2Xsm5wQ/img-tags-22.png",
     desc: "3回合后，所有敌人获得+5/+5",
     level: 3,
-    // standard_level: 3,
+    standard_level: 6,
     effect(G, ctx){
       G.reinforceOnR4 = true;
     }
@@ -290,6 +290,7 @@ const tag_list = [
     level: 4,
     challenge: true,
     stackable: true,
+    standard_level: 5,
     effect(G, ctx){
       addBoss(G, ctx, "大泡普");
       G.goal += 10;
@@ -312,7 +313,7 @@ const tag_list = [
     level: 5,
     challenge: true,
     // stackable: true,
-    // standard_level: 5,
+    standard_level: 6,
     effect(G, ctx) {
       G.goal += 24;
     }

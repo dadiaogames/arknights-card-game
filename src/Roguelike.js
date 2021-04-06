@@ -137,6 +137,12 @@ export function choose_standard_tags(tags, current_standard_level) {
       if ((current_standard_level >= 4) && [7,8].includes(new_tags.indexOf(tag))) {
         tag.selected = true;
       }
+      if ((current_standard_level >= 5) && [5,10,11,14].includes(new_tags.indexOf(tag))) {
+        tag.selected = true;
+      }
+      // if ((current_standard_level >= 6) && [7,8].includes(new_tags.indexOf(tag))) {
+        // tag.selected = true;
+      // }
     }
 
     // if (this.state.competition_mode) {
