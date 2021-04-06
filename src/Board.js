@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { produce } from 'immer';
 import { Tabs, TabList, Tab } from 'react-tabs';
 import { useSpring, animated } from 'react-spring';
+import socketIOClient from 'socket.io-client';
 import { Card, SCard, CardRow, CheckCard, SCardRow, TypeFilterContainer } from './Card';
 import { Controller, EnterGame } from './Controller';
 import { Panel, ScoreBoard, MaterialDisplay } from './Panel';
@@ -23,6 +24,7 @@ import { RULES } from './rules';
 import 'react-tabs/style/react-tabs.css';
 
 import './Board.css';
+import { CreateRoom, EnterRoom, get_room_id, Multiplayer } from './Multiplayer';
 
 const init_animations = {
   field: {},
@@ -30,6 +32,8 @@ const init_animations = {
   finished: {},
   materials: {},
 };
+
+const SOCKET_SERVER = "http://localhost:3050";
 
 export class Board extends React.Component {
 
@@ -113,6 +117,10 @@ export class Board extends React.Component {
     this.render_roguelike_relic_check_board = this.render_roguelike_relic_check_board.bind(this);
     this.render_weekly_board = this.render_weekly_board.bind(this);
 
+    this.render_multiplayer_board = this.render_multiplayer_board.bind(this);
+    this.render_create_room_board = this.render_create_room_board.bind(this);
+    this.render_enter_room_board = this.render_enter_room_board.bind(this);
+
     this.enter_competition_mode = this.enter_competition_mode.bind(this);
     this.select_deck = this.select_deck.bind(this);
     this.upgrade_card = this.upgrade_card.bind(this);
@@ -123,6 +131,10 @@ export class Board extends React.Component {
     this.buy_item = this.buy_item.bind(this);
 
     this.enter_daily_mode = this.enter_daily_mode.bind(this);
+
+    this.create_room = this.create_room.bind(this);
+    this.join_room = this.join_room.bind(this);
+    this.enter_multiplayer_mode = this.enter_multiplayer_mode.bind(this);
 
     this.change_board = this.change_board.bind(this);
     this.reset_preview_deck = this.reset_preview_deck.bind(this);
@@ -755,6 +767,9 @@ export class Board extends React.Component {
       "roguelike_result": this.render_roguelike_result_board,
       "roguelike_final_result": this.render_roguelike_final_result_board,
       "weekly": this.render_weekly_board,
+      "multiplayer": this.render_multiplayer_board,
+      "create_room": this.render_create_room_board,
+      "enter_room": this.render_enter_room_board,
     };
     this.setState({last_board: this.state.board})
     this.setState({board: BOARDS[new_board]});
@@ -1062,6 +1077,41 @@ export class Board extends React.Component {
     this.props.moves.select_deck(idx);
     this.change_board("deck_upgrade");
   }
+
+  create_room(difficulty) {
+    let room_id = get_room_id(difficulty);
+    alert(`创建成功！房间号为${room_id}`);
+    this.enter_multiplayer_mode(room_id);
+  }
+
+  join_room(room_id) {
+    this.enter_multiplayer_mode(room_id);
+  }
+
+  enter_multiplayer_mode(room_id) {
+    let difficulty = parseInt(room_id[4]) || 0;
+
+    // Set state
+    this.setState({
+      multiplayer_mode: true,
+      tags: choose_standard_tags(TAGS.map(x=>({...x})), difficulty),
+      seed: room_id,
+    });
+
+    // Socket connect
+    this.socket = socketIOClient(SOCKET_SERVER, {query: {room_id}});
+    this.socket.on("diff", (data) => {
+      this.props.moves.receive_diff(data);
+      console.log("Receive diff", data);
+    });
+
+    // Enter deck
+    this.change_board("deck");
+  }
+
+  // finish_multiplayer_mode() {
+    // this.socket.disconnect();
+  // }
   
   enter_roguelike_mode() {
     this.roguelike.setup_roguelike_mode();
@@ -1323,6 +1373,27 @@ export class Board extends React.Component {
     />
   }
 
+  render_multiplayer_board() {
+    return <Multiplayer 
+      create_room = {() => this.change_board("create_room")}
+      enter_room = {() => this.change_board("enter_room")}
+      back = {() => this.change_board("tag")}
+    />;
+  }
+
+  render_create_room_board() {
+    return <CreateRoom 
+      enter_difficulty = {(difficulty) => () => this.create_room(difficulty)}
+      back = {() => this.change_board("multiplayer")}
+    />;
+  }
+
+  render_enter_room_board() {
+    return <EnterRoom 
+      back = {() => this.change_board("multiplayer")}
+    />;
+  }
+
   render_competition_board() {
     let actions = {
        "查看卡组": () => {
@@ -1570,8 +1641,9 @@ export class Board extends React.Component {
       }),
       // 其他模式: () => this.change_board('mode_selection'),
       // 每日挑战: this.enter_daily_mode,
-      周常挑战: () => this.roguelike.enter_weekly_mode(),
-      肉鸽模式: this.enter_roguelike_mode,
+      // 周常挑战: () => this.roguelike.enter_weekly_mode(),
+      合作模式: () => this.change_board("multiplayer"),
+      肉鸽模式: () => this.enter_roguelike_mode,
       返回标题: () => this.change_board("title"),
     };
 
