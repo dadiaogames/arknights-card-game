@@ -895,16 +895,20 @@ export function init_decks(deck, seed) {
   // let deck = str2deck(deck_data);
   // deck = deck.map(x=>({...x, reversed:true}));
   let rng = new PRNG(seed);
+  // console.log("Seed:", seed);
 
   let get_enemies = () => (ENEMIES.map(x=>({...x})));
   let edeck = get_enemies().concat(get_enemies());
+  console.log("Previews edeck:", edeck);
   let odeck = ORDERS.map((x,idx)=>({...x, order_id:idx, color:rng.randRange(3)}));
 
+  edeck = rng.shuffle(edeck);  // Shuffle this at first
   deck = rng.shuffle(deck);
-  edeck = rng.shuffle(edeck);
   odeck = [...rng.shuffle(odeck), ...rng.shuffle(odeck)];
 
   edeck = edeck.slice(0, 22);
+
+  // console.log("Edeck:", edeck);
 
   return {deck, edeck, odeck, shuffle_times:rng.randRange(30)};
 }
@@ -1007,7 +1011,8 @@ export function setup_scenario(G, ctx) {
     G.stage = "player";
     G.round_num = 0;
 
-    G.diff_cnt = 0;
+    // G.diff_cnt = 0;
+    G.diff_queue = [];
 
     G.CARDS = CARDS.slice(0);
     let banned_cards = ["可露希尔"];
@@ -1132,6 +1137,11 @@ function receive_diff(G, ctx, diff) {
   });
 }
 
+function emit_diff(G, ctx, optimizer) {
+  G.diff_queue = G.diff_queue.slice(1);
+  console.log("Dequeue", G.diff_queue);
+}
+
 export function get_desc(card) {
   return  <span>
     <span style={{fontSize:"120%"}}>
@@ -1191,6 +1201,7 @@ export const AC = {
     pick,
     setupRoguelikeBattle,
     receive_diff,
+    emit_diff,
   },
 
   turn: {
@@ -1314,7 +1325,7 @@ export const AC = {
     }
   },
 
-  seed: 114514,
+  seed: "114514",
 
   plugins: [
     {
@@ -1325,7 +1336,7 @@ export const AC = {
         }
         else {
           let {score: prev_score, danger: prev_danger, materials: prev_materials, efield: prev_efield} = G;
-          let new_G = fn(G, ctx, ...args);
+          let new_G = {...fn(G, ctx, ...args)};
           let {score, danger, materials, efield} = new_G;
           // Send diff whatever when move
           let diff = {
@@ -1336,13 +1347,20 @@ export const AC = {
             efield_dmg: vector_diff(efield.map(e=>e.dmg), prev_efield.map(e=>e.dmg)),
             efield_hp: vector_diff(efield.map(e=>e.hp), prev_efield.map(e=>e.hp)),
           }
-          let diff_cnt = new_G.diff_cnt;
-          let span_diff = [diff.score, diff.danger, ...diff.materials, ...diff.efield_dmg, ...diff.efield_hp];
-          if (_.sum(span_diff) > 0) {
-            diff_cnt += 1;
-            console.log("Diff:", diff);
+          // let diff_cnt = new_G.diff_cnt;
+          let span_diff = [diff.score, diff.danger, ...diff.materials, ...diff.efield_dmg];
+          if (G.stage == "player") {
+            span_diff = [...span_diff, ...diff.efield_hp];
           }
-          return {...new_G, diff_cnt, diff};
+          if (_.sum(span_diff.map(x => Math.abs(x))) != 0) {
+            // diff_cnt += 1;
+            // console.log("Diff:", diff);
+            // new_G.diff_cnt = diff_cnt;
+            // new_G.diff = diff;
+            new_G.diff_queue = [...new_G.diff_queue, diff];
+            console.log("Enqueue", new_G.diff_queue);
+          }
+          return new_G;
         }
       }
     }

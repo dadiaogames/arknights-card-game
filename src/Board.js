@@ -33,8 +33,8 @@ const init_animations = {
   materials: {},
 };
 
-// const SOCKET_SERVER = "http://localhost:3050";
-const SOCKET_SERVER = "http://47.96.2.148:3050"
+const SOCKET_SERVER = "http://localhost:3050";
+// const SOCKET_SERVER = "http://47.96.2.148:3050"
 
 export class Board extends React.Component {
 
@@ -145,6 +145,9 @@ export class Board extends React.Component {
     this.check_deck = this.check_deck.bind(this);
     this.back = this.back.bind(this);
 
+    this.end_game = this.end_game.bind(this);
+    this.turn_end = this.turn_end.bind(this);
+
     this.roguelike = map_object(action => (...args) => this.setState(produce((S) => action(S, ...args))), roguelike);
 
     this.state = {
@@ -187,6 +190,8 @@ export class Board extends React.Component {
 
       seed: get_seed_name(),
       lock_seed: false,
+
+      room_id: "",
 
       checking: {},
 
@@ -792,6 +797,10 @@ export class Board extends React.Component {
   enter_game() {
     let deck = [];
     let seed = this.state.seed;
+    if (this.state.multiplayer_mode) {
+      seed = this.state.room_id;
+    }
+
     if (this.state.competition_mode || this.state.roguelike_mode) {
       deck = this.state.Deck;
       if (this.state.roguelike_mode) {
@@ -816,6 +825,15 @@ export class Board extends React.Component {
     this.change_board("mulligan");
   }
 
+  turn_end() {
+    if (this.state.multiplayer_mode) {
+      this.socket.emit("turn end", {});
+    }
+    this.props.moves.rest();
+    this.props.moves.enemyInit();
+    this.enemy_move(-this.props.G.num_enemies_out);
+  }
+
   end_game() {
     this.props.reset();
     this.setState({
@@ -831,6 +849,11 @@ export class Board extends React.Component {
 
       this.change_board("roguelike_result");
       // this.roguelike.end_battle();
+    }
+    else if (this.state.multiplayer_mode) {
+      this.setState({multiplayer_mode: false});
+      this.socket.disconnect();
+      this.change_board("multiplayer");
     }
     else{
       this.change_board("tag");
@@ -854,6 +877,14 @@ export class Board extends React.Component {
       if (material_diff > 0) {
         this.set_animations("materials", i, true);
       } 
+    }
+
+    // Diff
+    if (this.state.multiplayer_mode && this.props.G.diff_queue.length > 0) {
+      // console.log("Data:",this.props.G.diff_cnt, this.props.G.diff, this.props.G);
+      // console.log("Emit diff", this.props.G.diff);
+      this.socket.emit("diff", this.props.G.diff_queue[0]);
+      this.props.moves.emit_diff({is_diff: true});
     }
 
     // About result
@@ -1096,15 +1127,23 @@ export class Board extends React.Component {
     this.setState({
       multiplayer_mode: true,
       tags: choose_standard_tags(TAGS.map(x=>({...x})), difficulty),
-      seed: room_id,
+      room_id: room_id,
     });
 
     // Socket connect
-    this.socket = socketIOClient(SOCKET_SERVER, {query: {room_id}});
+    this.socket = socketIOClient(SOCKET_SERVER, {
+      query: {room_id},
+      withCredentials: true,
+    });
     this.socket.on("diff", (data) => {
       this.props.moves.receive_diff(data);
       console.log("Receive diff", data);
     });
+    this.socket.on("turn end", (data) => {
+      if (this.props.G.stage == "player") {
+        this.turn_end();
+      }
+    })
 
     // Enter deck
     this.change_board("deck");
@@ -1391,6 +1430,9 @@ export class Board extends React.Component {
 
   render_enter_room_board() {
     return <EnterRoom 
+      value = {this.state.room_id}
+      handleChange = {(e) => this.setState({room_id: e.target.value})}
+      enter_room = {() => this.join_room(this.state.room_id)}
       back = {() => this.change_board("multiplayer")}
     />;
   }
@@ -1481,9 +1523,9 @@ export class Board extends React.Component {
             if (this.props.ctx.gameover) {
               this.end_game();
             }
-            this.props.moves.rest();
-            this.props.moves.enemyInit();
-            this.enemy_move(-this.props.G.num_enemies_out);
+            else {
+              this.turn_end();
+            }
           }}
         >
           {this.props.ctx.gameover? <span>{ICONS.endgame}结束游戏</span>:<span>{ICONS.endturn}结束回合</span>}
@@ -1644,7 +1686,7 @@ export class Board extends React.Component {
       // 每日挑战: this.enter_daily_mode,
       // 周常挑战: () => this.roguelike.enter_weekly_mode(),
       合作模式: () => this.change_board("multiplayer"),
-      肉鸽模式: () => this.enter_roguelike_mode,
+      肉鸽模式: () => this.enter_roguelike_mode(),
       返回标题: () => this.change_board("title"),
     };
 
