@@ -340,6 +340,8 @@ export class Board extends React.Component {
       atk: card.atk,
       hp: card.hp,
       cost: card.cost,
+      // reinforce_material: material_icons[card.material],
+      // material: 0,
     };
     if (card.power > 0) {
       data.power = "↑"+card.power;
@@ -410,6 +412,7 @@ export class Board extends React.Component {
       atk: card.atk,
       hp: (card.hp - card.dmg),
       mine: (<span>{ICONS.mine}{card.mine}</span>),
+      // reinforce_material: material_icons[card.material],
     };
     if (card.block > 0) {
       data.block = (<span>{ICONS.block}{card.block}</span>);
@@ -1679,7 +1682,7 @@ export class Board extends React.Component {
 
     let actions = {
       进入游戏: () => this.change_board("deck"),
-      快速设置: () => this.setState({
+      难度速设: () => this.setState({
         tags: choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),

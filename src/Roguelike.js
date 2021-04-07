@@ -43,7 +43,7 @@ function setup_roguelike_mode(S) {
   S.relics = [];
   S.gold = 50;
 
-  S.scene_queue = ["upgrade", ..._.times(8, ()=>"init_card"), "relic"];
+  S.scene_queue = ["upgrade", ..._.times(12, ()=>"init_card"), "relic"];
   S.current_upgrades = [];
   S.current_indexes = [];
   S.current_relics = [];
@@ -336,7 +336,7 @@ function preprocess_roguelike_card(card) {
 // }
 
 function setup_deck_selection(S) {
-  S.Deck = str2deck(deck2str(["黑角", "极境", "桃金娘", "翎羽"]));
+  S.Deck = str2deck(deck2str(["黑角", "极境", "桃金娘"]));
   S.Deck.map(preprocess_roguelike_card);
 }
 
@@ -696,6 +696,11 @@ export function get_gold_gained(risk_level, level_required) {
       gold_gained += 30;
     }
 
+    let slam_bonus = Math.floor((level_diff - 8) / 4) * 40;
+    if (slam_bonus > 0) {
+      gold_gained += slam_bonus;
+    }
+
     return gold_gained;
 
 }
@@ -736,7 +741,11 @@ function continue_run(S) {
   let num_bonus = Math.floor((S.level_achieved - S.level_required) / 4);
   let num_extra_relics = Math.max(num_bonus-2, 0);
   let num_upgrades = Math.min(num_bonus, 2);
-  S.scene_queue = [..._.times(num_extra_relics, ()=>"relic"), ..._.times(num_upgrades, ()=>"upgrade"), ...S.scene_queue];
+  S.scene_queue = [
+    // ..._.times(num_extra_relics, ()=>"relic"), 
+    ..._.times(num_upgrades, ()=>"upgrade"), 
+    ...S.scene_queue
+  ];
   // console.log(S.scene_queue);
 
   S.game_count = Math.min(S.game_count, 9);

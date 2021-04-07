@@ -40,7 +40,7 @@
   text-align: center;
 }
 
-.mine, .block, .power {
+.mine, .block, .power, .reinforce_material {
   top: -2%;
   left: 0%;
   height: 20%;
@@ -59,6 +59,14 @@
   width: 35%;
   height: 18%;
   font-size: 90%;
+}
+
+.reinforce_material {
+  left: 70%;
+  width: 30%;
+  top: 22%;
+  height: 24%;
+  /* transform: scale(0.9); */
 }
 
 .cost_detailed {
