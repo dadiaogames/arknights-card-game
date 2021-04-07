@@ -884,7 +884,7 @@ export class Board extends React.Component {
     }
 
     // Diff
-    if (this.state.multiplayer_mode && this.props.G.diff_queue.length > 0) {
+    if (this.state.multiplayer_mode && (this.props.G.diff_queue.length > 0) && (!this.props.ctx.gameover)) {
       // console.log("Data:",this.props.G.diff_cnt, this.props.G.diff, this.props.G);
       // console.log("Emit diff", this.props.G.diff);
       this.socket.emit("diff", this.props.G.diff_queue[0]);
