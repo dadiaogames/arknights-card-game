@@ -1761,7 +1761,7 @@ export class Board extends React.Component {
             color: "#cf1322", 
             marginLeft: "2%",
             marginTop: "-3%",
-            display:(risk_level>=16 && (!(this.state.roguelike_mode || this.state.daily_mode)))? "" : "none"
+            display:(risk_level>=40 && (!(this.state.roguelike_mode || this.state.daily_mode)))? "" : "none"
           }}
         >
           当前合约难度极大，请谨慎行动
