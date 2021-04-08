@@ -901,8 +901,15 @@ export class Board extends React.Component {
         level_achieved: this.get_risk_level(),
         extra_gain: this.props.G.extra_gain,
       });
-      let good_grade = "O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA";
 
+      // Send the result
+      if (this.state.multiplayer_mode && (this.props.G.diff_queue.length > 0)) {
+        for (let final_diff of this.props.G.diff_queue) {
+          this.socket.emit("diff", final_diff);
+        }
+      }
+
+      let good_grade = "O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA";
       if (result.win) {
         let risk_level = this.get_risk_level();
         let grade = "D";
@@ -925,20 +932,20 @@ export class Board extends React.Component {
         else if (risk_level >= 32 && risk_level < 40) {
           grade = "SS";
         }
-        else if (risk_level >= 40 && risk_level < 50) {
+        else if (risk_level >= 40 && risk_level < 60) {
           grade = "SSS";
         }
-        else if (risk_level >= 50 && risk_level < 60) {
+        // else if (risk_level >= 50 && risk_level < 60) {
+        //   grade = "SSSS";
+        // }
+        // else if (risk_level >= 60 && risk_level < 70) {
+        //   grade = "SSSSS";
+        // }
+        else if (risk_level >= 60 && risk_level < 100) {
           grade = "SSSS";
         }
-        else if (risk_level >= 60 && risk_level < 70) {
-          grade = "SSSSS";
-        }
-        else if (risk_level >= 70 && risk_level < 100) {
-          grade = "SSSSSS";
-        }
         else {
-          grade = "SSSSSSSSS";
+          grade = "金色传说";
         }
         // console.log("Time to alert finish");
         // TODO: reconstruct this part, flat is better than nested
