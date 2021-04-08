@@ -41,8 +41,8 @@ export function DeckSelection(props) {
 }
 
 export function DeckUpgrade(props) {
-  return <div className="board">
-    <CardRow cards={props.upgrades || []} states={props.upgradeStates || []} additionalStyle={{marginTop: "35%"}} handleClick={props.handleUpgradeClick}/>
+  return <div className="board game-board">
+    <CardRow cards={props.upgrades || []} states={props.upgradeStates || []} additionalClassName=" deck-upgrade-cardrow" handleClick={props.handleUpgradeClick}/>
     <div className="upgrade-desc">{props.selectedUpgrade.desc? "获得"+props.selectedUpgrade.desc : ""}</div>
     <CardRow cards={props.cards || []} states={props.cardStates || []} handleClick={props.handleCardClick} additionalStyle={{marginTop: "1%"}}/>
     <div className="card-desc">{props.selectedCard && process_selected_desc(props.selectedCard)}</div>

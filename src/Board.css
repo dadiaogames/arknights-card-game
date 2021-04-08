@@ -47,6 +47,11 @@ body {
   left: 3%;
 }
 
+.roguelike-shop-intro {
+  margin-top: 38.2%;
+  margin-left: 2%;
+}
+
 /* On phone */
 @media screen and (max-width:1000px) {
   .card-display {
@@ -69,6 +74,10 @@ body {
 
   .mulligan-intro {
     top: -6%;
+  }
+
+  .roguelike-shop-intro {
+    margin-top: 10%;
   }
 }
 

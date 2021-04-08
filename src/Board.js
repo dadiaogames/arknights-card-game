@@ -1283,8 +1283,8 @@ export class Board extends React.Component {
     let cards = (current_item.is_pick)? current_item.indexes.map(idx => CARDS[idx]) : current_item.indexes.map(idx => this.state.Deck[idx]).filter(x => x != undefined);
     let selected_card = cards[this.state.shop_selected];
     // console.log(cards);
-    return (<div className="board" style={{position:"relative"}} >
-      <div style={{marginTop: "38.2%", marginLeft: "2%"}}>{this.state.current_item.desc}</div>
+    return (<div className="board game-board" style={{position:"relative"}} >
+      <div className="roguelike-shop-intro">{this.state.current_item.desc}</div>
       <CardRow 
         cards = {cards.map(this.process_hand_data)}
         handleClick = {(idx)=>()=>this.setState({shop_selected: idx})}

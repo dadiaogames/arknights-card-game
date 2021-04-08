@@ -819,7 +819,7 @@ export function random_upgrade(S) {
 
 
 export function RoguelikeDeckSelection(props) {
-  return <div className="board" align="center">
+  return <div className="board game-board" align="center">
     <div className="roguelike-deck-selection-title">选择你的卡组</div>
     <div className="roguelike-deck-selection">
       {props.decks.map(deck => <RoguelikeDeckRepr {...deck} />)}
