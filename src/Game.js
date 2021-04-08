@@ -119,7 +119,7 @@ function out(G, ctx, deck, idx) {
   let discard = (deck == "field") ? "discard" : "ediscard";
   move(G, ctx, deck, discard, idx);
   logMsg(G, ctx, `${card.name} 被摧毁${(deck=="efield")?"(+1分)":""}`);
-  if (card.onOut) {
+  if (card.onOut && (!(deck == "efield" && G.is_joiner == true))) {
     card.onOut(G, ctx, card);
   }
 }
@@ -795,7 +795,7 @@ function refresh(G, ctx) {
   }
 }
 
-function onScenarioBegin(G, ctx) {
+function onScenarioBegin(G, ctx, params) {
   //Setup edeck
   for (let enemy of G.edeck) {
     if (enemy.atk < 0) { 
@@ -813,6 +813,12 @@ function onScenarioBegin(G, ctx) {
   }
 
   refreshOrder(G, ctx);
+
+  // Setup params
+  // Multiplayer params
+  if (params.is_joiner) {
+    G.is_joiner = true;
+  }
 
   console.log("Setup finished");
   G.playing = true;

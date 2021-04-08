@@ -824,7 +824,9 @@ export class Board extends React.Component {
       this.props.moves.setupRoguelikeBattle(this.state.relics);
     }
     this.props.moves.addTags(this.state.tags.filter(t => (t.selected || t.locked)));
-    this.props.moves.onScenarioBegin();
+    this.props.moves.onScenarioBegin({
+      is_joiner: this.state.is_joiner,
+    });
     this.setState({hand_choices: [false, false, false, false, false]});
     this.change_board("mulligan");
   }
@@ -1129,6 +1131,7 @@ export class Board extends React.Component {
 
   join_room(room_id) {
     this.enter_multiplayer_mode(room_id);
+    this.setState({is_joiner: true});
   }
 
   enter_multiplayer_mode(room_id) {
