@@ -1794,7 +1794,7 @@ export const CARDS = [
   {
     name:"迷迭香",
     cost:4,
-    atk:6,
+    atk:5,
     hp:3,
     mine:1,
     block:0,
