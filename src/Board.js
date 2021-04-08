@@ -950,7 +950,7 @@ export class Board extends React.Component {
         // console.log("Time to alert finish");
         // TODO: reconstruct this part, flat is better than nested
         let finish = this.props.G.rhodes_training_mode?"任务失败":"任务完成";
-        alert(`${finish}\n完成危机等级: ${risk_level}\n${this.state.multiplayer_mode?`完成合作难度: ${["渣渣", "渣渣", "渣渣", "渣渣", "普通", "高压", "危急"][parseInt(this.state.room_id[4])]}\n`:""}评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n${this.state.daily_mode?`完成每日挑战: ${this.state.date}\n`:""}地图种子: ${this.state.seed}\n${this.state.weekly_mode?`完成周常挑战: ${this.state.week}挑战${this.state.weekly_challenge_idx}\n`:""}`);
+        alert(`${finish}\n完成危机等级: ${risk_level}\n${this.state.multiplayer_mode?`完成合作难度: ${["渣渣", "渣渣", "渣渣", "渣渣", "普通", "高压", "危急"][parseInt(this.state.room_id[3])]}\n`:""}评级: ${grade}\n使用卡组: ${this.state.deck_mode=="random"?this.state.deck_name:`${is_standard(this.state.deck_data)?"标准":"狂野"}自组卡组`}\n${this.state.daily_mode?`完成每日挑战: ${this.state.date}\n`:""}地图种子: ${this.state.seed}\n${this.state.weekly_mode?`完成周常挑战: ${this.state.week}挑战${this.state.weekly_challenge_idx}\n`:""}`);
 
         if (this.state.competition_mode) {
           this.setState({results: [...this.state.results, risk_level]});
@@ -1132,7 +1132,7 @@ export class Board extends React.Component {
   }
 
   enter_multiplayer_mode(room_id) {
-    let difficulty = parseInt(room_id[4]) || 0;
+    let difficulty = parseInt(room_id[3]) || 0;
 
     // Set state
     this.setState({

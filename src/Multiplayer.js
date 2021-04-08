@@ -50,5 +50,5 @@ export function EnterRoom(props) {
 
 export function get_room_id(difficulty) {
   let date = new Date();
-  return "" + (date.getMinutes()+10) + (date.getSeconds()+10) + difficulty + _.random(9);
+  return "" + (date.getMinutes()%10) + (date.getSeconds()+10) + difficulty + _.random(9);
 }
