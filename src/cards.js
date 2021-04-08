@@ -1791,34 +1791,39 @@ export const CARDS = [
   //   },
   //   reinforce_desc: "+2/+2",
   // },
-  // {
-  //   name:"迷迭香",
-  //   cost:4,
-  //   atk:4,
-  //   hp:3,
-  //   mine:2,
-  //   block:0,
-  //   desc:"超杀: 召唤2个随机干员的2/2复制",
-  //   illust:"https://z3.ax1x.com/2020/11/26/Ddxxbt.png",
-  //   onFight(G, ctx, self, enemy) {
-  //     if (enemy.dmg > enemy.hp) {
-  //       for (let i=0; i<2; i++) {
-  //         let card = ctx.random.Shuffle(G.CARDS.filter(x => x.onMine || x.onFight || x.action))[0];
-  //         card = {...card};
-  //         card.atk = 2;
-  //         card.hp = 2;
-  //         card.mine = 1;
-  //         card.cost = 2;
-  //         summon(G, ctx, card, self);
-  //       }
-  //     }
-  //   },
-  //   reinforce: 1,
-  //   onReinforce(G, ctx, self) {
-  //     deal_random_damage(G, ctx, 3);
-  //   },
-  //   reinforce_desc: "造成3点伤害",
-  // },
+  {
+    name:"迷迭香",
+    cost:4,
+    atk:6,
+    hp:3,
+    mine:1,
+    block:0,
+    desc:"超杀: 每造成2点额外伤害，就再对1个敌人造成3点伤害",
+    illust:"https://z3.ax1x.com/2020/11/26/Ddxxbt.png",
+    onFight(G, ctx, self, enemy) {
+      if (enemy.dmg > enemy.hp) {
+        // for (let i=0; i<2; i++) {
+        //   let card = ctx.random.Shuffle(G.CARDS.filter(x => x.onMine || x.onFight || x.action))[0];
+        //   card = {...card};
+        //   card.atk = 2;
+        //   card.hp = 2;
+        //   card.mine = 1;
+        //   card.cost = 2;
+        //   summon(G, ctx, card, self);
+        // }
+        let delta = enemy.dmg - enemy.hp;
+        for (let i=0; i<Math.floor(delta/2); i++) {
+          deal_random_damage(G, ctx, 3);
+        }
+      }
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 1;
+    },
+    reinforce_desc: "+2/+1",
+  },
 
   {
     name:"安比尔",
@@ -3277,8 +3282,8 @@ export const CARDS = [
   //   hp:3,
   //   mine:2,
   //   block:0,
-  //   desc:"超杀: 召唤2个随机干员的1/1复制",
-  //   illust:"",
+  //   desc:"超杀: 召唤2个随机干员的1/1",
+  //   illust:"https://z3.ax1x.com/2020/11/26/Ddxxbt.png",
   //   onPlay(G, ctx, self) {
   //   },
   //   onMine(G, ctx, self) {
@@ -3288,9 +3293,9 @@ export const CARDS = [
   //   action(G, ctx, self) {
   //   },
   //   reinforce: 1,
-  //   reinforce_desc: "+3/+1",
+  //   reinforce_desc: "+2/+1",
   //   onReinforce(G, ctx, self) {
-  //     self.atk += 3;
+  //     self.atk += 2;
   //     self.hp += 1;
   //   },
   // },
