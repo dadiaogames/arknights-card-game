@@ -22,12 +22,16 @@
 
 .multiplayer-back-btn {
   /* margin-right: 30%; */
-  margin-top: 20%;
+  margin-top: 12%;
   width: 20%;
 }
 
 .multiplayer-intro-btn {
   margin-left: 5%;
+}
+
+.multiplayer-group {
+  color: #595959;
 }
 
 .difficulty-btn {

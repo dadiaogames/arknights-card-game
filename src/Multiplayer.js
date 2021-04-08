@@ -16,7 +16,8 @@ export function Multiplayer(props) {
     <button className="multiplayer-btn" onClick={props.create_room}>创建房间</button><br/>
     <button  className="multiplayer-btn" onClick={props.enter_room}>加入房间</button><br/>
     <button className="multiplayer-back-btn" onClick={props.back}>返回</button>
-    <button className="multiplayer-intro-btn" onClick={show_multiplayer_intro}>合作模式介绍</button>
+    <button className="multiplayer-intro-btn" onClick={show_multiplayer_intro}>合作模式介绍</button><br/>
+    <div className="multiplayer-group">联机约局群: 1136896886</div>
   </div>
 }
 
