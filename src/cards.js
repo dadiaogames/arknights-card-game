@@ -1232,27 +1232,27 @@ export const CARDS = [
       deal_random_damage(G, ctx, 4);
     },
   },
-  {
-    name:"白金",
-    cost:3,
-    atk:5,
-    hp:2,
-    mine:2,
-    block:0,
-    desc: "超杀: 横置1个订单，重置1个干员",
-    illust:"https://i.postimg.cc/VkPxn1Jz/img-cards-52.png",
-    reinforce: 1,
-    reinforce_desc: "+2/+1",
-    onFight(G, ctx, self, enemy) {
-      if (enemy.dmg > enemy.hp && exhaust_order(G, ctx)) {
-        ready_random_card(G, ctx, self);
-      }
-    },
-    onReinforce(G, ctx, self){
-      self.atk += 2;
-      self.hp += 1;
-    },
-  },
+  // {
+  //   name:"白金",
+  //   cost:3,
+  //   atk:5,
+  //   hp:2,
+  //   mine:2,
+  //   block:0,
+  //   desc: "超杀: 横置1个订单，重置1个干员",
+  //   illust:"https://i.postimg.cc/VkPxn1Jz/img-cards-52.png",
+  //   reinforce: 1,
+  //   reinforce_desc: "+2/+1",
+  //   onFight(G, ctx, self, enemy) {
+  //     if (enemy.dmg > enemy.hp && exhaust_order(G, ctx)) {
+  //       ready_random_card(G, ctx, self);
+  //     }
+  //   },
+  //   onReinforce(G, ctx, self){
+  //     self.atk += 2;
+  //     self.hp += 1;
+  //   },
+  // },
 // {
 //     name:"豆苗",
 //     cost:2,
