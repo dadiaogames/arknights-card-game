@@ -2247,7 +2247,7 @@ export const CARDS = [
     name:"棘刺",
     cost:2,
     atk:2,
-    hp:3,
+    hp:4,
     mine:1,
     block:1,
     desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
@@ -3055,7 +3055,7 @@ export const CARDS = [
   
   {
     name:"巫恋",
-    cost:2,
+    cost:3,
     atk:2,
     hp:2,
     mine:1,
