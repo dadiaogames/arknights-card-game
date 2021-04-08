@@ -1742,8 +1742,8 @@ export const CARDS = [
   {
     name:"煌",
     cost:6,
-    atk:7,
-    hp:9,
+    atk:5,
+    hp:7,
     mine:2,
     block:1,
     desc:"超杀: 每造成2点额外伤害，就获得1分",
@@ -2456,7 +2456,7 @@ export const CARDS = [
 
   {
     name:"诗怀雅",
-    cost:2,
+    cost:3,
     atk:2,
     hp:1,
     mine:1,
