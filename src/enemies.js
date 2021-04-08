@@ -18,9 +18,12 @@ export const ENEMIES = [
     illust: "https://i.postimg.cc/CKF4prQG/img-enemies-1.png",
     desc: "入场: 使1个敌人获得+2/+2",
     onPlay(G, ctx, self) {
-      let enemy = ctx.random.Shuffle(G.efield)[0];
-      enemy.atk += 2;
-      enemy.hp += 2;
+      // let enemy = ctx.random.Shuffle(G.efield)[0];
+      let enemy = G.efield[0];
+      if (enemy) {
+        enemy.atk += 2;
+        enemy.hp += 2;
+      }
     }
   },
   {
@@ -129,11 +132,15 @@ export const ENEMIES = [
   {
     name: "空降兵",
     atk: 2,
-    hp: 1,
+    hp: 2,
     illust: "https://i.postimg.cc/q701MvzC/img-enemies-11.png",
     desc: "入场: 使1个敌人获得+2攻击力",
     onPlay(G, ctx) {
-      ctx.random.Shuffle(G.efield)[0].atk += 2;
+      // ctx.random.Shuffle(G.efield)[0].atk += 2;
+      let enemy = G.efield[0];
+      if (enemy) {
+        enemy.atk += 2;
+      }
     }
   },
   {
@@ -169,7 +176,7 @@ export const ENEMIES = [
   {
     name: "乌萨斯刁民",
     atk: -3,
-    hp: 4,
+    hp: 6,
     illust: "https://i.postimg.cc/PfFVzHFB/img-enemies-14.png",
     desc: "摧毁: 获得2点费用",
     onOut(G, ctx) {
