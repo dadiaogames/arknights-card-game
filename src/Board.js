@@ -1171,7 +1171,8 @@ export class Board extends React.Component {
   
   enter_roguelike_mode() {
     this.roguelike.setup_roguelike_mode();
-    this.roguelike.setup_deck_selection();
+    // this.roguelike.setup_deck_selection();
+    this.roguelike.setup_roguelike_decks();
     this.change_board("roguelike_entry");
   }
   
@@ -1234,10 +1235,10 @@ export class Board extends React.Component {
   }
 
   render_roguelike_deck_selection_board() {
-    let back = () => {
-      this.change_board("title");
-      this.setState({roguelike_mode: false})
-    };
+    // let back = () => {
+      // this.change_board("title");
+      // this.setState({roguelike_mode: false})
+    // };
     return <RoguelikeDeckSelection decks={this.state.deck_list.map(this.process_roguelike_deck_data)} />
 // introduce_title="集成战略模式介绍" introduce={introduce_roguelike_mode} 
   }

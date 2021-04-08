@@ -1070,14 +1070,14 @@ export function refresh_picks(G, ctx) {
   let special_card_name = choice(ctx, (G.round_num >= 3)? pick_scorers : pick_vanguards);
   let special_card = G.CARDS.find(x => x.name == special_card_name);
   if (special_card) {
-    G.picks[2] = {...special_card, material: ctx.random.Die(3)-1};
+    G.picks[3] = {...special_card, material: ctx.random.Die(3)-1};
   }
   // }
 
   let add_price = (pick, idx) => {
     let price = [0, 0, 0, 0];
     let requirement = ctx.random.Die(3) - 1;
-    price[requirement] = [1,1,1,2,2][idx] || 1;
+    price[requirement] = [1,1,1,1,2][idx] || 1;
     return {...pick, price};
   }
   G.picks = G.picks.map(add_price);

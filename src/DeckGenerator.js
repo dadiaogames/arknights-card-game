@@ -14,7 +14,7 @@ export const classes = {
   standers: "玫兰莎 芙兰卡 慕斯 柏喙 赫拉格 孑 宴 银灰 凛冬 卡达 阿米娅-近卫 机械水獭 末药 杜宾 森蚺 夜刀".split(" "),
   defenders: "米格鲁 蛇屠箱 斑点 年 可颂 古米 雷蛇 塞雷娅 泥岩 砾 摄影车 龙腾 星熊".split(" "),
   supporters: "梓兰 红 诗怀雅 安洁莉娜 霜叶 薄绿 清流 翎羽 白面鸮 赫默 凯尔希 空 波登可 真理 巫恋 安比尔 温蒂 夜莺 黑角".split(" "),
-  scorers: "阿消 崖心 食铁兽 雪雉 卡夫卡 铃兰 酸糖 普罗旺斯 闪灵 煌 阿 断罪者 伊芙利特 苏苏洛 大帝".split(" "),
+  scorers: "阿消 崖心 食铁兽 雪雉 铃兰 酸糖 普罗旺斯 煌 阿 断罪者 伊芙利特 苏苏洛".split(" "),
   randomizers: "斯卡蒂 图耶 热水壶 嘉维尔 迷迭香 风笛 安赛尔 微风 亚叶 伊桑 狮蝎 坚雷 暗索 可露希尔".split(" "),
 };
 
@@ -49,22 +49,25 @@ const draw_vanguard = `芬 1 2
 
 const scorer = `阿米娅 1 1
 崖心 1 1
-食铁兽 0 1
-酸糖 0 1
+煌 1 1
+苏苏洛 0 1
+食铁兽 1 1
+酸糖 1 1
 普罗旺斯 0 1
 阿消 1 1
-阿米娅-近卫 0 1
 凯尔希 1 1
 伊芙利特 0 1
 雪雉 1 1
-卡夫卡 0 1
 铃兰 0 1
-阿 0 1`;
+断罪者 0 1
+阿 1 1`;
 
 const miner =  `史都华德 1 1
 夜烟 1 1
 远山 1 1
-炎熔 1 1`;
+炎熔 1 1
+伊芙利特 0 1
+天火 1 1`;
 
 const shooter = `棘刺 1 1
 陈 1 1
@@ -73,8 +76,13 @@ W 1 1
 卡达 1 1
 拉普兰德 0 1
 史尔特尔 1 1
-松果 1 1
-刻刀 1 1`;
+松果 0 1
+刻刀 1 1
+迷迭香 1 1
+黑 1 1
+星熊 0 1
+能天使 0 1
+陨星 1 1`;
 
 const defender = `米格鲁 1 1
 蛇屠箱 0 1
@@ -85,8 +93,20 @@ const defender = `米格鲁 1 1
 const supporter = `翎羽 1 1
 白面鸮 1 1
 雷蛇 0 1
-赫默 0 1
-凯尔希 0 1`;
+赫默 1 1
+凯尔希 1 1
+末药 1 1
+塞雷娅 0 1
+白金 0 1
+夜莺 0 1
+安比尔 0 1
+图耶 0 1
+凛冬 1 1
+真理 1 1
+诗怀雅 1 1
+霜叶 1 1
+波登可 0 1
+巫恋 1 1`;
 
 export const solver_core = "棘刺 陈 银灰 W 松果 刻刀 刻俄柏".split(" ");
 export const scorer_core = "阿米娅 阿消 崖心 雪雉 酸糖 铃兰 普罗旺斯 煌 凯尔希 伊芙利特".split(" ");
@@ -710,14 +730,14 @@ export function generate_roguelike_deck(deck_name) {
 
   // Basic deck
   deck = [...deck, ...deck_from_strategy(cost_vanguard, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(scorer, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
   deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(shooter, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(supporter, 2, rng)];
   // console.log(deck);
 
   // Random cards
-  let amount_add = 12 - deck.length;
+  let amount_add = 16 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }

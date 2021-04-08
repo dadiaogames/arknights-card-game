@@ -43,7 +43,8 @@ function setup_roguelike_mode(S) {
   S.relics = [];
   S.gold = 50;
 
-  S.scene_queue = ["upgrade", ..._.times(12, ()=>"init_card"), "relic"];
+  // S.scene_queue = ["upgrade", ..._.times(12, ()=>"init_card"), "relic"];
+  S.scene_queue = ["upgrade", "relic", "deck_selection"];
   S.current_upgrades = [];
   S.current_indexes = [];
   S.current_relics = [];
@@ -328,12 +329,12 @@ function preprocess_roguelike_card(card) {
   card.onPlayBonus = [];
 }
 
-// function setup_deck_selection(S) {
-//   let rng = S.rng;
-//   S.deck_names = _.times(3, ()=>rng.choice(CARDS.map(x=>x.name).filter(x => x != "可露希尔"))).map(x => x + "·黑角");
-//   S.deck_list = S.deck_names.map(generate_roguelike_deck).map(str2deck); // TODO: change the generator
-//   S.deck_list.map(deck => deck.map(preprocess_roguelike_card))
-// }
+function setup_roguelike_decks(S) {
+  let rng = S.rng;
+  S.deck_names = _.times(2, ()=>rng.choice(CARDS.map(x=>x.name).filter(x => x != "可露希尔"))).map(x => x + "·黑角");
+  S.deck_list = S.deck_names.map(generate_roguelike_deck).map(str2deck); // TODO: change the generator
+  S.deck_list.map(deck => deck.map(preprocess_roguelike_card))
+}
 
 function setup_deck_selection(S) {
   S.Deck = str2deck(deck2str(["黑角", "极境", "桃金娘"]));
@@ -776,6 +777,9 @@ function proceed(S) {
       S.current_relics = S.rng.shuffle(RELICS).slice(0,3);
       S.changer("roguelike_relic_selection");
     }
+    else if (scene = "deck_selection") {
+      S.changer("roguelike_deck_selection");
+    }
   }
 }
 
@@ -1036,6 +1040,7 @@ export const roguelike = {
   setup_roguelike_mode,
   set_difficulty,
   set_difficulty_S2,
+  setup_roguelike_decks,
   setup_deck_selection,
   select_deck,
   select_init_card,
