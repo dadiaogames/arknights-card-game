@@ -2923,26 +2923,26 @@ export const CARDS = [
     },
     reinforce_desc: "获得1分",
   },
-  {
-    name:"卡夫卡",
-    cost:2,
-    atk:2,
-    hp:1,
-    mine:2,
-    block:1,
-    desc: "部署: 如果场上干员数量多于敌人，则获得5分",
-    illust:"https://i.postimg.cc/5tY8JcmF/img-cards-112.png",
-    reinforce: 2,
-    onPlay(G, ctx, self) {
-      if (G.field.length > G.efield.length) {
-        G.score += 5;
-      }
-    },
-    onReinforce(G, ctx, self) {
-      G.hand.unshift({...CARDS.find(x => x.name == "卡夫卡")});
-    },
-    reinforce_desc: "获得1张\"卡夫卡\"",
-  },
+  // {
+  //   name:"卡夫卡",
+  //   cost:2,
+  //   atk:2,
+  //   hp:1,
+  //   mine:2,
+  //   block:1,
+  //   desc: "部署: 如果场上干员数量多于敌人，则获得5分",
+  //   illust:"https://i.postimg.cc/5tY8JcmF/img-cards-112.png",
+  //   reinforce: 2,
+  //   onPlay(G, ctx, self) {
+  //     if (G.field.length > G.efield.length) {
+  //       G.score += 5;
+  //     }
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     G.hand.unshift({...CARDS.find(x => x.name == "卡夫卡")});
+  //   },
+  //   reinforce_desc: "获得1张\"卡夫卡\"",
+  // },
   
 
   {
