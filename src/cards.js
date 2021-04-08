@@ -1851,7 +1851,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc:"战斗: 攻击其面前的敌人时，造成伤害翻倍",
+    desc:"战斗: 攻击正前方的敌人时，造成伤害翻倍",
     illust:"https://i.postimg.cc/8CmNjcw8/img-cards-72.png",
     onFight(G, ctx, self, enemy) {
       let idx = G.field.indexOf(self);
@@ -3264,7 +3264,7 @@ export const CARDS = [
       }
     },
     reinforce: 2,
-    reinforce_desc: "召唤1个费用为2的干员",
+    reinforce_desc: "召唤1个2费干员",
     onReinforce(G, ctx, self) {
       let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==2)))[0];
       summon(G, ctx, new_card, self);
