@@ -53,7 +53,7 @@ export const CARDS = [
     illust: "https://i.postimg.cc/QtZmnxrM/img-cards-1.png",
     desc: "采掘: 获得1分",
     onMine(G, ctx, self) {
-      let delta = 1 + 2 * self.power;
+      let delta = 1 + self.power;
       G.score += delta;
       logMsg(G, ctx, `使用 阿米娅 获得${delta}分`);
 
@@ -72,8 +72,8 @@ export const CARDS = [
       }
       self.exhausted = false;
     },
-    reinforce: 3,
-    reinforce_desc: "再获得2分",
+    reinforce: 2,
+    reinforce_desc: "再获得1分",
   },
 
   {
@@ -337,11 +337,11 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:1, 
-    desc:"采掘: 摧毁场上1个(重置的)干员，并获得4点费用", 
+    desc:"采掘: 摧毁场上1个(重置的)干员，并获得3点费用", 
     illust:"https://i.postimg.cc/N05Zw0V7/img-cards-15.png",
     onMine(G, ctx, self) {
       if (eliminate_field(G, ctx, self)) {
-        G.costs += 4;
+        G.costs += 3;
       }
     },
     reinforce: 1,
