@@ -3062,7 +3062,7 @@ export const CARDS = [
     block:0,
     desc:"采掘: 使1个敌人获得易伤2，重复2次",
     illust:"https://i.postimg.cc/QxhgTyjR/img-cards-117.png",
-    reinforce: 1,
+    reinforce: 2,
     onMine(G, ctx, self) {
       // let actor = ctx.random.Shuffle(G.field.filter(x => x.action))[0];
       // if (actor) {
