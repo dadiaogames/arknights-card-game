@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/arknights-card-game/precache-manifest.9a6735d0d9456d37da8b3fd484c05943.js"
+  "/arknights-card-game/precache-manifest.accfc687ce3ba7bbf21f1b654e5e5338.js"
 );
 
 self.addEventListener('message', (event) => {
