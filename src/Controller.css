@@ -20,3 +20,11 @@ button.enter-game {
   padding: 2%;
   font-size: 110%;
 }
+
+@media (min-width: 768px) {
+  .controller {
+    height: 10%;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+  }
+}

@@ -90,7 +90,8 @@ export const Card = (props) => {
 
   return (
     <div
-      className="card"
+      className = {"card" + (props.cardClassName || "")}
+      // className = "card"
       onClick = {props.handleClick}
       style = {props.cardStyle}
     >
@@ -135,7 +136,7 @@ export const Data = (props) => {
 export const CardRow = (props) => {
   // EH: is card state really required? can it combine to data? okay, the problem is, all data are shown, and states are style changers
   return (
-    <div className="card-row" style={props.additionalStyle} >
+    <div className={"card-row"+ (props.additionalClassName || "")} style={props.additionalStyle} >
       {props.cards.map((card, idx) => (
         <Card
           data={card}
@@ -143,6 +144,7 @@ export const CardRow = (props) => {
           handleClick={(props.handleClick)? (props.handleClick(idx)) : null} 
           // This is not a good idea for handleClick?
           cardStyle = {props.cardStyle}
+          cardClassName = {props.cardClassName}
         />
       ))}
     </div>
@@ -151,7 +153,7 @@ export const CardRow = (props) => {
 
 // EH: "data" or "card", need to be the same for both card and SCard
 export const SCard = (props) =>  (
-  <div className="card-detailed" style={props.additionalStyle} onClick={props.handleClick} >
+  <div className={"card-detailed" + (props.additionalClassName || "")} style={props.additionalStyle} onClick={props.handleClick} >
       {Object.keys(props.card).map((variant) => (
         <Data
           variant = {variant}
@@ -171,6 +173,7 @@ export const SCardRow = (props) => {
           card = {card}
           handleClick = {props.handleClick?props.handleClick(idx):undefined}
           additionalStyle = {props.additionalStyles?props.additionalStyles[idx]:undefined}
+          additionalClassName = " card-detailed-in-row"
         />
       ))}
     </div>

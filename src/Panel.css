@@ -19,3 +19,13 @@
   text-align: center;
   margin: 2%;
 }
+
+.player-data {
+  margin-top: 2%;
+}
+
+@media (min-width: 768px) {
+  .player-data {
+    margin-top: 0.5%;
+  }
+}

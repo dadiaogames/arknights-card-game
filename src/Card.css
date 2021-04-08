@@ -9,6 +9,7 @@
   flex-shrink: 0;
 }
 
+
 .card-row {
   display: flex;
   overflow-x: scroll;
@@ -17,6 +18,31 @@
   margin: 2%;
   width: 95%;
   height: 20%;
+}
+
+.finished-cardrow {
+  height: 25%;
+  margin-top: 15%;
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: 12%;
+    height: 85%;
+    margin: 1%;
+  }
+
+  .card-row {
+    margin-top: 0.75%;
+    margin-bottom: 0.75%;
+    height: 22%;
+    overflow-x: auto;
+  }
+
+  .finished-cardrow {
+    height: 25%;
+    margin-top: 6%;
+  }
 }
 
 .data {
@@ -278,6 +304,29 @@ img.r_illust_detailed {
   width: 95%;
   height: 60%;
   margin-top: 25%;
+}
+
+.order-card {
+  height: 70%;
+  margin-right: 5%;
+}
+
+@media(min-width: 768px) {
+  .card-detailed-in-row {
+    height: 92%;
+    width: 25%;
+    margin: 1.5%;
+  }
+  
+  .card-detailed-row {
+    margin-top: 10%;
+    height: 70%;
+    width: 110%;
+  }
+
+  .order-card {
+    margin-right: 2.2%
+  }
 }
 
 .card-detailed-button {

@@ -25,7 +25,7 @@ body {
   height: 600px;
   /* height: 900px; */
   width: 370px;
-  /* width: 970px; */
+  /* width: 971px; */
   border: 2.5px solid #a0a0a0;
   margin: 2%;
 
@@ -34,22 +34,41 @@ body {
 
 .card-display {
   position: absolute;
-  width: 100%;
-  height: 61.8%;
+  width: 470px;
+  height: 500px;
   top: 0%;
-  left: 105%;
+  left: 100%;
+  font-size: 110%;
 }
 
+.mulligan-intro {
+  position: absolute;
+  top: 8%;
+  left: 3%;
+}
+
+/* On phone */
 @media screen and (max-width:1000px) {
+  .card-display {
+    display: none;
+  }
   .board {
     height: 600px;
     width: 90%;
     margin: 5%;
-    border: 2px solid;
+    border: 2px solid #a0a0a0;
+  }
+}
+
+/* On computer */
+@media (min-width: 768px) {
+  .game-board {
+    width: 800px;
+    border: none;
   }
 
-  .card-display {
-    display: none;
+  .mulligan-intro {
+    top: -6%;
   }
 }
 

@@ -24,6 +24,8 @@ import { RULES } from './rules';
 import 'react-tabs/style/react-tabs.css';
 
 import './Board.css';
+import './Panel.css';
+import './Card.css';
 import { CreateRoom, EnterRoom, get_room_id, Multiplayer } from './Multiplayer';
 
 const init_animations = {
@@ -1019,7 +1021,7 @@ export class Board extends React.Component {
   }
 
   render_preview_board() {
-    return (<div className="board" >
+    return (<div className="board game-board" >
       <SCardRow 
         cards = {this.state.preview_filter(this.state.preview_deck).map(this.process_card_details)}
       />
@@ -1045,8 +1047,8 @@ export class Board extends React.Component {
 
   render_mulligan_board() {
     // TODO: reconstruct the mulligan part
-    return (<div className="board" style={{position:"relative"}} >
-      <span style={{position:"absolute", top:"10%", left:"3%"}}>请选择要重调的手牌</span>
+    return (<div className="board game-board" style={{position:"relative"}} >
+      <span className="mulligan-intro">请选择要重调的手牌</span>
       <SCardRow 
         cards = {this.props.G.hand.slice(0,5).map(this.process_card_details)}
         handleClick = {this.handle_mulligan_clicked}
@@ -1512,7 +1514,7 @@ export class Board extends React.Component {
     // );
 
     let player_panel = (<div align="center">
-      <p style={{marginTop:"2%"}}>
+      <p className="player-data">
         {[0,1,2,3].map(
             (idx) => <MaterialDisplay 
               playing = {this.state.animations.materials[idx]}
@@ -1612,7 +1614,8 @@ export class Board extends React.Component {
         states = {this.props.G.orders.map(this.process_order_state)}
         handleClick = {this.handle_order_clicked}
         additionalStyle = {{height: "28%"}}
-        cardStyle = {{height: "70%", marginRight:"5%"}}
+        // cardStyle = {{height: "70%", marginRight:"5%"}}
+        cardClassName = " order-card"
       />
     );
 
@@ -1620,14 +1623,16 @@ export class Board extends React.Component {
       cards = {this.props.G.finished.map(this.process_finished_data)}
       states = {this.props.G.finished.map(this.process_finished_state)}
       handleClick = {this.handle_finished_clicked}
-      additionalStyle = {{height: "25%", marginTop: "15%"}}
+      // additionalStyle = {{height: "25%", marginTop: "15%"}}
+      additionalClassName = " finished-cardrow"
     />);
     
     let pick_cardrow = (<CardRow 
       cards = {this.props.G.picks.map(this.process_pick_data)}
       states = {this.props.G.picks.map(this.process_pick_state)}
       handleClick = {this.handle_pick_clicked}
-      additionalStyle = {{height: "25%", marginTop: "15%"}}
+      // additionalStyle = {{height: "25%", marginTop: "15%"}}
+      additionalClassName = " finished-cardrow"
     />);
 
     let finished_pick_cardrow = (
@@ -1647,7 +1652,7 @@ export class Board extends React.Component {
     );
 
     return (
-      <div className="board" >
+      <div className="board game-board" >
         <Panel 
           variant = "game-panel"
           content = {game_panel}
