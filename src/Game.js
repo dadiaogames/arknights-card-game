@@ -819,6 +819,10 @@ function onScenarioBegin(G, ctx, params) {
   if (params.is_joiner) {
     G.is_joiner = true;
   }
+  if (params.is_multiplayer) {
+    G.is_multiplayer = true;
+    G.goal += 20;
+  }
 
   console.log("Setup finished");
   G.playing = true;

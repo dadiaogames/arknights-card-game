@@ -825,6 +825,7 @@ export class Board extends React.Component {
     }
     this.props.moves.addTags(this.state.tags.filter(t => (t.selected || t.locked)));
     this.props.moves.onScenarioBegin({
+      is_multiplayer: this.state.multiplayer_mode,
       is_joiner: this.state.is_joiner,
     });
     this.setState({hand_choices: [false, false, false, false, false]});
