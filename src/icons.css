@@ -1,0 +1,9 @@
+.material {
+  /* text-shadow: 0px 0px 5px #0098dc; */
+  /* box-shadow: 0px 0px 10px #0098dc; */
+  -webkit-filter: drop-shadow(0px 0px 2px #0098dc);
+}
+
+.steel {
+  -webkit-filter: drop-shadow(0px 0px 2px orange);
+}
