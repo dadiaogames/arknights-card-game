@@ -3021,10 +3021,10 @@ export const CARDS = [
       }
     },
     onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
+      self.atk += 1;
+      self.hp += 1;
     },
-    reinforce_desc: "+2/+2",
+    reinforce_desc: "+1/+1",
   },
   {
     name:"波登可",
