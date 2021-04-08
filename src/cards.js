@@ -1083,7 +1083,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       this.action(G, ctx);
     },
-    reinforce: 2,
+    reinforce: 3,
     reinforce_desc: "触发1次\"行动:\"效果",
   },
 
@@ -1827,10 +1827,10 @@ export const CARDS = [
 
   {
     name:"安比尔",
-    cost:2,
-    atk:4,
+    cost:3,
+    atk:5,
     hp:2,
-    mine:0,
+    mine:1,
     block:0,
     desc:"行动: 本回合剩余时间内，干员的\"超杀:\"效果将额外触发1次",
     illust:"https://i.postimg.cc/LX4RfS0J/img-cards-71.png",
@@ -1843,7 +1843,7 @@ export const CARDS = [
         }
       );
     },
-    reinforce: 2,
+    reinforce: 3,
     onReinforce(G, ctx, self) {
       this.action(G, ctx);
     },
