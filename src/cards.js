@@ -2791,7 +2791,7 @@ export const CARDS = [
     block:1,
     desc: "部署: 获得+5/+5直到回合结束",
     illust:"https://i.postimg.cc/9FL9qX87/img-cards-107.png",
-    reinforce: 2,
+    reinforce: 1,
     onPlay(G, ctx, self) {
       self.atk += 5;
       self.dmg -= 5;
