@@ -19,7 +19,7 @@ import { order_illust, rhine_illust, material_icons } from './orders';
 import { ICONS } from './icons';
 import { TAGS } from './tags';
 import { roguelike, introduce_roguelike_mode, RoguelikeTabs, PickCards, FinishPick, Shop, RoguelikeEntry, RoguelikeDeckSelection, Roguelike, ResultWin, ResultLose, FinalResult, get_gold_gained, Relics, Weekly, choose_standard_tags } from './Roguelike';
-import { RULES } from './rules';
+import { Rules } from './rules';
 
 import 'react-tabs/style/react-tabs.css';
 
@@ -27,6 +27,8 @@ import './Board.css';
 import './Panel.css';
 import './Card.css';
 import { CreateRoom, EnterRoom, get_room_id, Multiplayer } from './Multiplayer';
+import { Dialog } from './Campaign';
+import { CAMPAIGNS } from './campaigns';
 
 const init_animations = {
   field: {},
@@ -125,6 +127,10 @@ export class Board extends React.Component {
     this.render_multiplayer_board = this.render_multiplayer_board.bind(this);
     this.render_create_room_board = this.render_create_room_board.bind(this);
     this.render_enter_room_board = this.render_enter_room_board.bind(this);
+
+    this.render_dialog_board = this.render_dialog_board.bind(this);
+
+    this.enter_campaign_mode = this.enter_campaign_mode.bind(this);
 
     this.enter_competition_mode = this.enter_competition_mode.bind(this);
     this.select_deck = this.select_deck.bind(this);
@@ -783,6 +789,7 @@ export class Board extends React.Component {
       "multiplayer": this.render_multiplayer_board,
       "create_room": this.render_create_room_board,
       "enter_room": this.render_enter_room_board,
+      "dialog": this.render_dialog_board,
     };
     this.setState({last_board: this.state.board})
     this.setState({board: BOARDS[new_board]});
@@ -802,10 +809,19 @@ export class Board extends React.Component {
   }
 
   enter_game() {
+    // setup the deck, and call moves "setDecks, setRoguelike, addTags, onScenarioBegin, then change board to mulligan".
+    // Wanna change tags? before this.
+    // Wanna change to other boards than mulligan? after this.
+    // Change modes and tags before this, and everything else after this.
     let deck = [];
     let seed = this.state.seed;
-    if (this.state.multiplayer_mode) {
+    if (this.state.multiplayer_mode) { // Maybe this should be written elsewhere
       seed = this.state.room_id;
+
+      if (this.state.deck_mode == "custom" && (!is_standard(this.state.deck_data))) {
+        alert("请使用 标准卡组 或 随机卡组 进入合作模式游戏");
+        return;
+      }
     }
 
     if (this.state.competition_mode || this.state.roguelike_mode) {
@@ -815,11 +831,13 @@ export class Board extends React.Component {
       } 
       // : this.state.results.length;
     }
+
     else {
       let deck_data = (this.state.deck_mode == "random")? generate_deck(this.state.deck_name) : this.state.deck_data;
       deck = str2deck(deck_data);
     }
 
+    // Enter game parts
     // EH: it's better to setup each scenario in one function, and in backend
     this.props.moves.setDecks(init_decks(deck, seed));
     if (this.state.roguelike_mode) {
@@ -865,6 +883,10 @@ export class Board extends React.Component {
       this.socket.disconnect();
       this.change_board("multiplayer");
     }
+    else if (this.state.campaign_mode) {
+      this.setState({campaign_mode: false});
+      this.change_board("title");
+    }
     else{
       this.change_board("tag");
       if (!(this.state.lock_seed || this.state.weekly_mode)) {
@@ -895,6 +917,11 @@ export class Board extends React.Component {
       // console.log("Emit diff", this.props.G.diff);
       this.socket.emit("diff", this.props.G.diff_queue[0]);
       this.props.moves.emit_diff({is_diff: true});
+    }
+
+    // Dialog
+    if (this.props.G.dialogs.length > 0 && prevProps.G.dialogs.length == 0) {
+      this.change_board("dialog");
     }
 
     // About result
@@ -1009,7 +1036,7 @@ export class Board extends React.Component {
         In my view, after this part is moved to a new file, change it to css in file
         TODO: reconstruct this part
         */}
-        {RULES}
+        <Rules enter_tutorial={()=>this.enter_campaign_mode('tutorial')} />
       </div>
       <button 
         onClick={()=>this.change_board("title")}
@@ -1064,7 +1091,26 @@ export class Board extends React.Component {
         完成重调
       </button>
     </div>);
+  }
 
+  render_dialog_board() {
+    let dialog = this.props.G.dialogs[0];
+    if (dialog != undefined) {
+      return <Dialog 
+        heading = {dialog.heading}
+        dialog = {dialog.dialog}
+        demonstrate_img = {dialog.demonstrate_img}
+        proceed = {() =>  {
+          if (this.props.G.dialogs.length == 1) {
+            this.change_board("game");
+          }
+          this.props.moves.proceed_dialogs();
+        }}
+      />;
+    }
+    else {
+      return <div></div>;
+    }
   }
 
   process_deck_data(deck, idx) {
@@ -1170,6 +1216,18 @@ export class Board extends React.Component {
   // finish_multiplayer_mode() {
     // this.socket.disconnect();
   // }
+
+  enter_campaign_mode(campaign_name) {
+    this.setState({campaign_mode: true});
+    let campaign = CAMPAIGNS[campaign_name];
+
+    this.setState({tags: campaign.tags});
+
+    this.enter_game();
+
+    this.props.moves.setup_campaign(campaign);
+    // this.change_board("dialog");
+  }
   
   enter_roguelike_mode() {
     this.roguelike.setup_roguelike_mode();
@@ -1708,6 +1766,7 @@ export class Board extends React.Component {
       // 每日挑战: this.enter_daily_mode,
       // 周常挑战: () => this.roguelike.enter_weekly_mode(),
       合作模式: () => this.change_board("multiplayer"),
+      新手教学: () => this.enter_campaign_mode("tutorial"),
       肉鸽模式: () => this.enter_roguelike_mode(),
       返回标题: () => this.change_board("title"),
     };

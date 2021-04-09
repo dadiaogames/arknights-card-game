@@ -7,9 +7,15 @@
   overflow-y: scroll;
 }
 
+.roguelike-intro-img {
+  margin-top: 5%;
+  margin-bottom: 3%;
+  width: 95%;
+  height: auto;
+}
+
 .entry {
-  margin-top: 25%;
-  font-size: 125%;
+  font-size: 120%;
 }
 
 .difficulty-selection {

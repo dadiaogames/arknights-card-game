@@ -69,7 +69,7 @@ export const Card = (props) => {
   }
   if (props.cardState.color >= 0) {
     const color = props.cardState.color;
-    const order_colors = ["#00cd00", "#1e90ff", "rgb(229,131,8)"];
+    const order_colors = ["#73d13d", "#1e90ff", "rgb(229,131,8)"];
     additional_styles.order_effect.borderColor = order_colors[color];
     additional_styles.finished_effect.borderColor = order_colors[color];
   }

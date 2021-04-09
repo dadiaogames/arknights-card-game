@@ -46,7 +46,7 @@ export const ICONS = {
 };
 
 export const food_icons = [
-  <span style={{color:"#00cd00"}}>■</span>,
+  <span style={{color:"#73d13d"}}>■</span>,
   <span style={{color:"#1e90ff"}}>■</span>,
   <span style={{color:"rgb(229,131,8)"}}>■</span>,
   <span style={{color:"red"}}>■</span>,

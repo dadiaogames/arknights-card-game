@@ -365,6 +365,9 @@ function finishOrder(G, ctx, idx) {
     G.finished.push({...G.orders.splice(idx, 1)[0]});
     logMsg(G, ctx, "完成订单");
     // sort_orders(G);
+    if (order.onFinished) {
+      order.onFinished(G, ctx);
+    }
 
     if ([4,8].includes(G.finished.length)) {
       G.orders.map(price_up);
@@ -1023,6 +1026,7 @@ export function setup_scenario(G, ctx) {
 
     // G.diff_cnt = 0;
     G.diff_queue = [];
+    G.dialogs = [];
 
     G.CARDS = CARDS.slice(0);
     let banned_cards = ["可露希尔"];
@@ -1152,6 +1156,15 @@ function emit_diff(G, ctx, optimizer) {
   console.log("Dequeue", G.diff_queue);
 }
 
+function setup_campaign(G, ctx, campaign) {
+  G.dialogs = [...G.dialogs, ...campaign.dialogs];
+  campaign.setup(G, ctx);
+}
+
+function proceed_dialogs(G, ctx) {
+  G.dialogs = G.dialogs.slice(1);
+}
+
 export function get_desc(card) {
   return  <span>
     <span style={{fontSize:"120%"}}>
@@ -1212,6 +1225,8 @@ export const AC = {
     setupRoguelikeBattle,
     receive_diff,
     emit_diff,
+    setup_campaign,
+    proceed_dialogs,
   },
 
   turn: {
@@ -1227,9 +1242,15 @@ export const AC = {
         if (G.deck.length > 0) {
           G.hand.unshift(G.deck.pop());
         } 
-        refreshOrder(G, ctx);
+
+        if (G.not_refresh_orders != true) {
+          refreshOrder(G, ctx);
+        }
+
         G.costs += 3;
+
         refresh_picks(G, ctx);
+
         sort_finished(G, ctx);
 
         setup_events(G, ctx);
@@ -1341,7 +1362,8 @@ export const AC = {
     {
       name: "diff",
       fnWrap: (fn) => (G, ctx, ...args) => {
-        if (typeof args[0] == "object" && "is_diff" in args[0]) {
+        if ((typeof args[0] == "object" && "is_diff" in args[0]) || (G.is_multiplayer != true)) {
+          // console.log("Efield:",G.efield);
           return fn(G, ctx, ...args);
         }
         else {

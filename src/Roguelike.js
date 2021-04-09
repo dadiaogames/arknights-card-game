@@ -960,7 +960,8 @@ export function RoguelikeTabs(props) {
 
 export function RoguelikeEntry(props) {
   return <div className="board" align="center">
-    <div className="entry">欢迎来到集成战略模式<br/>“黑角的金针菇迷境”<br/>请选择难度</div>
+    <img src="https://dadiaogames.gitee.io/images/imagebed/HeijiaoRoguelike.png" className="roguelike-intro-img"></img>
+    <div className="entry">请选择难度</div>
     <div className="difficulty-selection">
       {props.difficulties.map(selection => <button className="difficulty-button" onClick={selection.handleClick}>{selection.name}</button>)}
     </div>

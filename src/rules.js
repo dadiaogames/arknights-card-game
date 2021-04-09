@@ -5,13 +5,14 @@ import { ICONS } from './icons';
 
 import './rules.css';
 
-export const RULES = <div>
-  <h2>明日方舟: 采掘行动 游戏规则</h2>
+export const Rules = (props) => (<div>
+  <h3>明日方舟: 采掘行动 游戏规则</h3>
   <img className="rules-img" src="https://i.postimg.cc/cCzdr1gZ/klbw3-Q5-f5ob-Zc-T3c-Sy4-u0-jpg-medium.jpg" />
   <br/><br/>
-  <a href="https://www.bilibili.com/video/BV1554y167ax
-">2分钟视频教学(B站)</a>
+  <button className="tutorial-btn" onClick={props.enter_tutorial} >进入新手教学</button>
   <br/><br/>
+  {/* <a href="https://www.bilibili.com/video/BV1554y167ax ">2分钟视频教学(B站)</a> */}
+  {/* <br/><br/> */}
   游戏目标: <b>获得12分</b>
   <br/><br/>
   在你的回合，你可以做以下事情: <br/><br/>
@@ -109,4 +110,4 @@ export const RULES = <div>
   <span>* 爆发剂·榴莲味</span><br/>
   <span>* 17张牌你能秒我</span><br/>
   <span>* 德克萨斯做得到吗</span><br/>
-</div>;
+</div>);
