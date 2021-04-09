@@ -2,7 +2,7 @@ import { addBoss, enemy2card } from "./Game";
 
 const tag_list = [
   {
-    src: "https://i.postimg.cc/XNQSRt18/img-tags-0.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_0.png",
     desc: "胜利所需的分数+4",
     level: 1,
     effect(G, ctx) {
@@ -10,7 +10,7 @@ const tag_list = [
     }
   },
   {
-    src: "https://i.postimg.cc/fyT43vym/img-tags-1.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_1.png",
     desc: "我方可承受的动乱指数-2",
     level: 1,
     effect(G, ctx) {
@@ -18,7 +18,7 @@ const tag_list = [
     }
   },
   {
-    src: "https://i.postimg.cc/hvCkV7Qw/img-tags-2.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_2.png",
     desc: "所有敌人获得+1攻击力",
     level: 1,
     effect(G, ctx) {
@@ -28,7 +28,7 @@ const tag_list = [
     }
   },
   {
-    src: "https://i.postimg.cc/sXJdDLj3/img-tags-3.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_3.png",
     desc: "所有敌人获得+2生命值",
     level: 1,
     effect(G, ctx) {
@@ -38,7 +38,7 @@ const tag_list = [
     }
   },
   {
-    src: "https://i.postimg.cc/NMtvttwN/img-tags-4.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_4.png",
     desc: "可同时部署的干员数-1",
     level: 1,
     challenge: true,
@@ -49,7 +49,7 @@ const tag_list = [
     }
   },
   {
-    src: "https://i.postimg.cc/hGTRNjNz/img-tags-5.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_5.png",
     desc: "敌方牌库减少40%的牌",
     level: 2,
     standard_level: 3,
@@ -60,7 +60,7 @@ const tag_list = [
     }
   },
   // {
-  //   src: "https://i.postimg.cc/FHf4gGZx/img-tags-6.png",
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_6.png",
   //   desc: "所有高台干员部署费用+1",
   //   level: 1,
   //   effect(G, ctx) {
@@ -71,7 +71,7 @@ const tag_list = [
   // },
   
 {
-    src: "https://i.postimg.cc/fR6hHXqQ/img-tags-7.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_7.png",
     desc: "所有精英敌人获得+2/+4",
     level: 2,
     standard_level: 1,
@@ -86,7 +86,7 @@ const tag_list = [
     }
   },
 {
-    src: "https://i.postimg.cc/65bKvFd3/img-tags-8.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_8.png",
     desc: "2回合后，每回合额外翻开1张敌人牌",
     level: 2,
     standard_level: 1,
@@ -95,7 +95,7 @@ const tag_list = [
     }
   },
 // {
-//     src: "https://i.postimg.cc/ZnVSjM2w/img-tags-9.png",
+//     src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_9.png",
 //     desc: "强化干员需要消耗1点费用",
 //     level: 2,
 //     challenge: true,
@@ -109,7 +109,7 @@ const tag_list = [
 //   },
   
 {
-  src: "https://i.postimg.cc/Y0p76Hn4/img-tags-10.png",
+  src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_10.png",
   desc: "强化干员需要的材料数+1",
   level: 2,
   effect(G, ctx) {
@@ -120,7 +120,7 @@ const tag_list = [
 },
 
   // {
-  //   src: "https://i.postimg.cc/5N21jfQT/img-tags-11.png",
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_11.png",
   //   desc: "回合开始时，所有敌人获得+2生命值",
   //   level: 2,
   //   standard_level: 4,
@@ -132,7 +132,7 @@ const tag_list = [
   
 
   // {
-  //   src: "https://i.postimg.cc/wj36496L/img-tags-15.png",
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_15.png",
   //   desc: "手牌上限和场上干员数量上限调整为6",
   //   level: 2,
   //   effect(G, ctx) {
@@ -146,7 +146,7 @@ const tag_list = [
   
 
   {
-    src: "https://i.postimg.cc/KcNxZ1jt/img-tags-13.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_13.png",
     desc: "所有干员采掘力-1",
     level: 2,
     challenge: true,
@@ -166,7 +166,7 @@ const tag_list = [
   
 
   // {
-  //   src: "https://i.postimg.cc/R0Hv9GJ0/img-tags-14.png",
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_14.png",
   //   desc: "所有干员的部署费用提升至1.5倍",
   //   level: 3,
   //   effect(G, ctx) {
@@ -176,7 +176,7 @@ const tag_list = [
   //   }
   // },
   // {
-  //   src: "https://i.postimg.cc/wj36496L/img-tags-15.png",
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_15.png",
   //   desc: "可同时部署的干员数-3",
   //   level: 3,
   //   challenge: true,
@@ -188,7 +188,7 @@ const tag_list = [
   //   }
   // },
   {
-    src: "https://i.postimg.cc/W1KsQx3K/img-tags-16.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_16.png",
     desc: "所有订单的分数-1",
     level: 3,
     standard_level: 3,
@@ -201,7 +201,7 @@ const tag_list = [
   },
 
   // {
-  //   src: "https://i.postimg.cc/gkzcRvQM/img-tags-17.png",
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_17.png",
   //   desc: "所有干员攻击力-2",
   //   level: 3,
   //   challenge: true,
@@ -216,7 +216,7 @@ const tag_list = [
   // },
 
   {
-    src: "https://i.postimg.cc/1t0PVtHh/img-tags-18.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_18.png",
     desc: "每回合额外翻开1张敌人牌",
     level: 3,
     challenge: true,
@@ -231,7 +231,7 @@ const tag_list = [
   
 
   {
-    src: "https://i.postimg.cc/MTJqGR1m/img-tags-19.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_19.png",
     desc: "回合开始时，所有敌人获得+1/+1",
     level: 3,
     standard_level: 1,
@@ -241,7 +241,7 @@ const tag_list = [
   },
 
   {
-    src: "https://i.postimg.cc/zXxzky1q/img-tags-20.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_20.png",
     desc: "回合开始时，所有干员受到1点伤害",
     level: 3,
     standard_level: 1,
@@ -253,7 +253,7 @@ const tag_list = [
   
   
   {
-    src: "https://i.postimg.cc/Wp6bh9WF/img-tags-21.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_21.png",
     desc: "胜利所需分数+12",
     level: 3,
     standard_level: 4,
@@ -264,7 +264,7 @@ const tag_list = [
   },
 
   {
-    src: "https://i.postimg.cc/j2Xsm5wQ/img-tags-22.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_22.png",
     desc: "3回合后，所有敌人获得+5/+5",
     level: 3,
     standard_level: 6,
@@ -274,7 +274,7 @@ const tag_list = [
   },
 
   {
-    src: "https://i.postimg.cc/7hDHK76Z/img-tags-23.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_23.png",
     desc: "2回合后，所有敌人获得\"冲锋\"",
     level: 4,
     challenge: true,
@@ -285,7 +285,7 @@ const tag_list = [
   },
 
   {
-    src: "https://i.postimg.cc/7ZQLqfBK/img-tags-24.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_24.png",
     desc: "增加Boss\"大泡普\"，胜利所需分数+10",
     level: 4,
     challenge: true,
@@ -297,7 +297,7 @@ const tag_list = [
     }
   },
   {
-    src: "https://i.postimg.cc/TPzYWBvm/img-tags-25.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_25.png",
     desc: "增加Boss\"锈锤战士\"，胜利所需分数+10",
     level: 4,
     challenge: true,
@@ -308,7 +308,7 @@ const tag_list = [
     }
   },
   {
-    src: "https://i.postimg.cc/jjwS2tmt/img-tags-26.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_26.png",
     desc: "胜利所需分数+24",
     level: 5,
     challenge: true,
@@ -319,7 +319,7 @@ const tag_list = [
     }
   },
 {
-    src: "https://i.postimg.cc/4dp4vwX0/img-tags-27.png",
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_27.png",
     desc: "这个tag是送你的哦~",
     level: -50,
     unstackable: true,
@@ -339,7 +339,7 @@ const tag_list = [
   },
   
   // {
-  //   src: "https://i.postimg.cc/qv7Rf8Gt/img-tags-28.png",
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_28.png",
   //   desc: "干员以疲劳状态入场",
   //   level: 10,
   //   unstackable: true,
@@ -351,7 +351,7 @@ const tag_list = [
 ];
 
 export const final_tag = {
-  src: "https://i.postimg.cc/yYjdrf04/img-tags-29.png",
+  src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_29.png",
   desc: "增加Boss\"复仇者\"，胜利所需分数+100",
   level: 100,
   effect(G, ctx){
