@@ -2784,17 +2784,17 @@ export const CARDS = [
   
   {
     name:"宴",
-    cost:3,
+    cost:2,
     atk:2,
     hp:2,
     mine:1,
     block:1,
-    desc: "部署: 获得+6/+6直到回合结束",
+    desc: "部署: 获得+5/+5直到回合结束",
     illust:"https://i.postimg.cc/9FL9qX87/img-cards-107.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      self.atk += 6;
-      self.dmg -= 6;
+      self.atk += 5;
+      self.dmg -= 5;
 
       self.played = true;
       self.onTurnBegin = (G, ctx, self) => {
