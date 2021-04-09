@@ -920,7 +920,13 @@ export class Board extends React.Component {
     }
 
     // Dialog
-    if (this.props.G.dialogs.length > 0 && prevProps.G.dialogs.length == 0) {
+    // if (this.props.G.dialogs.length > 0 && prevProps.G.dialogs.length == 0) {
+      // this.change_board("dialog");
+    // }
+
+    // Better Dialog
+    if (this.state.campaign_mode && this.props.G.dialogs != prevProps.G.dialogs) {
+      this.setState({dialogs: this.props.G.dialogs.map(x => ({...x}))});
       this.change_board("dialog");
     }
 
@@ -1094,17 +1100,22 @@ export class Board extends React.Component {
   }
 
   render_dialog_board() {
-    let dialog = this.props.G.dialogs[0];
+    // let dialog = this.props.G.dialogs[0];
+    let dialog = this.state.dialogs[0];
     if (dialog != undefined) {
       return <Dialog 
         heading = {dialog.heading}
         dialog = {dialog.dialog}
         demonstrate_img = {dialog.demonstrate_img}
         proceed = {() =>  {
-          if (this.props.G.dialogs.length == 1) {
+          // if (this.props.G.dialogs.length == 1) {
+            // this.change_board("game");
+          // }
+          // this.props.moves.proceed_dialogs();
+          if (this.state.dialogs.length == 1) {
             this.change_board("game");
           }
-          this.props.moves.proceed_dialogs();
+          this.setState({dialogs: this.state.dialogs.slice(1)});
         }}
       />;
     }

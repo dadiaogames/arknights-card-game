@@ -140,19 +140,19 @@ export const UPGRADES = [
     }
   },
 
-  // {
-  //   name: "手牌强化2",
-  //   desc: "部署奖励:\"强化2张手牌\"",
-  //   effect(card) {
-  //     card.onPlayBonus.push({
-  //       name: this.name,
-  //       effect(G, ctx, card) {
-  //         reinforce_hand(G, ctx);
-  //         reinforce_hand(G, ctx);
-  //       }
-  //     });
-  //   }
-  // },
+  {
+    name: "手牌强化2",
+    desc: "部署奖励:\"强化2张手牌\"",
+    effect(card) {
+      card.onPlayBonus.push({
+        name: this.name,
+        effect(G, ctx, card) {
+          reinforce_hand(G, ctx);
+          reinforce_hand(G, ctx);
+        }
+      });
+    }
+  },
 
   {
     name: "2费干员",
@@ -216,26 +216,26 @@ export const UPGRADES = [
 //   }
 // },
 
-{
-  name: "回响",
-  desc: "部署奖励:\"将1张自己的同名牌加入手牌，并使其费用-1\"",
-  effect(card) {
-    // Maybe reconstruct this to call the skill of Ansel is better?
-    card.onPlayBonus.push({
-      name: this.name,
-      effect(G, ctx, card) {
-        let name = card.name;
-        if (name.includes("异画")) {
-          name = name.slice(0, name.length-4);
-        }
-        let new_card = G.CARDS.find(x => x.name == name);
-        if (new_card) {
-          G.hand.unshift({...new_card, cost: new_card.cost-1});
-        }
-      }
-  });
-}
-},
+// {
+//   name: "回响",
+//   desc: "部署奖励:\"将1张自己的同名牌加入手牌，并使其费用-1\"",
+//   effect(card) {
+//     // Maybe reconstruct this to call the skill of Ansel is better?
+//     card.onPlayBonus.push({
+//       name: this.name,
+//       effect(G, ctx, card) {
+//         let name = card.name;
+//         if (name.includes("异画")) {
+//           name = name.slice(0, name.length-4);
+//         }
+//         let new_card = G.CARDS.find(x => x.name == name);
+//         if (new_card) {
+//           G.hand.unshift({...new_card, cost: new_card.cost-1});
+//         }
+//       }
+//   });
+// }
+// },
 
   // {
   //   name: "完全治疗",
