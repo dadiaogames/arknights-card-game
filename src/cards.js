@@ -2795,11 +2795,13 @@ export const CARDS = [
     onPlay(G, ctx, self) {
       self.atk += 5;
       self.dmg -= 5;
+      self.power += 1;
 
       self.played = true;
       self.onTurnBegin = (G, ctx, self) => {
         if (self.played) {
-          self.atk -= 6;
+          self.atk -= 5 * self.power;
+          self.power = 0;
           if (self.dmg < 0) {
             self.dmg = 0;
           }
@@ -2811,10 +2813,10 @@ export const CARDS = [
       }
     },
     onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
+      this.onPlay(G, ctx, self);
+      self.power -= 1;
     },
-    reinforce_desc: "+2/+2",
+    reinforce_desc: "触发1次\"部署:\"效果",
   },
   
   // {
