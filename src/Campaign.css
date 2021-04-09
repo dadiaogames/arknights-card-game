@@ -1,0 +1,24 @@
+.dialog-heading {
+  width: 45%;
+  height: auto;
+  margin-top: 20%;
+  margin-bottom: 10%;
+}
+
+.dialog {
+  font-size: 115%;
+  margin-bottom: 8%;
+}
+
+.dialog-button {
+  width: 28%;
+  height: 10%;
+  font-size: 120%;
+}
+
+.demonstrate-img {
+  width: 80%;
+  height: auto;
+  margin-top: 25%;
+  margin-bottom: 5%;
+}
