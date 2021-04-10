@@ -6,13 +6,13 @@ const icon_height = 25;
 const attr_icon_height = 20;
 
 export const ICONS = {
-  alcohol: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_5.png" height={icon_height} alt={醇} className="material" />),
+  alcohol: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_5.png" height={icon_height} alt="醇" className="material" />),
 
-  rma: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_6.png" height={icon_height} alt={球} className="material" />),
+  rma: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_6.png" height={icon_height} alt="球" className="material" />),
 
-  rock: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_7.png" height={icon_height} alt={石} className="material" />),
+  rock: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_7.png" height={icon_height} alt="石" className="material" />),
 
-  d32: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_3.png" height={icon_height} alt={钢} className="material steel" />),
+  d32: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_3.png" height={icon_height} alt="钢" className="material steel" />),
 
   mine: (<img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/microsoft/209/pick_26cf.png" height={attr_icon_height} />),
 
