@@ -885,7 +885,8 @@ export class Board extends React.Component {
     }
     else if (this.state.campaign_mode) {
       this.setState({campaign_mode: false});
-      this.change_board("title");
+      // this.change_board("title");
+      this.change_board("tag");
     }
     else{
       this.change_board("tag");
