@@ -14,11 +14,13 @@
   width: 28%;
   height: 10%;
   font-size: 120%;
+  margin-top: 3%;
 }
 
 .demonstrate-img {
   width: 80%;
   height: auto;
-  margin-top: 25%;
+  margin-top: 24%;
   margin-bottom: 5%;
+  border-bottom: 3px solid #8c8c8c;
 }

@@ -48,6 +48,7 @@ export function Dialog(props) {
         <div className="dialog">{props.dialog}</div>
       </>)
     }
+    {/* <button className={"dialog-button"+((props.demonstrate_img)?" primary":"")} onClick={props.proceed}>继续</button> */}
     <button className="dialog-button" onClick={props.proceed}>继续</button>
   </div>
 }

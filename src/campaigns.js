@@ -25,29 +25,35 @@ https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/atk.png
 sea9 敌人被摧毁后可以获得1分
 sea8 分数达到12分，就赢了！
 sea7 玫兰莎战斗之后，进入了疲劳状态，本回合也无事可做了
-sea4 那就结束回合吧！
-sea3 在下一回合，争取摧毁两个敌人！`;
+sea4 那就结束回合吧！`;
 
 const tutorial_dialogs_4 = `阿米娅 博士，你还有很多工作要做，还不能休息哦
-sea1 哈哈，我又回来了！
+sea1 哈哈，我回来了！
 sea3 你已经掌握了，如何通过战斗摧毁敌人得分
 sea7 然而还有一种，更快的得分方式！
 sea8 那就是完成订单
 sea9 先点入“查看订单”界面
-https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order1.png
-https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order3.png`;
+sea3 点击订单，然后点击“完成”
+https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order1.png`;
+// https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order3.png
 
 const tutorial_dialogs_5 = `sea1 漂亮，你完成了一个订单，获得了大量分数
 sea3 这游戏就是这么玩的！你已经完全掌握了这款游戏~
 sea6 部署干员，使用干员战斗，完成订单
-sea7 通过摧毁敌人和完成订单得分，分数达到12分就赢了！
+sea7 通过摧毁敌人和完成订单得分
+sea1 分数达到12分就赢了！
 sea8 加油，这一局你会赢得很轻松的
 sea1 DameDane~Dameyo~DameDanoyo~`;
 
 const tutorial_dialogs_6 = `sea8 看到这两个二五仔了吗
-sea7 部署巡林者，把他们一同解掉！`;
+sea7 部署巡林者，把他们全部解掉！`;
 
-const extra_talk = 'sea1 如果你觉得目前关卡太简单，可以挑战更高的危机等级，或者肉鸽模式，通过危机等级18之后，你就是高手了！';
+const tutorial_dialogs_7 = `sea1 哈哈，我又回来了！
+sea8 干员不仅可以用来战斗，也可以用来采掘材料
+https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/mine.png
+sea4 材料，可以用来完成订单，也可以用来强化干员
+sea3 如果你觉得目前关卡太简单，可以挑战更高的危机等级，或者肉鸽模式
+sea1 通过危机等级18之后，你就是高手了！`;
 
 export const CAMPAIGNS = {
   tutorial: {
@@ -87,6 +93,9 @@ export const CAMPAIGNS = {
         hp: 99,
         mine: 3,
         name: "Sea",
+        onPlay(G, ctx) {
+          G.dialogs = make_dialogs(tutorial_dialogs_7);
+        }
       }
 
       let enemy1 = {
@@ -138,7 +147,7 @@ export const CAMPAIGNS = {
       G.efield = [enemy1];
       G.orders = [order1, order2];
       G.deck = [...G.deck, sea, donkey, skyfire];
-      G.edeck = [enemy2, enemy3, enemy4, {...enemy2}, ...G.edeck];
+      G.edeck = [enemy2, enemy3, {...enemy2}, enemy4,  ...G.edeck];
       G.materials = [3,2,0,0];
       G.not_refresh_orders = true;
     }
