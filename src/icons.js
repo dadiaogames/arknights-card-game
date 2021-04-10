@@ -6,19 +6,19 @@ const icon_height = 25;
 const attr_icon_height = 20;
 
 export const ICONS = {
-  alcohol: (<img src="https://i.postimg.cc/CKyWC0dF/img-icons-5.png" height={icon_height} className="material" />),
+  alcohol: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_5.png" height={icon_height} alt={醇} className="material" />),
 
-  rma: (<img src="https://i.postimg.cc/dVZbT3sH/img-icons-6.png" height={icon_height} className="material" />),
+  rma: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_6.png" height={icon_height} alt={球} className="material" />),
 
-  rock: (<img src="https://i.postimg.cc/YqPc9YHL/img-icons-7.png" height={icon_height} className="material" />),
+  rock: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_7.png" height={icon_height} alt={石} className="material" />),
 
-  d32: (<img src="https://i.postimg.cc/j5tm9hzm/img-icons-3.png" height={icon_height} className="material steel" />),
+  d32: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_3.png" height={icon_height} alt={钢} className="material steel" />),
 
   mine: (<img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/microsoft/209/pick_26cf.png" height={attr_icon_height} />),
 
   block: (<img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/259/shield_1f6e1.png" height={attr_icon_height} />),
 
-  gold: (<img src="https://i.postimg.cc/mrQK8nF7/img-icons-4.png" style={{height: "1.1em"}} className="steel" />),
+  gold: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_4.png" style={{height: "1.1em"}} className="steel" />),
 
   order: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>,
 
@@ -54,11 +54,11 @@ export const food_icons = [
 
 const smaller_height = '1.1em';
 export const smaller_icons = [
-  (<img src="https://i.postimg.cc/CKyWC0dF/img-icons-5.png" style={{height:smaller_height}} className="material" />),
+  (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_5.png" style={{height:smaller_height}} className="material" />),
 
-  (<img src="https://i.postimg.cc/dVZbT3sH/img-icons-6.png" style={{height:smaller_height}} className="material" />),
+  (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_6.png" style={{height:smaller_height}} className="material" />),
 
-  (<img src="https://i.postimg.cc/YqPc9YHL/img-icons-7.png" style={{height:smaller_height}} className="material" />),
+  (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_7.png" style={{height:smaller_height}} className="material" />),
 
-  (<img src="https://i.postimg.cc/j5tm9hzm/img-icons-3.png" style={{height:smaller_height}} className="material steel" />),
+  (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_3.png" style={{height:smaller_height}} className="material steel" />),
 ]
