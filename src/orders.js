@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { gainMaterials, payMaterials, logMsg, refreshOrder, payCost } from './Game';
+import { gainMaterials, payMaterials, logMsg, refreshOrder, payCost, choice } from './Game';
 import { ICONS, food_icons } from './icons';
 
 export const order_illust = "https://ak.hypergryph.com/assets/index/images/ak/common/story/item_mortal_city.png";
@@ -10,17 +10,20 @@ export const rhine_illust = "http://ak.mooncell.wiki/images/4/4e/%E7%AB%8B%E7%BB
 export const material_icons = [ICONS.alcohol, ICONS.rma, ICONS.rock, ICONS.d32];
 
 function add_atk_hp(G, ctx, field_selected) {
-  let card = G.field[field_selected];
-  if (!card) {
-    if (G.field.length == 0) return;
-    card = G.field[0];
-    logMsg(G, ctx, "建议: 请选定场面上想加成的干员后使用该订单");
-  }
-  else {
+  let card = G.field[field_selected] || choice(ctx,G.field.filter(c => !c.exhausted));
+  // if (!card) {
+  //   if (G.field.length == 0) return;
+  //   card = G.field[0];
+  //   logMsg(G, ctx, "建议: 请选定场面上想加成的干员后使用该订单");
+  // }
+  // else {
+  //   logMsg(G, ctx, `使 ${card.name} 获得+2攻击力`);
+  // }
+  if (card) {
+    card.atk += 2;
+    // card.hp += 1;
     logMsg(G, ctx, `使 ${card.name} 获得+2攻击力`);
   }
-  card.atk += 2;
-  // card.hp += 1;
 }
 
 function deal3dmg(G, ctx, field_selected, enemy_selected) {
