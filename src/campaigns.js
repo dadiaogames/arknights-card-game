@@ -44,6 +44,9 @@ sea7 通过摧毁敌人和完成订单得分，分数达到12分就赢了！
 sea8 加油，这一局你会赢得很轻松的
 sea1 DameDane~Dameyo~DameDanoyo~`;
 
+const tutorial_dialogs_6 = `sea8 看到这两个二五仔了吗
+sea7 部署巡林者，把他们一同解掉！`;
+
 const extra_talk = 'sea1 如果你觉得目前关卡太简单，可以挑战更高的危机等级，或者肉鸽模式，通过危机等级18之后，你就是高手了！';
 
 export const CAMPAIGNS = {
@@ -86,13 +89,38 @@ export const CAMPAIGNS = {
         name: "Sea",
       }
 
-      let enemy = {
+      let enemy1 = {
         ...ENEMIES.find(x => x.name == "小兵"),
         atk: 2,
         hp: 4,
         dmg: 0,
         onOut(G, ctx) {
           G.dialogs = make_dialogs(tutorial_dialogs_3);
+        }
+      };
+
+      let enemy2 = {
+        ...ENEMIES.find(x => x.name == "敌方能天使"),
+        dmg: 0,
+      };
+      
+      let enemy3 = {
+        ...ENEMIES.find(x => x.name == "寻仇者"),
+        atk: 10,
+        hp: 4,
+        dmg: 0,
+        onPlay(G, ctx) {
+          G.dialogs = make_dialogs(tutorial_dialogs_6);
+        },
+        onOut(G, ctx) {
+          G.dialogs = make_dialogs("sea3 就是这样！你已经完全掌握了战斗，等两位干员都战斗完以后，就可以结束回合了");
+        }
+      };
+
+      let enemy4 = {
+        ...enemy2,
+        onPlay(G, ctx) {
+          G.dialogs = make_dialogs("sea8 哦吼，来了一位熟悉的老朋友，快把她部署上去！");
         }
       };
 
@@ -107,9 +135,10 @@ export const CAMPAIGNS = {
       
 
       G.hand = [sword_master];
-      G.efield = [enemy];
+      G.efield = [enemy1];
       G.orders = [order1, order2];
       G.deck = [...G.deck, sea, donkey, skyfire];
+      G.edeck = [enemy2, enemy3, enemy4, {...enemy2}, ...G.edeck];
       G.materials = [3,2,0,0];
       G.not_refresh_orders = true;
     }
