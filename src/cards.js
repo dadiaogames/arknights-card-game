@@ -317,7 +317,7 @@ export const CARDS = [
     atk:2,
     hp:1,
     mine:1,
-    block:1,
+    block:0,
     desc: "部署: 获得7点费用",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_14.png",
     reinforce: 2,
@@ -1756,7 +1756,7 @@ export const CARDS = [
     hp:3, 
     mine:1, 
     block:0, 
-    desc:"战斗: 触发场上所有干员的\"战斗:\"效果", 
+    desc:"战斗(超杀): 触发场上所有干员的\"战斗(超杀):\"效果", 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_64.png",
     onFight(G, ctx, self, enemy) {
       if (~G.field.indexOf(self)) {
@@ -1821,11 +1821,11 @@ export const CARDS = [
     hp:4,
     mine:2,
     block:1,
-    desc:"部署: 触发手牌中所有干员的\"部署:\"效果",
+    desc:"部署: 触发手牌中所有干员的\"部署:\"效果(极境除外)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_66.png",
     onPlay(G, ctx, self) {
       for (let card of G.hand.map(x=>x)) { //Copy the list to prevent infinite loop
-        if (card.onPlay && (card.onPlay != self.onPlay)) {
+        if (card.onPlay && (card.onPlay != self.onPlay) && (card.name != "极境")) {
           card.onPlay(G, ctx, card);
         }
       }
