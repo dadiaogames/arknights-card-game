@@ -40,8 +40,9 @@ https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order1.png`;
 const tutorial_dialogs_5 = `sea1 漂亮，你完成了一个订单，获得了大量分数
 sea3 这游戏就是这么玩的！你已经完全掌握了这款游戏~
 sea6 部署干员，使用干员战斗，完成订单
-sea7 通过摧毁敌人和完成订单得分
-sea1 分数达到12分就赢了！
+sea1 通过摧毁敌人和完成订单得分，分数达到12分就赢了！
+sea7 已完成的订单，都有自己的能力，记得使用一下哦~
+https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order_ability.png
 sea8 加油，这一局你会赢得很轻松的
 sea1 DameDane~Dameyo~DameDanoyo~`;
 
