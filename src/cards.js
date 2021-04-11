@@ -1184,7 +1184,7 @@ export const CARDS = [
     name:"塞雷娅",
     cost:4,
     atk:4,
-    hp:9,
+    hp:8,
     mine:2,
     block:2,
     desc: "行动: 本回合剩余时间内，使用其他干员战斗时，重置1个订单",
@@ -1756,7 +1756,7 @@ export const CARDS = [
     hp:3, 
     mine:1, 
     block:0, 
-    desc:"战斗(超杀): 触发场上所有干员的\"战斗(超杀):\"效果", 
+    desc:"战斗: 触发场上所有干员的\"战斗:\"效果(包括\"超杀:\")", 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_64.png",
     onFight(G, ctx, self, enemy) {
       if (~G.field.indexOf(self)) {
@@ -1968,7 +1968,7 @@ export const CARDS = [
     hp:3,
     mine:1,
     block:0,
-    desc:"超杀: 每造成2点额外伤害，就再对1个敌人造成3点伤害",
+    desc:"超杀: 每造成2点额外伤害，就再对另一个敌人造成3点伤害",
     illust:"https://z3.ax1x.com/2020/11/26/Ddxxbt.png",
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {
