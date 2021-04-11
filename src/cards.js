@@ -1820,7 +1820,7 @@ export const CARDS = [
     atk:4,
     hp:4,
     mine:2,
-    block:1,
+    block:0,
     desc:"部署: 触发手牌中所有干员的\"部署:\"效果(极境除外)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_66.png",
     onPlay(G, ctx, self) {
@@ -3205,7 +3205,7 @@ export const CARDS = [
     atk:2,
     hp:1,
     mine:1,
-    block:1,
+    block:0,
     desc: "部署: 摧毁1个受到伤害的敌人",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_118.png",
     reinforce: 1,
