@@ -1124,9 +1124,11 @@ export const CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      cure(G, ctx, 6);
+      // cure(G, ctx, 6);
+      draw(G, ctx);
     },
-    reinforce_desc: "治疗1个干员的6点伤害",
+    // reinforce_desc: "治疗1个干员的6点伤害",
+    reinforce_desc: "摸1张牌",
   },
   
   {
@@ -1799,10 +1801,15 @@ export const CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      let actors = G.deck.filter(x => x.action);
-      if (actors.length > 0) {
-        let card = ctx.random.Shuffle(actors)[0];
-        G.hand.unshift(Object.assign({}, card));
+      // let actors = G.deck.filter(x => x.action);
+      // if (actors.length > 0) {
+        // let card = ctx.random.Shuffle(actors)[0];
+        // G.hand.unshift(Object.assign({}, card));
+      // }
+      let card = choice(ctx, G.deck.filter(x => x.action));
+      if (card) {
+        G.deck = G.deck.filter(x => x != card);
+        G.hand.unshift({...card});
       }
     },
     reinforce_desc: "检索1张有\"行动:\"效果的牌",
@@ -1825,10 +1832,17 @@ export const CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      let battlecries = G.deck.filter(x => x.onPlay);
-      if (battlecries.length > 0) {
-        let card = ctx.random.Shuffle(battlecries)[0];
-        G.hand.unshift(Object.assign({}, card));
+      // let battlecries = G.deck.filter(x => x.onPlay);
+      // if (battlecries.length > 0) {
+      //   let card = ctx.random.Shuffle(battlecries)[0];
+      //   G.hand.unshift(Object.assign({}, card));
+      // }
+      let card = choice(ctx, G.deck.filter(x => x.onPlay));
+      if (card) {
+        // console.log("Deck before", G.deck);
+        G.deck = G.deck.filter(x => x != card);
+        // console.log("Deck after", G.deck);
+        G.hand.unshift({...card});
       }
     },
     reinforce_desc: "检索1张有\"部署:\"效果的牌",
@@ -2480,9 +2494,10 @@ export const CARDS = [
       G.score += 2 * G.materials.slice(0,3).sort()[0];
     },
     onReinforce(G, ctx) {
-      cure(G, ctx, 6);
+      // cure(G, ctx, 6);
+      draw(G, ctx);
     },
-    reinforce_desc: "治疗1个干员的6点伤害",
+    reinforce_desc: "摸1张牌",
   },
 
   {
@@ -2762,13 +2777,13 @@ export const CARDS = [
   {
     name:"清流",
     cost:2,
-    atk:3,
+    atk:2,
     hp:2,
     mine:2,
     block:0,
     desc: "部署: 将弃牌堆中的所有牌返回手牌",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_103.png",
-    reinforce: 1,
+    reinforce: 2,
     onPlay(G, ctx, self) {
       G.hand = [...G.discard, ...G.hand];
       G.discard = [];
@@ -2779,9 +2794,11 @@ export const CARDS = [
       // }
     },
     onReinforce(G, ctx, self) {
-      cure(G, ctx, 6);
+      // cure(G, ctx, 6);
+      self.mine += 1;
     },
-    reinforce_desc: "治疗1个干员的6点伤害",
+    // reinforce_desc: "治疗1个干员的6点伤害",
+    reinforce_desc: "<+1>",
   },
   {
     name:"调香师",
@@ -2793,16 +2810,16 @@ export const CARDS = [
     desc: "采掘: 摸2张牌",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_104.png",
     onMine(G, ctx, self) {
-      draw(G, ctx);
-      draw(G, ctx);
+      for (let i = 0; i < (2 + self.power); i++) {
+        draw(G, ctx);
+      }
     },
-    reinforce: 1,
-    onReinforce(G, ctx, self) {
-      cure(G, ctx, 6);
-    },
-    reinforce_desc: "治疗1个干员的6点伤害",
-
-
+    reinforce: 2,
+    // onReinforce(G, ctx, self) {
+      // cure(G, ctx, 6);
+    // },
+    // reinforce_desc: "治疗1个干员的6点伤害",
+    reinforce_desc: "再摸1张",
   },
 {
     name:"清道夫", 
@@ -2905,18 +2922,18 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc: "部署: 获得+5/+5直到回合结束",
+    desc: "部署: 获得+4/+4直到回合结束",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_107.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      self.atk += 5;
-      self.dmg -= 5;
+      self.atk += 4;
+      self.dmg -= 4;
       self.power += 1;
 
       self.played = true;
       self.onTurnBegin = (G, ctx, self) => {
         if (self.played) {
-          self.atk -= 5 * self.power;
+          self.atk -= 4 * self.power;
           self.power = 0;
           if (self.dmg < 0) {
             self.dmg = 0;
@@ -3685,9 +3702,10 @@ export const CARDS = [
       }
     },
     reinforce: 1,
-    reinforce_desc: "治疗1个干员的6点伤害",
+    reinforce_desc: "获得1点费用",
     onReinforce(G, ctx, self){
-      cure(G, ctx, 6);
+      // cure(G, ctx, 6);
+      G.costs += 1;
     },
   },
 
