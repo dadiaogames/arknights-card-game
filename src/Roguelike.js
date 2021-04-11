@@ -19,7 +19,7 @@ import { lose_image, result_images } from './assets';
 import { CardRow } from './Card';
 
 export function introduce_roguelike_mode() {
-  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得30赏金和1次升级，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，博士请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得5赏金(最高40赏金)；\n每高4级，在高8级之前，会奖励1次升级，在高8级之后，会奖励1个藏品；\n如果比要求等级高4级，则会达成“满贯”，额外获得30赏金和1个藏品，并跳过1局对战；\n如果比要求等级高8级，则会达成“大满贯”，额外获得60赏金和3个藏品！并跳过2局对战；`);
+  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n太长不看：每一局要尽可能挑战比要求等级更高的危机等级！这样才能获得更多赏金；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得30赏金和1次升级，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，博士请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得5赏金(最高40赏金)；\n每高4级，在高8级之前，会奖励1次升级，在高8级之后，会奖励1个藏品；\n如果比要求等级高4级，则会达成“满贯”，额外获得30赏金和1个藏品，并跳过1局对战；\n如果比要求等级高8级，则会达成“大满贯”，额外获得60赏金和3个藏品！并跳过2局对战；`);
 }
 
 function weekly_introduction() {
@@ -932,7 +932,7 @@ export function Shop(props) {
 export function Roguelike(props) {
   return <div className="central">
     <div className="heijiao-container-2">
-      <img src="https://i.postimg.cc/9QfnGMW5/img-cards-9.png" className="heijiao-img-2" />
+      <img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_9.png" className="heijiao-img-2" />
     </div>
     <div className="counter-container" align="center">
       <div className="battle-count-title" >第<span className="battle-count">{props.game_count || 1}</span>/<span onClick={props.enter_dream}>9</span>战</div>

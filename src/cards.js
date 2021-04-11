@@ -3085,11 +3085,11 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc: "部署: 随机强化自己4次",
+    desc: "部署: 随机强化自己5次",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_114.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
-      let cards = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce)).slice(0, 4);
+      let cards = ctx.random.Shuffle(G.CARDS.filter(x=>x.onReinforce)).slice(0, 5);
       for (let card of cards) {
         if (self) {
           card.onReinforce(G, ctx, self);
