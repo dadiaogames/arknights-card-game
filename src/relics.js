@@ -221,9 +221,10 @@ export const RELICS = [
   },
   {
     name:"全局作战文件",
-    desc:"使用: 商店中增加3个\"高级自选干员\"",
+    desc:"使用: 从所有干员中，随意挑选1个加入卡组",
     onUse(S) {
-      let costs = S.rng.shuffle([2,3,4,5,16]).slice(0,3);
+      // let costs = S.rng.shuffle([2,3,4,5,16]).slice(0,3);
+      let costs = [2,3,4,5,16];
       for (let cost of costs) {
         S.shop_items.unshift(get_specific_card_pick(S, cost));
       }
