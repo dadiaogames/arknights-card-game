@@ -77,7 +77,10 @@ export const CAMPAIGNS = {
         material: 2,
         onPlay(G, ctx) {
           G.dialogs = make_dialogs(tutorial_dialogs_4);
-        }
+        },
+        onMine: undefined,
+        desc: "部署: 对你说\"还不能休息哦\"",
+        reinforce_desc: "没有效果",
       };
 
       let skyfire = {
@@ -93,7 +96,7 @@ export const CAMPAIGNS = {
         atk: 99,
         hp: 99,
         mine: 3,
-        name: "Sea",
+        name: "damedane",
         onPlay(G, ctx) {
           G.dialogs = make_dialogs(tutorial_dialogs_7);
         }
