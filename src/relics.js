@@ -34,11 +34,11 @@ export const RELICS = [
   },
   {
     name: "锈刃-处决",
-    desc: "部署2费及以下的干员时，造成4点伤害",
+    desc: "部署2费及以下的干员时，造成3点伤害",
     onTurnBegin(G, ctx){
       G.onPlayCard.push((G, ctx, card) => {
         if (card.cost <= 2) {
-          deal_random_damage(G, ctx, 4);
+          deal_random_damage(G, ctx, 3);
         }
       });
     }
@@ -401,12 +401,13 @@ export const RELICS = [
   },
   {
     name:"断杖-突破", 
-    desc:"所有干员获得 超杀:获得2个材料",
+    desc:"所有干员获得 超杀:获得1个材料和1分",
     onTurnBegin(G, ctx) {
       G.onCardFight.push(
         (G, ctx, card, enemy) => {
           if (enemy.dmg > enemy.hp) {
-            gainMaterials(G, ctx, 2);
+            gainMaterials(G, ctx, 1);
+            G.score += 1;
           }
         }
       );
