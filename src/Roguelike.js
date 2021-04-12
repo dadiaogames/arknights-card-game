@@ -702,6 +702,10 @@ export function get_gold_gained(risk_level, level_required) {
       gold_gained += slam_bonus;
     }
 
+    if (gold_gained > 300) {
+      gold_gained = 300;
+    }
+
     return gold_gained;
 
 }
