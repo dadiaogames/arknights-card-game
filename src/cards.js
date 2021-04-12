@@ -2411,7 +2411,7 @@ export const CARDS = [
     hp:8, 
     mine:1, 
     block:2, 
-    desc:"行动: 消耗1点费用，对阻挡的所有敌人造成2点伤害，然后重置自己", 
+    desc:"行动: 消耗1点费用，对阻挡的所有敌人造成2点伤害，然后重置自己(对boss无效)", 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_119.png",
     action(G, ctx, self) {
       if (payCost(G, ctx, 1, true)) {
@@ -2419,7 +2419,7 @@ export const CARDS = [
         // self.hp += 2;
         // self.block += 1;
         for (let enemy of G.efield) {
-          if (get_blocker(G, ctx, enemy) == self) {
+          if ((get_blocker(G, ctx, enemy) == self) && (enemy.is_boss == undefined)) {
             enemy.dmg += 2;
           }
         }
