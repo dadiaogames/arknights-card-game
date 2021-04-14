@@ -1557,7 +1557,7 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，召唤3个"麦哲伦"</span>,
+    desc:<span>行动: 消耗一组{material_icons.slice(0,3)}，召唤3个"麦哲伦"</span>,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_61.png",
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
@@ -1627,7 +1627,7 @@ export const CARDS = [
     hp:3,
     mine:1,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，造成4点伤害，重复4次</span>,
+    desc:<span>行动: 消耗一组{material_icons.slice(0,3)}，造成4点伤害，重复4次</span>,
 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_132.png",
     // onPlay(G, ctx) {
@@ -2355,7 +2355,7 @@ export const CARDS = [
   //   hp:3,
   //   mine:2,
   //   block:0,
-  //   desc:<span>行动: 获得一个{material_icons[3]}，然后每有1组{material_icons.slice(0,3)}，就再获得一个{material_icons[3]}</span>,
+  //   desc:<span>行动: 获得一个{material_icons[3]}，然后每有一组{material_icons.slice(0,3)}，就再获得一个{material_icons[3]}</span>,
   //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_83.png",
   //   action(G, ctx, self) {
   //     G.materials[3] += 1 + G.materials.slice(0,3).sort()[0];
@@ -2498,7 +2498,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc:<span>部署: 每有1组{material_icons.slice(0,3)}，就获得2分</span>,
+    desc:<span>部署: 每有一组{material_icons.slice(0,3)}，就获得2分</span>,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_89.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -3321,7 +3321,7 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，获得6点费用</span>,
+    desc:<span>行动: 消耗一组{material_icons.slice(0,3)}，获得6点费用</span>,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_121.png",
     reinforce: 2,
     action(G, ctx, self) {
@@ -3462,7 +3462,7 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc:<span>行动: 消耗1组{material_icons.slice(0,3)}，召唤一个随机干员的6/6复制</span>,
+    desc:<span>行动: 消耗一组{material_icons.slice(0,3)}，召唤一个随机干员的6/6复制</span>,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_125.png",
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
