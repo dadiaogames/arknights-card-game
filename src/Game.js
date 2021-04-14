@@ -669,10 +669,10 @@ export function ready_random_card(G, ctx, self) {
   if (prepared_cards.length > 0) {
     let card = ctx.random.Shuffle(prepared_cards)[0];
     card.ready_times = card.ready_times || 0;
-    if (card.ready_times >= 5) {
-      logMsg(G, ctx, `${card.name} 感到意外的疲惫`);
-      return;
-    }
+    // if (card.ready_times >= 5) {
+      // logMsg(G, ctx, `${card.name} 感到意外的疲惫`);
+      // return;
+    // }
     card.exhausted = false;
     card.ready_times += 1;
     logMsg(G, ctx, `重置 ${card.name}`);
@@ -912,7 +912,7 @@ export function init_decks(deck, seed) {
 
   let get_enemies = () => (ENEMIES.map(x=>({...x})));
   let edeck = get_enemies().concat(get_enemies());
-  console.log("Previews edeck:", edeck);
+  // console.log("Previews edeck:", edeck);
   let odeck = ORDERS.map((x,idx)=>({...x, order_id:idx, color:rng.randRange(3)}));
 
   edeck = rng.shuffle(edeck);  // Shuffle this at first

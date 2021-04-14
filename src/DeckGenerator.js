@@ -552,7 +552,7 @@ const mini_sets = [
 
 function get_random_card(rng) {
   let banned_cards = ["可露希尔"];
-  let card_pool = CARDS.filter(x => (!banned_cards.includes(x.name)));
+  let card_pool = CARDS.filter(x => (!banned_cards.includes(x.name))).filter(x => !(x.hard));
   return rng.choice(card_pool).name;
 }
 
@@ -705,13 +705,29 @@ export function generate_deck_s2(deck_name) {
   deck = deck.map(select_one_card(rng));
   // console.log("deck after", deck);
 
-  // No more than 2
-  let deck_dict = deck.reduce((acc, val) => ({...acc, [val]: (acc[val]+1)||1}), {})
-  for (let card in deck_dict) {
-    if (deck_dict[card] > 2) {
-      deck_dict[card] = 2;
+  // No more than 5 hard cards
+  // console.log("Deck before:", deck);
+  // deck = [...deck.filter(x => !(CARDS.find(y => y.name == x)).hard), ...deck.filter(x => (CARDS.find(y => y.name == x).hard)).slice(0,5)];
+  let is_hard_card = (x) => {
+    let card = CARDS.find(y => y.name == x);
+    if (card) {
+      return card.hard;
+    }
+    else {
+      return false;
     }
   }
+  deck = [...deck.filter(x => !is_hard_card(x)), ...deck.filter(x => is_hard_card(x)).slice(0,4)];
+  // console.log("Deck after:", deck);
+
+  // No more than 3
+  let deck_dict = deck.reduce((acc, val) => ({...acc, [val]: (acc[val]+1)||1}), {})
+  for (let card in deck_dict) {
+    if (deck_dict[card] > 3) {
+      deck_dict[card] = 3;
+    }
+  }
+
   deck = Object.keys(deck_dict).reduce((acc, val) => [...acc, ..._.times(deck_dict[val], ()=>val)], [])
 
   // Random cards
