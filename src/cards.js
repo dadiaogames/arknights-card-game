@@ -1884,7 +1884,7 @@ export const CARDS = [
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_67.png",
     onMine(G, ctx, self) {
       // let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
-      let card = [...G.field].sort((a,b) => (b.atk - a.atk))[0];
+      let card = [...G.field].sort((a,b) => (b.atk - a.atk)).filter(x => !x.exhausted)[0];
       if (card) {
         card.exhausted = true;
         // let delta = Math.floor(card.atk / 2) + 2;
