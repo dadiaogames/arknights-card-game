@@ -1860,7 +1860,7 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:0, 
-    desc:"采掘: 横置一个干员，该干员每有2点攻击力，就再获得1分", 
+    desc:"采掘: 横置一个干员，该干员每有2点攻击力，就获得1分", 
     // hard: true,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_67.png",
     onMine(G, ctx, self) {
@@ -2021,7 +2021,7 @@ export const CARDS = [
         }
       );
     },
-    reinforce: 3,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
       this.action(G, ctx);
     },
