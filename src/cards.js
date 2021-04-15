@@ -2024,10 +2024,10 @@ export const CARDS = [
 
   {
     name:"安比尔",
-    cost:3,
-    atk:5,
+    cost:2,
+    atk:4,
     hp:2,
-    mine:1,
+    mine:0,
     block:0,
     desc:"行动: 本回合剩余时间内，干员的\"超杀:\"效果将额外触发一次",
     hard: true,
