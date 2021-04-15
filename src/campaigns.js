@@ -53,6 +53,7 @@ const tutorial_dialogs_7 = `sea1 哈哈，我又回来了！
 sea8 干员不仅可以用来战斗，也可以用来采掘材料
 https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/mine.png
 sea4 材料，可以用来完成订单，也可以用来强化干员
+sea5 这就是游戏的全部了！如果你还有不懂的地方，标题界面点击“玩法教学”即可查看规则
 sea3 如果你觉得目前关卡太简单，可以挑战更高的危机等级，或者肉鸽模式
 sea1 通过危机等级18之后，你就是高手了！`;
 
