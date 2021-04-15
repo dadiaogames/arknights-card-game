@@ -1082,7 +1082,7 @@ export class Board extends React.Component {
   render_mulligan_board() {
     // TODO: reconstruct the mulligan part
     return (<div className="board game-board" style={{position:"relative"}} >
-      <span className="mulligan-intro">请选择要重调的手牌</span>
+      <span className="mulligan-intro">请换掉不想要的手牌</span>
       <SCardRow 
         cards = {this.props.G.hand.slice(0,5).map(this.process_card_details)}
         handleClick = {this.handle_mulligan_clicked}
