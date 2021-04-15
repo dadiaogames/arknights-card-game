@@ -1199,9 +1199,9 @@ export const CARDS = [
       );
     },
     reinforce: 1,
-    reinforce_desc: "使一个敌人获得易伤1",
+    reinforce_desc: "使一个敌人获得易伤2",
     onReinforce(G, ctx, self){
-      add_vulnerable(G, ctx, 1);
+      add_vulnerable(G, ctx, 2);
     },
   },
 
