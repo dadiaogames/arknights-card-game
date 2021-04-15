@@ -416,7 +416,11 @@ export function drawEnemy(G, ctx) {
   }
   else {
     G.danger += 1;
-    logMsg(G, ctx, "敌方牌库已抽空，增加1点动乱值");
+    G.disaster = (G.disaster + 1) || 1;
+    for (let card of G.field) {
+      card.dmg += G.disaster;
+    }
+    logMsg(G, ctx, `天灾降临！增加1点动乱值，所有干员受到${G.disaster}点伤害`);
   }
 }
 
@@ -1242,7 +1246,7 @@ export const AC = {
         console.log("On turn begin");
         logMsg(G, ctx, "回合开始");
         if (G.edeck.length < (2 * G.num_enemies_out)) {
-          logMsg(G, ctx, `提示: 敌方牌库仅剩${G.edeck.length}张，抽完则动乱值增加！`);
+          logMsg(G, ctx, `提示: 敌方牌库仅剩${G.edeck.length}张，抽完则天灾降临！`);
         }
 
         G.stage = "player";
