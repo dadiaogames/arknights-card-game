@@ -1237,6 +1237,10 @@ export const AC = {
       if (G.playing) {
         console.log("On turn begin");
         logMsg(G, ctx, "回合开始");
+        if (G.edeck.length < (2 * G.num_enemies_out)) {
+          logMsg(G, ctx, `提示: 敌方牌库仅剩${G.edeck.length}张，抽完即失败！`);
+        }
+
         G.stage = "player";
         G.round_num += 1;
 
