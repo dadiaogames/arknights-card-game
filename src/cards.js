@@ -1191,7 +1191,7 @@ export const CARDS = [
         }
       }
       self.exhausted = false;
-      logMsg(G, ctx, "没有3个同色的(重置的)订单");
+      logMsg(G, ctx, "没有3个同色的(没用过的)订单");
     },
     reinforce: 2,
     reinforce_desc: "获得2分",
@@ -2569,7 +2569,7 @@ export const CARDS = [
   //   hp:6,
   //   mine:2,
   //   block:2,
-  //   desc: "采掘/战斗: 强化场上一个(重置的)干员",
+  //   desc: "采掘/战斗: 强化场上一个干员",
   //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_93.png",
   //   reinforce: 1,
   //   onMine(G, ctx, self) {
@@ -2632,7 +2632,7 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc: "采掘: 将场上一个(重置的)干员返回手牌",
+    desc: "采掘: 将场上一个干员返回手牌",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_97.png",
     reinforce: 1,
     // onRest(G, ctx, self) {
@@ -2645,6 +2645,10 @@ export const CARDS = [
       if (card) {
         G.field = G.field.filter(x => x != card);
         G.hand.unshift(card);
+        logMsg(G, ctx `将 ${card.name} 返回手牌`);
+      }
+      else {
+        logMsg(G, ctx, "没有 没动过的干员 可以回手");
       }
     },
     onReinforce(G, ctx, self) {
@@ -2737,7 +2741,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "行动: 摧毁一个(重置的)干员，获得3分",
+    desc: "行动: 摧毁一个干员，获得3分",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_101.png",
     reinforce: 1,
     action(G, ctx, self) {
@@ -2761,9 +2765,12 @@ export const CARDS = [
         if (eliminate_field(G, ctx, self)) {
           G.score += 3;
         }
+        else {
+          logMsg(G, ctx, "没有 没动过的干员 可以摧毁");
+        }
         self.use_count = (self.use_count || 0) + 1;
-        if (self.use_count == 10) {
-          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿10次以上", self);
+        if (self.use_count == 20) {
+          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿20次以上", self);
         }
     },
     onReinforce(G, ctx, self) {
@@ -2861,11 +2868,14 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:1, 
-    desc:"采掘: 摧毁场上一个(重置的)干员，并获得3点费用", 
+    desc:"采掘: 摧毁场上一个干员，并获得3点费用", 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_15.png",
     onMine(G, ctx, self) {
       if (eliminate_field(G, ctx, self)) {
         G.costs += 3;
+      }
+      else {
+        logMsg(G, ctx, "没有 没动过的干员 可以摧毁");
       }
     },
     reinforce: 1,
@@ -3511,7 +3521,7 @@ export const CARDS = [
   //     hp:2,
   //     mine:1,
   //     block:0,
-  //     desc:"采掘: 摧毁场上一个(重置的)干员，然后造成4点伤害，重复2次",
+  //     desc:"采掘: 摧毁场上一个干员，然后造成4点伤害，重复2次",
   //     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_128.png",
   //     onMine(G, ctx, self) {
   //       if (eliminate_field(G, ctx, self)) {
