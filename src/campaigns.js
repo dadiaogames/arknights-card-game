@@ -35,7 +35,7 @@ sea8 那就是完成订单
 sea9 先点入“查看订单”界面
 https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order4.png
 https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order5.png
-https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order1.png`;
+https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order6.png`;
 // https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order3.png
 
 const tutorial_dialogs_5 = `sea1 漂亮，你完成了一个订单，获得了大量分数
