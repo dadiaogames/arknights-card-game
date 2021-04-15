@@ -33,7 +33,8 @@ sea3 你已经掌握了，如何通过战斗摧毁敌人得分
 sea7 然而还有一种，更快的得分方式！
 sea8 那就是完成订单
 sea9 先点入“查看订单”界面
-sea3 点击订单，然后点击“完成”
+https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order4.png
+https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order5.png
 https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order1.png`;
 // https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/order3.png
 
