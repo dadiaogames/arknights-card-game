@@ -414,6 +414,10 @@ export function drawEnemy(G, ctx) {
     }
   
   }
+  else {
+    G.danger += 1;
+    logMsg(G, ctx, "敌方牌库已抽空，增加1点动乱值");
+  }
 }
 
 export function addBoss(G, ctx, boss_name) {
@@ -1238,7 +1242,7 @@ export const AC = {
         console.log("On turn begin");
         logMsg(G, ctx, "回合开始");
         if (G.edeck.length < (2 * G.num_enemies_out)) {
-          logMsg(G, ctx, `提示: 敌方牌库仅剩${G.edeck.length}张，抽完即失败！`);
+          logMsg(G, ctx, `提示: 敌方牌库仅剩${G.edeck.length}张，抽完则动乱值增加！`);
         }
 
         G.stage = "player";
@@ -1343,13 +1347,13 @@ export const AC = {
       //     reason: "牌库被抽光",
       //   };
       // }
-      if (G.edeck.length == 0) {
-        return {
-          win: false,
-          reason: "敌人牌库被抽光",
-        }
-      }
-      else if (G.danger >= G.max_danger) {
+      // if (G.edeck.length == 0) {
+      //   return {
+      //     win: false,
+      //     reason: "敌人牌库被抽光",
+      //   }
+      // }
+      if (G.danger >= G.max_danger) {
         return {
           win: false,
           reason: "动乱指数过高",
