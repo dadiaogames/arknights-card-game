@@ -48,7 +48,7 @@ sea8 加油，这一局你会赢得很轻松的
 sea1 DameDane~Dameyo~DameDanoyo~`;
 
 const tutorial_dialogs_6 = `sea8 看到这两个二五仔了吗
-sea7 部署巡林者，把他们全部解掉！`;
+sea7 部署巡林者，然后用巡林者和玫兰莎相继战斗，把他们全部解掉！`;
 
 const tutorial_dialogs_7 = `sea1 哈哈，我又回来了！
 sea8 干员不仅可以用来战斗，也可以用来采掘材料
