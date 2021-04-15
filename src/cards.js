@@ -332,7 +332,26 @@ export const CARDS = [
     reinforce_desc: "获得2点费用",
   },
 
-  
+  {
+    name:"豆苗",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc:<span>行动: 消耗一组{material_icons.slice(0,3)}，获得6点费用</span>,
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_53.png",
+    reinforce: 2,
+    action(G, ctx, self) {
+      if (payMaterials(G, ctx, [1,1,1,0])) {
+        G.costs += 6;
+      }
+    },
+    onReinforce(G, ctx, self) {
+      G.costs += 2;
+    },
+    reinforce_desc: "获得2点费用",
+  },
   
   {
     name:"风笛", 
@@ -3315,26 +3334,7 @@ export const CARDS = [
   //   },
   //   reinforce_desc: "+3/+1",
   // },
-  {
-    name:"惊蛰",
-    cost:2,
-    atk:3,
-    hp:2,
-    mine:2,
-    block:0,
-    desc:<span>行动: 消耗一组{material_icons.slice(0,3)}，获得6点费用</span>,
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_121.png",
-    reinforce: 2,
-    action(G, ctx, self) {
-      if (payMaterials(G, ctx, [1,1,1,0])) {
-        G.costs += 6;
-      }
-    },
-    onReinforce(G, ctx, self) {
-      G.costs += 2;
-    },
-    reinforce_desc: "获得2点费用",
-  },
+  
 
   // {
   //   name:"贾维",
