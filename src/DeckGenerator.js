@@ -13,7 +13,7 @@ export const classes = {
   miners: "史都华德 12F 阿米娅 炎熔 夜烟 远山 天火 星极 艾雅法拉".split(" "),
   standers: "玫兰莎 芙兰卡 慕斯 柏喙 赫拉格 孑 宴 银灰 凛冬 卡达 阿米娅-近卫 机械水獭 末药 杜宾 森蚺 夜刀".split(" "),
   defenders: "米格鲁 蛇屠箱 斑点 年 可颂 古米 雷蛇 塞雷娅 泥岩 砾 摄影车 龙腾 星熊".split(" "),
-  supporters: "梓兰 红 诗怀雅 安洁莉娜 霜叶 薄绿 清流 翎羽 白面鸮 赫默 凯尔希 空 波登可 真理 巫恋 安比尔 温蒂 夜莺 黑角".split(" "),
+  supporters: "梓兰 红 诗怀雅 安洁莉娜 霜叶 薄绿 清流 翎羽 白面鸮 赫默 爱丽丝 空 波登可 真理 巫恋 安比尔 温蒂 夜莺 黑角".split(" "),
   scorers: "阿消 崖心 食铁兽 雪雉 铃兰 酸糖 普罗旺斯 煌 阿 断罪者 伊芙利特 苏苏洛".split(" "),
   randomizers: "斯卡蒂 图耶 热水壶 嘉维尔 迷迭香 风笛 安赛尔 微风 亚叶 伊桑 狮蝎 坚雷 暗索 可露希尔".split(" "),
 };
@@ -30,7 +30,7 @@ export const classes = {
 // 蛇屠箱 0 2
 // 清流 0 2`;
 
-export const pick_scorers = "阿米娅 阿消 崖心 雪雉 酸糖 煌 凯尔希 苏苏洛".split(" ");
+export const pick_scorers = "阿米娅 阿消 崖心 雪雉 酸糖 煌 爱丽丝 苏苏洛".split(" ");
 
 export const pick_vanguards = "极境 讯使 香草 桃金娘 豆苗 惊蛰 推进之王".split(" ");
 
@@ -55,7 +55,7 @@ const scorer = `阿米娅 1 1
 酸糖 1 1
 普罗旺斯 0 1
 阿消 1 1
-凯尔希 1 1
+爱丽丝 1 1
 伊芙利特 0 1
 雪雉 1 1
 铃兰 0 1
@@ -94,7 +94,7 @@ const supporter = `翎羽 1 1
 白面鸮 1 1
 雷蛇 0 1
 赫默 1 1
-凯尔希 1 1
+爱丽丝 1 1
 末药 1 1
 塞雷娅 0 1
 白金 0 1
@@ -109,7 +109,7 @@ const supporter = `翎羽 1 1
 巫恋 1 1`;
 
 export const solver_core = "棘刺 陈 银灰 W 松果 刻刀 刻俄柏".split(" ");
-export const scorer_core = "阿米娅 阿消 崖心 雪雉 酸糖 铃兰 普罗旺斯 煌 凯尔希 伊芙利特".split(" ");
+export const scorer_core = "阿米娅 阿消 崖心 雪雉 酸糖 铃兰 普罗旺斯 煌 爱丽丝 伊芙利特".split(" ");
 
 // const dubin_score = `杜宾 2 3
 // 推进之王 2 3
@@ -386,14 +386,14 @@ const strategies = [solve, penguin, highcost, rhine, karlan, ursus, fullmoon];
 const mini_sets = [
   //基本阿米娅单核
   ' 阿米娅 雷蛇 艾雅法拉 ',
-  ' 阿米娅 夜烟 炎熔|史都华德|凯尔希 ',
+  ' 阿米娅 夜烟 炎熔|史都华德|爱丽丝 ',
 
   //风笛套
   ' 风笛 白面鸮 温蒂',
   ' 风笛 夜刀|食铁兽 黑角|食铁兽 ',
 
   //莱茵订单流
-  ' 赫默 赫默|白面鸮 凯尔希 ',
+  ' 赫默 赫默|白面鸮 爱丽丝 ',
 
   //火龙单核
   ' 伊芙利特 赫默 史都华德|夜烟|炎熔 ',
@@ -504,7 +504,7 @@ const mini_sets = [
   //柏喙小套路
   ' 柏喙 翎羽 夜莺 ',
   //银灰单核
-  ' 银灰 赫默|凯尔希 星极 ',
+  ' 银灰 赫默|爱丽丝 星极 ',
   //清道夫小配合
   // ' 清道夫 空爆 砾 摄影车 流星 ',
   //闪灵小配合

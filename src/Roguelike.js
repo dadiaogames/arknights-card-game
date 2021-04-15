@@ -356,15 +356,15 @@ function get_shop_item(S) {
   let item_type = S.rng.randRange(100);
   // console.log(item_type, "item type");
 
-  if (item_type <= 60) {
+  if (item_type <= 55) {
     // TODO: change this to relic
     return get_relic(S);
   }
-  else if (item_type <= 85) {
+  else if (item_type <= 80) {
     // TODO: change this to upgrade
     return get_upgrade(S);
   }
-  else if (item_type <= 95) {
+  else if (item_type <= 90) {
     return get_card_pick(S);
   }
   else{
@@ -587,7 +587,7 @@ export function get_relic(S) {
 export function delete_card(S) {
   let shop_item = {};
 
-  shop_item.name = "删1张牌";
+  shop_item.name = "删一张牌";
   shop_item.price = 0;
   shop_item.indexes = S.Deck.map((x,idx)=>idx);
   shop_item.desc = "";

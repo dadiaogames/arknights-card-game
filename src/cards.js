@@ -68,7 +68,7 @@ export const CARDS = [
         self.onPlay(G, ctx, self);
       }
       else {
-        logMsg(G, ctx, "只需要强化1次即可");
+        logMsg(G, ctx, "只需要强化一次即可");
       }
       self.exhausted = false;
     },
@@ -413,7 +413,7 @@ export const CARDS = [
         achieve(G, ctx, "推进之王", "强化推进之王5次", self);
       }
     },
-    reinforce_desc: "触发1次\"部署:\"效果",
+    reinforce_desc: "触发一次\"部署:\"效果",
   },
 {
     name:"蓝毒", 
@@ -546,7 +546,7 @@ export const CARDS = [
         achieve(G, ctx, "赤霄·绝影", "陈在手牌中被强化过至少15次", self);
       }
     },
-    reinforce_desc: "触发1次\"部署:\"效果",
+    reinforce_desc: "触发一次\"部署:\"效果",
   },
 
   {
@@ -841,7 +841,7 @@ export const CARDS = [
   //   hp:2, 
   //   mine:1, 
   //   block:0, 
-  //   desc:"部署: 本回合下一次部署干员时，会额外部署1次", 
+  //   desc:"部署: 本回合下一次部署干员时，会额外部署一次", 
   //   was_enemy: true,
   //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_37.png",
   //   onPlay(G, ctx, self) {
@@ -1206,14 +1206,14 @@ export const CARDS = [
   },
 
 {
-    name:"凯尔希",
+    name:"爱丽丝",
     cost:2,
     atk:2,
     hp:2,
     mine:2,
     block:0,
     desc: "采掘: 横置一个订单，并触发其能力2次",
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_50.png",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_iris.png",
     onMine(G, ctx, self) {
       let order = exhaust_order(G, ctx);
       if (order) {
@@ -1228,7 +1228,7 @@ export const CARDS = [
       }
     },
     reinforce: 2,
-    reinforce_desc: "再触发1次",
+    reinforce_desc: "再触发一次",
   },
 
   // {
@@ -1480,7 +1480,7 @@ export const CARDS = [
         reinforce_hand(G, ctx);
       }
     },
-    reinforce_desc: "再重复1次",
+    reinforce_desc: "再重复一次",
   },
 
 {
@@ -1645,7 +1645,7 @@ export const CARDS = [
       // self.atk += 3;
       // self.hp += 3;
     // },
-    reinforce_desc: "再重复1次",
+    reinforce_desc: "再重复一次",
   },
  {
     name:"夜烟",
@@ -1855,19 +1855,20 @@ export const CARDS = [
 
   {
     name:"普罗旺斯", 
-    cost:3,
-    atk:5, 
+    cost:2,
+    atk:4, 
     hp:2, 
     mine:1, 
     block:0, 
-    desc:"采掘: 获得2分，然后横置一个干员，该干员每有2点攻击力，就再获得1分", 
-    hard: true,
+    desc:"采掘: 横置一个干员，该干员每有2点攻击力，就再获得1分", 
+    // hard: true,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_67.png",
     onMine(G, ctx, self) {
       let card = ctx.random.Shuffle(G.field.filter(x=>(!x.exhausted)))[0];
       if (card) {
         card.exhausted = true;
-        let delta = Math.floor(card.atk / 2) + 2;
+        // let delta = Math.floor(card.atk / 2) + 2;
+        let delta = Math.floor(card.atk / 2);
         G.score += delta;
         logMsg(G, ctx, `使用 普罗旺斯 获得${delta}分`);
       }
@@ -1880,8 +1881,8 @@ export const CARDS = [
       //   }
       // );
     },
-    reinforce: 2,
-    reinforce_desc: "触发1次\"采掘:\"效果",
+    reinforce: 1,
+    reinforce_desc: "触发一次\"采掘:\"效果",
     onReinforce(G, ctx, self) {
       this.onMine && this.onMine(G, ctx, self);
     }
@@ -2008,7 +2009,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc:"行动: 本回合剩余时间内，干员的\"超杀:\"效果将额外触发1次",
+    desc:"行动: 本回合剩余时间内，干员的\"超杀:\"效果将额外触发一次",
     hard: true,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_71.png",
     action(G, ctx) {
@@ -2024,7 +2025,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       this.action(G, ctx);
     },
-    reinforce_desc: "触发1次\"行动:\"效果",
+    reinforce_desc: "触发一次\"行动:\"效果",
   },
   {
     name:"黑",
@@ -2132,7 +2133,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       this.action(G, ctx, self);
     },
-    reinforce_desc: "触发1次\"行动\"效果",
+    reinforce_desc: "触发一次\"行动\"效果",
 
   },
 
@@ -2925,7 +2926,7 @@ export const CARDS = [
       this.action(G, ctx);
     },
     reinforce: 3,
-    reinforce_desc: "触发1次\"行动:\"效果",
+    reinforce_desc: "触发一次\"行动:\"效果",
   },
   {
     name:"宴",
@@ -2961,7 +2962,7 @@ export const CARDS = [
       this.onPlay(G, ctx, self);
       self.power -= 1;
     },
-    reinforce_desc: "触发1次\"部署:\"效果",
+    reinforce_desc: "触发一次\"部署:\"效果",
   },
   
   // {
@@ -3210,7 +3211,7 @@ export const CARDS = [
     // onReinforce(G, ctx, self) {
     //   G.costs += 2;
     // },
-    reinforce_desc: "再重复1次",
+    reinforce_desc: "再重复一次",
   },
   
   {
@@ -3525,12 +3526,12 @@ export const CARDS = [
   //         self.action = undefined;
   //       }
   //       else {
-  //         logMsg(G, ctx, "只需要强化1次即可");
+  //         logMsg(G, ctx, "只需要强化一次即可");
   //         self.exhausted = false;
   //       }
   //     },
   //     reinforce: 1,
-  //     reinforce_desc: "再重复1次",
+  //     reinforce_desc: "再重复一次",
   //     // onReinforce(G, ctx, self) {
   //     //   deal_random_damage(G, ctx, 3);
   //     // },
@@ -3734,14 +3735,14 @@ export const CARDS = [
     mine: 3,
     block: 1,
     illust: "https://z3.ax1x.com/2020/11/12/BvqDyQ.png",
-    desc: `行动: 造成3点伤害，重复4次，然后本回合剩余时间内，使用干员采掘时，获得1分，整场战斗限1次(采掘/战斗: 强化此技能)`,
+    desc: `行动: 造成3点伤害，重复4次，然后本回合剩余时间内，使用干员采掘时，获得1分，整场战斗限一次(采掘/战斗: 强化此技能)`,
     hard: true,
     // was_enemy: true,
     onPlay(G, ctx, self) {
       self.skill_power = 0;
       let reinforce_skill = (G, ctx, self) => {
         self.skill_power = (self.skill_power || 0) + 1;
-        self.desc = `行动: 造成3点伤害，重复${4+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+Math.floor(self.skill_power/3)}分，整场战斗限1次(采掘/战斗: 强化此技能)`;
+        self.desc = `行动: 造成3点伤害，重复${4+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+Math.floor(self.skill_power/3)}分，整场战斗限一次(采掘/战斗: 强化此技能)`;
       };
       
       self.onMine = reinforce_skill;
@@ -3789,7 +3790,7 @@ export const CARDS = [
         reinforce_card(G, ctx, card);
       }
     },
-    reinforce_desc: "再强化1次",
+    reinforce_desc: "再强化一次",
   },
   
   // {

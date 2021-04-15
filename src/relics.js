@@ -213,8 +213,9 @@ export const RELICS = [
   {
     name:"芙蓉的健康餐", 
     // desc:"所有敌人获得-2/-0",
-    desc:"使用: 商店中增加2个\"删1张牌\"",
+    desc:"使用: 商店中增加3个\"删一张牌\"",
     onUse(S) {
+      S.shop_items.push(delete_card(S));
       S.shop_items.push(delete_card(S));
       S.shop_items.push(delete_card(S));
     }
@@ -232,9 +233,9 @@ export const RELICS = [
   },
   {
     name:"可露希尔的怜悯",
-    desc:"使用: 商店中增加4个藏品，并使增加的藏品价格-20",
+    desc:"使用: 商店中增加5个藏品，并使增加的藏品价格-20",
     onUse(S) {
-      for (let i=0; i<4; i++) {
+      for (let i=0; i<5; i++) {
         let relic = get_relic(S);
         relic.price -= 20;
         S.shop_items.push(relic);
