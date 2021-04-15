@@ -597,7 +597,7 @@ export class Board extends React.Component {
         this.props.moves.drawEnemy(); // start from -2 to draw 2 enemies
       }
       else {
-        if (this.props.G.efield[i].exhausted) {
+        if (this.props.G.efield[i] && this.props.G.efield[i].exhausted) {
           sleep_time = 50;
         }
         this.props.moves.enemyMove(i);
