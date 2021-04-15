@@ -3173,9 +3173,9 @@ export const CARDS = [
   {
     name:"波登可",
     cost:4,
-    atk:2,
+    atk:4,
     hp:2,
-    mine:2,
+    mine:3,
     block:0,
     desc: "行动: 触发手牌中一个干员的\"部署:\"效果(极境除外)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_116.png",
