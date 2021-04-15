@@ -637,6 +637,9 @@ export function reinforce_field(G, ctx) {
   if (card) {
     reinforce_card(G, ctx, card);
   }
+  else {
+    logMsg(G, ctx, "场上没有 没动过的干员 可以强化");
+  }
 }
 
 export function exhaust_random_enemy(G, ctx) {
