@@ -749,11 +749,11 @@ export function generate_roguelike_deck(deck_name) {
   deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
   deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
   deck = [...deck, ...deck_from_strategy(shooter, 2, rng)];
-  deck = [...deck, ...deck_from_strategy(supporter, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
   // console.log(deck);
 
   // Random cards
-  let amount_add = 16 - deck.length;
+  let amount_add = 15 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }
