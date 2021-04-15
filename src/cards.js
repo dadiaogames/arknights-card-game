@@ -244,7 +244,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       draw(G, ctx);
     },
-    reinforce_desc: "摸1张牌",
+    reinforce_desc: "摸一张牌",
   },
 
   
@@ -341,7 +341,7 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:1, 
-    desc:"行动: 打出牌库顶的1张牌", 
+    desc:"行动: 打出牌库顶的一张牌", 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_18.png",
     action(G, ctx, self) {
       // if (G.limit_hand_field && G.field.length >= 6) {
@@ -1129,7 +1129,7 @@ export const CARDS = [
       draw(G, ctx);
     },
     // reinforce_desc: "治疗一个干员的6点伤害",
-    reinforce_desc: "摸1张牌",
+    reinforce_desc: "摸一张牌",
   },
   
   {
@@ -1441,7 +1441,7 @@ export const CARDS = [
     hp:3,
     mine:1,
     block:1,
-    // desc: "采掘/战斗: 强化1张手牌",
+    // desc: "采掘/战斗: 强化一张手牌",
     desc: "采掘/战斗: 强化场上一个干员",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_91.png",
     reinforce: 1,
@@ -1816,7 +1816,7 @@ export const CARDS = [
         G.hand.unshift({...card});
       }
     },
-    reinforce_desc: "检索1张有\"行动:\"效果的牌",
+    reinforce_desc: "检索一张有\"行动:\"效果的牌",
   },
   {
     name:"安洁莉娜",
@@ -1850,7 +1850,7 @@ export const CARDS = [
         G.hand.unshift({...card});
       }
     },
-    reinforce_desc: "检索1张有\"部署:\"效果的牌",
+    reinforce_desc: "检索一张有\"部署:\"效果的牌",
   },
 
   {
@@ -1951,7 +1951,7 @@ export const CARDS = [
   //   hp:4,
   //   mine:2,
   //   block:1,
-  //   desc:"超杀: 每造成1点额外伤害，就摸1张牌",
+  //   desc:"超杀: 每造成1点额外伤害，就摸一张牌",
   //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_70.png",
   //   onFight(G, ctx, self, enemy) {
   //     if (enemy.dmg > enemy.hp) {
@@ -2298,13 +2298,13 @@ export const CARDS = [
 
   {
     name:"嘉维尔",
-    cost:3,
-    atk:3,
+    cost:2,
+    atk:2,
     hp:2,
-    mine:2,
+    mine:1,
     block:0,
     desc:"部署: 将场上所有干员变成随机干员",
-    hard: true,
+    // hard: true,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_79.png",
     onPlay(G, ctx, self) {
       let change_card = (card) => {
@@ -2394,7 +2394,7 @@ export const CARDS = [
     hp:4,
     mine:1,
     block:1,
-    desc:"行动: 弃1张牌，造成3点伤害，然后重置自己",
+    desc:"行动: 弃一张牌，造成3点伤害，然后重置自己",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_85.png",
     action(G, ctx, self) {
       if (G.hand.length > 0) {
@@ -2509,7 +2509,7 @@ export const CARDS = [
       // cure(G, ctx, 6);
       draw(G, ctx);
     },
-    reinforce_desc: "摸1张牌",
+    reinforce_desc: "摸一张牌",
   },
 
   {
@@ -2573,7 +2573,7 @@ export const CARDS = [
   //   hp:2,
   //   mine:2,
   //   block:0,
-  //   desc: "部署: 每有1张被强化过的手牌(包括自己)，就造成3点伤害并获得1分",
+  //   desc: "部署: 每有一张被强化过的手牌(包括自己)，就造成3点伤害并获得1分",
   //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_95.png",
   //   reinforce: 1,
   //   onPlay(G, ctx, self) {
@@ -2639,7 +2639,7 @@ export const CARDS = [
   //   hp:2,
   //   mine:2,
   //   block:0,
-  //   desc: "采掘: 本回合剩余时间内，每打出1张牌，就摸1张牌",
+  //   desc: "采掘: 本回合剩余时间内，每打出一张牌，就摸一张牌",
   //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_98.png",
   //   reinforce: 2,
   //   // onRest(G, ctx, self) {
@@ -2707,7 +2707,7 @@ export const CARDS = [
   //       G.hand.unshift(Object.assign({}, card));
   //     }
   //   },
-  //   reinforce_desc: "检索1张有\"休整:\"效果的牌",
+  //   reinforce_desc: "检索一张有\"休整:\"效果的牌",
   // },
 
   {
@@ -2759,7 +2759,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc: "行动: 弃掉所有手牌，然后每弃掉1张，就获得1分",
+    desc: "行动: 弃掉所有手牌，然后每弃掉一张，就获得1分",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_102.png",
     reinforce: 1,
     action(G, ctx, self) {
@@ -2832,7 +2832,7 @@ export const CARDS = [
       // cure(G, ctx, 6);
     // },
     // reinforce_desc: "治疗一个干员的6点伤害",
-    reinforce_desc: "再摸1张",
+    reinforce_desc: "再摸一张",
   },
 {
     name:"清道夫", 
@@ -2925,7 +2925,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       this.action(G, ctx);
     },
-    reinforce: 3,
+    reinforce: 2,
     reinforce_desc: "触发一次\"行动:\"效果",
   },
   {
@@ -3064,7 +3064,7 @@ export const CARDS = [
   //   onReinforce(G, ctx, self) {
   //     G.hand.unshift({...CARDS.find(x => x.name == "卡夫卡")});
   //   },
-  //   reinforce_desc: "获得1张\"卡夫卡\"",
+  //   reinforce_desc: "获得一张\"卡夫卡\"",
   // },
   
 
@@ -3075,7 +3075,7 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:0,
-    desc: "采掘: 将弃牌堆中1张有\"部署:\"效果的牌返回手牌",
+    desc: "采掘: 将弃牌堆中一张有\"部署:\"效果的牌返回手牌",
     hard: true,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_113.png",
     reinforce: 1,
@@ -3174,7 +3174,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       draw(G, ctx);
     },
-    reinforce_desc: "摸1张牌",
+    reinforce_desc: "摸一张牌",
   },
   
   
@@ -3277,7 +3277,7 @@ export const CARDS = [
   //   hp:3,
   //   mine:3,
   //   block:3,
-  //   desc: "部署: 每有1张手牌，就获得+6生命值",
+  //   desc: "部署: 每有一张手牌，就获得+6生命值",
   //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_119.png",
   //   reinforce: 1,
   //   onPlay(G, ctx, self) {
@@ -3573,7 +3573,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       draw(G, ctx);
     },
-    reinforce_desc: "摸1张牌",
+    reinforce_desc: "摸一张牌",
   },
   
   
@@ -3601,7 +3601,7 @@ export const CARDS = [
   //   onReinforce(G, ctx, self) {
   //     G.hand.unshift(enemy2card(G, ctx));
   //   },
-  //   reinforce_desc: "将1张敌人牌加入手牌",
+  //   reinforce_desc: "将一张敌人牌加入手牌",
   // },
   
   
@@ -3781,7 +3781,7 @@ export const CARDS = [
     block:2,
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_140.png",
     reinforce: 1,
-    desc: "行动: 获得1张干员牌，并强化其3次",
+    desc: "行动: 获得一张干员牌，并强化其3次",
     hard: true,
     action(G, ctx, self) {
       let card = {...ctx.random.Shuffle(G.CARDS)[0]};
@@ -3802,14 +3802,14 @@ export const CARDS = [
   //   block:1,
   //   illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_141.png",
   //   reinforce: 1,
-  //   desc: "部署/行动: 从另一个游戏里偷1张牌",
+  //   desc: "部署/行动: 从另一个游戏里偷一张牌",
   //   onPlay(G, ctx, self) {
   //     G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
   //   },
   //   action(G, ctx, self) {
   //     G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
   //   },
-  //   reinforce_desc: "从另一个游戏里偷1张牌",
+  //   reinforce_desc: "从另一个游戏里偷一张牌",
   //   onReinforce(G, ctx, self) {
   //     G.hand.unshift({...ctx.random.Shuffle(BORROWS)[0]});
   //   }
@@ -3906,7 +3906,7 @@ export const BORROWS = [
         G.field = G.field.slice(0, G.field.length-1);
       }
     },
-    reinforce_desc: "获得1张\"青眼白龙\"",
+    reinforce_desc: "获得一张\"青眼白龙\"",
     onReinforce(G, ctx, self) {
       G.hand.unshift({...self});
     }
