@@ -2645,7 +2645,7 @@ export const CARDS = [
       if (card) {
         G.field = G.field.filter(x => x != card);
         G.hand.unshift(card);
-        logMsg(G, ctx `将 ${card.name} 返回手牌`);
+        logMsg(G, ctx,`将 ${card.name} 返回手牌`);
       }
       else {
         logMsg(G, ctx, "没有 没动过的干员 可以回手");
