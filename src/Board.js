@@ -1022,8 +1022,12 @@ export class Board extends React.Component {
   render_mode_selection_board() {
     const actions = {
       // "常规模式": () => this.change_board("tag"),
-      "每日挑战": this.enter_daily_mode,
+      // "每日挑战": this.enter_daily_mode,
            // "Roguelike模式": this.enter_roguelike_mode,
+      "合作模式": () => this.change_board("multiplayer"),
+      // "其他模式"
+      "竞技模式": () => this.enter_competition_mode(),
+      "周常挑战": () => this.roguelike.enter_weekly_mode(),
       "返回": this.back,
     };
     return <div className="board">
@@ -1550,6 +1554,9 @@ export class Board extends React.Component {
              Deck: undefined,
              tags: TAGS.map(x => ({...x})),
             });
+            CARDS.map(card => {
+              card.onPlayBonus = [];
+            });
          } 
       };
      }
@@ -1774,10 +1781,10 @@ export class Board extends React.Component {
         tags: choose_standard_tags(this.state.tags, this.state.standard_level+1),
         standard_level: this.state.standard_level + 1,
       }),
-      // 其他模式: () => this.change_board('mode_selection'),
+      其他模式: () => this.change_board('mode_selection'),
       // 每日挑战: this.enter_daily_mode,
       // 周常挑战: () => this.roguelike.enter_weekly_mode(),
-      合作模式: () => this.change_board("multiplayer"),
+      // 合作模式: () => this.change_board("multiplayer"),
       新手教学: () => this.enter_campaign_mode("tutorial"),
       肉鸽模式: () => this.enter_roguelike_mode(),
       返回标题: () => this.change_board("title"),
