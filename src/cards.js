@@ -614,7 +614,7 @@ export const CARDS = [
     cost:4, 
     atk:6, 
     hp:3, 
-    mine:2, 
+    mine:3, 
     block:0, 
     desc: <span>采掘: 弃2张牌，获得2个{material_icons[3]}</span>, 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_28.png",
@@ -1456,7 +1456,7 @@ export const CARDS = [
 {
     name:"凛冬",
     cost:3,
-    atk:3,
+    atk:4,
     hp:3,
     mine:1,
     block:1,
@@ -1504,7 +1504,7 @@ export const CARDS = [
 
 {
     name:"诗怀雅",
-    cost:3,
+    cost:2,
     atk:2,
     hp:1,
     mine:1,
@@ -1691,7 +1691,7 @@ export const CARDS = [
     cost:4,
     atk:6,
     hp:3,
-    mine:4,
+    mine:3,
     block:0,
     desc: "超杀: 每造成2点额外伤害，就获得1个材料",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_55.png",
