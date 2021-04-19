@@ -829,7 +829,9 @@ export class Board extends React.Component {
       if (this.state.roguelike_mode) {
         seed += this.state.game_count
       } 
-      // : this.state.results.length;
+      else {
+        seed += this.state.results.length;
+      }
     }
 
     else {
