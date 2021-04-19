@@ -2863,8 +2863,8 @@ export const CARDS = [
   },
 {
     name:"清道夫", 
-    cost:3, 
-    atk:5, 
+    cost:2, 
+    atk:4, 
     hp:2, 
     mine:1, 
     block:1, 
@@ -3210,7 +3210,7 @@ export const CARDS = [
   
   {
     name:"巫恋",
-    cost:3,
+    cost:2,
     atk:2,
     hp:2,
     mine:1,
@@ -3269,36 +3269,36 @@ export const CARDS = [
     reinforce_desc: "造成3点伤害",
   },
 
-{
-    name:"松果",
-    cost:2,
-    atk:2,
-    hp:1,
-    mine:1,
-    block:0,
-    desc: "部署: 横置2个订单，摧毁一个敌人，如果2个订单颜色相同，则再摧毁一个",
-    hard: true,
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_51.png",
-    onPlay(G, ctx, self) {
-      let order1 = exhaust_order(G, ctx);
-      let order2 = exhaust_order(G, ctx);
-      if (order1 != undefined && order2 != undefined) {
-        let times = (order1.color == order2.color)? 2 : 1;
-        for (let i=0; i<times; i++) {
-          let enemy = choice(ctx, G.efield.filter(x => x.hp > x.dmg));
-          enemy.dmg += enemy.hp;
-        }
-      }
-      else {
-        logMsg(G, ctx, "没有足够的订单");
-      }
-    },
-    reinforce: 1,
-    reinforce_desc: "造成4点伤害",
-    onReinforce(G, ctx, self){
-      deal_random_damage(G, ctx, 4);
-    },
-  },
+  // {
+  //   name:"松果",
+  //   cost:2,
+  //   atk:2,
+  //   hp:1,
+  //   mine:1,
+  //   block:0,
+  //   desc: "部署: 横置2个订单，摧毁一个敌人，如果2个订单颜色相同，则再摧毁一个",
+  //   hard: true,
+  //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_51.png",
+  //   onPlay(G, ctx, self) {
+  //     let order1 = exhaust_order(G, ctx);
+  //     let order2 = exhaust_order(G, ctx);
+  //     if (order1 != undefined && order2 != undefined) {
+  //       let times = (order1.color == order2.color)? 2 : 1;
+  //       for (let i=0; i<times; i++) {
+  //         let enemy = choice(ctx, G.efield.filter(x => x.hp > x.dmg));
+  //         enemy.dmg += enemy.hp;
+  //       }
+  //     }
+  //     else {
+  //       logMsg(G, ctx, "没有足够的订单");
+  //     }
+  //   },
+  //   reinforce: 1,
+  //   reinforce_desc: "造成4点伤害",
+  //   onReinforce(G, ctx, self){
+  //     deal_random_damage(G, ctx, 4);
+  //   },
+  // },
 
   // {
   //   name:"星熊",
