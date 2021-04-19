@@ -2266,7 +2266,7 @@ export const CARDS = [
 
   {
     name:"图耶",
-    cost:6,
+    cost:5,
     atk:2,
     hp:2,
     mine:1,
