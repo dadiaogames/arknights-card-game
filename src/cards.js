@@ -1178,15 +1178,15 @@ export const CARDS = [
     hp:3,
     mine:4,
     block:0,
-    desc: "行动: 摧毁3个颜色相同的订单，获得12分",
+    desc: "行动: 摧毁3个颜色相同的订单，获得16分",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_48.png",
     action(G, ctx, self) {
       for (let i=0; i<3; i++) {
         let colored_orders = G.finished.filter(x => (!x.exhausted) && (x.color == i));
         if (colored_orders.length >= 3) {
           G.finished = G.finished.filter(x => !colored_orders.includes(x));
-          G.score += 12;
-          logMsg(G, ctx, "获得12分");
+          G.score += 16;
+          logMsg(G, ctx, "获得16分");
           return;
         }
       }
