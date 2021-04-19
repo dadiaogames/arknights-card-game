@@ -1174,7 +1174,7 @@ export const CARDS = [
   {
     name:"伊芙利特",
     cost:4,
-    atk:4,
+    atk:6,
     hp:3,
     mine:4,
     block:0,
