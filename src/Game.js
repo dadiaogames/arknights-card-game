@@ -377,6 +377,12 @@ function finishOrder(G, ctx, idx) {
       G.orders.map(price_up);
       G.odeck.map(price_up);
     }
+
+    if (G.finished.length == 5) {
+      let ability_off = (order) => ({...order, desc: "", effect: () => {}});
+      G.orders = G.orders.map(ability_off);
+      G.odeck = G.odeck.map(ability_off);
+    }
   }
 }
 
@@ -1271,7 +1277,7 @@ export const AC = {
 
         refresh_picks(G, ctx);
 
-        sort_finished(G, ctx);
+        // sort_finished(G, ctx);
 
         setup_events(G, ctx);
         setup_turn_states(G, ctx);
