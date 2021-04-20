@@ -3046,8 +3046,9 @@ export const CARDS = [
       // logMsg(G, ctx, `获得效果"${self.desc}"`);
     // },
     onOut(G, ctx, self) {
-      let gravel = G.CARDS.find(x => x.name == "砾");
-      G.hand.unshift({...gravel});
+      // let gravel = G.CARDS.find(x => x.name == "砾");
+      // G.hand.unshift({...gravel});
+      G.hand.unshift({...self});
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
