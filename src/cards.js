@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker,
+  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker, refreshOrder, drawOrder,
 } from './Game';
 import { classes } from './DeckGenerator';
 import { material_icons, ready_order } from './orders';
@@ -1031,8 +1031,15 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       self.exhausted = false;
     },
-    reinforce: 3,
-    reinforce_desc: "重置自己",
+    
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      for (let i=0; i<5; i++) {
+        drawOrder(G, ctx);
+      }
+    },
+    reinforce_desc: "摸5张订单牌",
+
   },
 
   // {
@@ -1144,11 +1151,11 @@ export const CARDS = [
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
-      // cure(G, ctx, 6);
-      draw(G, ctx);
+      for (let i=0; i<5; i++) {
+        drawOrder(G, ctx);
+      }
     },
-    // reinforce_desc: "治疗一个干员的6点伤害",
-    reinforce_desc: "摸一张牌",
+    reinforce_desc: "摸5张订单牌",
   },
   
   {
@@ -1164,11 +1171,14 @@ export const CARDS = [
       ready_random_card(G, ctx, self);
       ready_order(G, ctx);
     },
-    reinforce: 2,
+    reinforce: 1,
     onReinforce(G, ctx, self) {
-      G.costs += 2;
+      for (let i=0; i<5; i++) {
+        drawOrder(G, ctx);
+      }
     },
-    reinforce_desc: "获得2点费用",
+    reinforce_desc: "摸5张订单牌",
+
   },
 
   {

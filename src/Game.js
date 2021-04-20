@@ -314,6 +314,10 @@ export function refreshOrder(G, ctx) {
   G.orders = sort_orders(G.orders);
 }
 
+export function drawOrder(G, ctx) {
+  G.orders = [{...choice(ctx, G.odeck)}, ...G.orders];
+}
+
 function sort_orders(orders) {
   return orders.sort((x,y) => {
     let price_y = _.sum(y.requirements);
