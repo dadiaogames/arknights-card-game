@@ -1273,11 +1273,13 @@ export const CARDS = [
     desc: "采掘: 横置一个订单，并触发其能力2次",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_iris.png",
     onMine(G, ctx, self) {
-      let order = exhaust_order(G, ctx);
+      // let order = exhaust_order(G, ctx);
+      let order = choice(ctx, G.finished.filter(order => ((!order.exhausted) && (order.powerless != true))));
       if (order) {
         for (let i=0; i<(2+self.power); i++) {
           if ((order.cost == undefined) || payMaterials(G, ctx, order.cost, true)) {
             order.effect(G, ctx);
+            order.exhausted = true;
           }
         }
       }
