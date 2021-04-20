@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export function map_object(fn, obj) {
   let new_obj = {};
 
@@ -44,6 +46,13 @@ export function mod_slice(arr, idx, cnt) {
   let len = arr.length;
   let from = idx % len;
   return [...arr.slice(from, len), ...arr.slice(0, from)].slice(0, cnt);
+}
+
+export function list_min_max_idx(alist) {
+  let max = _.max(alist);
+  let min = _.min(alist);
+  let equal_idx = (val) => alist.map((x, idx) => (x == val)?idx:undefined).filter(i => i != undefined);
+  return [equal_idx(min), equal_idx(max)];
 }
 
 export class PRNG {
