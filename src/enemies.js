@@ -1,10 +1,11 @@
 import React from 'react';
 import 
   { drawEnemy, switchEnemy, deal_damage, enemyMove,
-    get_blocker, logMsg, ready_random_card, clearField, draw, gainMaterials, init_card_state
+    get_blocker, logMsg, ready_random_card, clearField, draw, gainMaterials, init_card_state, choice
  } from "./Game";
 
 export const ENEMIES = [
+  // --- Good enemies begin ---
   {
     name: "小兵",
     atk: 2,
@@ -129,20 +130,20 @@ export const ENEMIES = [
       }
     }
   },
-  {
-    name: "空降兵",
-    atk: 2,
-    hp: 2,
-    illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_enemies_11.png",
-    desc: "入场: 使1个敌人获得+2攻击力",
-    onPlay(G, ctx) {
-      // ctx.random.Shuffle(G.efield)[0].atk += 2;
-      let enemy = G.efield[0];
-      if (enemy) {
-        enemy.atk += 2;
-      }
-    }
-  },
+  // {
+  //   name: "空降兵",
+  //   atk: 2,
+  //   hp: 2,
+  //   illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_enemies_11.png",
+  //   desc: "入场: 使1个敌人获得+2攻击力",
+  //   onPlay(G, ctx) {
+  //     // ctx.random.Shuffle(G.efield)[0].atk += 2;
+  //     let enemy = G.efield[0];
+  //     if (enemy) {
+  //       enemy.atk += 2;
+  //     }
+  //   }
+  // },
   {
     name: "高阶术师",
     atk: 2,
@@ -274,7 +275,7 @@ export const ENEMIES = [
     atk: 5,
     hp: 5,
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_enemies_22.png",
-    desc: "摧毁: 重置1个干员",
+    desc: "摧毁: 重置一个干员",
     onOut(G, ctx, self) {
       ready_random_card(G, ctx, self);
     }
@@ -332,19 +333,34 @@ export const ENEMIES = [
     }
   },
 
-  // TODO: Wait for illust
-  // {
-  //   name: "得意",
-  //   atk: 2,
-  //   hp: 5,
-  //   illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/enemy_gas.png",
-  //   desc: "摧毁: 对一个敌人造成4点伤害",
-  //   onOut(G, ctx) {
-  //     for (let enemy of G.efield) {
-  //       enemy.dmg += 2;
-  //     }
-  //   }
-  // },
+  {
+    name: "敌方安洁莉娜",
+    atk: 5,
+    hp: 5,
+    illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/enemy_angelina.png",
+    desc: "摧毁: 触发手牌中一个干员的\"部署:\"效果(极境除外)",
+    onOut(G, ctx) {
+      let player = choice(ctx, G.hand.filter(x => x.onPlay && (x.name != "极境")));
+      if (player) {
+        player.onPlay(G, ctx, player);
+        logMsg(G, ctx, `触发 ${player.name} 的部署效果`);
+      }
+    }
+  },
+
+  {
+    name: "得意",
+    atk: 5,
+    hp: 5,
+    illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/enemy_deyi.png",
+    desc: "摧毁: 对一个敌人造成5点伤害",
+    onOut(G, ctx) {
+      let enemy = choice(ctx, G.efield);
+      if (enemy) {
+        enemy.dmg += 5;
+      }
+    }
+  },
 
   // {
   //   name: "狂暴宿主组长",

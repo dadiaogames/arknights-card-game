@@ -1279,9 +1279,9 @@ export const CARDS = [
         for (let i=0; i<(2+self.power); i++) {
           if ((order.cost == undefined) || payMaterials(G, ctx, order.cost, true)) {
             order.effect(G, ctx);
-            order.exhausted = true;
           }
         }
+        order.exhausted = true;
       }
       else {
         logMsg(G, ctx, "没有可横置的订单");
