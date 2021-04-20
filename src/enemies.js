@@ -193,6 +193,8 @@ export const ENEMIES = [
       G.costs -= 2;
     }
   },
+
+  // --- Good Enemies Above ---
   
   // {
   //   name: "双持剑士",
@@ -313,6 +315,19 @@ export const ENEMIES = [
     onTurnBegin(G, ctx, self) {
       if (self.atk > 0) {
         self.atk = 0;
+      }
+    }
+  },
+
+  {
+    name: "瓦斯车",
+    atk: 2,
+    hp: 4,
+    illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/enemy_gas.png",
+    desc: "摧毁: 对所有其他敌人造成2点伤害",
+    onOut(G, ctx) {
+      for (let enemy of G.efield) {
+        enemy.dmg += 2;
       }
     }
   },

@@ -3611,10 +3611,10 @@ export const CARDS = [
         logMsg(G, ctx, "未找到合适的干员触发效果");
       }
     },
-    onFight(G, ctx, self) {
+    onFight(G, ctx, self, enemy) {
       let fighter = ctx.random.Shuffle(G.hand.filter(x => (x.onFight && !["白雪"].includes(x.name))))[0];
       if (fighter) {
-        fighter.onFight(G, ctx, self);
+        fighter.onFight(G, ctx, self, enemy);
         logMsg(G, ctx, `触发 ${fighter.name} 的战斗效果`);
       }
       else {
