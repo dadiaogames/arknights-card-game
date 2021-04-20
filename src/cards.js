@@ -2977,8 +2977,8 @@ export const CARDS = [
   // },
   {
     name:"铃兰", 
-    cost:3, 
-    atk:2, 
+    cost:2, 
+    atk:3, 
     hp:2, 
     mine:2, 
     block:0, 
