@@ -148,11 +148,13 @@ export const CARDS = [
     mine: 3,
     block: 0,
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_6.png",
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
       self.mine += 1;
     },
-    reinforce_desc: "<+1>",
+    reinforce_desc: "+2/+2 <+1>",
   },
 
   // {
