@@ -194,6 +194,7 @@ const tag_list = [
     standard_level: 3,
     unstackable: true,
     effect(G, ctx) {
+      G.less_order_score = true;
       for (let order of G.odeck) {
         order.score -= 1;
       }

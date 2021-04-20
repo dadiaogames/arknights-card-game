@@ -379,7 +379,7 @@ function finishOrder(G, ctx, idx) {
     }
 
     if (G.finished.length == 5) {
-      let ability_off = (order) => ({...order, desc: "", effect: () => {}});
+      let ability_off = (order) => ({...order, score:(G.less_order_score==true)?3:4, desc: "", effect: () => {}});
       G.orders = G.orders.map(ability_off);
       G.odeck = G.odeck.map(ability_off);
     }
