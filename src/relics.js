@@ -222,7 +222,7 @@ export const RELICS = [
   },
   {
     name:"全局作战文件",
-    desc:"使用: 从所有干员中，随意挑选1个加入卡组",
+    desc:"使用: 从所有干员中，任选一个加入卡组",
     onUse(S) {
       // let costs = S.rng.shuffle([2,3,4,5,16]).slice(0,3);
       let costs = [2,3,4,5,16];
@@ -256,7 +256,7 @@ export const RELICS = [
   },
   {
     name:"香草沙士汽水", 
-    desc:"每局首次使用干员时不会横置(可叠加)",
+    desc:"每局首次使用干员时，边框不会变红(即可以再用一次)(可叠加)",
     onBattleBegin(G, ctx, self) {
       self.used = false;
     },

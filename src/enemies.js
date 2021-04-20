@@ -332,6 +332,20 @@ export const ENEMIES = [
     }
   },
 
+  // TODO: Wait for illust
+  // {
+  //   name: "得意",
+  //   atk: 2,
+  //   hp: 5,
+  //   illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/enemy_gas.png",
+  //   desc: "摧毁: 对一个敌人造成4点伤害",
+  //   onOut(G, ctx) {
+  //     for (let enemy of G.efield) {
+  //       enemy.dmg += 2;
+  //     }
+  //   }
+  // },
+
   // {
   //   name: "狂暴宿主组长",
   //   atk: -2,
