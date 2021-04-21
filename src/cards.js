@@ -3089,7 +3089,7 @@ export const CARDS = [
     onOut(G, ctx, self) {
       // let gravel = G.CARDS.find(x => x.name == "砾");
       // G.hand.unshift({...gravel});
-      G.hand.unshift({...self});
+      G.hand.unshift({...self, onPlayBonus: []});
     },
     onReinforce(G, ctx, self) {
       self.atk += 2;
