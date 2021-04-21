@@ -2084,7 +2084,7 @@ export const CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      this.action(G, ctx);
+      this.action && this.action(G, ctx);
     },
     reinforce_desc: "触发一次\"行动:\"效果",
   },
@@ -2192,7 +2192,7 @@ export const CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      this.action(G, ctx, self);
+      this.action && this.action(G, ctx, self);
     },
     reinforce_desc: "触发一次\"行动\"效果",
 
@@ -2242,13 +2242,13 @@ export const CARDS = [
       // for (let i=0; i<(3+3*self.power); i++) {
       //   deal_random_damage(G, ctx, 1);
       // }
-      this.onPlay(G, ctx, self);
+      this.onPlay && this.onPlay(G, ctx, self);
     },
     onFight(G, ctx, self) {
       // for (let i=0; i<(3+3*self.power); i++) {
       //   deal_random_damage(G, ctx, 1);
       // }
-      this.onPlay(G, ctx, self);
+      this.onPlay && this.onPlay(G, ctx, self);
     },
     reinforce: 1,
     reinforce_desc: "再重复2次",
@@ -2348,11 +2348,11 @@ export const CARDS = [
   //     G.hand = cards.map(x => ({...x}));
   //   },
   //   onMine(G, ctx) {
-  //     this.onPlay(G, ctx);
+  //     this.onPlay && this.onPlay(G, ctx);
   //   },
   //   reinforce: 1,
   //   onReinforce(G, ctx) {
-  //     this.onPlay(G, ctx);
+  //     this.onPlay && this.onPlay(G, ctx);
   //   },
   //   reinforce_desc: "将所有手牌替换为随机干员牌",
   // },
@@ -2379,7 +2379,7 @@ export const CARDS = [
     reinforce: 1,
     reinforce_desc: "将场上所有干员变成随机干员",
     onReinforce(G, ctx) {
-      this.onPlay(G, ctx);
+      this.onPlay && this.onPlay(G, ctx);
     },
   },
   
@@ -2994,7 +2994,7 @@ export const CARDS = [
       );
     },
     onReinforce(G, ctx, self) {
-      this.action(G, ctx);
+      this.action && this.action(G, ctx);
     },
     reinforce: 2,
     reinforce_desc: "触发一次\"行动:\"效果",
@@ -3030,7 +3030,7 @@ export const CARDS = [
       }
     },
     onReinforce(G, ctx, self) {
-      this.onPlay(G, ctx, self);
+      this.onPlay && this.onPlay(G, ctx, self);
       self.power -= 1;
     },
     reinforce_desc: "触发一次\"部署:\"效果",
