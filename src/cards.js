@@ -1241,10 +1241,10 @@ export const CARDS = [
 
   {
     name:"塞雷娅",
-    cost:4,
-    atk:4,
+    cost:3,
+    atk:2,
     hp:8,
-    mine:2,
+    mine:1,
     block:2,
     desc: "行动: 本回合剩余时间内，使用其他干员战斗时，重置一个订单",
     hard: true,
