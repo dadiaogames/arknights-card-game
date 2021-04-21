@@ -512,6 +512,7 @@ export function generate_combined_card(G, ctx) {
     mine: ctx.random.Die(5),
     block: ctx.random.Die(4)-1,
     reinforce: 1,
+    power: 0,
     material: ctx.random.Die(3)-1,
     desc: [],
   };
