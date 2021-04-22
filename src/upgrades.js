@@ -26,6 +26,14 @@ export const UPGRADES = [
   },
 
   {
+    name: "<+2>",
+    desc: "采掘力+2",
+    effect(card) {
+      card.mine += 2;
+    }
+  },
+
+  {
     name: "-1费",
     desc: "部署费用-1", // Write "获得"always
     effect(card) {

@@ -444,7 +444,8 @@ export function get_card_pick(S) {
   return {
     name: "自选干员",
     price: 0,
-    indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,6),
+    // indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,6),
+    indexes: S.rng.shuffle(CARDS.map((x,idx)=>idx)).slice(0,6),
     desc: "从6个干员中，选择你最心仪的那一个",
     src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
     is_pick: true,

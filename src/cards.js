@@ -593,34 +593,34 @@ export const CARDS = [
     },
   },
 
-  // {
-  //   name:"慕斯", 
-  //   cost:3, 
-  //   atk:2, 
-  //   hp:4, 
-  //   mine:3, 
-  //   block:1, 
-  //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_27.png",
-  //   reinforce: 1,
-  //   desc: "战斗: 使目标攻击力-6",
-  //   onFight(G, ctx, self, enemy) {
-  //     enemy.atk -= 6;
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     self.atk += 3;
-  //     self.hp += 3;
-  //   },
-  //   reinforce_desc: "+3/+3",
-  // },
-
   {
     name:"慕斯", 
+    cost:2, 
+    atk:2, 
+    hp:2, 
+    mine:2, 
+    block:1, 
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_27.png",
+    reinforce: 1,
+    desc: "战斗: 使目标攻击力-6",
+    onFight(G, ctx, self, enemy) {
+      enemy.atk -= 6;
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 3;
+      self.hp += 3;
+    },
+    reinforce_desc: "+3/+3",
+  },
+
+  {
+    name:"锡兰", 
     cost:2, 
     atk:3, 
     hp:2, 
     mine:2, 
     block:1, 
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_27.png",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_98.png",
     reinforce: 2,
     desc: <span>采掘: 获得一个最少的材料<br/>战斗: 获得一个最多的材料</span>,
     onMine(G, ctx, self) {

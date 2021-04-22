@@ -302,17 +302,17 @@ export const RELICS = [
   //     });
   //   }
   // },
-  // {
-  //   name:"断杖-咏唱", 
-  //   desc:"所有采掘力至少为3的,<+2>",
-  //   onBattleBegin(G, ctx) {
-  //     G.deck.map(x => {
-  //       if (x.mine >= 3) {
-  //         x.mine += 2;
-  //       }
-  //     });
-  //   }
-  // },
+  {
+    name:"断杖-咏唱", 
+    desc:"所有采掘力至少为3的,<+2>",
+    onBattleBegin(G, ctx) {
+      G.deck.map(x => {
+        if (x.mine >= 3) {
+          x.mine += 2;
+        }
+      });
+    }
+  },
   {
     name:"铁卫-推进", 
     desc:" 阻挡数多于2的,阻挡数-1,但是+4/+4",
