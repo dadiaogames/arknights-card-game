@@ -353,13 +353,13 @@ export const ENEMIES = [
     atk: 5,
     hp: 5,
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/enemy_deyi.png",
-    desc: "摧毁: 对一个敌人造成5点伤害",
+    desc: "摧毁: 对一个敌人造成6点伤害",
     onOut(G, ctx) {
       // let enemy = choice(ctx, G.efield);
       // if (enemy) {
         // enemy.dmg += 5;
       // }
-      deal_random_damage(G, ctx, 5);
+      deal_random_damage(G, ctx, 6);
     }
   },
 
