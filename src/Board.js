@@ -1871,7 +1871,7 @@ export class Board extends React.Component {
             fontSize: "105%",
           }}
         >
-          要求危机等级: {this.state.level_required}
+          最低危机等级: {this.state.level_required}
         </div>
 
         
