@@ -1,7 +1,7 @@
 import React from 'react';
 import 
   { drawEnemy, switchEnemy, deal_damage, enemyMove,
-    get_blocker, logMsg, ready_random_card, clearField, draw, gainMaterials, init_card_state, choice
+    get_blocker, logMsg, ready_random_card, clearField, draw, gainMaterials, init_card_state, choice, deal_random_damage
  } from "./Game";
 
 export const ENEMIES = [
@@ -328,7 +328,7 @@ export const ENEMIES = [
     desc: "摧毁: 对所有其他敌人造成2点伤害",
     onOut(G, ctx) {
       for (let enemy of G.efield) {
-        enemy.dmg += 2;
+        enemy.dmg += 2 + (enemy.vulnerable || 0);
       }
     }
   },
@@ -355,10 +355,11 @@ export const ENEMIES = [
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/enemy_deyi.png",
     desc: "摧毁: 对一个敌人造成5点伤害",
     onOut(G, ctx) {
-      let enemy = choice(ctx, G.efield);
-      if (enemy) {
-        enemy.dmg += 5;
-      }
+      // let enemy = choice(ctx, G.efield);
+      // if (enemy) {
+        // enemy.dmg += 5;
+      // }
+      deal_random_damage(G, ctx, 5);
     }
   },
 

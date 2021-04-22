@@ -1257,9 +1257,7 @@ export const AC = {
       if (G.playing) {
         console.log("On turn begin");
         logMsg(G, ctx, "回合开始");
-        if (G.edeck.length < (2 * G.num_enemies_out)) {
-          logMsg(G, ctx, `提示: 敌方牌库仅剩${G.edeck.length}张，抽完则天灾降临！`);
-        }
+        
 
         G.stage = "player";
         G.round_num += 1;
@@ -1343,6 +1341,10 @@ export const AC = {
 
         if (G.reduce_goal) {
           G.goal -= 4;
+        }
+
+        if (G.edeck.length < (2 * G.num_enemies_out)) {
+          logMsg(G, ctx, `提示: 敌方牌库仅剩${G.edeck.length}张，抽完则天灾降临！`);
         }
       }
     },

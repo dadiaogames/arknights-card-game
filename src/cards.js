@@ -11,6 +11,7 @@ import { classes } from './DeckGenerator';
 import { material_icons, ready_order } from './orders';
 import { food_icons } from './icons';
 import { list_min_max_idx } from './utils';
+import { ENEMIES } from './enemies';
 
 export function init_card(card) {
   return {
@@ -1564,6 +1565,52 @@ export const CARDS = [
     },
     reinforce_desc: "+2/+2",
   },
+
+  {
+    name:"夕",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: "采掘: 在敌方召唤一个1/1的\"得意\"",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_dusk.png",
+    reinforce: 1,
+    onMine(G, ctx) {
+      G.efield.push({
+        ...ENEMIES.find(x => x.name == "得意"),
+        atk: 1,
+        hp: 1,
+        dmg: 0,
+        exhausted: false,
+      });
+    },
+    onReinforce(G, ctx) {
+      this.onMine && this.onMine(G, ctx);
+    },
+    reinforce_desc: "触发一次\"采掘:\"效果",
+  },
+
+  {
+    name:"送葬人",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:1,
+    block:0,
+    desc: "战斗: 摧毁目标时，额外触发一次其\"摧毁:\"效果",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_ryan.png",
+    // was_enemy: true,
+    reinforce: 1,
+    onFight(G, ctx, self, enemy) {
+      if (enemy.dmg >= enemy.hp) {
+        for (let i=0; i<(1+self.power); i++) {
+          enemy.onOut && enemy.onOut(G, ctx, enemy);
+        }
+      }
+    },
+    reinforce_desc: "再触发一次",
+  },
   
   {
     name:"摄影车",
@@ -2126,6 +2173,30 @@ export const CARDS = [
       //   self.exhausted = false;
       // }
       if (enemy.dmg > enemy.hp && payCost(G, ctx, 1, true)) {
+        self.exhausted = false;
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "+1/+1",
+    onReinforce(G, ctx, self) {
+      self.atk += 1;
+      self.hp += 1;
+    },
+  },
+{
+    name:"松果",
+    cost:4,
+    atk:6,
+    hp:3,
+    mine:1,
+    block:1,
+    desc:"超杀: 横置一个订单，重置自己",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_51.png",
+    onFight(G, ctx, self, enemy) {
+      // if (G.field.indexOf(self) == G.efield.indexOf(enemy) && payCost(G, ctx, 1)) {
+      //   self.exhausted = false;
+      // }
+      if (enemy.dmg > enemy.hp && exhaust_order(G, ctx)) {
         self.exhausted = false;
       }
     },
