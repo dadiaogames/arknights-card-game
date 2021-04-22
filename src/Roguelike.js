@@ -99,7 +99,7 @@ function init_tags_S2(S) {
   let repeat_tags = tags.filter(t => t.stackable).flatMap(t => _.times(3, ()=>({...t})));
   let remained_tags = S.rng.shuffle(tags.filter(t => (!basic_tags.includes(t)) && t.level > 0));
   let init_added_tags = remained_tags.filter(t => (t.standard_level <= 3));
-  init_added_tags.map(t => {if (t.standard_level <= 2) t.locked = true;});
+  // init_added_tags.map(t => {if (t.standard_level <= 2) t.locked = true;});
   S.tags = [...basic_tags, ...repeat_tags, ...init_added_tags].map(t => ({...t}));
   S.remained_tags = remained_tags.filter(t => !init_added_tags.includes(t));
 }
@@ -280,7 +280,7 @@ function set_difficulty(S, difficulty) {
 function set_difficulty_S2(S, difficulty) {
   S.difficulty = difficulty;
 
-  S.levels = [8, 12, 16, 20, 25, 30, 35, 40, 50];
+  S.levels = [4, 8, 12, 16, 20, 25, 30, 35, 45];
 
   if (difficulty == "medium") {
     S.levels = [18, 22, 26, 30, 36, 42, 48, 55, 70];

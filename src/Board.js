@@ -1182,7 +1182,7 @@ export class Board extends React.Component {
       // preview_deck: this.props.G.Deck,
       results: [],
     });
-    this.setState({tags: choose_standard_tags(TAGS.map(x=>({...x})), 4)});
+    this.setState({tags: choose_standard_tags(TAGS.map(x=>({...x})), 4).map(t => ({...t, locked: (t.selected)}))});
     this.change_board("competition");
   }
 
