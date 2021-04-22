@@ -639,34 +639,7 @@ export const CARDS = [
     reinforce_desc: "再获得一个",
   },
   
-  {
-    name:"星极", 
-    cost:4, 
-    atk:6, 
-    hp:3, 
-    mine:3, 
-    block:0, 
-    desc: <span>采掘: 弃2张牌，获得2个{material_icons[3]}</span>, 
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_28.png",
-    onMine(G, ctx, self) {
-      if (G.hand.length >= 2) {
-        drop(G, ctx);
-        drop(G, ctx);
-        G.materials[3] += 2;
-      }
-      else {
-        logMsg(G, ctx, "手牌不够");
-        // self.exhausted = false;
-      }
-    },
-    reinforce: 2,
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-      self.mine += 1;
-    },
-    reinforce_desc: "+2/+2 <+1>",
-  },
+  
   
   {
     name:"蛇屠箱", 
@@ -2545,6 +2518,36 @@ export const CARDS = [
     reinforce: 1,
     reinforce_desc: "伤害+1",
   },
+{
+    name:"星极", 
+    cost:4, 
+    atk:6, 
+    hp:3, 
+    mine:3, 
+    block:0, 
+    desc: <span>行动: 弃一张牌，获得1个{material_icons[3]}，然后重置自己</span>, 
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_28.png",
+    action(G, ctx, self) {
+      if (G.hand.length >= 1) {
+        drop(G, ctx);
+        // drop(G, ctx);
+        G.materials[3] += 1;
+        self.exhausted = false;
+      }
+      else {
+        logMsg(G, ctx, "手牌不够");
+        // self.exhausted = false;
+      }
+    },
+    reinforce: 2,
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+      self.mine += 1;
+    },
+    reinforce_desc: "+2/+2 <+1>",
+  },
+
  {
     name:"星熊", 
     cost:3, 
