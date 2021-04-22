@@ -1600,7 +1600,7 @@ export const CARDS = [
     block:0,
     desc: "战斗: 摧毁目标时，额外触发一次其\"摧毁:\"效果(boss除外)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_astromania.png",
-    // was_enemy: true,
+    was_enemy: true,
     reinforce: 1,
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg >= enemy.hp & (!enemy.is_boss)) {
