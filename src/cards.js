@@ -2525,18 +2525,24 @@ export const CARDS = [
     hp:3, 
     mine:3, 
     block:0, 
-    desc: <span>行动: 弃一张牌，获得1个{material_icons[3]}，然后重置自己</span>, 
+    desc: <span>战斗: 消耗一组{material_icons.slice(0,3)}，获得3个{material_icons[3]}和2分</span>, 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_28.png",
-    action(G, ctx, self) {
-      if (G.hand.length >= 1) {
-        drop(G, ctx);
-        // drop(G, ctx);
-        G.materials[3] += 1;
-        self.exhausted = false;
-      }
-      else {
-        logMsg(G, ctx, "手牌不够");
-        // self.exhausted = false;
+    // action(G, ctx, self) {
+    //   if (G.hand.length >= 1) {
+    //     drop(G, ctx);
+    //     // drop(G, ctx);
+    //     G.materials[3] += 1;
+    //     self.exhausted = false;
+    //   }
+    //   else {
+    //     logMsg(G, ctx, "手牌不够");
+    //     // self.exhausted = false;
+    //   }
+    // },
+    onFight(G, ctx) {
+      if (payMaterials(G, ctx, [1,1,1,0])) {
+        G.materials[3] += 3;
+        G.score += 2;
       }
     },
     reinforce: 2,
