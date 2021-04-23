@@ -11,5 +11,5 @@ export const ALTER_ARTS = {
   陈: "https://z3.ax1x.com/2020/11/28/D61Xsf.jpg",
   安比尔: "https://z3.ax1x.com/2020/11/28/D61qzt.jpg",
   波登可: "https://z3.ax1x.com/2020/11/30/DWtbKe.png",
-  送葬人: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_ryan_alter.png",
+  // 送葬人: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_ryan_alter.png",
 };
