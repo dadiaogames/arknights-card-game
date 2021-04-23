@@ -1467,7 +1467,28 @@ export const CARDS = [
     reinforce: 2,
     reinforce_desc: "再获得2分",
   },
-
+{
+    name:"初雪",
+    cost:2,
+    atk:2,
+    hp:1,
+    mine:1,
+    block:0,
+    desc: "部署: 使一个敌人获得易伤2，重复2次",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_83.png",
+    onPlay(G, ctx) {
+      add_vulnerable(G, ctx, 2);
+      add_vulnerable(G, ctx, 2);
+    },
+    reinforce: 1,
+    reinforce_desc: <span>弃一张牌，获得2个{material_icons[3]}</span>,
+    onReinforce(G, ctx, self) {
+      if (G.hand.length >= 1) {
+        drop(G, ctx);
+        G.materials[3] += 2;
+      }
+    },
+  },
 {
     name:"凛冬",
     cost:3,
@@ -2454,24 +2475,7 @@ export const CARDS = [
     reinforce_desc: "再获得2分",
   },
 
-  // {
-  //   name:"初雪",
-  //   cost:3,
-  //   atk:4,
-  //   hp:3,
-  //   mine:2,
-  //   block:0,
-  //   desc:<span>行动: 获得一个{material_icons[3]}，然后每有一组{material_icons.slice(0,3)}，就再获得一个{material_icons[3]}</span>,
-  //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_83.png",
-  //   action(G, ctx, self) {
-  //     G.materials[3] += 1 + G.materials.slice(0,3).sort()[0];
-  //   },
-  //   reinforce: 2,
-  //   reinforce_desc: "获得2点费用",
-  //   onReinforce(G, ctx, self) {
-  //     G.costs += 2;
-  //   },
-  // },
+  // 
   // {
   //   name:"角峰",
   //   cost:4,
