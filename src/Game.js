@@ -550,7 +550,7 @@ export function generate_combined_card(G, ctx) {
 export function generate_skadi_ch_ability(G, ctx) {
   let filtered_cards = G.CARDS.filter(x => (typeof x.desc == "string"));
   let onmine_abilities = [...filtered_cards.filter(x => x.onMine)];
-  let onfight_abilities = [...filtered_cards.filter(x => x.onFight), ...filtered_cards.filter(x => x.onMine)];
+  let onfight_abilities = [...filtered_cards.filter(x => x.onFight).map(x => ({...x, desc: x.desc.replace("超杀: ", "战斗: 造成额外伤害时，")})), ...filtered_cards.filter(x => x.onMine)];
   let action_abilities = [...filtered_cards.filter(x => x.action), ...filtered_cards.filter(x => x.onPlay)];
 
   let onmine_chosen = choice(ctx, onmine_abilities);
