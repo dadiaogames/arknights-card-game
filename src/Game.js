@@ -705,7 +705,7 @@ export function add_vulnerable(G, ctx, amount) {
 
 export function ready_random_card(G, ctx, self) {
   let exhausted_cards = G.field.filter(x => (x.exhausted && (x != self)));
-  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪", "霜叶", "夜莺", "白金"].includes(x.name)));
+  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪", "霜叶", "夜莺", "白金", "浊心斯卡蒂"].includes(x.name)));
   if ((exhausted_cards.length != 0) && (prepared_cards.length == 0)) {
     logMsg(G, ctx, "干员们感到意外的疲惫，无法被重置");
   }
