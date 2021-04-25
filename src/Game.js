@@ -1139,11 +1139,11 @@ export function summon(G, ctx, card, self) {
   }
 }
 
-function setup_deck_selection(G, ctx, num_shuffles) {
-  _.times(num_shuffles, ctx.random.D4);
+function setup_deck_selection(G, ctx, seed) {
+  // _.times(num_shuffles, ctx.random.D4);
   G.deck_list = [];
-  G.deck_names = _.times(3, get_deck_name);
-  let deck_generators = [generate_deck_s2, generate_deck_s2, generate_deck_s1];
+  G.deck_names = [seed+"0", seed+"1", seed+"2"].map(s => get_deck_name(s));
+  let deck_generators = [generate_deck_s2, generate_deck_s2, generate_deck_s2];
   for (let i=0; i<3; i++) {
     G.deck_list.push(str2deck(deck_generators[i](G.deck_names[i])));
   }

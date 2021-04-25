@@ -1172,7 +1172,9 @@ export class Board extends React.Component {
 
   enter_competition_mode() {
     this.setState({competition_mode: true});
-    this.props.moves.setup_deck_selection(_.random(50));
+    // Change this to better deck selection
+    // this.props.moves.setup_deck_selection(_.random(50));
+    this.props.moves.setup_deck_selection(this.state.seed);
     this.change_board("deck_selection");
   }
 

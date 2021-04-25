@@ -560,8 +560,8 @@ function get_random_card(rng) {
   return rng.choice(card_pool).name;
 }
 
-export function get_deck_name() {
-  let rng = new PRNG(Math.random());
+export function get_deck_name(seed) {
+  let rng = new PRNG(seed || Math.random());
   return '"' + rng.choice(PREFIXES) + '"' + get_random_card(rng);
 }
 

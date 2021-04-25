@@ -1186,20 +1186,20 @@ export const CARDS = [
 
   {
     name:"伊芙利特",
-    cost:4,
-    atk:6,
-    hp:3,
-    mine:4,
+    cost:6,
+    atk:10,
+    hp:4,
+    mine:6,
     block:0,
-    desc: "行动: 摧毁3个颜色相同的订单，获得16分",
+    desc: "行动: 摧毁3个颜色相同的订单，获得18分",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_48.png",
     action(G, ctx, self) {
       for (let i=0; i<3; i++) {
         let colored_orders = G.finished.filter(x => (!x.exhausted) && (x.color == i));
         if (colored_orders.length >= 3) {
           G.finished = G.finished.filter(x => !colored_orders.includes(x));
-          G.score += 16;
-          logMsg(G, ctx, "获得16分");
+          G.score += 18;
+          logMsg(G, ctx, "获得18分");
           return;
         }
       }
@@ -1595,7 +1595,7 @@ export const CARDS = [
     desc: "战斗: 摧毁目标时，额外触发一次其\"摧毁:\"效果(boss除外)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_astromania.png",
     was_enemy: true,
-    reinforce: 1,
+    reinforce: 2,
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg >= enemy.hp & (!enemy.is_boss)) {
         for (let i=0; i<(1+self.power); i++) {
