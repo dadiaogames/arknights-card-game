@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker, refreshOrder, drawOrder,
+  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker, refreshOrder, drawOrder, generate_skadi_ch_ability, addBoss,
 } from './Game';
 import { classes } from './DeckGenerator';
 import { material_icons, ready_order } from './orders';
@@ -2324,7 +2324,7 @@ export const CARDS = [
   {
     name:"斯卡蒂",
     cost:3,
-    atk:3,
+    atk:4,
     hp:3,
     mine:2,
     block:1,
@@ -2368,6 +2368,28 @@ export const CARDS = [
     },
     
     reinforce_desc: "触发一个随机干员的强化效果",
+  },
+
+  {
+    name:"浊心斯卡蒂",
+    cost:3,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:0,
+    desc:"部署: 获得一套随机的采掘/战斗/行动能力",
+    was_enemy: true,
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_skadi_ch.png",
+    onPlay(G, ctx, self) {
+      let abilities = generate_skadi_ch_ability(G, ctx);
+      Object.assign(self, abilities);
+    },
+    reinforce: 1,
+    onReinforce(G, ctx, self) {
+      let abilities = generate_skadi_ch_ability(G, ctx);
+      Object.assign(self, abilities);
+    },
+    reinforce_desc: "获得一套随机的采掘/战斗/行动能力",
   },
 
   {
@@ -3541,6 +3563,52 @@ export const CARDS = [
   //   reinforce: 1,
   //   reinforce_desc: "再获得+1/+1",
   // },
+{
+    name:"断崖",
+    cost:3,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:1,
+    desc: "行动: 在敌方召唤一个3/3的\"法术近卫组长\"",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_aaron.png",
+    reinforce: 2,
+    action(G, ctx) {
+      G.efield.push({
+        ...ENEMIES.find(x => x.name == "法术近卫组长"),
+        atk: 3,
+        hp: 3,
+        dmg: 0,
+        exhausted: false,
+      });
+    },
+    onReinforce(G, ctx) {
+      this.action && this.action(G, ctx);
+    },
+    reinforce_desc: "触发一次\"行动:\"效果",
+  },
+
+{
+    name:"泡普卡",
+    cost:2,
+    atk:2,
+    hp:3,
+    mine:1,
+    block:1,
+    desc: "行动: 投敌",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_bob.png",
+    reinforce: 2,
+    action(G, ctx, self) {
+      G.field = G.field.filter(x => x != self);
+      addBoss(G, ctx, "大泡普");
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
+
   {
     name:"微风",
     cost:3,

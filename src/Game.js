@@ -547,6 +547,26 @@ export function generate_combined_card(G, ctx) {
   
 }
 
+export function generate_skadi_ch_ability(G, ctx) {
+  let filtered_cards = G.CARDS.filter(x => (typeof x.desc == "string"));
+  let onmine_abilities = [...filtered_cards.filter(x => x.onMine)];
+  let onfight_abilities = [...filtered_cards.filter(x => x.onFight), ...filtered_cards.filter(x => x.onMine)];
+  let action_abilities = [...filtered_cards.filter(x => x.action), ...filtered_cards.filter(x => x.onPlay)];
+
+  let onmine_chosen = choice(ctx, onmine_abilities);
+  let onfight_chosen = choice(ctx, onfight_abilities);
+  let action_chosen = choice(ctx, action_abilities);
+  let get_desc = card => card.desc.split(":").slice(1);
+
+  logMsg(G, ctx, `获得 ${onmine_chosen.name}的采掘 ${onfight_chosen.name}的战斗 ${action_chosen.name}的行动能力`);
+  return {
+    onMine: onmine_chosen.onMine,
+    onFight: onfight_chosen.onFight || onfight_chosen.onMine,
+    action: action_chosen.action || action_chosen.onPlay,
+    desc: <span>采掘: {get_desc(onmine_chosen)}<br/>战斗: {get_desc(onfight_chosen)}<br/>行动: {get_desc(action_chosen)}<br/></span>,
+  };
+}
+
 function fight(G, ctx, idx1, idx2) {
   if (idx1 < 0 || idx1 >= G.field.length || idx2 < 0 || idx2 >= G.efield.length) {
     console.log("invalid move");
