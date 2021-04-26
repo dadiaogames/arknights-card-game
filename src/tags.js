@@ -108,16 +108,7 @@ const tag_list = [
 //     }
 //   },
   
-{
-  src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_10.png",
-  desc: "强化干员需要的材料数+1",
-  level: 2,
-  effect(G, ctx) {
-    for (let card of G.deck) {
-      card.reinforce += 1;
-    }
-  }
-},
+
 
   // {
   //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_11.png",
@@ -160,7 +151,16 @@ const tag_list = [
     }
   },
 
-  
+  {
+  src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_10.png",
+  desc: "强化干员需要的材料数+1",
+  level: 3,
+  effect(G, ctx) {
+    for (let card of G.deck) {
+      card.reinforce += 1;
+    }
+  }
+},
 
 
   
@@ -277,7 +277,7 @@ const tag_list = [
   {
     src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_23.png",
     desc: "2回合后，所有敌人获得\"冲锋\"",
-    level: 4,
+    level: 3,
     challenge: true,
     unstackable: true,
     effect(G, ctx) {
