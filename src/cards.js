@@ -1584,6 +1584,51 @@ export const CARDS = [
     },
     reinforce_desc: "触发一次\"采掘:\"效果",
   },
+{
+    name:"断崖",
+    cost:3,
+    atk:4,
+    hp:3,
+    mine:2,
+    block:1,
+    desc: "行动: 在敌方召唤一个3/3的\"法术近卫组长\"",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_aaron.png",
+    reinforce: 2,
+    action(G, ctx) {
+      G.efield.push({
+        ...ENEMIES.find(x => x.name == "法术近卫组长"),
+        atk: 3,
+        hp: 3,
+        dmg: 0,
+        exhausted: false,
+      });
+    },
+    onReinforce(G, ctx) {
+      this.action && this.action(G, ctx);
+    },
+    reinforce_desc: "触发一次\"行动:\"效果",
+  },
+
+{
+    name:"泡普卡",
+    cost:2,
+    atk:2,
+    hp:3,
+    mine:1,
+    block:1,
+    desc: "行动: 投敌",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_bob.png",
+    reinforce: 2,
+    action(G, ctx, self) {
+      G.field = G.field.filter(x => x != self);
+      addBoss(G, ctx, "大泡普");
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 4;
+      self.hp += 4;
+    },
+    reinforce_desc: "+4/+4",
+  },
 
   {
     name:"送葬人",
@@ -1592,7 +1637,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "战斗: 摧毁目标时，额外触发一次其\"摧毁:\"效果(boss除外)",
+    desc: "战斗: 摧毁目标时，额外触发一次其\"摧毁:\"效果(对boss无效)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_astromania.png",
     was_enemy: true,
     reinforce: 2,
@@ -3015,7 +3060,7 @@ export const CARDS = [
     hp:2, 
     mine:1, 
     block:1, 
-    desc:"采掘: 摧毁场上一个干员，并获得3点费用", 
+    desc:"采掘: 摧毁一个干员，获得3点费用", 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_15.png",
     onMine(G, ctx, self) {
       if (eliminate_field(G, ctx, self)) {
@@ -3563,51 +3608,7 @@ export const CARDS = [
   //   reinforce: 1,
   //   reinforce_desc: "再获得+1/+1",
   // },
-{
-    name:"断崖",
-    cost:3,
-    atk:4,
-    hp:3,
-    mine:2,
-    block:1,
-    desc: "行动: 在敌方召唤一个3/3的\"法术近卫组长\"",
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_aaron.png",
-    reinforce: 2,
-    action(G, ctx) {
-      G.efield.push({
-        ...ENEMIES.find(x => x.name == "法术近卫组长"),
-        atk: 3,
-        hp: 3,
-        dmg: 0,
-        exhausted: false,
-      });
-    },
-    onReinforce(G, ctx) {
-      this.action && this.action(G, ctx);
-    },
-    reinforce_desc: "触发一次\"行动:\"效果",
-  },
 
-{
-    name:"泡普卡",
-    cost:2,
-    atk:2,
-    hp:3,
-    mine:1,
-    block:1,
-    desc: "行动: 投敌",
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_bob.png",
-    reinforce: 2,
-    action(G, ctx, self) {
-      G.field = G.field.filter(x => x != self);
-      addBoss(G, ctx, "大泡普");
-    },
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    },
-    reinforce_desc: "+2/+2",
-  },
 
   {
     name:"微风",
