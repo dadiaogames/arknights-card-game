@@ -2261,7 +2261,7 @@ export const CARDS = [
       G.onCardMine.push(
         (G, ctx, mcard) => {
           for (let card of G.field) {
-            if (card.fever && (!mcard.fever)) {
+            if (card.fever && (!mcard.fever) && (card.name != "阿")) {
               card.exhausted = false;
             }
           }
