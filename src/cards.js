@@ -2968,7 +2968,7 @@ export const CARDS = [
     onReinforce(G, ctx, self) {
       self.exhausted = false;
       self.mine = 0;
-      self.atk = 0;
+      // self.atk = 0;
     },
     reinforce_desc: "重置自己",
   },
