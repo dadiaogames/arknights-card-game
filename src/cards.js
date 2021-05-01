@@ -837,7 +837,7 @@ export const CARDS = [
   },
   {
     name:"食铁兽",
-    cost:6,
+    cost:5,
     atk:6,
     hp:5,
     mine:3,
@@ -1868,7 +1868,7 @@ export const CARDS = [
   {
     name:"艾雅法拉",
     cost:4,
-    atk:3,
+    atk:5,
     hp:3,
     mine:2,
     block:0,
@@ -1932,7 +1932,7 @@ export const CARDS = [
   },
   {
     name:"温蒂", 
-    cost:6, 
+    cost:5, 
     atk:4, 
     hp:6, 
     mine:2, 
@@ -1966,7 +1966,7 @@ export const CARDS = [
   },
   {
     name:"安洁莉娜",
-    cost:6,
+    cost:5,
     atk:4,
     hp:4,
     mine:2,
