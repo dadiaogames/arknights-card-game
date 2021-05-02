@@ -497,6 +497,27 @@ export const CARDS = [
     reinforce_desc: "<+1>",
   },  
 
+{
+    name:"夜烟",
+    cost:3,
+    atk:3,
+    hp:2,
+    mine:3,
+    block:0,
+    desc:"采掘: 消耗2点费用，再获得3个材料",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_86.png",
+    onMine(G, ctx) {
+      if (payCost(G, ctx, 2, true)) {
+        gainMaterials(G, ctx, 3);
+      }
+    },
+    reinforce: 2,
+    reinforce_desc: "<+1>",
+    onReinforce(G, ctx, self) {
+      self.mine += 1;
+    }
+  },
+
   {
     name:"杜宾", 
     cost:5, 
@@ -1793,26 +1814,7 @@ export const CARDS = [
     // },
     reinforce_desc: "再重复一次",
   },
- {
-    name:"夜烟",
-    cost:3,
-    atk:3,
-    hp:2,
-    mine:3,
-    block:0,
-    desc:"采掘: 消耗2点费用，再获得3个材料",
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_86.png",
-    onMine(G, ctx) {
-      if (payCost(G, ctx, 2, true)) {
-        gainMaterials(G, ctx, 3);
-      }
-    },
-    reinforce: 2,
-    reinforce_desc: "<+1>",
-    onReinforce(G, ctx, self) {
-      self.mine += 1;
-    }
-  }, 
+  
   {
     name:"天火",
     cost:4,
@@ -2122,7 +2124,7 @@ export const CARDS = [
     hp:3,
     mine:1,
     block:0,
-    desc:"超杀: 每造成2点额外伤害，就再对另一个敌人造成3点伤害",
+    desc:"超杀: 每造成2点额外伤害，就对另一个敌人造成3点伤害",
     illust:"https://z3.ax1x.com/2020/11/26/Ddxxbt.png",
     onFight(G, ctx, self, enemy) {
       if (enemy.dmg > enemy.hp) {

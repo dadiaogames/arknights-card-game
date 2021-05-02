@@ -378,11 +378,7 @@ function finishOrder(G, ctx, idx) {
       G.odeck.map(price_up);
     }
 
-    if (G.finished.length == 5) {
-      let ability_off = (order) => ({...order, desc: "", effect: () => {}, powerless: true});
-      G.orders = G.orders.map(ability_off);
-      G.odeck = G.odeck.map(ability_off);
-    }
+    
   }
 }
 
@@ -1291,6 +1287,11 @@ export const AC = {
         if (G.not_refresh_orders != true) {
           refreshOrder(G, ctx);
         }
+        if (G.finished.length >= 5) {
+              let ability_off = (order) => ({...order, desc: "", effect: () => {}, powerless: true});
+              G.orders = G.orders.map(ability_off);
+              G.odeck = G.odeck.map(ability_off);
+            }
 
         G.costs += 3;
 
