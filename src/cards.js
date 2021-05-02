@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker, refreshOrder, drawOrder, generate_skadi_ch_ability, addBoss,
+  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker, refreshOrder, drawOrder, generate_skadi_ch_ability, addBoss, summon_enemy
 } from './Game';
 import { classes } from './DeckGenerator';
 import { material_icons, ready_order } from './orders';
@@ -1592,7 +1592,7 @@ export const CARDS = [
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_dusk.png",
     reinforce: 1,
     onMine(G, ctx) {
-      G.efield.push({
+      summon_enemy(G, ctx, {
         ...ENEMIES.find(x => x.name == "得意"),
         atk: 1,
         hp: 1,
@@ -1616,7 +1616,7 @@ export const CARDS = [
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_aaron.png",
     reinforce: 2,
     action(G, ctx) {
-      G.efield.push({
+      summon_enemy(G, ctx, {
         ...ENEMIES.find(x => x.name == "法术近卫组长"),
         atk: 3,
         hp: 3,
@@ -1641,8 +1641,13 @@ export const CARDS = [
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_bob.png",
     reinforce: 2,
     action(G, ctx, self) {
-      G.field = G.field.filter(x => x != self);
-      addBoss(G, ctx, "大泡普");
+      if (!G.is_multiplayer) {
+        G.field = G.field.filter(x => x != self);
+        addBoss(G, ctx, "大泡普");
+      }
+      else {
+        logMsg(G, ctx, "投敌失败");
+      }
     },
     onReinforce(G, ctx, self) {
       self.atk += 4;

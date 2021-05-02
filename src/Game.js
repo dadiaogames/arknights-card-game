@@ -1195,6 +1195,15 @@ function emit_diff(G, ctx, optimizer) {
   console.log("Dequeue", G.diff_queue);
 }
 
+export function summon_enemy(G, ctx, enemy) {
+  if (!G.is_multiplayer) {
+    G.efield.push({...enemy});
+  }
+  else {
+    logMsg(G, ctx, "多人模式中，无法在敌方场面召唤怪物");
+  }
+}
+
 function setup_campaign(G, ctx, campaign) {
   G.dialogs = [...G.dialogs, ...campaign.dialogs];
   campaign.setup(G, ctx);
@@ -1288,10 +1297,10 @@ export const AC = {
           refreshOrder(G, ctx);
         }
         if (G.finished.length >= 5) {
-              let ability_off = (order) => ({...order, desc: "", effect: () => {}, powerless: true});
-              G.orders = G.orders.map(ability_off);
-              G.odeck = G.odeck.map(ability_off);
-            }
+          let ability_off = (order) => ({...order, desc: "", effect: () => {}, powerless: true});
+          G.orders = G.orders.map(ability_off);
+          G.odeck = G.odeck.map(ability_off);
+        }
 
         G.costs += 3;
 
