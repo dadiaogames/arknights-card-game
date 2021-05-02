@@ -3083,9 +3083,9 @@ export const CARDS = [
   
   {
     name:"红豆",
-    cost:4,
-    atk:6,
-    hp:4,
+    cost:2,
+    atk:4,
+    hp:2,
     mine:1,
     block:1,
     desc: "超杀: 每造成2点额外伤害，就获得1点费用",

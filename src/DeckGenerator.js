@@ -35,12 +35,13 @@ export const pick_scorers = "阿米娅 阿消 崖心 雪雉 酸糖 煌 爱丽丝
 export const pick_vanguards = "极境 讯使 香草 桃金娘 豆苗 豆苗 推进之王".split(" ");
 
 const cost_vanguard =  `极境 1 2
-香草 1 1
-讯使 1 1
+香草 0 2
+讯使 0 2
 桃金娘 1 2
 豆苗 1 1
-推进之王 1 1
-豆苗 1 1`;
+推进之王 0 1
+红豆 0 1
+凛冬 0 1`;
 
 const draw_vanguard = `芬 1 2
 调香师 1 1
