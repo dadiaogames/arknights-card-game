@@ -183,10 +183,10 @@ export const CARDS = [
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_8.png",
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.atk += 5;
-      self.hp += 2;
+      self.atk += 8;
+      // self.hp += 2;
     },
-    reinforce_desc: "+5/+2",
+    reinforce_desc: "+8攻击力",
   },
 
   {
