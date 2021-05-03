@@ -1099,7 +1099,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:1,
-    desc:"部署: 每有一个被横置的敌人，就获得1分",
+    desc:"部署/行动: 每有一个被横置的敌人，就获得1分",
     hard: true,
     illust:"https://s1.ax1x.com/2020/08/10/abktzR.png",
     onPlay(G, ctx, self) {
@@ -1108,6 +1108,9 @@ export const CARDS = [
       if (num_exhausted >= 10) {
         achieve(G, ctx, "企鹅物流", "场上有至少10个敌人被横置时部署大帝", self);
       }
+    },
+    action(G, ctx, self) {
+      this.onPlay && this.onPlay(G, ctx, self);
     },
     reinforce: 1,
     onReinforce(G, ctx, self) {
