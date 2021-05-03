@@ -50,7 +50,7 @@ export const CARDS = [
     cost: 3,
     atk: 4,
     hp: 2,
-    mine: 3,
+    mine: 2,
     block: 0,
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_1.png",
     desc: "采掘: 获得1分",
@@ -74,7 +74,7 @@ export const CARDS = [
       }
       self.exhausted = false;
     },
-    reinforce: 2,
+    reinforce: 1,
     reinforce_desc: "再获得1分",
   },
 
