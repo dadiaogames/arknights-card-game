@@ -1468,9 +1468,9 @@ export const CARDS = [
       self.use_count = 0;
     },
     reinforce: 1,
-    reinforce_desc: "+1/+1",
+    reinforce_desc: "+2/+1",
     onReinforce(G, ctx, self) {
-      self.atk += 1;
+      self.atk += 2;
       self.hp += 1;
     }
   },
