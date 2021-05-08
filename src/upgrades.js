@@ -176,7 +176,7 @@ export const UPGRADES = [
               // new_card = init_card_state(G, ctx, {...new_card});
               // new_card.hp = 1;
               // G.field.push(new_card);
-              G.hand.push({...new_card, cost: 1});
+              G.hand.unshift({...new_card, cost: 1});
             }
           }
         }

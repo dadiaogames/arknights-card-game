@@ -38,8 +38,9 @@ const cost_vanguard =  `极境 1 2
 香草 0 2
 讯使 0 2
 桃金娘 1 2
-豆苗 1 1
+豆苗 0 1
 推进之王 0 1
+清道夫 0 1
 红豆 0 1
 凛冬 0 1`;
 
@@ -56,9 +57,9 @@ const scorer = `阿米娅 1 1
 酸糖 1 1
 普罗旺斯 0 1
 阿消 1 1
-爱丽丝 1 1
+爱丽丝 0 1
 伊芙利特 0 1
-雪雉 1 1
+雪雉 0 1
 铃兰 0 1
 断罪者 0 1
 阿 1 1`;
@@ -745,20 +746,21 @@ export function generate_deck_s2(deck_name) {
 }
 
 export function generate_roguelike_deck(deck_name) {
-  let deck = ["黑角", "极境", "桃金娘", deck_name.slice(0,-3)];
+  // let deck = ["黑角", "极境", deck_name.slice(0,-3)];
+  let deck = ["黑角", deck_name.slice(0,-3)];
   // console.log(deck);
   let rng = new PRNG(deck_name);
 
   // Basic deck
   deck = [...deck, ...deck_from_strategy(cost_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(shooter, 2, rng)];
-  deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
+  // deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
+  // deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
   // console.log(deck);
 
   // Random cards
-  let amount_add = 15 - deck.length;
+  let amount_add = 7 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }

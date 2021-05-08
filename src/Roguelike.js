@@ -44,7 +44,7 @@ function setup_roguelike_mode(S) {
   S.gold = 50;
 
   // S.scene_queue = ["upgrade", ..._.times(12, ()=>"init_card"), "relic"];
-  S.scene_queue = ["upgrade", "relic", "deck_selection"];
+  S.scene_queue = ["upgrade", "relic", ..._.times(3, ()=>"init_card"), "deck_selection"];
   S.current_upgrades = [];
   S.current_indexes = [];
   S.current_relics = [];
@@ -71,10 +71,16 @@ function end_roguelike_mode(S) {
   CARDS.map(preprocess_roguelike_card); // To prevent onPlayBonus pointer bug
 }
 
+function tags_proceed(S) {
+  S.tags = [...S.tags, ...S.remained_tags.slice(0,2)];
+  S.remained_tags = S.remained_tags.slice(2);
+}
+
 function move_on(S) {
   S.game_count += 1;
-  S.tags.splice(S.tags.length-1, 0, ...S.remained_tags.slice(0,2));
-  S.remained_tags = S.remained_tags.slice(2);
+  // S.tags.splice(S.tags.length-1, 0, ...S.remained_tags.slice(0,2));
+  // S.remained_tags = S.remained_tags.slice(2);
+  tags_proceed(S);
 
   // S.scene_queue.unshift("pick");
   // S.scene_queue.unshift("upgrade");
@@ -102,6 +108,7 @@ function init_tags_S2(S) {
   // init_added_tags.map(t => {if (t.standard_level <= 2) t.locked = true;});
   S.tags = [...basic_tags, ...repeat_tags, ...init_added_tags].map(t => ({...t}));
   S.remained_tags = remained_tags.filter(t => !init_added_tags.includes(t));
+  tags_proceed(S);
 }
 
 function init_tags(S) {
@@ -337,7 +344,7 @@ function setup_roguelike_decks(S) {
 }
 
 function setup_deck_selection(S) {
-  S.Deck = str2deck(deck2str(["黑角", "极境", "桃金娘"]));
+  S.Deck = str2deck(deck2str(["黑角", "极境"]));
   S.Deck.map(preprocess_roguelike_card);
 }
 
@@ -469,8 +476,8 @@ export function get_init_card_pick(S) {
   return {
     name: "初始自选干员",
     price: 0,
-    indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,3),
-    desc: "从3个干员中，选择你最心仪的那一个",
+    indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,4),
+    desc: "从4个干员中，选择你最心仪的那一个",
     src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
     is_pick: true,
   };

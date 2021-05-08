@@ -213,11 +213,11 @@ export const RELICS = [
   {
     name:"芙蓉的健康餐", 
     // desc:"所有敌人获得-2/-0",
-    desc:"使用: 商店中增加3个\"删一张牌\"",
+    desc:"使用: 商店中增加2个\"删一张牌\"",
     onUse(S) {
       S.shop_items.push(delete_card(S));
       S.shop_items.push(delete_card(S));
-      S.shop_items.push(delete_card(S));
+      // S.shop_items.push(delete_card(S));
     }
   },
   {
@@ -256,7 +256,7 @@ export const RELICS = [
   },
   {
     name:"香草沙士汽水", 
-    desc:"每局首次使用干员时，边框不会变红(即可以再用一次)(可叠加)",
+    desc:"每局首次使用干员时边框不会变红(可叠加)",
     onBattleBegin(G, ctx, self) {
       self.used = false;
     },
