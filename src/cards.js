@@ -826,11 +826,13 @@ export const CARDS = [
         card.hp += 3;
       }
     },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
-      cure(G, ctx, 6);
+      // cure(G, ctx, 6);
+      self.onPlay && self.onPlay(G, ctx, self);
     },
-    reinforce_desc: "治疗一个干员的6点伤害",
+    // reinforce_desc: "治疗一个干员的6点伤害",
+    reinforce_desc: "触发一次\"部署:\"效果",
 
   },
 
@@ -1491,28 +1493,28 @@ export const CARDS = [
     reinforce: 2,
     reinforce_desc: "再获得2分",
   },
-// {
-//     name:"初雪",
-//     cost:2,
-//     atk:2,
-//     hp:1,
-//     mine:1,
-//     block:0,
-//     desc: "部署: 使一个敌人获得易伤2，重复2次",
-//     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_83.png",
-//     onPlay(G, ctx) {
-//       add_vulnerable(G, ctx, 2);
-//       add_vulnerable(G, ctx, 2);
-//     },
-//     reinforce: 1,
-//     reinforce_desc: <span>弃一张牌，获得2个{material_icons[3]}</span>,
-//     onReinforce(G, ctx, self) {
-//       if (G.hand.length >= 1) {
-//         drop(G, ctx);
-//         G.materials[3] += 2;
-//       }
-//     },
-//   },
+{
+    name:"初雪",
+    cost:2,
+    atk:2,
+    hp:1,
+    mine:1,
+    block:0,
+    desc: "部署: 使一个敌人获得易伤2，重复2次",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_83.png",
+    onPlay(G, ctx) {
+      add_vulnerable(G, ctx, 2);
+      add_vulnerable(G, ctx, 2);
+    },
+    reinforce: 1,
+    reinforce_desc: <span>弃一张牌，获得2个{material_icons[3]}</span>,
+    onReinforce(G, ctx, self) {
+      if (G.hand.length >= 1) {
+        drop(G, ctx);
+        G.materials[3] += 2;
+      }
+    },
+  },
 {
     name:"凛冬",
     cost:3,
