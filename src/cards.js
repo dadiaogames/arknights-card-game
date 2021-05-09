@@ -3098,7 +3098,7 @@ export const CARDS = [
     cost:2,
     atk:4,
     hp:2,
-    mine:1,
+    mine:0,
     block:1,
     desc: "超杀: 每造成2点额外伤害，就获得1点费用",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_17.png",
