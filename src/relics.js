@@ -16,9 +16,9 @@ export const RELICS = [
   // },
   {
     name: "乌萨斯列巴",
-    desc: "回合开始时，获得2张随机干员牌，并使其费用-2",
+    desc: "回合开始时，获得3张随机干员牌，并使其费用-2",
     onTurnBegin(G, ctx){
-      for (let i=0; i<2; i++) {
+      for (let i=0; i<3; i++) {
         let card = {...choice(ctx, G.CARDS)};
         card.cost -= 2;
         G.hand.unshift(card);
@@ -60,14 +60,14 @@ export const RELICS = [
   },
   {
     name: "人事部密信",
-    desc: "回合开始时，召唤1个随机干员的1/1复制",
+    desc: "回合开始时，召唤1个随机干员的5/1复制",
     onTurnBegin(G, ctx){
       let new_card = ctx.random.Shuffle(G.CARDS)[0];
       // summon(G, ctx, new_card, {});
       let played_card = init_card_state(G, ctx, {...new_card,
-        atk: 1,
+        atk: 5,
         hp: 2,
-        mine: 1,
+        mine: 2,
         cost: 1,
       });
       played_card.exhausted = false;
@@ -124,18 +124,19 @@ export const RELICS = [
   // },
   {
     name:"风干大蕉果", 
-    desc:"自选干员时，使选到的牌获得强化1",
+    desc:"自选干员时，使选到的牌获得强化2",
     onPickCard(S, card) {
       let reinforce = UPGRADES.find(x => x.name == "强化1");
+      reinforce.effect(card);
       reinforce.effect(card);
       card.upgraded = true;
     }
   },
   {
     name:"古旧钱币", 
-    desc:"每次对战结束时,额外获得15赏金",
+    desc:"每次对战结束时,额外获得20赏金",
     onBattleEnd(S) {
-      S.gold += 15;
+      S.gold += 20;
     }
   },
   {
@@ -172,14 +173,14 @@ export const RELICS = [
   },
   {
     name:"奇怪的$墨镜", 
-    desc:"所有藏品的价格-10(最低为10)",
+    desc:"所有藏品的价格-5(最低为5)",
     // onBuyRelic(S, relic) {
     //   S.gold += 5;
     // }
     onRefreshShop(S) {
       for (let item of S.shop_items) {
         if (item.is_relic) {
-          item.price = Math.max(item.price-10, 10);
+          item.price = Math.max(item.price-5, 5);
         }
       }
     }
@@ -245,13 +246,13 @@ export const RELICS = [
   {
     name:"压缩糖砖", 
     // desc:"胜利所需分数-4(最低为10)",
-    desc:"回合开始时，获得2分",
+    desc:"回合开始时，获得4分",
     onTurnBegin(G, ctx) {
       // if (G.round_num == 1) {
         // G.goal -= 4;
         // G.goal = Math.max(G.goal, 10);
       // }
-      G.score += 2;
+      G.score += 4;
     }
   },
   {
@@ -274,13 +275,13 @@ export const RELICS = [
       );
     }
   },
-  {
-    name:"倒转的怀表", 
-    desc:"回合开始时，每有1点动乱就获得2分",
-    onTurnBegin(G, ctx) {
-      G.score += 2 * G.danger;
-    }
-  },
+  // {
+  //   name:"倒转的怀表", 
+  //   desc:"回合开始时，每有1点动乱就获得2分",
+  //   onTurnBegin(G, ctx) {
+  //     G.score += 2 * G.danger;
+  //   }
+  // },
   // {
   //   name:"断杖-织法者", 
   //   desc:"回合开始时,敌人数量每多我方1个,就获得1个钢",
@@ -375,21 +376,23 @@ export const RELICS = [
   //     );
   //   }
   // },
-  // {
-  //   name:"“坏家伙”来了！", 
-  //   desc:"起始获得2个随机的强化3干员加入手牌",
-  //   onBattleBegin(G, ctx) { 
-  //     let reinforce = UPGRADES.find(x => x.name == "强化1");
-  //     for (let i=0; i<2; i++) {
-  //       let card = {...choice(ctx, G.CARDS)};
-  //       reinforce.effect(card);
-  //       reinforce.effect(card);
-  //       reinforce.effect(card);
-  //       card.upgraded = true;
-  //       G.hand.unshift(card);
-  //     }
-  //   }
-  // },
+  {
+    name:"“坏家伙”来了！", 
+    desc:"起始获得3个随机的强化2干员加入手牌",
+    onTurnBegin(G, ctx) { 
+      if (G.round_num == 1) {
+        let reinforce = UPGRADES.find(x => x.name == "强化1");
+        for (let i=0; i<3; i++) {
+          let card = {...choice(ctx, G.CARDS)};
+          // reinforce.effect(card);
+          reinforce.effect(card);
+          reinforce.effect(card);
+          card.upgraded = true;
+          G.hand.unshift(card);
+        }
+      }
+    }
+  },
   {
     name:"残弩-采矿镭射枪", 
     desc:"所有干员获得 采掘:造成2点伤害",
@@ -428,17 +431,17 @@ export const RELICS = [
       );
     }
   },
-  // {
-  //   name:"锈刃-无人之境", 
-  //   desc:"所有干员获得 部署:获得1分",
-  //   onTurnBegin(G, ctx) {
-  //     G.onPlayCard.push(
-  //       (G, ctx) => {
-  //         G.score += 1;
-  //       }
-  //     );
-  //   }
-  // },
+  {
+    name:"锈刃-无人之境", 
+    desc:"所有干员获得 部署:获得1分",
+    onTurnBegin(G, ctx) {
+      G.onPlayCard.push(
+        (G, ctx) => {
+          G.score += 1;
+        }
+      );
+    }
+  },
   {
     name:"商队盒饭",
     desc:"所有订单分数+1",
