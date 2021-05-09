@@ -865,6 +865,8 @@ export class Board extends React.Component {
   }
 
   end_game() {
+    let finished = {...this.props.ctx.gameover};
+    console.log("Finish or Reset:", finished);
     this.props.reset();
     this.setState({
       scenario_finished: false,
@@ -873,7 +875,7 @@ export class Board extends React.Component {
     if (this.state.competition_mode) {
       this.change_board("competition");
     }
-    else if (this.state.roguelike_mode) {
+    else if (this.state.roguelike_mode && (finished.win != undefined)) {
       // Let results stuffs go to winning 
       // Set finishing stuffs here
 
@@ -892,7 +894,7 @@ export class Board extends React.Component {
     }
     else{
       this.change_board("tag");
-      if (!(this.state.lock_seed || this.state.weekly_mode)) {
+      if (!(this.state.lock_seed || this.state.weekly_mode || this.state.roguelike_mode)) {
         this.setState({seed: get_seed_name()});
       }
     }
@@ -1659,7 +1661,8 @@ export class Board extends React.Component {
             left: "88%",
             paddingTop: "1.5%",
 
-            display: (this.state.competition_mode || this.state.roguelike_mode || this.state.multiplayer_mode)?"none":"",
+            // display: (this.state.competition_mode || this.state.roguelike_mode || this.state.multiplayer_mode)?"none":"",
+            display: (this.state.competition_mode || this.state.multiplayer_mode)?"none":"",
           }}
         >
         {ICONS.reset}
