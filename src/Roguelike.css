@@ -4,7 +4,7 @@
   margin: 2%;
   height: 75%;
   margin-top: 10%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .roguelike-intro-img {

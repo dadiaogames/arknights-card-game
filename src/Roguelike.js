@@ -297,7 +297,7 @@ function set_difficulty_S2(S, difficulty) {
   if (difficulty == "hard") {
     // S.levels = [25, 30, 35, 40, 50, 60, 70, 80, 100];
     // S.levels = [22, 27, 32, 38, 45, 52, 60, 70, 90];
-    S.levels = [24, 28, 32, 36, 40, 50, 60, 70, 90];
+    S.levels = [24, 28, 32, 36, 40, 50, 60, 70, 200];
     S.tags = choose_standard_tags(S.tags, 3);
   }
 
@@ -363,15 +363,15 @@ function get_shop_item(S) {
   let item_type = S.rng.randRange(100);
   // console.log(item_type, "item type");
 
-  if (item_type <= 55) {
+  if (item_type <= 60) {
     // TODO: change this to relic
     return get_relic(S);
   }
-  else if (item_type <= 80) {
+  else if (item_type <= 90) {
     // TODO: change this to upgrade
     return get_upgrade(S);
   }
-  else if (item_type <= 90) {
+  else if (item_type <= 95) {
     return get_card_pick(S);
   }
   else{
@@ -648,7 +648,7 @@ function select_init_card(S, idx) {
 }
 
 function reset_shop(S) {
-  S.shop_items = _.times(8, ()=>get_shop_item(S));
+  S.shop_items = _.times(3, ()=>get_shop_item(S));
 
   for (let r of S.relics) {
     r.onRefreshShop && r.onRefreshShop(S);
@@ -656,7 +656,7 @@ function reset_shop(S) {
 }
 
 function refresh_shop(S) {
-  if (payGold(S, 5)) {
+  if (payGold(S, 2)) {
     reset_shop(S);
   }
 }
@@ -774,7 +774,7 @@ function proceed(S) {
     let scene = S.scene_queue.pop();
     if (scene == "upgrade") {
       S.current_upgrades = S.rng.shuffle(UPGRADES).slice(0,3);
-      S.current_indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
+      S.current_indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,3);
       S.changer("roguelike_deck_upgrade");
     }
     else if (scene == "pick") {
@@ -936,7 +936,7 @@ export function Shop(props) {
     <div className="shop-items">    
       {props.shop_items.map((item, idx) => <ShopItem {...item} buy={props.buy(idx)} />)}
     </div>
-    <button className="refresh-shop" onClick={props.refresh_shop}>刷新商店({ICONS.gold}5)</button>
+    <button className="refresh-shop" onClick={props.refresh_shop}>刷新商店({ICONS.gold}2)</button>
   </div>
 
 }
