@@ -99,7 +99,7 @@ export const CARDS = [
     cost: 2,
     atk: 4,
     hp: 4,
-    mine: 1,
+    mine: 2,
     block: 1,
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_3.png",
     reinforce: 1,
