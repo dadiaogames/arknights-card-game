@@ -747,7 +747,8 @@ export function generate_deck_s2(deck_name) {
 
 export function generate_roguelike_deck(deck_name) {
   // let deck = ["黑角", "极境", deck_name.slice(0,-3)];
-  let deck = ["黑角", deck_name.slice(0,-3)];
+  // let deck = ["黑角", deck_name.slice(0,-3)];
+  let deck = deck_name.split("·");
   // console.log(deck);
   let rng = new PRNG(deck_name);
 
