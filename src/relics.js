@@ -85,10 +85,10 @@ export const RELICS = [
   
   {
     name: "地区行动方案",
-    desc: "起始获得额外1组材料，胜利所需分数+2",
+    desc: "起始获得额外2组材料，胜利所需分数+2",
     onBattleBegin(G, ctx){
       for (let i=0; i<3; i++) {
-        G.materials[i] += 1;
+        G.materials[i] += 2;
       }
       G.goal += 2;
     }

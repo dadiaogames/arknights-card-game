@@ -3167,7 +3167,7 @@ export const CARDS = [
   {
     name:"宴",
     cost:2,
-    atk:2,
+    atk:3,
     hp:2,
     mine:1,
     block:1,
