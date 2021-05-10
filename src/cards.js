@@ -2653,7 +2653,7 @@ export const CARDS = [
         // self.block += 1;
         for (let enemy of G.efield) {
           if (get_blocker(G, ctx, enemy) == self) {
-            enemy.dmg += 2;
+            enemy.dmg += 2 + (enemy.vulnerable || 0);
             // if (enemy.is_boss) {
             //   enemy.dmg -= 1;
             // }
