@@ -634,31 +634,31 @@ export const CARDS = [
     reinforce_desc: "+3/+3",
   },
 
-  {
-    name:"锡兰", 
-    cost:2, 
-    atk:3, 
-    hp:2, 
-    mine:2, 
-    block:1, 
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_98.png",
-    reinforce: 2,
-    desc: <span>采掘: 获得一个最少的材料<br/>战斗: 获得一个最多的材料</span>,
-    onMine(G, ctx, self) {
-      let [min_idx, max_idx] = list_min_max_idx(G.materials.slice(0,3));
-      G.materials[choice(ctx, min_idx)] += 1 + self.power;
-    },
-    onFight(G, ctx, self) {
-      // enemy.atk -= 6;
-      let [min_idx, max_idx] = list_min_max_idx(G.materials.slice(0,3));
-      G.materials[choice(ctx, max_idx)] += 1 + self.power;
-    },
-    // onReinforce(G, ctx, self) {
-      // self.atk += 3;
-      // self.hp += 3;
-    // },
-    reinforce_desc: "再获得一个",
-  },
+  // {
+  //   name:"锡兰", 
+  //   cost:2, 
+  //   atk:3, 
+  //   hp:2, 
+  //   mine:2, 
+  //   block:1, 
+  //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_98.png",
+  //   reinforce: 2,
+  //   desc: <span>采掘: 获得一个最少的材料<br/>战斗: 获得一个最多的材料</span>,
+  //   onMine(G, ctx, self) {
+  //     let [min_idx, max_idx] = list_min_max_idx(G.materials.slice(0,3));
+  //     G.materials[choice(ctx, min_idx)] += 1 + self.power;
+  //   },
+  //   onFight(G, ctx, self) {
+  //     // enemy.atk -= 6;
+  //     let [min_idx, max_idx] = list_min_max_idx(G.materials.slice(0,3));
+  //     G.materials[choice(ctx, max_idx)] += 1 + self.power;
+  //   },
+  //   // onReinforce(G, ctx, self) {
+  //     // self.atk += 3;
+  //     // self.hp += 3;
+  //   // },
+  //   reinforce_desc: "再获得一个",
+  // },
   
   
   
@@ -1882,7 +1882,7 @@ export const CARDS = [
     cost:4,
     atk:5,
     hp:3,
-    mine:2,
+    mine:3,
     block:0,
     desc:"采掘: 触发场上所有干员的\"采掘:\"效果",
     hard: true,
