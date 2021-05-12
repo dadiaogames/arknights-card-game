@@ -1668,7 +1668,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "战斗: 摧毁目标时，额外触发一次其\"摧毁:\"效果(对boss无效)",
+    desc: "战斗: 摧毁目标时，额外触发一次其\"摧毁:\"效果",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_astromania.png",
     was_enemy: true,
     reinforce: 2,
@@ -1677,6 +1677,10 @@ export const CARDS = [
         for (let i=0; i<(1+self.power); i++) {
           enemy.onOut && enemy.onOut(G, ctx, enemy);
         }
+      }
+
+      if (enemy.is_boss) {
+        logMsg(G, ctx, "该能力对boss无效");
       }
     },
     reinforce_desc: "再触发一次",
@@ -1820,11 +1824,15 @@ export const CARDS = [
     hp:5,
     mine:2,
     block:1,
-    desc:"部署: 清除双方场上所有卡牌(对boss无效)",
+    desc:"部署: 清除双方场上所有卡牌",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_thrm_ex.png",
     onPlay(G, ctx) {
       G.efield = G.efield.filter(x => x.is_boss);
       G.field = [];
+
+      if (G.efield.length > 0) {
+        logMsg(G, ctx, "该能力对boss无效");
+      }
     },
     reinforce: 1,
     reinforce_desc: "获得一张机械牌",
@@ -2564,7 +2572,7 @@ export const CARDS = [
     mine:2,
     block:0,
     desc:"部署: 获得一套随机的采掘/战斗/行动能力",
-    was_enemy: true,
+    // was_enemy: true,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_skadi_ch_normal.png",
     onPlay(G, ctx, self) {
       let abilities = generate_skadi_ch_ability(G, ctx);
