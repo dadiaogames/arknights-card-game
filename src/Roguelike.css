@@ -103,7 +103,7 @@
   /* justify-content: center; */
 
   flex-direction: column;
-  overflow-x: scroll;
+  overflow-x: auto;
   margin: auto;
   width: 98%;
   height: 75%;

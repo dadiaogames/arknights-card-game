@@ -34,13 +34,13 @@
 .card-desc {
   margin: 2%;
   height: 14%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .upgrade-desc {
   margin: 2%;
   height: 6%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .results {

@@ -3,7 +3,7 @@
   width: 90%;
   margin: 5%;
   margin-top: 5%;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .deck-generation {

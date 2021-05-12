@@ -1,7 +1,7 @@
 .tag-selection {
   display: flex;
   flex-flow: wrap;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 40%;
   width: 75%;
   margin: 2%;
@@ -33,7 +33,7 @@
   border: 2px solid;
   margin: 2%;
   font-size: 80%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .just-selected {

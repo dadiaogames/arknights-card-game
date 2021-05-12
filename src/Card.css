@@ -12,7 +12,7 @@
 
 .card-row {
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
 
   border: solid 2px #141414;
   margin: 2%;
@@ -141,7 +141,7 @@
   width: 100%;
   text-align: center;
   font-size: 70%;
-  /* overflow-y: scroll; */
+  /* overflow-y: auto; */
   border: 2px solid black;
 }
 
@@ -160,7 +160,7 @@
   width: 90%;
   text-align: center;
   font-size: 80%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /* Detailed card addition */
@@ -295,7 +295,7 @@ img.r_illust_detailed {
 
 .card-detailed-row {
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   position: relative;
   /* TODO: align items to center when there's only one card, items-align does not work, this is essential for combining SCardRow and CardDetailed */
 
