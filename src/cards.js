@@ -1214,7 +1214,7 @@ export const CARDS = [
     name:"伊芙利特",
     cost:6,
     atk:10,
-    hp:2,
+    hp:4,
     mine:6,
     block:0,
     desc: "行动: 摧毁3个颜色相同的订单，获得18分",

@@ -633,9 +633,11 @@ function buy(S, idx) {
     S.shop_items = S.shop_items.filter((x,idx) => idx != item_idx);
     if (idx != undefined) {
       console.log("The indexes are:", S.current_item.indexes.map(x=>x));
+      let filtered_indexes = S.current_item.is_pick? S.current_item.indexes : S.current_item.indexes.filter(i => S.Deck[i] != undefined);
+      console.log("The filtered indexes are:", filtered_indexes);
       console.log("The selected index is:", idx);
-      console.log("The chosen index is:", S.current_item.indexes[idx]);
-      let card_idx = S.current_item.indexes[idx];
+      console.log("The chosen index is:", filtered_indexes[idx]);
+      let card_idx = filtered_indexes[idx];
       item.onBought(S, card_idx);
     }
     else {
@@ -690,7 +692,7 @@ function enter_dream(S) {
   S.dream_count += 1;
   if (S.dream_count == 9) {
     alert("已进入黑角梦境");
-    S.Deck = _.times(10, () => heijiao_in_dream);
+    S.Deck = _.times(10, () => ({...heijiao_in_dream}));
     S.relics = [...S.RELICS];
   }
   S.gold = 5000;

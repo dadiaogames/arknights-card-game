@@ -1366,7 +1366,7 @@ export class Board extends React.Component {
   render_roguelike_shop_board() {
     // let cards = this.state.Deck.filter((x,idx) => this.state.current_item.indexes.includes(idx) && (idx < this.state.Deck.length));
     let current_item = this.state.current_item;
-    let cards = (current_item.is_pick)? current_item.indexes.map(idx => CARDS[idx]) : current_item.indexes.map(idx => this.state.Deck[idx]).filter(x => x != undefined);
+    let cards = (current_item.is_pick)? current_item.indexes.map(idx => CARDS[idx]) : current_item.indexes.map(idx => this.state.Deck[idx]).filter(x => x != undefined); // Filter undefined cards here, once, then filter again in "buy"
     let selected_card = cards[this.state.shop_selected];
     // console.log(cards);
     return (<div className="board game-board" style={{position:"relative"}} >
@@ -1374,7 +1374,7 @@ export class Board extends React.Component {
       <CardRow 
         cards = {cards.map(this.process_hand_data)}
         handleClick = {(idx)=>()=>this.setState({shop_selected: idx})}
-        states = {this.state.current_item.indexes.map((x,idx) => ({selected: (idx==this.state.shop_selected)}))}
+        states = {cards.map(card => ({selected: card == selected_card, upgraded: card.upgraded}))}
         additionalStyle = {{marginTop: "5%"}}
       />
       <div style={{margin:"5% 2% 5% 2%", width:"95%", height:"25%", overflowY:"hidden"}}>
