@@ -241,7 +241,7 @@ export class Board extends React.Component {
 
   choose_tag(idx) {
     return () => {
-      let new_tags = this.state.tags;
+      let new_tags = this.state.tags.map(tag => ({...tag}));
       new_tags[idx].selected = !new_tags[idx].selected;
       this.setState({tags: new_tags, just_selected: new_tags[idx]});
     };
@@ -1463,7 +1463,7 @@ export class Board extends React.Component {
   render_roguelike_deck_upgrade_board() {
     return <DeckUpgrade 
     cards = {this.state.current_indexes.map(idx => this.state.Deck[idx]).map(this.process_hand_data)}
-    cardStates = {this.state.current_indexes.map((deck_idx, idx) => ({selected: idx == this.state.selection_selected}))}
+    cardStates = {this.state.current_indexes.map((deck_idx, idx) => ({selected: idx == this.state.selection_selected, upgraded: this.state.Deck[deck_idx].upgraded}))}
     selectedCard = {{...this.state.Deck[this.state.current_indexes[this.state.selection_selected]]}}
     handleCardClick = {this.handle_selection_clicked}
     upgrades = {this.state.current_upgrades.map(this.process_upgrade_data)}
