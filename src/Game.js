@@ -522,7 +522,7 @@ export function generate_combined_card(G, ctx) {
     ["采掘: ", "onMine"],
     ["战斗: ", "onFight"],
     ["行动: ", "action"],
-    ["摧毁: ", "onOut"],
+    // ["摧毁: ", "onOut"],
   ];
   time_points = ctx.random.Shuffle(time_points).slice(0,2);
   let effects = ctx.random.Shuffle(G.EFFECTS);
@@ -536,7 +536,7 @@ export function generate_combined_card(G, ctx) {
   card.reinforce_desc = effects[2][0];
   card.onReinforce = effects[2][1];
 
-  let title = ctx.random.Shuffle(G.CARDS)[0];
+  let title = ctx.random.Shuffle(G.CARDS.filter(x => !x.was_enemy))[0];
   card.name = title.name.split("").reverse().join("");
   if (card.name == "W") {
     card.name = "M";
