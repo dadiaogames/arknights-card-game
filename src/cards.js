@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker, refreshOrder, drawOrder, generate_skadi_ch_ability, addBoss, summon_enemy
+  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker, refreshOrder, drawOrder, generate_skadi_ch_ability, addBoss, summon_enemy, get_mech, mine as use_mine, fight as use_fight,
 } from './Game';
 import { classes } from './DeckGenerator';
 import { material_icons, ready_order } from './orders';
@@ -1752,6 +1752,135 @@ export const CARDS = [
     },
   },
 
+  {
+    name:"Lancet-2",
+    was_enemy: true,
+    cost:2,
+    atk:0,
+    hp:2,
+    mine:1,
+    block:0,
+    desc:"行动: 重置左右两侧的干员，并使用他们采掘一次",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_lancet_2.png",
+    action(G, ctx, self) {
+      let ready_and_mine = (G, ctx, idx) => {
+        if (G.field[idx] != undefined) {
+          G.field[idx].exhausted = false;
+          use_mine(G, ctx, idx);
+        }
+      };
+      let self_idx = G.field.indexOf(self);
+      ready_and_mine(G, ctx, self_idx - 1);
+      ready_and_mine(G, ctx, self_idx + 1);
+    },
+    reinforce: 1,
+    reinforce_desc: "获得一张机械牌",
+    onReinforce(G, ctx, self) {
+      get_mech(G, ctx);
+    },
+  },
+
+  {
+    name:"Castle-3",
+    was_enemy: true,
+    cost:3,
+    atk:4,
+    hp:2,
+    mine:1,
+    block:1,
+    desc:"行动: 重置左右两侧的干员，并使用他们随机战斗一次",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_castle_3.png",
+    action(G, ctx, self) {
+      let ready_and_fight = (G, ctx, idx) => {
+        if (G.field[idx] != undefined) {
+          G.field[idx].exhausted = false;
+          let enemy = choice(ctx, G.efield.filter(x => x.dmg < x.hp));
+          if (enemy != undefined) {
+            let e_idx = G.efield.indexOf(enemy);
+            use_fight(G, ctx, idx, e_idx);
+          }
+        }
+      };
+      let self_idx = G.field.indexOf(self);
+      ready_and_fight(G, ctx, self_idx - 1);
+      ready_and_fight(G, ctx, self_idx + 1);
+    },
+    reinforce: 1,
+    reinforce_desc: "获得一张机械牌",
+    onReinforce(G, ctx, self) {
+      get_mech(G, ctx);
+    },
+  },
+
+  {
+    name:"THRM-EX",
+    was_enemy: true,
+    cost:5,
+    atk:5,
+    hp:5,
+    mine:2,
+    block:1,
+    desc:"部署: 清除双方场上所有卡牌(对boss无效)",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_thrm_ex.png",
+    onPlay(G, ctx) {
+      G.efield = G.efield.filter(x => x.is_boss);
+      G.field = [];
+    },
+    reinforce: 1,
+    reinforce_desc: "获得一张机械牌",
+    onReinforce(G, ctx, self) {
+      get_mech(G, ctx);
+    },
+  },
+
+  {
+    name:"贾维",
+    cost:3,
+    atk:4,
+    hp:2,
+    mine:1,
+    block:1,
+    desc:"部署/采掘/战斗: 获得一张机械牌",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_122.png",
+    onPlay(G, ctx) {
+      get_mech(G, ctx);
+    },
+    onMine(G, ctx) {
+      get_mech(G, ctx);
+    },
+    onFight(G, ctx) {
+      get_mech(G, ctx);
+    },
+    reinforce: 1,
+    reinforce_desc: "+2/+2",
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+  },
+
+  {
+    name:"红云",
+    cost:3,
+    atk:4,
+    hp:2,
+    mine:1,
+    block:0,
+    desc:"行动: 翻倍所有敌人受到的伤害",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_red_cloud.png",
+    action(G, ctx) {
+      for (let enemy of G.efield) {
+        if (enemy.dmg > 0) {
+          enemy.dmg += enemy.dmg;
+        }
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "造成2点伤害",
+    onReinforce(G, ctx, self) {
+      deal_random_damage(G, ctx, 2);
+    },
+  },
   
   // {
   //   name:"斑点",
@@ -2436,7 +2565,7 @@ export const CARDS = [
     block:0,
     desc:"部署: 获得一套随机的采掘/战斗/行动能力",
     was_enemy: true,
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_skadi_ch.png",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_skadi_ch_normal.png",
     onPlay(G, ctx, self) {
       let abilities = generate_skadi_ch_ability(G, ctx);
       Object.assign(self, abilities);

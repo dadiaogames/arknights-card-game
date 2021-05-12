@@ -924,6 +924,12 @@ export class Board extends React.Component {
       this.props.moves.emit_diff({is_diff: true});
     }
 
+    // TurnEnd
+    // if (this.props.G.turn_should_end == true && prevProps.G.turn_should_end != true) {
+      // this.props.moves.set_turn_end();
+      // this.turn_end();
+    // }
+
     // Dialog
     // if (this.props.G.dialogs.length > 0 && prevProps.G.dialogs.length == 0) {
       // this.change_board("dialog");

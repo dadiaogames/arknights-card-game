@@ -288,7 +288,7 @@ function play(G, ctx, idx) {
   }
 }
 
-function mine(G, ctx, idx) {
+export function mine(G, ctx, idx) {
   let card = G.field[idx];
 
   if (use(G, ctx, card) && (G.stage == "player")) {
@@ -567,7 +567,7 @@ export function generate_skadi_ch_ability(G, ctx) {
   };
 }
 
-function fight(G, ctx, idx1, idx2) {
+export function fight(G, ctx, idx1, idx2) {
   if (idx1 < 0 || idx1 >= G.field.length || idx2 < 0 || idx2 >= G.efield.length) {
     console.log("invalid move");
     logMsg(G, ctx, "请先选定场上干员后，再点击敌人和\"战斗\"");
@@ -765,6 +765,19 @@ export function get_rhine_order(G, ctx) {
   order.color = undefined;
   G.finished.unshift(order);
   // sort_finished(G);
+}
+
+export function get_mech(G, ctx) {
+  let mech = choice(ctx, G.CARDS.filter(x => [
+    "Lancet-2", "Castle-3", "THRM-EX", 
+    "摄影车", "机械水獭", "龙腾无人机",
+    "热水壶", "白面鸮",
+  ].includes(x.name)));
+  G.hand.unshift({...mech});
+}
+
+function set_turn_end(G, ctx) {
+  G.turn_should_end = false;
 }
 
 function enemyInit(G, ctx) {
@@ -1281,6 +1294,7 @@ export const AC = {
     emit_diff,
     setup_campaign,
     proceed_dialogs,
+    set_turn_end,
   },
 
   turn: {
