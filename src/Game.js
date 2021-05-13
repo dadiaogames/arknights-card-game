@@ -836,7 +836,7 @@ export function enemyMove(G, ctx, idx) {
 export function clearField(G, ctx, field="field") {
   for (let i=G[field].length-1; i>=0; i--) {
     let card = G[field][i];
-    if (card.hp - card.dmg <= 0) {
+    if (card && (card.hp - card.dmg <= 0)) {
       out(G, ctx, field, i);
       if (field == "efield") {
         G.score += 1;

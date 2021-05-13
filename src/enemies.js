@@ -19,7 +19,6 @@ export const ENEMIES = [
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_enemies_1.png",
     desc: "入场: 使1个敌人获得+2/+2",
     onPlay(G, ctx, self) {
-      // let enemy = ctx.random.Shuffle(G.efield)[0];
       let enemy = G.efield[0];
       if (enemy) {
         enemy.atk += 2;
@@ -130,20 +129,6 @@ export const ENEMIES = [
       }
     }
   },
-  // {
-  //   name: "空降兵",
-  //   atk: 2,
-  //   hp: 2,
-  //   illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_enemies_11.png",
-  //   desc: "入场: 使1个敌人获得+2攻击力",
-  //   onPlay(G, ctx) {
-  //     // ctx.random.Shuffle(G.efield)[0].atk += 2;
-  //     let enemy = G.efield[0];
-  //     if (enemy) {
-  //       enemy.atk += 2;
-  //     }
-  //   }
-  // },
   {
     name: "高阶术师",
     atk: 2,

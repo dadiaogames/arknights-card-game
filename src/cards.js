@@ -1287,7 +1287,7 @@ export const CARDS = [
         logMsg(G, ctx, "没有可横置的订单");
       }
     },
-    reinforce: 2,
+    reinforce: 1,
     reinforce_desc: "再触发一次",
   },
 
@@ -2674,11 +2674,11 @@ export const CARDS = [
     hp:3,
     mine:2,
     block:1,
-    desc:"行动: 清除弃牌堆中的5张牌，获得6分",
+    desc:"行动: 清除弃牌堆中的3张牌，获得6分",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_82.png",
     action(G, ctx, self) {
-      if (G.discard.length >= 5) {
-        G.discard = G.discard.slice(5);
+      if (G.discard.length >= 3) {
+        G.discard = G.discard.slice(3);
         G.score += 6 + 2 * self.power;
         logMsg(G, ctx, `弃牌堆中还剩${G.discard.length}张`);
       }
