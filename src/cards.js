@@ -13,13 +13,14 @@ import { food_icons } from './icons';
 import { list_min_max_idx } from './utils';
 import { ENEMIES } from './enemies';
 
-export function init_card(card) {
+export function init_card(card, idx) {
   return {
     name: "card",
     block: 0,
     dmg: 0,
     power: 0,
     // material: rng.randRange(3),
+    material: (idx % 3),
 
     onPlayBonus: [],
 
@@ -235,7 +236,7 @@ export const CARDS = [
     name: "芬",
     cost: 2,
     atk: 2,
-    hp: 2,
+    hp: 1,
     mine: 1,
     block: 1,
     desc: "部署: 摸2张牌",
@@ -2374,9 +2375,9 @@ export const CARDS = [
 {
     name:"松果",
     cost:4,
-    atk:6,
+    atk:7,
     hp:3,
-    mine:1,
+    mine:0,
     block:1,
     desc:"超杀: 横置一个订单，重置自己",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_51.png",
@@ -2431,7 +2432,7 @@ export const CARDS = [
   {
     name:"酸糖", 
     cost:3,
-    atk:5, 
+    atk:4, 
     hp:2, 
     mine:1, 
     block:0, 
@@ -2485,7 +2486,7 @@ export const CARDS = [
 
   {
     name:"刻俄柏",
-    cost:5,
+    cost:4,
     atk:3,
     hp:3,
     mine:2,
@@ -2596,7 +2597,7 @@ export const CARDS = [
     desc:"部署: 召唤5个随机干员的1/1复制",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_77.png",
     onPlay(G, ctx, self) {
-      let cards = ctx.random.Shuffle(G.CARDS).filter(c => c.onMine || c.onFight || c.action || (c.cost >= 4));
+      let cards = ctx.random.Shuffle(G.CARDS).filter(c => c.onMine || c.onFight || c.action);// || (c.cost >= 4));
       for (let i=0; i<5; i++) {
         let card = {...cards[i]}; // Copy at this stage
         card.atk = 1;
@@ -3246,8 +3247,8 @@ export const CARDS = [
         G.costs += delta;
         logMsg(G, ctx, `使用 ${self.name} 获得${delta}点费用`);
 
-        if (delta >= 10) {
-          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少10点费用", self);
+        if (delta >= 20) {
+          achieve(G, ctx, "常山豆子龙", "使用红豆获得至少20点费用", self);
         }
       }
     },
@@ -3259,26 +3260,26 @@ export const CARDS = [
   },
   
 
-  // {
-  //   name:"格拉尼",
-  //   cost:4,
-  //   atk:1,
-  //   hp:1,
-  //   mine:1,
-  //   block:1,
-  //   desc: "摧毁: 召唤\"格拉尼\"",
-  //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_106.png",
-  //   reinforce: 1,
-  //   onOut(G, ctx, self) {
-  //     let new_card = G.CARDS.find(x => x.name == "格拉尼");
-  //     G.field.push(init_card_state(G, ctx, {...new_card}));
-  //   },
-  //   onReinforce(G, ctx, self) {
-  //     self.atk += 2;
-  //     self.hp += 2;
-  //   },
-  //   reinforce_desc: "+2/+2",
-  // },
+  {
+    name:"格拉尼",
+    cost:2,
+    atk:2,
+    hp:1,
+    mine:1,
+    block:1,
+    desc: "摧毁: 召唤\"格拉尼\"",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_106.png",
+    reinforce: 1,
+    onOut(G, ctx, self) {
+      let new_card = G.CARDS.find(x => x.name == "格拉尼");
+      G.field.unshift(init_card_state(G, ctx, {...new_card}));
+    },
+    onReinforce(G, ctx, self) {
+      self.atk += 2;
+      self.hp += 2;
+    },
+    reinforce_desc: "+2/+2",
+  },
   {
     name:"铃兰", 
     cost:2, 
@@ -4426,7 +4427,7 @@ export const extra_cards = [
   {
     name: "麦哲伦",
     generate(ctx) {
-      let name = choice(ctx, "麦迪文 麦当劳 麦当娜 麦克雷 麦旋风 麦克斯韦 张信哲 哥伦布 周杰伦 炎亚纶 拿破仑 达尔文 刘德华".split(" "));
+      let name = choice(ctx, "麦迪文 麦当劳 麦克雷 麦旋风 麦克斯韦 张信哲 哥伦布 周杰伦 炎亚纶 拿破仑 达尔文 刘德华 麦田傀儡".split(" "));
       let values = choice(ctx, [
         {
           atk: 2,
@@ -4462,7 +4463,7 @@ export const extra_cards = [
     }
   },
     
-].map(init_card);
+];
 
 export const default_filter = x => x;
 

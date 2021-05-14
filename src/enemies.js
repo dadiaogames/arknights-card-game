@@ -402,6 +402,9 @@ export const BOSSES = [
         card.dmg += self.atk;
         if (card.dmg > card.hp) {
           G.field = G.field.filter(x => x != card)
+          if (card.onOut) {
+            card.onOut(G, ctx, card);
+          }
         }
       }
     },
