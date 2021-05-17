@@ -234,7 +234,7 @@ export const CARDS = [
 
   {
     name: "芬",
-    cost: 2,
+    cost: 1,
     atk: 2,
     hp: 1,
     mine: 1,
@@ -1844,28 +1844,30 @@ export const CARDS = [
 
   {
     name:"贾维",
-    cost:3,
+    cost:2,
     atk:4,
     hp:2,
     mine:1,
     block:1,
     desc:"部署/采掘/战斗: 获得一张机械牌",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_122.png",
-    onPlay(G, ctx) {
-      get_mech(G, ctx);
+    onPlay(G, ctx, self) {
+      for (let i=0; i<(1+self.power); i++) {
+        get_mech(G, ctx);
+      }
     },
-    onMine(G, ctx) {
-      get_mech(G, ctx);
+    onMine(G, ctx, self) {
+      self.onPlay && self.onPlay(G, ctx, self);
     },
-    onFight(G, ctx) {
-      get_mech(G, ctx);
+    onFight(G, ctx, self) {
+      self.onPlay && self.onPlay(G, ctx, self);
     },
     reinforce: 1,
-    reinforce_desc: "+2/+2",
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    },
+    reinforce_desc: "再获得一张",
+    // onReinforce(G, ctx, self) {
+    //   self.atk += 2;
+    //   self.hp += 2;
+    // },
   },
 
   {
@@ -3260,26 +3262,26 @@ export const CARDS = [
   },
   
 
-  {
-    name:"格拉尼",
-    cost:2,
-    atk:2,
-    hp:1,
-    mine:1,
-    block:1,
-    desc: "摧毁: 召唤\"格拉尼\"",
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_106.png",
-    reinforce: 1,
-    onOut(G, ctx, self) {
-      let new_card = G.CARDS.find(x => x.name == "格拉尼");
-      G.field.unshift(init_card_state(G, ctx, {...new_card}));
-    },
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    },
-    reinforce_desc: "+2/+2",
-  },
+  // {
+  //   name:"格拉尼",
+  //   cost:2,
+  //   atk:2,
+  //   hp:1,
+  //   mine:1,
+  //   block:1,
+  //   desc: "摧毁: 召唤\"格拉尼\"",
+  //   illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_106.png",
+  //   reinforce: 1,
+  //   onOut(G, ctx, self) {
+  //     let new_card = G.CARDS.find(x => x.name == "格拉尼");
+  //     G.field.unshift(init_card_state(G, ctx, {...new_card}));
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   },
+  //   reinforce_desc: "+2/+2",
+  // },
   {
     name:"铃兰", 
     cost:2, 
