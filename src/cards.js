@@ -214,8 +214,8 @@ export const CARDS = [
   {
     name:"夜刀",
     cost:12,
-    atk:16,
-    hp:16,
+    atk:20,
+    hp:20,
     mine:8,
     block:2,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_10.png",
@@ -1494,28 +1494,28 @@ export const CARDS = [
     reinforce: 2,
     reinforce_desc: "再获得2分",
   },
-// {
-//     name:"初雪",
-//     cost:2,
-//     atk:2,
-//     hp:1,
-//     mine:1,
-//     block:0,
-//     desc: "部署: 使一个敌人获得易伤2，重复2次",
-//     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_83.png",
-//     onPlay(G, ctx) {
-//       add_vulnerable(G, ctx, 2);
-//       add_vulnerable(G, ctx, 2);
-//     },
-//     reinforce: 1,
-//     reinforce_desc: <span>弃一张牌，获得2个{material_icons[3]}</span>,
-//     onReinforce(G, ctx, self) {
-//       if (G.hand.length >= 1) {
-//         drop(G, ctx);
-//         G.materials[3] += 2;
-//       }
-//     },
-//   },
+{
+    name:"初雪",
+    cost:2,
+    atk:3,
+    hp:2,
+    mine:2,
+    block:0,
+    desc: <span>行动: 弃2张牌，获得4个{material_icons[3]}</span>,
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_83.png",
+    action(G, ctx) {
+      if (G.hand.length >= 2) {
+        drop(G, ctx);
+        drop(G, ctx);
+        G.materials[3] += 4;
+      }
+    },
+    reinforce: 1,
+    reinforce_desc: "使一个敌人获得易伤2",
+    onReinforce(G, ctx, self) {
+      add_vulnerable(G, ctx, 2);
+    },
+  },
 {
     name:"凛冬",
     cost:3,
@@ -4429,7 +4429,7 @@ export const extra_cards = [
   {
     name: "麦哲伦",
     generate(ctx) {
-      let name = choice(ctx, "麦迪文 麦当劳 麦克雷 麦旋风 麦克斯韦 张信哲 哥伦布 周杰伦 炎亚纶 拿破仑 达尔文 刘德华 麦田傀儡".split(" "));
+      let name = choice(ctx, "麦迪文 麦当劳 肯德基 麦克雷 麦旋风 麦克斯韦 哥伦布 周杰伦 炎亚纶 拿破仑 达尔文 刘德华 麦田傀儡".split(" "));
       let values = choice(ctx, [
         {
           atk: 2,
