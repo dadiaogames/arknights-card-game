@@ -766,7 +766,7 @@ export const CARDS = [
     cost:2, 
     atk:0, 
     hp:2, 
-    mine:1, 
+    mine:2, 
     block:0, 
     desc:"采掘: 使一个干员获得+2/+2", 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_35.png",
@@ -3511,7 +3511,7 @@ export const CARDS = [
     hp:8,
     mine:2,
     block:1,
-    desc: "超杀: 每造成2点额外伤害，就获得+1攻击力并治疗5点伤害",
+    desc: "超杀: 每造成2点额外伤害，就获得+1/+5",
     hard: true,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_115.png",
     reinforce: 1,
@@ -3519,7 +3519,7 @@ export const CARDS = [
       if (enemy.dmg > enemy.hp) {
         let excess = Math.floor((enemy.dmg - enemy.hp) / 2);
         self.atk += excess;
-        self.dmg = Math.max((self.dmg - excess * 5), 0);
+        self.hp += excess * 5;
       }
     },
     onReinforce(G, ctx, self) {
