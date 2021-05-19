@@ -458,14 +458,14 @@ export const CARDS = [
   {
     name: "炎熔",
     cost: 3,
-    atk: 5,
+    atk: 4,
     hp: 2,
     mine: 3,
     block: 0,
-    desc: "战斗: 获得1个材料",
+    desc: "战斗: 获得2个材料",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_21.png",
     onFight(G, ctx, self) {
-      gainMaterials(G, ctx, 1+self.power);
+      gainMaterials(G, ctx, 2+self.power);
     },
     reinforce: 2,
     reinforce_desc: "再获得1个材料",
