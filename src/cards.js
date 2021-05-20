@@ -1470,10 +1470,10 @@ export const CARDS = [
     onTurnBegin(G, ctx, self) {
       self.use_count = 0;
     },
-    reinforce: 1,
-    reinforce_desc: "+2/+1",
+    reinforce: 2,
+    reinforce_desc: "+3/+1",
     onReinforce(G, ctx, self) {
-      self.atk += 2;
+      self.atk += 3;
       self.hp += 1;
     }
   },
@@ -1877,7 +1877,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc:"行动: 翻倍所有敌人受到的伤害",
+    desc:"行动: 翻倍所有敌人受到的伤害(对boss无效)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_red_cloud.png",
     action(G, ctx) {
       for (let enemy of G.efield) {
