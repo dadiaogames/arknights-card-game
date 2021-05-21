@@ -373,15 +373,18 @@ function finishOrder(G, ctx, idx) {
       order.onFinished(G, ctx);
     }
 
-    if ([4,8].includes(G.finished.length)) {
+    if (G.finished.length == 5 && (!G.high_price_order)) {
       G.orders.map(price_up);
       G.odeck.map(price_up);
-    }
-
-    if (G.finished.length >= 5) {
       G.orders = G.orders.map(ability_off);
       G.odeck = G.odeck.map(ability_off);
+      G.high_price_order = true;
     }
+
+    // if (G.finished.length >= 5) {
+      // G.orders = G.orders.map(ability_off);
+      // G.odeck = G.odeck.map(ability_off);
+    // }
     
   }
 }

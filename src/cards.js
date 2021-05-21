@@ -1872,7 +1872,7 @@ export const CARDS = [
 
   {
     name:"红云",
-    cost:3,
+    cost:2,
     atk:4,
     hp:2,
     mine:1,
