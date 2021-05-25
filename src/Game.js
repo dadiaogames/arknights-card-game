@@ -774,7 +774,7 @@ export function get_mech(G, ctx) {
   let mech = choice(ctx, G.CARDS.filter(x => [
     "Lancet-2", "Castle-3", "THRM-EX", 
     "摄影车", "机械水獭", "龙腾无人机",
-    "热水壶", "白面鸮",
+    "热水壶", "白面鸮", "森蚺", "翎羽",
   ].includes(x.name)));
   G.hand.unshift({...mech});
 }

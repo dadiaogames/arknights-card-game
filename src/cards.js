@@ -1820,19 +1820,27 @@ export const CARDS = [
   {
     name:"THRM-EX",
     was_enemy: true,
-    cost:5,
-    atk:5,
-    hp:5,
-    mine:2,
+    cost:3,
+    atk:2,
+    hp:1,
+    mine:1,
     block:1,
-    desc:"部署: 清除双方场上所有卡牌",
+    // desc:"部署: 清除双方场上所有卡牌",
+    desc:"部署: 横置一个干员，并触发其\"行动:\"能力3次",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_thrm_ex.png",
     onPlay(G, ctx) {
-      G.efield = G.efield.filter(x => x.is_boss);
-      G.field = [];
+      // G.efield = G.efield.filter(x => x.is_boss);
+      // G.field = [];
 
-      if (G.efield.length > 0) {
-        logMsg(G, ctx, "该能力对boss无效");
+      // if (G.efield.length > 0) {
+      //   logMsg(G, ctx, "该能力对boss无效");
+      // }
+      let card = choice(ctx, G.field.filter(x => x.action && !x.exhausted));
+      if (card) {
+        card.exhausted = true;
+        for (let i=0; i<3; i++) {
+          card.action(G, ctx, card);
+        }
       }
     },
     reinforce: 1,
