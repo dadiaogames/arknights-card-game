@@ -182,12 +182,11 @@ export const CARDS = [
     mine: 3,
     block: 0,
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_8.png",
-    reinforce: 2,
+    reinforce: 1,
     onReinforce(G, ctx, self) {
-      self.atk += 8;
-      // self.hp += 2;
+      self.atk += 4;
     },
-    reinforce_desc: "+8攻击力",
+    reinforce_desc: "+4攻击力",
   },
 
   {
@@ -234,7 +233,7 @@ export const CARDS = [
 
   {
     name: "芬",
-    cost: 1,
+    cost: 2,
     atk: 2,
     hp: 1,
     mine: 1,
@@ -245,11 +244,12 @@ export const CARDS = [
       draw(G, ctx);
       draw(G, ctx);
     },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
       draw(G, ctx);
+      draw(G, ctx);
     },
-    reinforce_desc: "摸一张牌",
+    reinforce_desc: "摸2张牌",
   },
 
   
@@ -353,9 +353,9 @@ export const CARDS = [
       }
     },
     onReinforce(G, ctx, self) {
-      G.costs += 2;
+      self.action && self.action(G, ctx, self);
     },
-    reinforce_desc: "获得2点费用",
+    reinforce_desc: "触发一次\"行动:\"效果",
   },
   
   {
@@ -597,7 +597,7 @@ export const CARDS = [
   {
     name:"柏喙",
     cost:4,
-    atk:5,
+    atk:6,
     hp:4,
     mine:2,
     block:1,
@@ -1788,13 +1788,13 @@ export const CARDS = [
   {
     name:"Lancet-2",
     was_enemy: true,
-    cost:2,
+    cost:4,
     atk:0,
     hp:2,
     mine:2,
     block:0,
     // desc:"部署: 清除双方场上所有卡牌",
-    desc:"部署: 横置一个干员，并触发其\"行动:\"能力2次",
+    desc:"部署: 横置一个干员，并触发其\"行动:\"能力3次",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_lancet_2.png",
     onPlay(G, ctx) {
       // G.efield = G.efield.filter(x => x.is_boss);
@@ -1806,7 +1806,7 @@ export const CARDS = [
       let card = choice(ctx, G.field.filter(x => x.action && !x.exhausted));
       if (card) {
         card.exhausted = true;
-        for (let i=0; i<2; i++) {
+        for (let i=0; i<3; i++) {
           card.action(G, ctx, card);
         }
       }
@@ -1913,10 +1913,10 @@ export const CARDS = [
 
   {
     name:"红云",
-    cost:2,
-    atk:3,
+    cost:3,
+    atk:5,
     hp:2,
-    mine:0,
+    mine:1,
     block:0,
     desc:"行动: 翻倍所有敌人受到的伤害(对boss无效)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_red_cloud.png",
@@ -1993,17 +1993,16 @@ export const CARDS = [
     // },
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
-        for (let i=0; i<(4+self.power); i++) {
+        for (let i=0; i<4; i++) {
           deal_random_damage(G, ctx, 4);
         }
       }
     },
     reinforce: 1,
-    // onReinforce(G, ctx, self) {
-      // self.atk += 3;
-      // self.hp += 3;
-    // },
-    reinforce_desc: "再重复一次",
+    onReinforce(G, ctx, self) {
+      self.action && self.action(G, ctx, self);
+    },
+    reinforce_desc: "触发一次\"行动:\"效果",
   },
   
   {
@@ -2048,12 +2047,12 @@ export const CARDS = [
     //     }
     //   );
     // },
-    reinforce: 1,
+    reinforce: 2,
     onReinforce(G, ctx, self) {
-      self.atk += 2;
+      self.atk += 3;
       self.hp += 1;
     },
-    reinforce_desc: "+2/+1",
+    reinforce_desc: "+3/+1",
   },
 
   
@@ -2345,9 +2344,9 @@ export const CARDS = [
   {
     name:"安比尔",
     cost:2,
-    atk:4,
+    atk:3,
     hp:2,
-    mine:0,
+    mine:1,
     block:0,
     desc:"行动: 本回合剩余时间内，干员的\"超杀:\"效果将额外触发一次",
     hard: true,
@@ -2363,9 +2362,10 @@ export const CARDS = [
     },
     reinforce: 2,
     onReinforce(G, ctx, self) {
-      this.action && this.action(G, ctx);
+      // this.action && this.action(G, ctx);
+      deal_random_damage(G, ctx, 8);
     },
-    reinforce_desc: "触发一次\"行动:\"效果",
+    reinforce_desc: "造成8点伤害",
   },
   {
     name:"黑",
@@ -2822,7 +2822,7 @@ export const CARDS = [
     name:"星熊", 
     cost:3, 
     atk:2, 
-    hp:8, 
+    hp:6, 
     mine:1, 
     block:2, 
     desc:"行动: 消耗1点费用，对阻挡的所有敌人造成2点伤害，然后重置自己", 
@@ -3126,9 +3126,9 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc: "行动: 摧毁一个干员，获得3分",
+    desc: "行动: 摧毁一个干员，获得2分，然后重置自己",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_101.png",
-    reinforce: 1,
+    reinforce: 2,
     action(G, ctx, self) {
       // let card = ctx.random.Shuffle(G.field.filter(x => (x!=self && !x.exhausted)))[0];
       // if (card) {
@@ -3147,23 +3147,24 @@ export const CARDS = [
       //     // card.desc = "采掘/战斗: 获得4分";
       //     // G.score += 3;
       //   // }
-        if (eliminate_field(G, ctx, self)) {
-          G.score += 3;
-        }
-        else {
-          logMsg(G, ctx, "没有 没动过的干员 可以摧毁");
-        }
-        self.use_count = (self.use_count || 0) + 1;
-        if (self.use_count == 20) {
-          achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿20次以上", self);
-        }
+      if (eliminate_field(G, ctx, self)) {
+        G.score += 2 + self.power;
+        self.exhausted = false;
+      }
+      else {
+        logMsg(G, ctx, "没有 没动过的干员 可以摧毁");
+      }
+      self.use_count = (self.use_count || 0) + 1;
+      if (self.use_count == 20) {
+        achieve(G, ctx, "爆发剂·榴莲味", "一局内使用阿20次以上", self);
+      }
     },
-    onReinforce(G, ctx, self) {
-      self.exhausted = false;
-      self.mine = 0;
+    // onReinforce(G, ctx, sejjjlf) {
+      // self.exhausted = false;
+      // self.mine = 0;
       // self.atk = 0;
-    },
-    reinforce_desc: "重置自己",
+    // },
+    reinforce_desc: "得分+1",
   },
   
   {
@@ -3411,38 +3412,38 @@ export const CARDS = [
 
   
   
-  {
-    name:"砾",
-    cost:1,
-    atk:1,
-    hp:1,
-    mine:1,
-    block:1,
-    illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_110.png",
-    reinforce: 1,
-    desc: "摧毁: 返回手牌",
-    // onPlay(G, ctx, self) {
-      // let time_points = [["采掘: ", "onMine"], ["战斗: ", "onFight"], ["行动: ", "action"], ["摧毁: ", "onOut"]];
-      // let time_point = ctx.random.Shuffle(time_points)[0];
-      // let effects = ctx.random.Shuffle(G.EFFECTS);
-      // let effect = effects[0];
-      // self.desc = time_point[0] + effect[0];
-      // self[time_point[1]] = effect[1];
-      // self.reinforce_desc = effects[1][0];
-      // self.onReinforce = effects[1][1];
-      // logMsg(G, ctx, `获得效果"${self.desc}"`);
-    // },
-    onOut(G, ctx, self) {
-      // let gravel = G.CARDS.find(x => x.name == "砾");
-      // G.hand.unshift({...gravel});
-      G.hand.unshift({...self, onPlayBonus: []});
-    },
-    onReinforce(G, ctx, self) {
-      self.atk += 2;
-      self.hp += 2;
-    },
-    reinforce_desc: "+2/+2",
-  },
+  // {
+  //   name:"砾",
+  //   cost:1,
+  //   atk:1,
+  //   hp:1,
+  //   mine:1,
+  //   block:1,
+  //   illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_110.png",
+  //   reinforce: 1,
+  //   desc: "摧毁: 返回手牌",
+  //   // onPlay(G, ctx, self) {
+  //     // let time_points = [["采掘: ", "onMine"], ["战斗: ", "onFight"], ["行动: ", "action"], ["摧毁: ", "onOut"]];
+  //     // let time_point = ctx.random.Shuffle(time_points)[0];
+  //     // let effects = ctx.random.Shuffle(G.EFFECTS);
+  //     // let effect = effects[0];
+  //     // self.desc = time_point[0] + effect[0];
+  //     // self[time_point[1]] = effect[1];
+  //     // self.reinforce_desc = effects[1][0];
+  //     // self.onReinforce = effects[1][1];
+  //     // logMsg(G, ctx, `获得效果"${self.desc}"`);
+  //   // },
+  //   onOut(G, ctx, self) {
+  //     // let gravel = G.CARDS.find(x => x.name == "砾");
+  //     // G.hand.unshift({...gravel});
+  //     G.hand.unshift({...self, onPlayBonus: []});
+  //   },
+  //   onReinforce(G, ctx, self) {
+  //     self.atk += 2;
+  //     self.hp += 2;
+  //   },
+  //   reinforce_desc: "+2/+2",
+  // },
   {
     name:"红",
     cost:2,
@@ -3639,7 +3640,7 @@ export const CARDS = [
     hp:1,
     mine:1,
     block:0,
-    desc: "部署: 摧毁一个受到伤害的敌人",
+    desc: "部署: 摧毁一个受到伤害的敌人(对boss无效)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_118.png",
     reinforce: 1,
     onPlay(G, ctx, self) {
@@ -3818,7 +3819,7 @@ export const CARDS = [
       if (G.hand.length >= 2) {
         drop(G, ctx);
         drop(G, ctx);
-        let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==4)))[0];
+        let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==4 && !x.was_enemy)))[0];
         summon(G, ctx, new_card, self);
       }
       else {
@@ -4143,7 +4144,7 @@ export const CARDS = [
       self.skill_power = 0;
       let reinforce_skill = (G, ctx, self) => {
         self.skill_power = (self.skill_power || 0) + 1;
-        self.desc = `行动: 造成3点伤害，重复${4+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+Math.floor(self.skill_power/3)}分，整场战斗限一次(采掘/战斗: 强化此技能)`;
+        self.desc = `行动: 造成3点伤害，重复${4+self.skill_power}次，然后本回合剩余时间内，使用干员采掘时，获得${1+self.skill_power}分，整场战斗限一次(采掘/战斗: 强化此技能)`;
       };
       
       self.onMine = reinforce_skill;
