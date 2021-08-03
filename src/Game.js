@@ -219,20 +219,27 @@ export function drop(G, ctx) {
 }
 
 export function mulligan(G, ctx, choices) {
-  let discarded = G.hand.filter((x, idx) => choices[idx]);
-  G.hand = [...G.hand.slice(0,5).filter((x, idx) => !choices[idx]), ...G.hand.slice(5)];
-  if (G.hand.length < 5) {
-    let num_draw = 5 - G.hand.length; // What a tricky feature of js
-    for (let i = 0; i < num_draw; i++) {
-      draw(G, ctx);
-    }
-    G.deck = ctx.random.Shuffle([...G.deck, ...discarded]);
-  }
+  // let discarded = G.hand.filter((x, idx) => choices[idx]);
+  // G.hand = [...G.hand.slice(0,5).filter((x, idx) => !choices[idx]), ...G.hand.slice(5)];
+  // if (G.hand.length < 5) {
+  //   let num_draw = 5 - G.hand.length; // What a tricky feature of js
+  //   for (let i = 0; i < num_draw; i++) {
+  //     draw(G, ctx);
+  //   }
+  //   G.deck = ctx.random.Shuffle([...G.deck, ...discarded]);
+  // }
 
   // Psudo-shuffle the deck
   // let solver = G.deck.find(x => solver_core.includes(x.name)) || G.deck[0];
   // let scorer = G.deck.find(x => scorer_core.includes(x.name)) || G.deck[1];
   // G.deck = [...G.deck.filter(x => ![solver, scorer].includes(x)), scorer, solver];
+
+  let discarded = G.hand.filter((x,idx) => choices.includes(idx));
+  G.hand = G.hand.filter((x,idx) => !choices.includes(idx));
+  for (let i = 0; i < discarded.length; i++) {
+    draw(G, ctx);
+  }
+  G.deck = ctx.random.Shuffle([...G.deck, ...discarded]);
 
   // Add init here
   G.hand = [...G.deck.filter(card => card.is_init), ...G.hand];
@@ -674,9 +681,8 @@ export function exhaust_order(G, ctx) {
   }
 }
 
-export function reinforce_field(G, ctx) {
-  let card = choice(ctx, G.field.filter(x => (!(x.exhausted||["诗怀雅"].includes(x.name)))));
-
+export function reinforce_field(G, ctx, self) {
+  let card = choice(ctx, G.field.filter(x => !x.exhausted && x != self));
   if (card) {
     reinforce_card(G, ctx, card);
   }
@@ -708,7 +714,7 @@ export function add_vulnerable(G, ctx, amount) {
 
 export function ready_random_card(G, ctx, self) {
   let exhausted_cards = G.field.filter(x => (x.exhausted && (x != self)));
-  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪", "霜叶", "夜莺", "白金", "浊心斯卡蒂", "Lancet-2", "Castle-3"].includes(x.name)));
+  let prepared_cards = exhausted_cards.filter(x => (![self.name, "雷蛇", "白面鸮", "艾雅法拉", "能天使", "温蒂", "白雪", "霜叶", "浊心斯卡蒂", "Lancet-2", "Castle-3", "鞭刃"].includes(x.name)));
   if ((exhausted_cards.length != 0) && (prepared_cards.length == 0)) {
     logMsg(G, ctx, "干员们感到意外的疲惫，无法被重置");
   }

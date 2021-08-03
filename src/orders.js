@@ -63,14 +63,15 @@ export const default_order = {
     }
   }
 }
-const advanced_orders = [{
-    requirements: [1,1,1,0],
-    score: 2,
-    reward: 3,
-    advanced: true,
-    desc: (<span>+2攻击力</span>),
-    effect: add_atk_hp,
-  },
+const advanced_orders = [
+  // {
+  //   requirements: [1,1,1,0],
+  //   score: 2,
+  //   reward: 3,
+  //   advanced: true,
+  //   desc: (<span>+2攻击力</span>),
+  //   effect: add_atk_hp,
+  // },
   // {
   //   requirements: [1,1,1,0],
   //   score: 2,
@@ -100,15 +101,15 @@ const advanced_orders = [{
     effect: set_collection_order,
   },
   
-  // {
-  //   requirements: [1,1,1,0],
-  //   score: 2,
-  //   reward: 3,
-  //   desc: (<span>重置1订单</span>),
-  //   advanced: true,
-  //   ready_other_orders: true,
-  //   effect: ready_order,
-  // },
+  {
+    requirements: [1,1,1,0],
+    score: 2,
+    reward: 3,
+    desc: (<span>重置一个订单</span>),
+    advanced: true,
+    ready_other_orders: true,
+    effect: ready_order,
+  },
     
 ];
   

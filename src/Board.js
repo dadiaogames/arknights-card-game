@@ -170,7 +170,8 @@ export class Board extends React.Component {
       upgrade_selected: -1,
       pick_selected: -1,
       shop_selected: -1,
-      hand_choices: [false, false, false, false, false],
+      // hand_choices: [false, false, false, false, false],
+      hand_choices: [],
       preview_filter: default_filter,
 
       branch: {},
@@ -730,7 +731,13 @@ export class Board extends React.Component {
   handle_mulligan_clicked(idx) {
     return () => {
       let choices = this.state.hand_choices;
-      choices[idx] = !choices[idx];
+      // choices[idx] = !choices[idx];
+      if (choices.includes(idx)) {
+        choices = choices.filter(x => x != idx);
+      }
+      else {
+        choices = [...choices, idx];
+      }
       this.setState({hand_choices: choices});
     }
   }
@@ -851,7 +858,7 @@ export class Board extends React.Component {
       is_multiplayer: this.state.multiplayer_mode,
       is_joiner: this.state.is_joiner,
     });
-    this.setState({hand_choices: [false, false, false, false, false]});
+    this.setState({hand_choices: []});
     this.change_board("mulligan");
   }
 
@@ -1098,9 +1105,11 @@ export class Board extends React.Component {
     return (<div className="board game-board" style={{position:"relative"}} >
       <span className="mulligan-intro">请换掉不想要的手牌</span>
       <SCardRow 
-        cards = {this.props.G.hand.slice(0,5).map(this.process_card_details)}
+        cards = {this.props.G.hand.map(this.process_card_details)}
         handleClick = {this.handle_mulligan_clicked}
-        additionalStyles = {this.state.hand_choices.map(x => ({border: x?"3px solid #096dd9":"2px solid"}))}
+        additionalStyles = {
+          this.props.G.hand.map((x,idx) => ({border: (this.state.hand_choices.includes(idx))?"3px solid #096dd9":"2px solid"}))
+        }
       />
       <button 
         className="preview-button" 
@@ -1258,9 +1267,6 @@ export class Board extends React.Component {
   }
   
   enter_roguelike_mode() {
-    this.roguelike.setup_roguelike_mode();
-    // this.roguelike.setup_deck_selection();
-    this.roguelike.setup_roguelike_decks();
     this.change_board("roguelike_entry");
   }
   
@@ -1270,6 +1276,8 @@ export class Board extends React.Component {
   }
 
   enter_difficulty(difficulty) {
+    this.roguelike.setup_roguelike_mode();
+    this.roguelike.setup_roguelike_decks();
     this.roguelike.set_difficulty_S2(difficulty);
     // this.change_board("roguelike_deck_selection");
     this.roguelike.proceed();
@@ -1310,6 +1318,7 @@ export class Board extends React.Component {
     return <RoguelikeEntry 
       difficulties = {difficulties}
       back = {() => {this.roguelike.end_roguelike_mode();this.change_board("tag");}}
+      set_seed = {() => {this.change_board("settings");}}
     />;
   }
 
@@ -1675,7 +1684,7 @@ export class Board extends React.Component {
         </button>
 
         <span 
-          onClick={()=>{alert(this.props.G.messages.slice(0,20).join("\n"));}}
+          onClick={()=>{alert(this.props.G.messages.slice(0,30).join("\n"));}}
         >
           {this.props.G.messages[0]}
         </span>

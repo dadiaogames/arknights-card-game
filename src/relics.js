@@ -16,11 +16,11 @@ export const RELICS = [
   // },
   {
     name: "乌萨斯列巴",
-    desc: "回合开始时，获得3张随机干员牌，并使其费用-2",
+    desc: "回合开始时，获得3张随机干员牌，并使其费用-1",
     onTurnBegin(G, ctx){
       for (let i=0; i<3; i++) {
         let card = {...choice(ctx, G.CARDS)};
-        card.cost -= 2;
+        card.cost -= 1;
         G.hand.unshift(card);
       }
     }
@@ -34,22 +34,23 @@ export const RELICS = [
   },
   {
     name: "锈刃-处决",
-    desc: "部署2费及以下的干员时，造成3点伤害",
+    desc: "部署3费及以上的干员时，造成6点伤害",
     onTurnBegin(G, ctx){
       G.onPlayCard.push((G, ctx, card) => {
-        if (card.cost <= 2) {
-          deal_random_damage(G, ctx, 3);
+        if (card.cost >= 3) {
+          deal_random_damage(G, ctx, 6);
         }
       });
     }
   },{
     name: "荒地龙舌兰",
-    desc: "每回合少获得1点费用，但获得3个材料",
+    desc: "每回合少获得1点费用，但获得4个材料",
     onTurnBegin(G, ctx){
       G.costs -= 1;
-      gainMaterials(G, ctx, 3);
+      gainMaterials(G, ctx, 4);
     }
-  },{
+  },
+  {
     name: "一份演讲稿",
     desc: "对局开始时，召唤1个4费干员",
     onBattleBegin(G, ctx){
@@ -76,8 +77,9 @@ export const RELICS = [
   },
   {
     name: "生命之水",
-    desc: "回合开始时，强化1张手牌",
+    desc: "回合开始时，强化2张手牌",
     onTurnBegin(G, ctx) {
+      reinforce_hand(G, ctx);
       reinforce_hand(G, ctx);
     }
   },
@@ -85,12 +87,12 @@ export const RELICS = [
   
   {
     name: "地区行动方案",
-    desc: "起始获得额外2组材料，胜利所需分数+2",
+    desc: "起始获得额外2组材料，胜利所需分数+5",
     onBattleBegin(G, ctx){
       for (let i=0; i<3; i++) {
         G.materials[i] += 2;
       }
-      G.goal += 2;
+      G.goal += 5;
     }
   },
   {
@@ -141,10 +143,10 @@ export const RELICS = [
   },
   {
     name:"“嘎呜”挂饰", 
-    desc:"达成满贯以上时,额外获得30赏金",
+    desc:"达成满贯以上时,额外获得40赏金",
     onBattleEnd(S) {
       if ((S.level_achieved - S.level_required) >= 4) {
-        S.gold += 30;
+        S.gold += 40;
       }
     }
   },
@@ -173,27 +175,32 @@ export const RELICS = [
   },
   {
     name:"奇怪的$墨镜", 
-    desc:"所有藏品的价格-5(最低为5)",
+    desc:"所有藏品的价格-15%",
     // onBuyRelic(S, relic) {
     //   S.gold += 5;
     // }
     onRefreshShop(S) {
       for (let item of S.shop_items) {
         if (item.is_relic) {
-          item.price = Math.max(item.price-5, 5);
+          item.price = Math.floor(item.price * 0.85);
         }
       }
     }
   },
-  // {
-  //   name:"一份演讲稿", 
-  //   desc:"购买藏品时,有概率随机升级1个干员",
-  //   onBuyRelic(S, relic) {
-  //     if (S.rng.random() <= 0.5) {
-  //       random_upgrade(S);
-  //     }
-  //   }
-  // },
+  {
+    name:"维多利亚军粮", 
+    desc:"购买藏品时,有50%概率使一个干员获得强化1",
+    onBuyRelic(S, relic) {
+      if (S.rng.random() <= 0.5) {
+        // random_upgrade(S);
+        let card = S.rng.choice(S.Deck);
+        let reinforce = UPGRADES.find(x => x.name == "强化1");
+        reinforce.effect(card);
+        card.upgraded = true;
+        alert(`使 ${card.name} 获得强化1`);
+      }
+    }
+  },
   {
     name:"迷迭香之拥", 
     desc:"购买藏品时,有20%概率获得1个其复制",
@@ -223,7 +230,7 @@ export const RELICS = [
   },
   {
     name:"全局作战文件",
-    desc:"使用: 从所有干员中，任选一个加入卡组",
+    desc:"使用: 从所有干员中，任选几个费用不同的加入卡组",
     onUse(S) {
       // let costs = S.rng.shuffle([2,3,4,5,16]).slice(0,3);
       let costs = [2,3,4,5,16];
@@ -316,7 +323,7 @@ export const RELICS = [
   },
   {
     name:"铁卫-推进", 
-    desc:" 阻挡数多于2的,阻挡数-1,但是+4/+4",
+    desc:"阻挡数多于2的,阻挡数-1,但是+4/+4",
     onBattleBegin(G, ctx) {
       G.deck.map(x => {
         if (x.block >= 2) {
@@ -378,13 +385,13 @@ export const RELICS = [
   // },
   {
     name:"“坏家伙”来了！", 
-    desc:"起始获得3个随机的强化2干员加入手牌",
+    desc:"起始获得3个随机的强化3干员加入手牌",
     onTurnBegin(G, ctx) { 
       if (G.round_num == 1) {
         let reinforce = UPGRADES.find(x => x.name == "强化1");
         for (let i=0; i<3; i++) {
           let card = {...choice(ctx, G.CARDS)};
-          // reinforce.effect(card);
+          reinforce.effect(card);
           reinforce.effect(card);
           reinforce.effect(card);
           card.upgraded = true;
@@ -406,13 +413,12 @@ export const RELICS = [
   },
   {
     name:"断杖-突破", 
-    desc:"所有干员获得 超杀:获得1个材料和1分",
+    desc:"所有干员获得 超杀:获得2个材料",
     onTurnBegin(G, ctx) {
       G.onCardFight.push(
         (G, ctx, card, enemy) => {
           if (enemy.dmg > enemy.hp) {
-            gainMaterials(G, ctx, 1);
-            G.score += 1;
+            gainMaterials(G, ctx, 2);
           }
         }
       );
@@ -431,17 +437,17 @@ export const RELICS = [
       );
     }
   },
-  {
-    name:"锈刃-无人之境", 
-    desc:"所有干员获得 部署:获得1分",
-    onTurnBegin(G, ctx) {
-      G.onPlayCard.push(
-        (G, ctx) => {
-          G.score += 1;
-        }
-      );
-    }
-  },
+  // {
+  //   name:"锈刃-无人之境", 
+  //   desc:"所有干员获得 部署:获得1分",
+  //   onTurnBegin(G, ctx) {
+  //     G.onPlayCard.push(
+  //       (G, ctx) => {
+  //         G.score += 1;
+  //       }
+  //     );
+  //   }
+  // },
   {
     name:"商队盒饭",
     desc:"所有订单分数+1",

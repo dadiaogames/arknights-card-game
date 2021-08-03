@@ -44,7 +44,7 @@ function setup_roguelike_mode(S) {
   S.gold = 50;
 
   // S.scene_queue = ["upgrade", ..._.times(12, ()=>"init_card"), "relic"];
-  S.scene_queue = ["upgrade", "relic", ..._.times(3, ()=>"init_card"), "deck_selection"];
+  S.scene_queue = ["upgrade", "relic", ..._.times(2, ()=>"init_card"), "deck_selection"];
   S.current_upgrades = [];
   S.current_indexes = [];
   S.current_relics = [];
@@ -90,9 +90,9 @@ function move_on(S) {
   // }
 
   if (S.difficulty == "hard" && S.game_count == 9) {
-    S.tags = [...S.tags, ..._.times(9, () => ({...final_tag}))];
+    S.tags = [...S.tags, ..._.times(4, () => ({...final_tag}))];
     for (let tag of S.tags) {
-      if (tag.level == 5) {
+      if (tag.stackable) {
         tag.locked = true;
       }
     }
@@ -986,7 +986,8 @@ export function RoguelikeEntry(props) {
       {props.difficulties.map(selection => <button className="difficulty-button" onClick={selection.handleClick}>{selection.name}</button>)}
     </div>
     <button className="introduce-button" onClick={props.back}>返回</button>
-    <button className="introduce-button" onClick={introduce_roguelike_mode}>集成战略模式介绍</button>
+    <button className="introduce-button" onClick={props.set_seed}>种子设置</button>
+    <button className="introduce-button" onClick={introduce_roguelike_mode}>肉鸽模式介绍</button>
   </div>
 }
 
