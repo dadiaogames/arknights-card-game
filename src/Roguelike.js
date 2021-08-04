@@ -287,15 +287,15 @@ function set_difficulty(S, difficulty) {
 function set_difficulty_S2(S, difficulty) {
   S.difficulty = difficulty;
 
-  S.levels = [4, 8, 12, 16, 20, 25, 30, 35, 45];
+  S.levels = [4, 8, 12, 18, 24, 30, 36, 45, 60];
 
   if (difficulty == "medium") {
-    S.levels = [18, 22, 26, 30, 36, 42, 48, 55, 70];
+    S.levels = [18, 22, 26, 30, 36, 42, 48, 56, 70];
     S.tags = choose_standard_tags(S.tags, 2);
   }
 
   if (difficulty == "hard") {
-    S.levels = [24, 28, 32, 36, 40, 50, 60, 70, 200];
+    S.levels = [24, 30, 36, 42, 50, 60, 70, 80, 200];
     S.tags = choose_standard_tags(S.tags, 3);
   }
 
