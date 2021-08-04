@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/arknights-card-game/static/css/main.68ab3b90.chunk.css",
-    "main.js": "/arknights-card-game/static/js/main.d7c811c9.chunk.js",
-    "main.js.map": "/arknights-card-game/static/js/main.d7c811c9.chunk.js.map",
+    "main.css": "/arknights-card-game/static/css/main.56cf46c7.chunk.css",
+    "main.js": "/arknights-card-game/static/js/main.7e0fc09b.chunk.js",
+    "main.js.map": "/arknights-card-game/static/js/main.7e0fc09b.chunk.js.map",
     "runtime-main.js": "/arknights-card-game/static/js/runtime-main.af872496.js",
     "runtime-main.js.map": "/arknights-card-game/static/js/runtime-main.af872496.js.map",
     "static/css/2.5c17b9f1.chunk.css": "/arknights-card-game/static/css/2.5c17b9f1.chunk.css",
     "static/js/2.c069a43b.chunk.js": "/arknights-card-game/static/js/2.c069a43b.chunk.js",
     "static/js/2.c069a43b.chunk.js.map": "/arknights-card-game/static/js/2.c069a43b.chunk.js.map",
     "index.html": "/arknights-card-game/index.html",
-    "precache-manifest.ae6f05c78c79365b518af48fed94b623.js": "/arknights-card-game/precache-manifest.ae6f05c78c79365b518af48fed94b623.js",
+    "precache-manifest.4ad5c0ecb9d265f25dfb78e8713bd5dd.js": "/arknights-card-game/precache-manifest.4ad5c0ecb9d265f25dfb78e8713bd5dd.js",
     "service-worker.js": "/arknights-card-game/service-worker.js",
     "static/css/2.5c17b9f1.chunk.css.map": "/arknights-card-game/static/css/2.5c17b9f1.chunk.css.map",
-    "static/css/main.68ab3b90.chunk.css.map": "/arknights-card-game/static/css/main.68ab3b90.chunk.css.map",
+    "static/css/main.56cf46c7.chunk.css.map": "/arknights-card-game/static/css/main.56cf46c7.chunk.css.map",
     "static/js/2.c069a43b.chunk.js.LICENSE.txt": "/arknights-card-game/static/js/2.c069a43b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.af872496.js",
     "static/css/2.5c17b9f1.chunk.css",
     "static/js/2.c069a43b.chunk.js",
-    "static/css/main.68ab3b90.chunk.css",
-    "static/js/main.d7c811c9.chunk.js"
+    "static/css/main.56cf46c7.chunk.css",
+    "static/js/main.7e0fc09b.chunk.js"
   ]
 }
