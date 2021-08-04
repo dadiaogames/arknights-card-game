@@ -19,7 +19,7 @@ import { lose_image, result_images } from './assets';
 import { CardRow } from './Card';
 
 export function introduce_roguelike_mode() {
-  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n太长不看：每一局要尽可能挑战比要求等级更高的危机等级！这样才能获得更多赏金；\n每一局对战，都有要求的危机等级，成功完成该局对战，即可获得30赏金和1次升级，并进入下一局对战；\n如果其中一次对局失败，则本次Roguelike旅程即宣告失败，胜败乃兵家常事，博士请重头再来；\n在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得5赏金(最高40赏金)；\n每高4级，在高8级之前，会奖励1次升级，在高8级之后，会奖励1个藏品；\n如果比要求等级高4级，则会达成“满贯”，额外获得30赏金和1个藏品，并跳过1局对战；\n如果比要求等级高8级，则会达成“大满贯”，额外获得60赏金和3个藏品！并跳过2局对战；`);
+  alert(`欢迎来到Roguelike模式“黑角的金针菇迷境”！\n通关要求：完成9局对战；\n太长不看：每一局要尽可能挑战比要求等级更高的危机等级！这样才能获得更多赏金(高的等级数是4的倍数最好)；\n* 每一局对战，都有要求的危机等级，成功完成该局对战，即可获得30赏金和1次升级，并进入下一局对战；\n* 在每一局对战中，如果你挑战比要求难度更高的危机等级，则会获得更多的赏金！每高1级，就会额外获得5赏金(最高40赏金)；\n* 如果比要求等级高4级，则会达成“满贯”，额外获得30赏金和1个藏品，并跳过1局对战；\n* 如果比要求等级高8级，则会达成“大满贯”，额外获得60赏金和3个藏品！并跳过2局对战；\n* 在“天灾降临”难度下，没有藏品“全局作战文件”`);
 }
 
 function weekly_introduction() {
@@ -89,7 +89,7 @@ function move_on(S) {
   //   S.rng.choice(S.tags.filter(t => t.stackable && (!t.locked))).locked = true;
   // }
 
-  if (S.difficulty == "hard" && S.game_count == 9) {
+  if ((S.difficulty == "hard" || S.difficulty == "expert") && S.game_count == 9) {
     S.tags = [...S.tags, ..._.times(4, () => ({...final_tag}))];
     for (let tag of S.tags) {
       if (tag.stackable) {
@@ -295,10 +295,14 @@ function set_difficulty_S2(S, difficulty) {
   }
 
   if (difficulty == "hard") {
-    // S.levels = [25, 30, 35, 40, 50, 60, 70, 80, 100];
-    // S.levels = [22, 27, 32, 38, 45, 52, 60, 70, 90];
     S.levels = [24, 28, 32, 36, 40, 50, 60, 70, 200];
     S.tags = choose_standard_tags(S.tags, 3);
+  }
+
+  if (difficulty == "expert") {
+    S.levels = [32, 38, 44, 50, 60, 70, 80, 90, 300];
+    S.tags = choose_standard_tags(S.tags, 3);
+    S.RELICS = S.RELICS.filter(x => x.name != "全局作战文件");
   }
 
   // if (["medium", "hard"].includes(difficulty)) {
@@ -458,14 +462,17 @@ export function get_card_pick(S) {
     name: "自选干员",
     price: 0,
     // indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,6),
-    indexes: S.rng.shuffle(CARDS.map((x,idx)=>idx)).slice(0,6),
-    desc: "从6个干员中，选择你最心仪的那一个",
+    indexes: S.rng.shuffle(CARDS.map((x,idx)=>idx)).slice(0,5),
+    desc: "从5个强化干员中，选择你最心仪的那一个",
     src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
     is_pick: true,
     onBought(S, idx) {
-      let card = CARDS[idx];
+      let card = {...CARDS[idx]};
       if (card) {
-        S.Deck.unshift({...card, material: S.rng.randRange(3)});
+        let reinforce = UPGRADES.find(x => x.name == "强化1");
+        reinforce.effect(card);
+        card.upgraded = true;
+        S.Deck.unshift({...card});
         for (let r of S.relics) {
           r.onPickCard && r.onPickCard(S, card);
         }
@@ -572,7 +579,7 @@ function get_reinforced_card(S, rng) {
 
 export function get_relic(S) {
   let shop_item = {};
-  let relic = S.rng.choice(RELICS);
+  let relic = {...S.rng.choice(S.RELICS)};
 
   shop_item.name = relic.name;
   shop_item.desc = relic.desc;
@@ -581,16 +588,15 @@ export function get_relic(S) {
   shop_item.is_relic = true;
 
   shop_item.onBought = (S) => {
-    let bought = {...relic};
-    console.log("Bought relic ", bought.name);
+    console.log("Bought relic ", relic.name);
 
     for (let r of [...S.relics]) {
-      r.onBuyRelic && r.onBuyRelic(S, bought, r);
+      r.onBuyRelic && r.onBuyRelic(S, relic, r);
     }
 
-    S.relics.unshift(bought);
-    if (bought.onBought) {
-      bought.onBought(S);
+    S.relics.unshift(relic);
+    if (relic.onBought) {
+      relic.onBought(S);
     }
     return true;
   }
@@ -794,7 +800,7 @@ function proceed(S) {
       S.changer("roguelike_shop");
     }
     else if (scene == "relic") {
-      S.current_relics = S.rng.shuffle(RELICS).slice(0,3);
+      S.current_relics = S.rng.shuffle(S.RELICS).slice(0,3);
       S.changer("roguelike_relic_selection");
     }
     else if (scene = "deck_selection") {

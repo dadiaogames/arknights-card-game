@@ -1314,6 +1314,10 @@ export class Board extends React.Component {
         name: "苦难之路",
         handleClick: () => this.enter_difficulty("hard"),
       },
+      {
+        name: "天灾降临",
+        handleClick: () => this.enter_difficulty("expert"),
+      },
     ];
     return <RoguelikeEntry 
       difficulties = {difficulties}

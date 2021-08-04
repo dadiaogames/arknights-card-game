@@ -126,19 +126,18 @@ export const RELICS = [
   // },
   {
     name:"风干大蕉果", 
-    desc:"自选干员时，使选到的牌获得强化2",
+    desc:"自选干员时，使选到的牌获得强化1",
     onPickCard(S, card) {
       let reinforce = UPGRADES.find(x => x.name == "强化1");
-      reinforce.effect(card);
       reinforce.effect(card);
       card.upgraded = true;
     }
   },
   {
     name:"古旧钱币", 
-    desc:"每次对战结束时,额外获得20赏金",
+    desc:"每次对战结束时,额外获得15赏金",
     onBattleEnd(S) {
-      S.gold += 20;
+      S.gold += 15;
     }
   },
   {

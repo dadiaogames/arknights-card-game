@@ -20,17 +20,18 @@
 
 .difficulty-selection {
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
+  justify-content: space-around;
   margin-top: 10%;
-  width: 30%;
+  width: 80%;
   height: 40%;
 }
 
 .difficulty-button {
-  margin-top: 5%;
-  margin-bottom: 10%;
   font-size: 105%;
   height: 30%;
+  margin: 5% 5% 5% 5%;
+  padding: 0% 5% 0% 5%;
 }
 
 .introduce-button, .back-button {
