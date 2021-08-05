@@ -419,10 +419,12 @@ export const BOSSES = [
     is_boss: true,
     is_elite: true,
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_enemies_28.png",
-    desc: <span>超杀: 增加1点动乱值<br/>摧毁: 获得80分</span>,
+    desc: <span>超杀: 每造成2点额外伤害，就失去1分<br/>摧毁: 获得80分</span>,
     onFight(G, ctx, self, card) {
       if (card.dmg > card.hp) {
-        G.danger += 1;
+        // G.danger += 1;
+        let delta = Math.floor((card.dmg - card.hp) / 2);
+        G.score -= delta;
       }
     },
     onOut(G, ctx) {

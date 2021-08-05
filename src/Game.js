@@ -1132,7 +1132,7 @@ export function pick(G, ctx, idx) {
 
 export function refresh_picks(G, ctx) {
   // G.picks = ctx.random.Shuffle(G.deck).slice(0, 5);
-  G.picks = mod_slice(G.another_deck, G.round_num*5, 5);
+  G.picks = mod_slice(G.another_deck, G.round_num*6, 6);
 
   // Add special card every turn to ensure there is a required card in that stage
   // if (G.round_num >= 3) {
@@ -1146,7 +1146,7 @@ export function refresh_picks(G, ctx) {
   let add_price = (pick, idx) => {
     let price = [0, 0, 0, 0];
     let requirement = ctx.random.Die(3) - 1;
-    price[requirement] = [1,1,1,1,2][idx] || 1;
+    price[requirement] = [1,1,1,1,2,2][idx] || 1;
     return {...pick, price};
   }
   G.picks = G.picks.map(add_price);
