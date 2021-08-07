@@ -211,8 +211,9 @@ function setup_weekly_tags(S) {
   //     t.locked = true;
   //   }
   // }
-  S.tags = choose_standard_tags(tags, 2);
-  S.tags.map(t => {if (t.selected) t.locked = true;});
+  // S.tags = choose_standard_tags(tags, 2);
+  // S.tags.map(t => {if (t.selected) t.locked = true;});
+  S.tags = tags;
 }
 
 function enter_daily_mode(S) {

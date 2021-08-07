@@ -1475,13 +1475,13 @@ export const CARDS = [
     cost:3,
     atk:2,
     hp:8,
-    mine:1,
+    mine:2,
     block:2,
-    desc: "行动: 本回合剩余时间内，使用其他干员战斗时，重置一个订单",
+    desc: "行动: 本回合剩余时间内，敌人被摧毁时，重置一个订单",
     hard: true,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_49.png",
     action(G, ctx, self) {
-      G.onCardFight.push(
+      G.onEnemyOut.push(
         (G, ctx) => {
           ready_order(G, ctx, true);
         }

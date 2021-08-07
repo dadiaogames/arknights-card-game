@@ -1849,6 +1849,10 @@ export class Board extends React.Component {
     if (this.state.weekly_mode) {
       actions = {
         进入游戏: this.enter_game,
+        难度速设: () => this.setState({
+        tags: choose_standard_tags(this.state.tags, this.state.standard_level+1),
+        standard_level: this.state.standard_level + 1,
+      }),
         返回: () => this.change_board("weekly"),
       }
     }
