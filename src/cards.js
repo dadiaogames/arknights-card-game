@@ -378,7 +378,7 @@ export const CARDS = [
     block:0,
     desc:<span>行动: 消耗一组{material_icons.slice(0,3)}，获得6点费用</span>,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_53.png",
-    reinforce: 2,
+    reinforce: 1,
     action(G, ctx, self) {
       if (payMaterials(G, ctx, [1,1,1,0])) {
         G.costs += 6;
@@ -1310,15 +1310,15 @@ export const CARDS = [
     cost:2,
     atk:2,
     hp:2,
-    mine:2,
+    mine:1,
     block:0,
-    desc:"采掘: 本回合剩余时间内，每有一个敌人被摧毁，就获得1个材料",
+    desc:"采掘: 本回合剩余时间内，每有一个敌人被摧毁，就获得2个材料",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_43.png",
     onMine(G, ctx, self) {
       let power = self.power;
       G.onEnemyOut.push(
         (G, ctx) => {
-          gainMaterials(G, ctx, 1 + power);
+          gainMaterials(G, ctx, 2 + power);
         }
       );
     },
@@ -2152,7 +2152,7 @@ export const CARDS = [
     hp:2,
     mine:1,
     block:0,
-    desc:"行动: 翻倍所有敌人受到的伤害(对boss无效)",
+    desc:"行动: 翻倍所有敌人已受到的伤害(对boss无效)",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_red_cloud.png",
     action(G, ctx) {
       for (let enemy of G.efield) {
@@ -3054,11 +3054,11 @@ export const CARDS = [
 
  {
     name:"星熊", 
-    cost:6, 
-    atk:4, 
-    hp:12, 
-    mine:2, 
-    block:3, 
+    cost:3, 
+    atk:2, 
+    hp:8, 
+    mine:1, 
+    block:2, 
     desc:"行动: 消耗1点费用，对阻挡的所有敌人造成2点伤害，然后重置自己", 
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_119.png",
     action(G, ctx, self) {
@@ -4301,9 +4301,9 @@ export const CARDS = [
 
   {
     name:"坚雷",
-    cost:8,
+    cost:4,
     atk:4,
-    hp:16,
+    hp:6,
     mine:2,
     block:2,
     illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_140.png",

@@ -26,6 +26,8 @@ function weekly_introduction() {
   alert(`欢迎来到周常挑战模式！\n在这个模式中，你将在固定的牌组和牌序中，探索一套牌组的上限；\n根据表现，你将会得到以下评级：\n* 24级: S\n* 32级: SS\n* 40级: SSS`);
 }
 
+const advanced_cards = "阿 雷蛇 霜星 鞭刃 翎羽 白面鸮 塞雷娅 爱丽丝 初雪 真理 艾雅法拉 能天使 温蒂 安洁莉娜 Lancet-2 Castle-3 普罗旺斯 安比尔 卡达 图耶 梓兰 霜叶 清流 波登可 巫恋 亚叶 伊桑 夜莺".split(" ");
+
 function reset_tags() {
   return TAGS.map(x => ({...x}));
 }
@@ -378,12 +380,15 @@ function get_shop_item(S) {
     // TODO: change this to relic
     return get_relic(S);
   }
-  else if (item_type <= 90) {
+  else if (item_type <= 85) {
     // TODO: change this to upgrade
     return get_upgrade(S);
   }
-  else if (item_type <= 95) {
+  else if (item_type <= 93) {
     return get_card_pick(S);
+  }
+  else if (item_type <= 95) {
+    return get_card_pick(S, true);
   }
   else{
     return delete_card(S);
@@ -458,13 +463,19 @@ function get_upgrade(S) {
   return shop_item;
 }
 
-export function get_card_pick(S) {
+function get_pick_indexes(S, is_advanced) {
+  let normal_indexes = CARDS.map((x,idx) => idx);
+  let advanced_indexes = CARDS.filter(x => advanced_cards.includes(x.name)).map(x => CARDS.indexOf(x));
+  return S.rng.shuffle(is_advanced?advanced_indexes:normal_indexes).slice(0,6);
+}
+
+export function get_card_pick(S, is_advanced) {
   return {
-    name: "自选干员",
+    name: is_advanced?"高级自选干员":"自选干员",
     price: 0,
     // indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,6),
-    indexes: S.rng.shuffle(CARDS.map((x,idx)=>idx)).slice(0,5),
-    desc: "从5个强化干员中，选择你最心仪的那一个",
+    indexes: get_pick_indexes(S, is_advanced),
+    desc: "从6个强化干员中，选择你最心仪的那一个",
     src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
     is_pick: true,
     onBought(S, idx) {
@@ -584,7 +595,7 @@ export function get_relic(S) {
 
   shop_item.name = relic.name;
   shop_item.desc = relic.desc;
-  shop_item.price = 30 + S.rng.randRange(20);
+  shop_item.price = 25 + S.rng.randRange(30);
   shop_item.src = relic.illust;
   shop_item.is_relic = true;
 

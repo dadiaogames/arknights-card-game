@@ -135,17 +135,17 @@ export const RELICS = [
   },
   {
     name:"古旧钱币", 
-    desc:"每次对战结束时,额外获得15赏金",
+    desc:"每次对战结束时,额外获得20赏金",
     onBattleEnd(S) {
-      S.gold += 15;
+      S.gold += 20;
     }
   },
   {
     name:"“嘎呜”挂饰", 
-    desc:"达成满贯以上时,额外获得40赏金",
+    desc:"达成满贯以上时,额外获得50赏金",
     onBattleEnd(S) {
       if ((S.level_achieved - S.level_required) >= 4) {
-        S.gold += 40;
+        S.gold += 50;
       }
     }
   },
