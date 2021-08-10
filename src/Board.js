@@ -1450,6 +1450,7 @@ export class Board extends React.Component {
       easy: "欢乐云游",
       medium: "整装待发",
       hard: "苦难之路",
+      expert: "天灾降临",
     }[this.state.difficulty];
     return <FinalResult 
       difficulty = {difficulty}
