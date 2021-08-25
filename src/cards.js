@@ -5,7 +5,7 @@ import {
   payCost, get_rhine_order, init_card_state, payMaterials,
   reinforce_hand, reinforce_card, enemy2card, logMsg,
   get_num_rest_cards, generate_combined_card, achieve, drop,
-  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker, refreshOrder, drawOrder, generate_skadi_ch_ability, addBoss, summon_enemy, get_mech, mine as use_mine, fight as use_fight,
+  clearField, drawEnemy, fully_restore, reduce_enemy_atk, silent, summon, eliminate_field, reinforce_field, choice, add_vulnerable, play_card, exhaust_order, get_blocker, refreshOrder, drawOrder, generate_skadi_ch_ability, addBoss, summon_enemy, get_mech, mine as use_mine, fight as use_fight, unready_cards
 } from './Game';
 import {
   fullmoon, warchest, fans_act_once,
@@ -2060,7 +2060,7 @@ export const CARDS = [
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_castle_3.png",
     action(G, ctx, self) {
       let ready_and_fight = (G, ctx, idx) => {
-        if (G.field[idx] != undefined) {
+        if (G.field[idx] != undefined && !unready_cards.includes(G.field[idx].name)) {
           G.field[idx].exhausted = false;
           let enemy = choice(ctx, G.efield.filter(x => x.dmg < x.hp));
           if (enemy != undefined) {
@@ -2666,11 +2666,11 @@ export const CARDS = [
         self.exhausted = false;
       }
     },
-    reinforce: 1,
-    reinforce_desc: "+1/+1",
+    reinforce: 2,
+    reinforce_desc: "+2/+2",
     onReinforce(G, ctx, self) {
-      self.atk += 1;
-      self.hp += 1;
+      self.atk += 2;
+      self.hp += 2;
     },
   },
 

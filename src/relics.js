@@ -59,22 +59,22 @@ export const RELICS = [
       G.field.push(init_card_state(G, ctx, {...new_card, hp:new_card.hp+1}));
     }
   },
-  {
-    name: "人事部密信",
-    desc: "回合开始时，召唤1个随机干员的5/1复制",
-    onTurnBegin(G, ctx){
-      let new_card = ctx.random.Shuffle(G.CARDS)[0];
-      // summon(G, ctx, new_card, {});
-      let played_card = init_card_state(G, ctx, {...new_card,
-        atk: 5,
-        hp: 2,
-        mine: 2,
-        cost: 1,
-      });
-      played_card.exhausted = false;
-      G.field.push(played_card);
-    }
-  },
+  // {
+  //   name: "人事部密信",
+  //   desc: "回合开始时，召唤1个随机干员的5/1复制",
+  //   onTurnBegin(G, ctx){
+  //     let new_card = ctx.random.Shuffle(G.CARDS)[0];
+  //     // summon(G, ctx, new_card, {});
+  //     let played_card = init_card_state(G, ctx, {...new_card,
+  //       atk: 5,
+  //       hp: 2,
+  //       mine: 2,
+  //       cost: 1,
+  //     });
+  //     played_card.exhausted = false;
+  //     G.field.push(played_card);
+  //   }
+  // },
   {
     name: "生命之水",
     desc: "回合开始时，强化2张手牌",
@@ -117,18 +117,19 @@ export const RELICS = [
   //     }
   //   }
   // },
-  // {
-  //   name: "综合园艺成果",
-  //   desc: "对战开始时,牌组里每有4张牌,就获得1分",
-  //   onBattleBegin(G, ctx) {
-  //     G.score += Math.floor(G.deck.length / 4);
-  //   }
-  // },
+  {
+    name: "综合园艺成果",
+    desc: "对战开始时,牌组里每有4张牌,就获得5分",
+    onBattleBegin(G, ctx) {
+      G.score += 5 * Math.floor(G.deck.length / 4);
+    }
+  },
   {
     name:"风干大蕉果", 
-    desc:"自选干员时，使选到的牌获得强化1",
+    desc:"自选干员时，使选到的牌获得强化2",
     onPickCard(S, card) {
       let reinforce = UPGRADES.find(x => x.name == "强化1");
+      reinforce.effect(card);
       reinforce.effect(card);
       card.upgraded = true;
     }
@@ -412,12 +413,13 @@ export const RELICS = [
   },
   {
     name:"断杖-突破", 
-    desc:"所有干员获得 超杀:获得2个材料",
+    desc:"所有干员获得 超杀:获得1个材料和1分",
     onTurnBegin(G, ctx) {
       G.onCardFight.push(
         (G, ctx, card, enemy) => {
           if (enemy.dmg > enemy.hp) {
-            gainMaterials(G, ctx, 2);
+            gainMaterials(G, ctx, 1);
+            G.score += 1;
           }
         }
       );
