@@ -1041,8 +1041,9 @@ export class Board extends React.Component {
       // "常规模式": () => this.change_board("tag"),
       // "每日挑战": this.enter_daily_mode,
            // "Roguelike模式": this.enter_roguelike_mode,
-      "合作模式": () => this.change_board("multiplayer"),
+      // "合作模式": () => this.change_board("multiplayer"),
       // "其他模式"
+      "合作模式": () => alert("合作模式已关闭"),
       "竞技模式": () => this.enter_competition_mode(),
       "周常挑战": () => this.roguelike.enter_weekly_mode(),
       "返回": this.back,
