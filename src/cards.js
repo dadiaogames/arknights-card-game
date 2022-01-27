@@ -1131,13 +1131,13 @@ export const CARDS = [
   // },
 
   {
-    name:"凯尔希",
+    name:"图耶",
     cost:2,
     atk:2,
     hp:2,
     mine:1,
     block:0,
-    illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_50.png",
+    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_77.png",
     reinforce: 2,
     desc: "行动: 本回合剩余时间内，部署干员时，强化该干员一次",
     action(G, ctx) {
@@ -2868,14 +2868,14 @@ export const CARDS = [
   },
 
   {
-    name:"图耶",
+    name:"凯尔希",
     cost:5,
     atk:2,
     hp:2,
     mine:1,
     block:0,
     desc:"部署: 召唤5个随机干员的1/1复制",
-    illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_77.png",
+    illust: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_50.png",
     onPlay(G, ctx, self) {
       let cards = ctx.random.Shuffle(G.CARDS).filter(c => c.onMine || c.onFight || c.action);// || (c.cost >= 4));
       for (let i=0; i<5; i++) {
@@ -3064,10 +3064,10 @@ export const CARDS = [
     action(G, ctx, self) {
       fans_act_once(G, ctx, self);
       if (G.costs >= 9) {
-        for (let i=0; i<9; i++) {
+        for (let i=0; i<5; i++) {
           fans_act_once(G, ctx, self);
         }
-        logMsg(G, ctx, "因为至少有10点费用，所以星熊连续行动10次");
+        logMsg(G, ctx, "因为至少有10点费用，所以星熊连续行动5次");
       }
     },
     reinforce: 1,

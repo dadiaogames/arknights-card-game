@@ -451,10 +451,10 @@ export const RELICS = [
   // },
   {
     name:"商队盒饭",
-    desc:"所有订单分数+1",
+    desc:"所有订单分数+2",
     onTurnBegin(G, ctx) {
       for (let order of G.orders) {
-        order.score += 1;
+        order.score += 2;
       }
     }
   },
