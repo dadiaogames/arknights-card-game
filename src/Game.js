@@ -1083,7 +1083,7 @@ export function setup_scenario(G, ctx) {
     G.exhausted_enter = false;
     G.enemy_exhausted_enter = true;
 
-    G.messages = ["欢迎来到明日方舟: 采掘行动"];
+    G.messages = ["欢迎来到明日方舟: 执牌者"];
     G.achievements = {};
 
     G.playing = false;

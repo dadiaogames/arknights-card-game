@@ -1,6 +1,8 @@
 import React from 'react';
 
 import './icons.css';
+import mine_img from './采掘.png';
+import block_img from './阻挡.png';
 
 const icon_height = 25;
 const attr_icon_height = 20;
@@ -14,9 +16,9 @@ export const ICONS = {
 
   d32: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_3.png" height={icon_height} alt="钢" className="material steel" />),
 
-  mine: (<img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/microsoft/209/pick_26cf.png" height={attr_icon_height} />),
+  mine: (<img src={mine_img} height={attr_icon_height} />),
 
-  block: (<img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/259/shield_1f6e1.png" height={attr_icon_height} />),
+  block: (<img src={block_img} height={attr_icon_height} />),
 
   gold: (<img src="https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_icons_4.png" style={{height: "1.1em"}} className="steel" />),
 

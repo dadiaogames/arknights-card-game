@@ -4,7 +4,7 @@ import { CARDS } from './cards';
 import { ENEMIES } from './enemies';
 import { ORDERS } from './orders';
 
-const tutorial_dialogs_1 = `sea1 欢迎来到《明日方舟：采掘行动》，这是一款非常严肃、正经的同人游戏
+const tutorial_dialogs_1 = `sea1 欢迎来到《明日方舟：执牌者》，这是一款非常严肃、正经的同人游戏
 sea9 看到对面那个二五仔了吗
 https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/enemy.png
 sea7 他闻起来太臭了，快解掉他！

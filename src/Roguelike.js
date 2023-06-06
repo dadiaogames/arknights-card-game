@@ -6,6 +6,7 @@ import { str2deck } from './Game';
 import { map_object, PRNG } from './utils';
 import { final_tag, TAGS } from './tags';
 // import { InversedTabs } from './InversedTabs';
+import block_img from './阻挡.png';
 
 import './Board.css';
 import './Card.css';
@@ -446,7 +447,7 @@ function get_upgrade(S) {
   // console.log("This deck", S.Deck);
   shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "获得 " + upgrade.desc;
-  shop_item.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/259/up-arrow_2b06.png";
+  shop_item.src = {block_img};
   shop_item.onBought = (S, idx) => {
     let card = S.Deck[idx];
     // console.log("Upgrade on ", card.name, "with ", upgrade.desc)

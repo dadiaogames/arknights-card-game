@@ -173,44 +173,44 @@ export const RELICS = [
       }
     }
   },
-  {
-    name:"奇怪的$墨镜", 
-    desc:"所有藏品的价格-15%",
-    // onBuyRelic(S, relic) {
-    //   S.gold += 5;
-    // }
-    onRefreshShop(S) {
-      for (let item of S.shop_items) {
-        if (item.is_relic) {
-          item.price = Math.floor(item.price * 0.85);
-        }
-      }
-    }
-  },
-  {
-    name:"维多利亚军粮", 
-    desc:"购买藏品时,有50%概率使一个干员获得强化1",
-    onBuyRelic(S, relic) {
-      if (S.rng.random() <= 0.5) {
-        // random_upgrade(S);
-        let card = S.rng.choice(S.Deck);
-        let reinforce = UPGRADES.find(x => x.name == "强化1");
-        reinforce.effect(card);
-        card.upgraded = true;
-        alert(`使 ${card.name} 获得强化1`);
-      }
-    }
-  },
-  {
-    name:"迷迭香之拥", 
-    desc:"购买藏品时,有20%概率获得1个其复制",
-    onBuyRelic(S, relic) {
-      if (S.rng.random() <= 0.2) {
-        S.relics.unshift({...relic});
-        alert(`获得${relic.name}的复制`);
-      }
-    }
-  },
+  // {
+  //   name:"奇怪的$墨镜", 
+  //   desc:"所有藏品的价格-15%",
+  //   // onBuyRelic(S, relic) {
+  //   //   S.gold += 5;
+  //   // }
+  //   onRefreshShop(S) {
+  //     for (let item of S.shop_items) {
+  //       if (item.is_relic) {
+  //         item.price = Math.floor(item.price * 0.85);
+  //       }
+  //     }
+  //   }
+  // },
+  // {
+  //   name:"维多利亚军粮", 
+  //   desc:"购买藏品时,有50%概率使一个干员获得强化1",
+  //   onBuyRelic(S, relic) {
+  //     if (S.rng.random() <= 0.5) {
+  //       // random_upgrade(S);
+  //       let card = S.rng.choice(S.Deck);
+  //       let reinforce = UPGRADES.find(x => x.name == "强化1");
+  //       reinforce.effect(card);
+  //       card.upgraded = true;
+  //       alert(`使 ${card.name} 获得强化1`);
+  //     }
+  //   }
+  // },
+  // {
+  //   name:"迷迭香之拥", 
+  //   desc:"购买藏品时,有20%概率获得1个其复制",
+  //   onBuyRelic(S, relic) {
+  //     if (S.rng.random() <= 0.2) {
+  //       S.relics.unshift({...relic});
+  //       alert(`获得${relic.name}的复制`);
+  //     }
+  //   }
+  // },
   {
     name:"咪波·运输型", 
     desc:"对局开始时费用+2",
@@ -228,17 +228,17 @@ export const RELICS = [
       // S.shop_items.push(delete_card(S));
     }
   },
-  {
-    name:"全局作战文件",
-    desc:"使用: 从所有干员中，任选几个费用不同的加入卡组",
-    onUse(S) {
-      // let costs = S.rng.shuffle([2,3,4,5,16]).slice(0,3);
-      let costs = [2,3,4,5,16];
-      for (let cost of costs) {
-        S.shop_items.unshift(get_specific_card_pick(S, cost));
-      }
-    }
-  },
+  // {
+  //   name:"全局作战文件",
+  //   desc:"使用: 从所有干员中，任选几个费用不同的加入卡组",
+  //   onUse(S) {
+  //     // let costs = S.rng.shuffle([2,3,4,5,16]).slice(0,3);
+  //     let costs = [2,3,4,5,16];
+  //     for (let cost of costs) {
+  //       S.shop_items.unshift(get_specific_card_pick(S, cost));
+  //     }
+  //   }
+  // },
   {
     name:"可露希尔的怜悯",
     desc:"使用: 商店中增加5个藏品，并使增加的藏品价格-20",
@@ -312,10 +312,10 @@ export const RELICS = [
   // },
   {
     name:"断杖-咏唱", 
-    desc:"所有采掘力至少为3的,<+2>",
+    desc:"所有采掘力至少为2的干员<+2>",
     onBattleBegin(G, ctx) {
       G.deck.map(x => {
-        if (x.mine >= 3) {
+        if (x.mine >= 2) {
           x.mine += 2;
         }
       });
@@ -323,7 +323,7 @@ export const RELICS = [
   },
   {
     name:"铁卫-推进", 
-    desc:"阻挡数多于2的,阻挡数-1,但是+4/+4",
+    desc:"阻挡数多于2的干员,阻挡数-1,但是+4/+4",
     onBattleBegin(G, ctx) {
       G.deck.map(x => {
         if (x.block >= 2) {
@@ -367,7 +367,7 @@ export const RELICS = [
   },
   {
     name:"摩根队长佳酿", 
-    desc:"起始获得3个钢",
+    desc:"起始获得3个D32钢",
     onBattleBegin(G, ctx) {
       G.materials[3] += 3;
     }
@@ -413,25 +413,25 @@ export const RELICS = [
   },
   {
     name:"断杖-突破", 
-    desc:"所有干员获得 超杀:获得1个材料和1分",
+    desc:"所有干员获得 战斗:获得1个材料",
     onTurnBegin(G, ctx) {
       G.onCardFight.push(
         (G, ctx, card, enemy) => {
-          if (enemy.dmg > enemy.hp) {
+          // if (enemy.dmg > enemy.hp) {
             gainMaterials(G, ctx, 1);
-            G.score += 1;
-          }
+            // G.score += 1;
+          // }
         }
       );
     }
   },
   {
     name:"丰蹄能量饮料", 
-    desc:"部署有\"行动:\"能力的干员时，有75%概率强化其1次",
+    desc:"部署有\"行动:\"能力的干员时，强化其1次",
     onTurnBegin(G, ctx) {
       G.onPlayCard.push(
         (G, ctx, card) => {
-          if (ctx.random.D4() > 1 && card.action) {
+          if (card.action) {
             reinforce_card(G, ctx, card);
           }
         }
@@ -458,17 +458,17 @@ export const RELICS = [
       }
     }
   },
-  {
-    name:"热水壶", 
-    desc:"使用: 变成手里一个藏品的复制",
-    onUse(S) {
-      let relic = S.rng.choice(S.relics.filter(r => !r.used));
-      if (relic) {
-        S.relics.push({...relic});
-        alert(`变成 ${relic.name}`);
-      }
-    }
-  },
+  // {
+  //   name:"热水壶", 
+  //   desc:"使用: 变成手里一个藏品的复制",
+  //   onUse(S) {
+  //     let relic = S.rng.choice(S.relics.filter(r => !r.used));
+  //     if (relic) {
+  //       S.relics.push({...relic});
+  //       alert(`变成 ${relic.name}`);
+  //     }
+  //   }
+  // },
   {
     name:"全息粉粉沙盒", 
     desc:"使用: 变成2个随机藏品",

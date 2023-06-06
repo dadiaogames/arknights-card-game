@@ -6,7 +6,7 @@ import { ICONS } from './icons';
 import './rules.css';
 
 export const Rules = (props) => (<div>
-  <h3>明日方舟: 采掘行动 游戏规则</h3>
+  <h3>明日方舟: 执牌者 游戏规则</h3>
   <img className="rules-img" src="https://dadiaogames.gitee.io/glowing-octo-robot/tutorials/operator.jpeg" />
   <br/><br/>
   <button className="tutorial-btn" onClick={props.enter_tutorial} >进入新手教学</button>

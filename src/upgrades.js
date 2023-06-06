@@ -17,11 +17,11 @@ export const UPGRADES = [
   //   }
   // },
   {
-    name: "+2/+4",
-    desc: "+2/+4", // Write "获得"always
+    name: "+2/+2",
+    desc: "+2/+2", // Write "获得"always
     effect(card) {
       card.atk += 2;
-      card.hp += 4;
+      card.hp += 2;
     }
   },
 
@@ -95,13 +95,13 @@ export const UPGRADES = [
   // },
 
   {
-    name: "3材料",
-    desc: "部署奖励:\"获得3个材料\"",
+    name: "4材料",
+    desc: "部署奖励:\"获得4个材料\"",
     effect(card) {
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          gainMaterials(G, ctx, 3);
+          gainMaterials(G, ctx, 4);
         }
       });
     }
@@ -164,19 +164,19 @@ export const UPGRADES = [
 
   {
     name: "2费干员",
-    desc: "部署奖励:\"获得2张2费干员牌并使其费用-1\"",
+    desc: "部署奖励:\"获得1张2费干员牌并使其费用-2\"",
     effect(card) {
       // Maybe reconstruct this to call the skill of Ansel is better?
       card.onPlayBonus.push({
         name: this.name,
         effect(G, ctx, card) {
-          for (let i=0; i<2; i++) {
+          for (let i=0; i<1; i++) {
             let new_card = ctx.random.Shuffle(G.CARDS.filter(x=>(x.cost==2)))[0];
             if (new_card) {
               // new_card = init_card_state(G, ctx, {...new_card});
               // new_card.hp = 1;
               // G.field.push(new_card);
-              G.hand.unshift({...new_card, cost: 1});
+              G.hand.unshift({...new_card, cost: 0});
             }
           }
         }

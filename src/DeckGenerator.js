@@ -718,8 +718,8 @@ export function generate_deck_s2(deck_name) {
   deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
   // deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
   deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(shooter, 2, rng)];
-  deck = [...deck, ...deck_from_strategy(supporter, 2, rng)];
+  deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
 
   // Strategy deck
   // deck = [...deck, ...deck_from_mini_sets(12, rng)];
@@ -756,7 +756,7 @@ export function generate_deck_s2(deck_name) {
   deck = Object.keys(deck_dict).reduce((acc, val) => [...acc, ..._.times(deck_dict[val], ()=>val)], [])
 
   // Random cards
-  let amount_add = 25 - deck.length;
+  let amount_add = 24 - deck.length;
   for (let i=0; i<amount_add; i++) {
     deck.push(get_random_card(rng));
   }
