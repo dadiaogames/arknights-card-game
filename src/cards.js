@@ -246,7 +246,7 @@ export const CARDS = [
 
   {
     name:"香草", 
-    cost:3, 
+    cost:2, 
     atk:2, 
     hp:2, 
     mine:1, 
@@ -262,7 +262,7 @@ export const CARDS = [
 
   {
     name:"讯使", 
-    cost:3, 
+    cost:2, 
     atk:2, 
     hp:2, 
     mine:1, 
@@ -285,14 +285,14 @@ export const CARDS = [
     mine: 1,
     block: 1,
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_12.png",
-    desc: "行动: 获得2点费用，本回合阻挡数-1",
+    desc: "行动: 获得3点费用，本回合阻挡数-1",
     // onTurnBegin(G, ctx, self) {
     //   if (self.block <= 0) {
     //     self.block = 1;
     //   }
     // },
     action(G, ctx, self) {
-      G.costs += 2 + 2 * self.power;
+      G.costs += 3 + 2 * self.power;
       if (self.block > 0) {
         self.block -= 1;
         self.onTurnBegin = (G, ctx, self) => {
@@ -327,8 +327,8 @@ export const CARDS = [
   // },
   {
     name:"红豆",
-    cost:3,
-    atk:5,
+    cost:2,
+    atk:4,
     hp:2,
     mine:1,
     block:1,
@@ -415,14 +415,14 @@ export const CARDS = [
     hp:2,
     mine:2,
     block:1,
-    desc:"采掘/战斗: 弃掉最左边的2张手牌，获得3点费用",
+    desc:"采掘/战斗: 弃掉最左边的1张手牌，获得2点费用",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/card_saga.png",
     reinforce: 1,
     onMine(G, ctx, self) {
-      let discard_count = 2 + self.power;
+      let discard_count = 1 + self.power;
       if (G.hand.length >= discard_count) {
         G.hand = G.hand.slice(discard_count);
-        G.costs += 3 + 2 * self.power;
+        G.costs += 2 + 2 * self.power;
       }
     },
     onFight(G, ctx, self) {
@@ -3408,19 +3408,19 @@ export const CARDS = [
   
   {
     name:"断罪者",
-    cost:2,
-    atk:3,
+    cost:3,
+    atk:4,
     hp:2,
-    mine:1,
+    mine:2,
     block:1,
-    desc: "行动: 弃掉所有手牌，然后每弃掉一张，就获得1分",
+    desc: "行动: 弃掉所有手牌，然后每弃掉一张，就获得2分",
     illust:"https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_102.png",
     reinforce: 1,
     action(G, ctx, self) {
       let num_cards = G.hand.length;
       G.discard = [...G.discard, ...G.hand]; // EH: reconstruct the discard
       G.hand = [];
-      G.score += num_cards;
+      G.score += 2 * num_cards;
       logMsg(G, ctx, `使用 断罪者 获得${num_cards}分`);
       G.has_discarded = true;
 
