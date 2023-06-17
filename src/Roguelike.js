@@ -355,7 +355,7 @@ function get_roguelike_deck_name(rng) {
 function setup_roguelike_decks(S) {
   let rng = S.rng;
   // S.deck_names = _.times(2, ()=>rng.shuffle(CARDS.map(x=>x.name).filter(x => x != "可露希尔")).slice(0,2));
-  S.deck_names = _.times(2, () => get_roguelike_deck_name(rng));
+  S.deck_names = _.times(1, () => get_roguelike_deck_name(rng));
   S.deck_list = S.deck_names.map(generate_roguelike_deck).map(str2deck); // TODO: change the generator
   S.deck_list.map(deck => deck.map(preprocess_roguelike_card))
 }

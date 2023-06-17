@@ -34,15 +34,12 @@ export const pick_scorers = "阿米娅 阿消 崖心 雪雉 白金 煌 爱丽丝
 
 export const pick_vanguards = "极境 讯使 香草 桃金娘 豆苗 豆苗 推进之王".split(" ");
 
-const cost_vanguard =  `极境 1 2
-香草 1 1
-讯使 1 1
+const cost_vanguard =  `香草 1 2
+讯使 1 2
 桃金娘 1 2
-豆苗 1 1
-推进之王 1 1
-清道夫 1 1
-红豆 1 1
-嵯峨 1 1`;
+推进之王 1 2
+红豆 1 2
+嵯峨 1 2`;
 
 const draw_vanguard = `芬 1 2
 调香师 1 1
@@ -50,30 +47,16 @@ const draw_vanguard = `芬 1 2
 清流 0 1`;
 
 const scorer = `阿米娅 1 1
-崖心 1 1
+崖心 1 2
 煌 1 1
-食铁兽 1 1
-白金 1 1
+食铁兽 1 2
 普罗旺斯 0 1
-阿消 1 1
-爱丽丝 1 1
+阿消 1 2
 伊芙利特 1 1
 阿 1 1
-伊桑 1 1
-艾雅法拉 0 1
-霜星 0 1
-Lancet-2 1 1
-翎羽 0 1
-凯尔希 1 1
-初雪 0 1
-真理 0 1
-波登可 0 1
-安洁莉娜 1 1
-安比尔 1 1
 夜莺 1 1
 断崖 1 1
-图耶 0 1
-霜叶 0 1`;
+断罪者 0 1`;
 
 const miner =  `史都华德 1 1
 夜烟 1 1
@@ -86,25 +69,20 @@ const shooter = `棘刺 1 1
 陈 1 1
 银灰 1 1
 W 1 1
-卡达 1 1
 史尔特尔 1 1
+松果 1 1
 刻俄柏 1 1
 迷迭香 1 1
 黑 1 1
 星熊 1 1
-能天使 0 1
+能天使 1 1
 陨星 1 1
-松果 0 1
-酸糖 1 1
 黑角 1 1
-克洛丝 1 1
-芙兰卡 0 1
-夜刀 0 1
-苏苏洛 0 1
-蓝毒 0 1
+克洛丝 0 1
+蓝毒 1 1
 Castle-3 1 1
 巫恋 1 1
-夕 0 1`;
+夕 1 1`;
 
 const defender = `米格鲁 1 1
 蛇屠箱 0 1
@@ -715,15 +693,15 @@ export function generate_deck_s2(deck_name) {
 
   // Basic deck
   deck = [...deck, ...deck_from_strategy(cost_vanguard, 6, rng)];
-  deck = [...deck, ...deck_from_strategy(scorer, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(scorer, 4, rng)];
   // deck = [...deck, ...deck_from_strategy(draw_vanguard, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(shooter, 1, rng)];
-  deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
+  // deck = [...deck, ...deck_from_strategy(miner, 1, rng)];
+  deck = [...deck, ...deck_from_strategy(shooter, 4, rng)];
+  // deck = [...deck, ...deck_from_strategy(supporter, 1, rng)];
 
   // Strategy deck
   // deck = [...deck, ...deck_from_mini_sets(12, rng)];
-  deck = [...deck, ...deck_from_mini_sets(6, rng)];
+  // deck = [...deck, ...deck_from_mini_sets(6, rng)];
 
   // Let diff goes
   // console.log("deck before", deck);
