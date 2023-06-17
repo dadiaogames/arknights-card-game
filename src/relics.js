@@ -16,12 +16,12 @@ export const RELICS = [
   // },
   {
     name: "乌萨斯列巴",
-    desc: "回合开始时，获得3张随机干员牌，并使其费用-1",
+    desc: "回合开始时，获得3张随机干员牌，并使其费用-2",
     onTurnBegin(G, ctx){
       for (let i=0; i<3; i++) {
         let card = {...choice(ctx, G.CARDS)};
-        card.cost -= 1;
-        G.hand.unshift(card);
+        card.cost -= 2;
+        G.hand.push(card);
       }
     }
   },
@@ -44,10 +44,10 @@ export const RELICS = [
     }
   },{
     name: "荒地龙舌兰",
-    desc: "每回合少获得1点费用，但获得4个材料",
+    desc: "每回合少获得1点费用，但获得3个材料",
     onTurnBegin(G, ctx){
       G.costs -= 1;
-      gainMaterials(G, ctx, 4);
+      gainMaterials(G, ctx, 3);
     }
   },
   {
@@ -117,13 +117,13 @@ export const RELICS = [
   //     }
   //   }
   // },
-  {
-    name: "综合园艺成果",
-    desc: "对战开始时,牌组里每有4张牌,就获得5分",
-    onBattleBegin(G, ctx) {
-      G.score += 5 * Math.floor(G.deck.length / 4);
-    }
-  },
+  // {
+  //   name: "综合园艺成果",
+  //   desc: "对战开始时,牌组里每有4张牌,就获得5分",
+  //   onBattleBegin(G, ctx) {
+  //     G.score += 5 * Math.floor(G.deck.length / 4);
+  //   }
+  // },
   {
     name:"风干大蕉果", 
     desc:"自选干员时，使选到的牌获得强化2",
@@ -264,7 +264,7 @@ export const RELICS = [
   },
   {
     name:"香草沙士汽水", 
-    desc:"每局首次使用干员时边框不会变红(可叠加)",
+    desc:"每局首次使用干员时，边框不会变红(可叠加)",
     onBattleBegin(G, ctx, self) {
       self.used = false;
     },
@@ -395,7 +395,7 @@ export const RELICS = [
           reinforce.effect(card);
           reinforce.effect(card);
           card.upgraded = true;
-          G.hand.unshift(card);
+          G.hand.push(card);
         }
       }
     }

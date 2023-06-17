@@ -4,7 +4,6 @@ export const result_images = [
   // ["https://s3.ax1x.com/2020/12/01/DWceiD.jpg", 75576391],
 ];
 
-// export const lose_image = "https://s3.ax1x.com/2020/12/01/DWcmJe.png";
 export const lose_image = "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_cards_74.png";
 
 export const relic_images = [

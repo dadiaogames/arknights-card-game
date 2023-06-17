@@ -1682,7 +1682,7 @@ export class Board extends React.Component {
             left: "88%",
             paddingTop: "1.5%",
 
-            // display: (this.state.competition_mode || this.state.roguelike_mode || this.state.multiplayer_mode)?"none":"",
+            display: (this.state.competition_mode || this.state.roguelike_mode || this.state.multiplayer_mode)?"none":"",
             display: (this.state.competition_mode || this.state.multiplayer_mode)?"none":"",
           }}
         >

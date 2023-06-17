@@ -7,6 +7,9 @@ import { map_object, PRNG } from './utils';
 import { final_tag, TAGS } from './tags';
 // import { InversedTabs } from './InversedTabs';
 import block_img from './阻挡.png';
+import black_foot from './blackfoot.png';
+import heart_img from './heart.png';
+import ptup from './ptup.png';
 
 import './Board.css';
 import './Card.css';
@@ -447,7 +450,8 @@ function get_upgrade(S) {
   // console.log("This deck", S.Deck);
   shop_item.indexes = S.rng.shuffle(S.Deck.map((x,idx)=>idx)).slice(0,4);
   shop_item.desc = "获得 " + upgrade.desc;
-  shop_item.src = {block_img};
+  shop_item.src = ptup;
+  // shop_item.src = {block_img};
   shop_item.onBought = (S, idx) => {
     let card = S.Deck[idx];
     // console.log("Upgrade on ", card.name, "with ", upgrade.desc)
@@ -464,10 +468,10 @@ function get_upgrade(S) {
   return shop_item;
 }
 
-function get_pick_indexes(S, is_advanced) {
+function get_pick_indexes(S, is_advanced, num_picks) {
   let normal_indexes = CARDS.map((x,idx) => idx);
   let advanced_indexes = CARDS.filter(x => advanced_cards.includes(x.name)).map(x => CARDS.indexOf(x));
-  return S.rng.shuffle(is_advanced?advanced_indexes:normal_indexes).slice(0,6);
+  return S.rng.shuffle(is_advanced?advanced_indexes:normal_indexes).slice(0,num_picks);
 }
 
 export function get_card_pick(S, is_advanced) {
@@ -475,9 +479,9 @@ export function get_card_pick(S, is_advanced) {
     name: is_advanced?"高级自选干员":"自选干员",
     price: 0,
     // indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,6),
-    indexes: get_pick_indexes(S, is_advanced),
-    desc: "从6个强化干员中，选择你最心仪的那一个",
-    src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
+    indexes: get_pick_indexes(S, is_advanced,5),
+    desc: "从5个强化干员中，选择你最心仪的那一个",
+    src: heart_img,
     is_pick: true,
     onBought(S, idx) {
       let card = {...CARDS[idx]};
@@ -504,7 +508,7 @@ export function get_init_card_pick(S) {
     price: 0,
     indexes: S.rng.shuffle(CARDS.slice(0, -1).map((x,idx)=>idx)).slice(0,3),
     desc: "从3个干员中，选择你最心仪的那一个",
-    src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
+    src: heart_img,
     is_pick: true,
   };
 }
@@ -524,7 +528,7 @@ export function get_specific_card_pick(S, cost) {
     price: 0,
     indexes: get_indexes_from_cost(cost),
     desc: "从N个干员中，选择你最心仪的那一个",
-    src: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/ok-hand_1f44c.png",
+    src: heart_img,
     is_pick: true,
     onBought(S, idx) {
       let card = CARDS[idx];
@@ -624,7 +628,7 @@ export function delete_card(S) {
   shop_item.price = 0;
   shop_item.indexes = S.Deck.map((x,idx)=>idx);
   shop_item.desc = "";
-  shop_item.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/foot_dark-skin-tone_1f9b6-1f3ff_1f3ff.png";
+  shop_item.src = black_foot;
   shop_item.onBought = (S, card_idx) => {
     S.Deck = S.Deck.filter((x,idx) => (idx != card_idx));
     return true;
