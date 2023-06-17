@@ -317,7 +317,14 @@ function setValue(G, ctx, attr, val) {
 export function refreshOrder(G, ctx) {
   // console.log("Orders:", [...G.odeck], G.round_num);
   // console.log("Picks:", [...G.another_deck], G.round_num);
-  G.orders = mod_slice(G.odeck, G.round_num*8, 8);
+  // G.orders = mod_slice(G.odeck, G.round_num*8, 8);
+  // G.orders = sort_orders(G.orders);
+  G.orders = [];
+  let get_req = order => order.requirements.indexOf(3);
+  let filter_order = i => G.odeck.filter(o => get_req(o) == i);
+  for (let i=0; i<3; i++) {
+    G.orders = [...G.orders, ...filter_order(i).slice(0,2)];
+  }
   G.orders = sort_orders(G.orders);
 }
 
@@ -883,6 +890,7 @@ function onScenarioBegin(G, ctx, params) {
   }
 
   refreshOrder(G, ctx);
+  refresh_picks(G, ctx);
 
   // Setup params
   // Multiplayer params
@@ -1138,17 +1146,18 @@ export function refresh_picks(G, ctx) {
 
   // Add special card every turn to ensure there is a required card in that stage
   // if (G.round_num >= 3) {
-  let special_card_name = choice(ctx, (G.round_num >= 3)? pick_scorers : pick_vanguards);
-  let special_card = G.CARDS.find(x => x.name == special_card_name);
-  if (special_card) {
-    G.picks[3] = {...special_card, material: ctx.random.Die(3)-1};
-  }
+  // let special_card_name = choice(ctx, (G.round_num >= 3)? pick_scorers : pick_vanguards);
+  // let special_card = G.CARDS.find(x => x.name == special_card_name);
+  // if (special_card) {
+  //   G.picks[3] = {...special_card, material: ctx.random.Die(3)-1};
+  // }
   // }
 
   let add_price = (pick, idx) => {
     let price = [0, 0, 0, 0];
-    let requirement = ctx.random.Die(3) - 1;
-    price[requirement] = [1,1,1,1,2,2][idx] || 1;
+    // let requirement = ctx.random.Die(3) - 1;
+    let requirement = idx % 3;
+    price[requirement] = [1,1,1,1,1,1][idx] || 1;
     return {...pick, price};
   }
   G.picks = G.picks.map(add_price);
@@ -1325,7 +1334,7 @@ export const AC = {
         } 
 
         if (G.not_refresh_orders != true) {
-          refreshOrder(G, ctx);
+          // refreshOrder(G, ctx);
         }
         // if (G.finished.length >= 5) {
         //   G.orders = G.orders.map(ability_off);
@@ -1334,7 +1343,7 @@ export const AC = {
 
         G.costs += 3;
 
-        refresh_picks(G, ctx);
+        // refresh_picks(G, ctx);
 
         // sort_finished(G, ctx);
 
@@ -1356,7 +1365,8 @@ export const AC = {
         }
         
         if (G.enemy_hp_grow && G.round_num > 1) {
-          for (let enemy of [...G.edeck, ...G.efield]) {
+          // for (let enemy of [...G.edeck, ...G.efield]) {
+          for (let enemy of [...G.efield]) {
             enemy.hp += 2;
           }
         }

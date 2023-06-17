@@ -115,75 +115,110 @@ const advanced_orders = [
   
 export const ORDERS = [
   
+  // {
+  //   requirements: [3,0,0,0],
+  //   score: 3,
+  //   reward: 1,
+  //   desc: (<span>1费→{material_icons[2]}{material_icons[2]}</span>),
+  //   // cost: [0,0,1,0],
+  //   effect(G, ctx) {
+  //     if (payCost(G, ctx, 1)) {
+  //       G.materials[2] += 2;
+  //     }
+  //   },
+  // },
+  // {
+  //   requirements: [0,3,0,0],
+  //   score: 3,
+  //   reward: 2,
+  //   desc: (<span>1费→{material_icons[0]}{material_icons[0]}</span>),
+  //   // cost: [1,0,0,0],
+  //   effect(G, ctx) {
+  //     if (payCost(G, ctx, 1)) {
+  //       G.materials[0] += 2;
+  //     }
+  //   },
+
+  // },
+  // {
+  //   requirements: [0,0,3,0],
+  //   score: 3,
+  //   reward: 0,
+  //   desc: (<span>1费→{material_icons[1]}{material_icons[1]}</span>),
+  //   // cost: [0,1,0,0],
+  //   effect(G, ctx) {
+  //     if (payCost(G, ctx, 1)) {
+  //       G.materials[1] += 2;
+  //     }
+  //   },
+  // },
+
   {
     requirements: [3,0,0,0],
-    score: 3,
-    reward: 1,
-    desc: (<span>1费→{material_icons[2]}{material_icons[2]}</span>),
-    // cost: [0,0,1,0],
-    effect(G, ctx) {
-      if (payCost(G, ctx, 1)) {
-        G.materials[2] += 2;
-      }
-    },
-  },
-  {
-    requirements: [0,3,0,0],
-    score: 3,
+    score: 2,
     reward: 2,
-    desc: (<span>1费→{material_icons[0]}{material_icons[0]}</span>),
-    // cost: [1,0,0,0],
-    effect(G, ctx) {
-      if (payCost(G, ctx, 1)) {
-        G.materials[0] += 2;
-      }
-    },
-
-  },
-  {
-    requirements: [0,0,3,0],
-    score: 3,
-    reward: 0,
-    desc: (<span>1费→{material_icons[1]}{material_icons[1]}</span>),
-    // cost: [0,1,0,0],
-    effect(G, ctx) {
-      if (payCost(G, ctx, 1)) {
-        G.materials[1] += 2;
-      }
-    },
-  },
-
-  {
-    requirements: [3,0,0,0],
-    score: 4,
-    reward: 2,
-    desc: (<span>{material_icons[1]}→{material_icons[3]}</span>),
+    desc: (<span>{material_icons[1]}→{material_icons[3]}{material_icons[3]}</span>),
     cost: [0,1,0,0],
     effect(G, ctx) {
-        G.materials[3] += 1;
+        G.materials[3] += 2;
         // G.costs += 1;
     },
   },
   {
     requirements: [0,3,0,0],
-    score: 4,
+    score: 2,
     reward: 0,
-    desc: (<span>{material_icons[2]}→{material_icons[3]}</span>),
+    desc: (<span>{material_icons[2]}→{material_icons[3]}{material_icons[3]}</span>),
     cost: [0,0,1,0],
     effect(G, ctx) {
-        G.materials[3] += 1;
+        G.materials[3] += 2;
         // G.costs += 1;
     },
 
   },
   {
     requirements: [0,0,3,0],
-    score: 4,
+    score: 2,
     reward: 1,
-    desc: (<span>{material_icons[0]}→{material_icons[3]}</span>),
+    desc: (<span>{material_icons[0]}→{material_icons[3]}{material_icons[3]}</span>),
     cost: [1,0,0,0],
     effect(G, ctx) {
-        G.materials[3] += 1;
+        G.materials[3] += 2;
+        // G.costs += 1;
+    },
+  },
+
+{
+    requirements: [3,0,0,0],
+    score: 2,
+    reward: 1,
+    desc: (<span>{material_icons[2]}→{material_icons[3]}{material_icons[3]}</span>),
+    cost: [0,0,1,0],
+    effect(G, ctx) {
+        G.materials[3] += 2;
+        // G.costs += 1;
+    },
+  },
+  {
+    requirements: [0,3,0,0],
+    score: 2,
+    reward: 2,
+    desc: (<span>{material_icons[0]}→{material_icons[3]}{material_icons[3]}</span>),
+    cost: [1,0,0,0],
+    effect(G, ctx) {
+        G.materials[3] += 2;
+        // G.costs += 1;
+    },
+
+  },
+  {
+    requirements: [0,0,3,0],
+    score: 2,
+    reward: 0,
+    desc: (<span>{material_icons[1]}→{material_icons[3]}{material_icons[3]}</span>),
+    cost: [0,1,0,0],
+    effect(G, ctx) {
+        G.materials[3] += 2;
         // G.costs += 1;
     },
   },
@@ -221,6 +256,38 @@ export const ORDERS = [
     },
   },
 
+  {
+    requirements: [3,0,0,0],
+    score: 2,
+    reward: 1,
+    desc: (<span>获得: {material_icons[2]}</span>),
+    harvest: true,
+    effect(G, ctx) {
+      G.materials[2] += 1;
+    },
+  },
+
+  {
+    requirements: [0,3,0,0],
+    score: 2,
+    reward: 2,
+    desc: (<span>获得: {material_icons[0]}</span>),
+    harvest: true,
+    effect(G, ctx) {
+      G.materials[0] += 1;
+    },
+  },
+
+  {
+    requirements: [0,0,3,0],
+    score: 2,
+    reward: 0,
+    desc: (<span>获得: {material_icons[1]}</span>),
+    harvest: true,
+    effect(G, ctx) {
+      G.materials[1] += 1;
+    },
+  },
   // {
   //   requirements: [3,0,0,0],
   //   score: 2,
@@ -320,6 +387,38 @@ export const ORDERS = [
         G.score += 2;
     },
   },
+
+  {
+    requirements: [3,0,0,0],
+    score: 2,
+    reward: 2,
+    desc: (<span>{material_icons[1]} → 2分</span>),
+    cost: [0,1,0,0],
+    effect(G, ctx) {
+        G.score += 2;
+    },
+  },
+  {
+    requirements: [0,3,0,0],
+    score: 2,
+    reward: 0,
+    desc: (<span>{material_icons[2]} → 2分</span>),
+    cost: [0,0,1,0],
+    effect(G, ctx) {
+        G.score += 2;
+    },
+
+  },
+  {
+    requirements: [0,0,3,0],
+    score: 2,
+    reward: 1,
+    desc: (<span>{material_icons[0]} → 2分</span>),
+    cost: [1,0,0,0],
+    effect(G, ctx) {
+        G.score += 2;
+    },
+  },
   
   // {
   //   requirements: [3,0,0,0],
@@ -368,6 +467,5 @@ export const ORDERS = [
   
   
 
-  ...advanced_orders,
   // ...advanced_orders,
 ];

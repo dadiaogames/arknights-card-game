@@ -48,17 +48,17 @@ const tag_list = [
       G.field_limit -= 1;
     }
   },
-  {
-    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_5.png",
-    desc: "敌方牌库减少40%的牌",
-    level: 2,
-    standard_level: 3,
-    unstackable: true,
-    extra_challenge: true,
-    effect(G, ctx) {
-      G.edeck = G.edeck.slice(0,14);
-    }
-  },
+  // {
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_5.png",
+  //   desc: "敌方牌库减少40%的牌",
+  //   level: 2,
+  //   standard_level: 99,
+  //   unstackable: true,
+  //   extra_challenge: true,
+  //   effect(G, ctx) {
+  //     G.edeck = G.edeck.slice(0,14);
+  //   }
+  // },
   // {
   //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_6.png",
   //   desc: "所有高台干员部署费用+1",
@@ -70,21 +70,21 @@ const tag_list = [
   //   }
   // },
   
-{
-    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_7.png",
-    desc: "所有精英敌人获得+2/+4",
-    level: 2,
-    standard_level: 1,
-    // stackable: true,
-    effect(G, ctx) {
-      for (let enemy of G.edeck) {
-        if (enemy.is_elite) {
-          enemy.atk += 2;
-          enemy.hp += 4;
-        }
-      }
-    }
-  },
+// {
+//     src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_7.png",
+//     desc: "所有精英敌人获得+2/+4",
+//     level: 2,
+//     standard_level: 1,
+//     // stackable: true,
+//     effect(G, ctx) {
+//       for (let enemy of G.edeck) {
+//         if (enemy.is_elite) {
+//           enemy.atk += 2;
+//           enemy.hp += 4;
+//         }
+//       }
+//     }
+//   },
 {
     src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_8.png",
     desc: "2回合后，每回合额外翻开1张敌人牌",
@@ -99,7 +99,7 @@ const tag_list = [
 //     desc: "强化干员需要消耗1点费用",
 //     level: 2,
 //     challenge: true,
-//     // standard_level: 4,
+//     // standard_level: 99,
 //     effect(G, ctx) {
 //       // for (let card of G.deck) {
 //       //   card.reinforce += 1;
@@ -110,15 +110,15 @@ const tag_list = [
   
 
 
-  // {
-  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_11.png",
-  //   desc: "回合开始时，所有敌人获得+2生命值",
-  //   level: 2,
-  //   standard_level: 4,
-  //   effect(G, ctx){
-  //     G.enemy_hp_grow = true;
-  //   }
-  // },
+  {
+    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_11.png",
+    desc: "回合开始时，所有敌人获得+2生命值",
+    level: 2,
+    standard_level: 99,
+    effect(G, ctx){
+      G.enemy_hp_grow = true;
+    }
+  },
 
   
 
@@ -136,31 +136,31 @@ const tag_list = [
 
   
 
-  {
-    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_13.png",
-    desc: "所有干员采掘力-1",
-    level: 2,
-    challenge: true,
-    unstackable: true,
-    advance: true,
-    effect(G, ctx){
-      for (let card of G.deck) {
-        card.mine -= 1;
-        card.mine = Math.max(0, card.mine);
-      }
-    }
-  },
+  // {
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_13.png",
+  //   desc: "所有干员采掘力-1",
+  //   level: 2,
+  //   challenge: true,
+  //   unstackable: true,
+  //   advance: true,
+  //   effect(G, ctx){
+  //     for (let card of G.deck) {
+  //       card.mine -= 1;
+  //       card.mine = Math.max(0, card.mine);
+  //     }
+  //   }
+  // },
 
-  {
-  src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_10.png",
-  desc: "强化干员需要的材料数+1",
-  level: 3,
-  effect(G, ctx) {
-    for (let card of G.deck) {
-      card.reinforce += 1;
-    }
-  }
-},
+//   {
+//   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_10.png",
+//   desc: "强化干员需要的材料数+1",
+//   level: 3,
+//   effect(G, ctx) {
+//     for (let card of G.deck) {
+//       card.reinforce += 1;
+//     }
+//   }
+// },
 
 
   
@@ -182,24 +182,24 @@ const tag_list = [
   //   challenge: true,
   //   unstackable: true,
   //   extra_challenge: true,
-  //   standard_level: 5,
+  //   standard_level: 99,
   //   effect(G, ctx){
   //     G.field_limit -= 3;
   //   }
   // },
-  {
-    src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_16.png",
-    desc: "所有订单的分数-1",
-    level: 3,
-    standard_level: 3,
-    unstackable: true,
-    effect(G, ctx) {
-      G.less_order_score = true;
-      for (let order of G.odeck) {
-        order.score -= 1;
-      }
-    }
-  },
+  // {
+  //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_16.png",
+  //   desc: "所有订单的分数-1",
+  //   level: 3,
+  //   standard_level: 99,
+  //   unstackable: true,
+  //   effect(G, ctx) {
+  //     G.less_order_score = true;
+  //     for (let order of G.odeck) {
+  //       order.score -= 1;
+  //     }
+  //   }
+  // },
 
   // {
   //   src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_17.png",
@@ -223,7 +223,7 @@ const tag_list = [
     challenge: true,
     stackable: true,
     advance: true,
-    standard_level: 4,
+    standard_level: 99,
     effect(G, ctx) {
       G.num_enemies_out += 1;
     }
@@ -257,7 +257,7 @@ const tag_list = [
     src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_21.png",
     desc: "胜利所需分数+12",
     level: 3,
-    standard_level: 4,
+    standard_level: 99,
     stackable: true,
     effect(G, ctx){
       G.goal += 12;
@@ -268,7 +268,7 @@ const tag_list = [
     src: "https://dadiaogames.gitee.io/glowing-octo-robot/integrated/img_tags_22.png",
     desc: "3回合后，所有敌人获得+5/+5",
     level: 3,
-    standard_level: 6,
+    standard_level: 2,
     effect(G, ctx){
       G.reinforceOnR4 = true;
     }
@@ -291,7 +291,7 @@ const tag_list = [
     level: 4,
     challenge: true,
     stackable: true,
-    standard_level: 5,
+    standard_level: 99,
     effect(G, ctx){
       addBoss(G, ctx, "大泡普");
       G.goal += 10;

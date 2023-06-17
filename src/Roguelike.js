@@ -136,21 +136,21 @@ export function choose_standard_tags(tags, current_standard_level) {
       if (tag.standard_level <= current_standard_level) {
         tag.selected = true;
       }
-      if ((current_standard_level >= 1) && [0,3].includes(new_tags.indexOf(tag))) {
+      // if ((current_standard_level >= 1) && [0,3].includes(new_tags.indexOf(tag))) {
+      //   tag.selected = true;
+      // }
+      if ((current_standard_level >= 1) && [0,1,2,3,4,6,7,9,12,13].includes(new_tags.indexOf(tag))) {
         tag.selected = true;
       }
-      if ((current_standard_level >= 2) && [1,2,4,6,9,12].includes(new_tags.indexOf(tag))) {
+      if ((current_standard_level >= 2) && [8,10,14].includes(new_tags.indexOf(tag))) {
         tag.selected = true;
       }
-      if ((current_standard_level >= 3) && [13].includes(new_tags.indexOf(tag))) {
-        tag.selected = true;
-      }
-      if ((current_standard_level >= 4) && [7,8].includes(new_tags.indexOf(tag))) {
-        tag.selected = true;
-      }
-      if ((current_standard_level >= 5) && [5,10,11,14].includes(new_tags.indexOf(tag))) {
-        tag.selected = true;
-      }
+      // if ((current_standard_level >= 3) && [7,8].includes(new_tags.indexOf(tag))) {
+      //   tag.selected = true;
+      // }
+      // if ((current_standard_level >= 4) && _.range(0,100).includes(new_tags.indexOf(tag))) {
+      //   tag.selected = true;
+      // }
       // if ((current_standard_level >= 6) && [7,8].includes(new_tags.indexOf(tag))) {
         // tag.selected = true;
       // }
@@ -295,17 +295,17 @@ function set_difficulty_S2(S, difficulty) {
 
   if (difficulty == "medium") {
     S.levels = [18, 22, 26, 30, 36, 42, 48, 56, 70];
-    S.tags = choose_standard_tags(S.tags, 2);
+    S.tags = choose_standard_tags(S.tags, 1);
   }
 
   if (difficulty == "hard") {
     S.levels = [24, 30, 36, 42, 50, 60, 70, 80, 200];
-    S.tags = choose_standard_tags(S.tags, 3);
+    S.tags = choose_standard_tags(S.tags, 2);
   }
 
   if (difficulty == "expert") {
     S.levels = [32, 38, 44, 50, 60, 70, 80, 90, 300];
-    S.tags = choose_standard_tags(S.tags, 3);
+    S.tags = choose_standard_tags(S.tags, 2);
     S.RELICS = S.RELICS.filter(x => x.name != "全局作战文件");
   }
 
