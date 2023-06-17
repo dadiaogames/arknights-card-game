@@ -387,13 +387,13 @@ function finishOrder(G, ctx, idx) {
       order.onFinished(G, ctx);
     }
 
-    if (G.finished.length == 5 && (!G.high_price_order)) {
-      G.orders.map(price_up);
-      G.odeck.map(price_up);
-      G.orders = G.orders.map(ability_off);
-      G.odeck = G.odeck.map(ability_off);
-      G.high_price_order = true;
-    }
+    // if (G.finished.length == 5 && (!G.high_price_order)) {
+    //   G.orders.map(price_up);
+    //   G.odeck.map(price_up);
+    //   G.orders = G.orders.map(ability_off);
+    //   G.odeck = G.odeck.map(ability_off);
+    //   G.high_price_order = true;
+    // }
 
     // if (G.finished.length >= 5) {
       // G.orders = G.orders.map(ability_off);
@@ -1044,6 +1044,7 @@ function setup_turn_states(G, ctx) {
 }
 
 function setupRoguelikeBattle(G, ctx, relics) {
+  G.is_roguelike = true;
   G.relics = relics.map(x => ({...x}));
 
   for (let r of G.relics) {
@@ -1161,6 +1162,10 @@ export function refresh_picks(G, ctx) {
     return {...pick, price};
   }
   G.picks = G.picks.map(add_price);
+
+  if (G.is_roguelike) {
+    G.picks = [];
+  }
 }
 
 export function summon(G, ctx, card, self) {
