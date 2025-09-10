@@ -12,7 +12,7 @@
     "gh-pages": "^3.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-spring": "^8.0.27",
     "react-tabs": "^3.1.1",
     "socket.io-client": "^2.3.0"
